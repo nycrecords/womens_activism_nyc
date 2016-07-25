@@ -7,24 +7,25 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 # app = Flask(__name__)
 # mail.init_app(app)
 
-
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
+
+    SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+
     MAIL_SERVER = 'email-smtp.us-east-1.amazonaws.com'
+    MAIL_USERNAME = 'AKIAI3HES27X3MSXQZEA'
+    MAIL_PASSWORD = 'AuQQ/mTon4kIKEYl+fkow6IMC68bI7XqxgHr6nk5cVdV'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
-    MAIL_USERNAME = os.environ.get('AKIAI3HES27X3MSXQZEA')
-    MAIL_PASSWORD = os.environ.get('AuQQ/mTon4kIKEYl+fkow6IMC68bI7XqxgHr6nk5cVdV')
-    FLASKY_MAIL_SENDER = 'Admin <sgong@records.nyc.gov'
-    FLASKY_ADMIN = os.environ.get('ADMIN')
+    MAIL_SENDER = "Women's Activism <sgong@records.nyc.gov>"
+
+    @staticmethod
+    def init_app(app):
+        pass
 
 
-   # app.config["MAIL_SERVER"] = 'email-smtp.us-east-1.amazonaws.com'
-   # app.config["MAIL_USERNAME"] = 'AKIAI3HES27X3MSXQZEA'
-   # app.config["MAIL_PASSWORD"] = 'AuQQ/mTon4kIKEYl+fkow6IMC68bI7XqxgHr6nk5cVdV'
-   # app.config["MAIL_PORT"] = 587
-   # app.config["MAIL_USE_TLS"] = True
-   # mail.init_app(app)
+
+    # mail.init_app(app)
 
     @staticmethod
     def init_app(app):

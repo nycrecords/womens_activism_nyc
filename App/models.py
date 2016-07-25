@@ -155,7 +155,6 @@ class Flag(db.Model):
     type = db.Column(db.String(30), nullable=False)
     reason = db.Column(db.Text, nullable=False)
 
-
     def __repr__(self):
         return '<Flag %r>' % self.flag_id
 

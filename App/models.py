@@ -2,39 +2,8 @@
 Models for women's activism nyc db
 """
 
-from flask import Flask, render_template, redirect, url_for
-from flask_script import Manager
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate, MigrateCommand
-from flask_script import Shell
-from flask_bootstrap import Bootstrap
-from flask_moment import Moment
-from flask_wtf import Form
-from wtforms import StringField, SubmitField, TextAreaField
-from wtforms.validators import DataRequired
-
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'hard to guess string'
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://@localhost/women'
-app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-
-manager = Manager(app)
-bootstrap = Bootstrap(app)
-moment = Moment(app)
-db = SQLAlchemy(app)
-
-migrate = Migrate(app, db)
-manager.add_command('db', MigrateCommand)
-
-
-class FeedbackForm(Form):
-    subject = StringField('What is the subject', validators=[DataRequired("Please enter the subject")])
-    email = StringField('What is your email?', validators=[DataRequired("Please enter your email")])
-    reason = TextAreaField('Reason for report?', validators=[DataRequired("Please enter your report")])
-    submit = SubmitField('Submit')
-
+from . import db
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class Post(db.Model):
@@ -69,9 +38,6 @@ class Tag(db.Model):
     __tablename__ = "tags"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(32), nullable=False)
-    #test = db.Column(db.Enum('test1', 'test2', name='types'), nullable=True)
-
-    #type = db.Column(db.Enum('Offensive language', 'Wrong information', 'Inappropriate content', name='flag_types'))
 
     def __repr__(self):
         return '<Tag %r>' % self.name
@@ -128,7 +94,7 @@ class CommentEdit(db.Model):
     comment_id = db.Column(db.Integer, db.ForeignKey("comments.id"))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     edit_time = db.Column(db.DateTime, nullable=False)
-    type = db.Column(db.Enum('Edit','Delete', name='comment_edit_types'), nullable=False)
+    type = db.Column(db.Enum('Edit', 'Delete', name='comment_edit_types'), nullable=False)
     content = db.Column(db.Text, nullable=False)
     reason = db.Column(db.Text, nullable=False)
 
@@ -149,13 +115,23 @@ class User(db.Model):
 
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
-    password = db.Column(db.String(20), nullable=False)  # need to hash the password
+    password_hash = db.Column(db.String(128))
     first_name = db.Column(db.String(30), nullable=False)
     last_name = db.Column(db.String(30), nullable=False)
     email = db.Column(db.String(50), nullable=False, unique=True)
     phone = db.Column(db.String(11), nullable=False)
-    #role = db.Column(db.String(20), nullable=False)
     role = db.Column(db.Enum('Administrator', 'Agency User', name='user_roles'), nullable=False)
+
+    @property
+    def password(self):
+        raise AttributeError('password is not a readable attribute')
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
         return '<User %r>' % self.first_name
@@ -195,7 +171,6 @@ class Flag(db.Model):
     __tablename__ = "flags"
     id = db.Column(db.Integer, primary_key=True)
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
-    # type = db.Column(db.String(30), nullable=False)  # make this an enum
     type = db.Column(db.Enum(
         'Offensive content', 'Wrong information', 'Inappropriate content', 'Other ', name='flag_types'))
     reason = db.Column(db.Text, nullable=False)
@@ -219,37 +194,3 @@ class Feedback(db.Model):
 
     def __repr__(self):
         return '<Feedback %r>' % self.title
-
-
-def make_shell_context():
-    return dict(app=app, db=db, Post=Post, Tag=Tag, Post_Tag=PostTag,
-                Comment=Comment, CommentEdit=CommentEdit, User=User, Post_Edit=PostEdit, Flag=Flag, Feedback=Feedback)
-
-manager.add_command("shell", Shell(make_context=make_shell_context))
-
-
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    title = None
-    reason = None
-    comment = None
-    form = FeedbackForm()
-
-    if form.validate_on_submit():
-        subject = form.subject.data
-        email = form.email.data
-        reason = form.reason.data
-        print('Subject: {}\nEmail: {}\nReason: {}'.format(subject, email, reason))
-
-        feedback = Feedback(title = subject, email = email, reason = reason)
-        db.session.add(feedback)
-        session=['known']
-        #return render_template('index.html', form=form)
-        return redirect(url_for('index'))
-
-    return render_template('index.html', form=form)
-
-
-
-if __name__ == '__main__':
-    manager.run()

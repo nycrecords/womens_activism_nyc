@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
-from app import create_app
-from app.models import *
+from App import create_app
+from App.models import *
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
 

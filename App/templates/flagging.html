@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Flasky{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Flag a post so that a moderator can look at it</h1>
+    <h2> What was wrong with "{{post_title}}"? </h2>
+</div>
+{{ wtf.quick_form(form) }}
+{% endblock %}

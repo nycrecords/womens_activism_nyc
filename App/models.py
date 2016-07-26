@@ -4,6 +4,7 @@ Models for women's activism nyc db
 
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
 
 class Post(db.Model):
@@ -102,7 +103,17 @@ class CommentEdit(db.Model):
         return '<Edit %r>' % self.id
 
 
-class User(db.Model):
+class Role(db.Model):
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    users = db.relationship('User', backref='role', lazy='dynamic')
+
+    def __repr__(self):
+        return '<Role %r>' % self.name
+
+
+class User(UserMixin, db.Model):
 
     """
     Specifies the properties of a user. The role attribute should either be "agency user" or "admin"
@@ -118,9 +129,10 @@ class User(db.Model):
     password_hash = db.Column(db.String(128))
     first_name = db.Column(db.String(30), nullable=False)
     last_name = db.Column(db.String(30), nullable=False)
-    email = db.Column(db.String(50), nullable=False, unique=True)
+    email = db.Column(db.String(50), nullable=False, unique=True, index=True)
     phone = db.Column(db.String(11), nullable=False)
-    role = db.Column(db.Enum('Administrator', 'Agency User', name='user_roles'), nullable=False)
+    #role = db.Column(db.Enum('Administrator', 'Agency User', name='user_roles'), nullable=False)
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 
     @property
     def password(self):

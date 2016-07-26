@@ -18,6 +18,8 @@ class Config:
     MAIL_PORT = 587
     MAIL_USE_TLS = True
     MAIL_SENDER = "Women's Activism <sgong@records.nyc.gov>"
+    # MAIL_RECEIVER = "<sgong9570@gmail.com>"
+    MAIL_ADMIN = "<sgong9570@gmail.com>"
 
     @staticmethod
     def init_app(app):

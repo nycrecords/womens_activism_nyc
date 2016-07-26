@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, flash
 from .forms import FeedbackForm
 from flask import current_app
-from app.email_noficiation import send_email
+from App.email_noficiation import send_email
 from ..models import Feedback
 from . import main
 # from ..import db
@@ -13,9 +13,8 @@ from . import main
 # main = Flask(__name__)
 
 @main.route('/', methods=['GET','POST'])
-def index():
-    form = FeedbackForm()
-    return render_template('index.html', form=form)
+def home():
+    return render_template('home.html')
 # the tabs on the top
 
 

@@ -3,7 +3,7 @@ Models for women's activism nyc db
 """
 
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, flash
 from flask_script import Manager
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, MigrateCommand

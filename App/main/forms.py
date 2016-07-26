@@ -8,3 +8,9 @@ class FeedbackForm(Form):
     email = StringField('What is your email?', validators=[DataRequired("Please enter your email")])
     reason = TextAreaField('Reason for report?', validators=[DataRequired("Please enter your report")])
     submit = SubmitField('Submit')
+
+
+class PostForm(Form):
+    title = StringField('Title', validators=[DataRequired('Please enter a title')])
+    content = TextAreaField("What's on your mind?", validators=[DataRequired("Body can't be left blank")])
+    submit = SubmitField('submit')

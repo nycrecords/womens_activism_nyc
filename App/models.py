@@ -22,7 +22,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(140), nullable=False)
     content = db.Column(db.String(5000), nullable=False)
-    creation_time = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
+    creation_time = db.Column(db.DateTime, nullable=False, index=True, default=db.func.current_timestamp())
     is_edited = db.Column(db.Boolean, nullable=False)
     is_visible = db.Column(db.Boolean, nullable=False)
 

@@ -5,6 +5,7 @@ Models for women's activism nyc db
 from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from datetime import datetime
 
 
 
@@ -22,7 +23,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(140), nullable=False)
     content = db.Column(db.String(5000), nullable=False)
-    creation_time = db.Column(db.DateTime, nullable=False, index=True, default=db.func.current_timestamp())
+    creation_time = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
     is_edited = db.Column(db.Boolean, nullable=False)
     is_visible = db.Column(db.Boolean, nullable=False)
 

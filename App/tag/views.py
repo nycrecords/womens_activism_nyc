@@ -14,7 +14,10 @@ def tags():
     tags = Tag.query.all()
     form = TagForm()
     add = form.add.data
+    current = form.current.data
     delete = form.remove.data
+    edit = form.edit.data
+
     if form.validate_on_submit():
         if len(add) > 0:
             add_tag = Tag(name=add)
@@ -27,5 +30,9 @@ def tags():
             db.session.delete(delete_tag)
             db.session.commit()
             flash('The tag had been deleted.')
+        if len(current) > 0 and len(edit) > 0:
+            current_tag = Tag.query.filter_by(name=current).first()
+            current_tag.name = edit
+            flash('Successfully changed the tag.')
         return redirect(url_for('.tags', form=form, tags=tags))
     return render_template('tags.html', form=form, tags=tags)

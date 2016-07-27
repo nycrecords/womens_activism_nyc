@@ -17,6 +17,7 @@ def index():
         post = Post(title=title, content=content, creation_time=db.func.current_timestamp(),
                     is_edited=False, is_visible=True)
         db.session.add(post)
+        db.session.commit()
         flash('Post submitted!')
         return redirect(url_for('.index'))
     posts = Post.query.order_by(Post.creation_time.desc()).all()
@@ -35,6 +36,7 @@ def feedback():
 
         feedback = Feedback(title=subject, email=email, reason=reason)
         db.session.add(feedback)
+
 
         send_email(current_app.config['WOMENS_ADMIN'],'New Feedback', 'mail/new_user', feedback=feedback)
 

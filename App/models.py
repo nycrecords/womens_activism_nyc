@@ -30,6 +30,21 @@ class Post(db.Model):
     def __repr__(self):
         return '<Post %r>' % self.title
 
+    @staticmethod
+    def generate_fake(count=100):
+        from random import seed, randint
+        import forgery_py
+
+        seed()
+        for i in range(count):
+            p = Post(title=forgery_py.lorem_ipsum.sentence(),
+                     content=forgery_py.lorem_ipsum.sentences(randint(1, 5)),
+                     creation_time=forgery_py.date.date(True),
+                     is_edited=False,
+                     is_visible=True)
+            db.session.add(p)
+            db.session.commit()
+
 
 class Tag(db.Model):
 

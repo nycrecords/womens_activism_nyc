@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='index.css') }}"/>
+
 {% block title %}NYC Womens Activism{% endblock %}
 
 {% block page_content %}
@@ -11,6 +13,7 @@
     <br>
 <ul class="posts">
     {% for post in posts %}
+
     <li class="post">
         <div class="post-content">
             <div class="post-date">{{ moment(post.creation_time).fromNow() }}</div>

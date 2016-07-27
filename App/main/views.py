@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, current_app, flash
+from flask import render_template, redirect, url_for, current_app, flash, request
 from .. import db
 from ..models import *
 from ..email import send_email
@@ -21,7 +21,18 @@ def index():
         flash('Post submitted!')
         return redirect(url_for('.index'))
     posts = Post.query.order_by(Post.creation_time.desc()).all()
-    return render_template('index.html',form=form, posts=posts)
+
+    return render_template('index.html', form=form, posts=posts)
+
+    #page = request.args.get('page', 1, type=int)
+    #pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
+    #    page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+    #    error_out=False)
+    #posts = pagination.items
+    #return render_template('index.html', form=form, posts=posts,
+    #                       pagination=pagination)
+
+
 
 
 @main.route('/feedback', methods=['GET', 'POST'])

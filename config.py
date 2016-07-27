@@ -21,6 +21,9 @@ class Config:
     # MAIL_RECEIVER = "<sgong9570@gmail.com>"
     MAIL_ADMIN = "<sgong9570@gmail.com>"
 
+    RECAPTCHA_PUBLIC_KEY = '6LeaCCYTAAAAAEQgFc258VCfPgu5iLJZb42JBuZ8'
+    RECAPTCHA_PRIVATE_KEY = '6LeaCCYTAAAAAApdJTNppVwy7juVd6ucrcA4wsbn'
+
     @staticmethod
     def init_app(app):
         pass

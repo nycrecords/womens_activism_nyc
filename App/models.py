@@ -234,7 +234,7 @@ class Feedback(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(30), nullable=False)
     email = db.Column(db.String(30), nullable=True)
-    reason = db.Column(db.Text, nullable=False)
+    reason = db.Column(db.String(500), nullable=False)
 
     def __repr__(self):
         return '<Feedback %r>' % self.title

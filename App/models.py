@@ -6,6 +6,8 @@ from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from datetime import datetime
+from markdown import markdown
+import bleach
 
 
 
@@ -23,6 +25,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(140), nullable=False)
     content = db.Column(db.String(5000), nullable=False)
+    content_html = db.Column(db.Text)
     creation_time = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
     is_edited = db.Column(db.Boolean, nullable=False)
     is_visible = db.Column(db.Boolean, nullable=False)
@@ -44,6 +47,18 @@ class Post(db.Model):
                      is_visible=True)
             db.session.add(p)
             db.session.commit()
+
+    @staticmethod
+    def on_changed_content(target, value, oldvalue, initiator):
+        allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
+                        'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
+                        'h1', 'h2', 'h3', 'p']
+        target.content_html = bleach.linkify(bleach.clean(
+            markdown(value, output_format='html'),
+            tags=allowed_tags, strip=True))
+
+
+db.event.listen(Post.content, 'set', Post.on_changed_content)
 
 
 class Tag(db.Model):

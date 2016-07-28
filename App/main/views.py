@@ -34,8 +34,6 @@ def index():
                            pagination=pagination)
 
 
-
-
 @main.route('/feedback', methods=['GET', 'POST'])
 def feedback():
     form = FeedbackForm()

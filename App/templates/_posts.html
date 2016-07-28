@@ -5,7 +5,13 @@
         <div class="post-content">
             <div class="post-date">{{ moment(post.creation_time).fromNow() }}</div>
             <div class="post-title"> <b>{{ post.title }}</b> </div>
-            <div class="post-content">{{ post.content }}</div> <br>
+            <div class="post-content">
+                {% if post.content_html %}
+                    {{ post.content_html | safe }}
+                {% else %}
+                    {{ post.content }}
+                {% endif %}
+            </div> <br>
         </div>
     </li>
     {% endfor %}

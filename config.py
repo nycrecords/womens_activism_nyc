@@ -24,16 +24,21 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'postgresql://@localhost/women'
+    #SQLALCHEMY_DATABASE_URI = 'postgresql://@localhost/women'
+
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+                              'postgresql://localhost:5432/women'
 
 
 class TestingConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'postgresql://@localhost/women'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+                              'postgresql://localhost:5432/women'
 
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'postgresql://@localhost/women'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+                              'postgresql://localhost:5432/women'
 
 
 config = {

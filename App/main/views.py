@@ -12,8 +12,10 @@ def index():
         title = form.title.data
         content = form.content.data
 
-        post = Post(title=title, content=content, creation_time=db.func.current_timestamp(),
+        post = Post(title=title, content=content, creation_time=datetime.utcnow(),
                     is_edited=False, is_visible=True)
+        #print(db.func.current_timestamp())
+        print(datetime.utcnow())
         db.session.add(post)
         db.session.commit()
         flash('Post submitted!')

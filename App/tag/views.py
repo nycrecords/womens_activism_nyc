@@ -62,6 +62,7 @@ def tags():
                else:
                    current_tag = Tag.query.filter_by(name=current).first()
                    current_tag.name = edit
+                   db.session.commit()
                    flash('Tag was successfully changed.')
        return redirect(url_for('.tags', form=form, tags=tags))
    return render_template('tags.html', form=form, tags=tags)

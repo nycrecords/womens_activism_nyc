@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
 
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='index.css') }}"/>
 
@@ -9,19 +10,16 @@
 <div class="page-header">
     <h1>Welcome</h1>
 </div>
+<div>
 {{ wtf.quick_form(form) }}
     <br>
-<ul class="posts">
-    {% for post in posts %}
+</div>
 
-    <li class="post">
-        <div class="post-content">
-            <div class="post-date">{{ moment(post.creation_time).fromNow() }}</div>
-            <div class="post-title"> <b>{{ post.title }}</b> </div>
-            <div class="post-content">{{ post.content }}</div> <br>
-        </div>
-    </li>
-    {% endfor %}
-</ul>
+{% include '_posts.html' %}
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.index') }}
+</div>
+{% endif %}
 
 {% endblock %}

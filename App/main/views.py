@@ -20,17 +20,18 @@ def index():
         db.session.commit()
         flash('Post submitted!')
         return redirect(url_for('.index'))
-    posts = Post.query.order_by(Post.creation_time.desc()).all()
+    #posts = Post.query.order_by(Post.creation_time.desc()).all()
+    #return render_template('index.html', form=form, posts=posts)
 
-    return render_template('index.html', form=form, posts=posts)
+    page = request.args.get('page', 1, type=int)
+    pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
+        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+        error_out=True)
+    # need to change this config parameter if I want to change the default 20 posts per page
 
-    #page = request.args.get('page', 1, type=int)
-    #pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
-    #    page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
-    #    error_out=False)
-    #posts = pagination.items
-    #return render_template('index.html', form=form, posts=posts,
-    #                       pagination=pagination)
+    posts = pagination.items
+    return render_template('index.html', form=form, posts=posts,
+                           pagination=pagination)
 
 
 

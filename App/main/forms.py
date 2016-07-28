@@ -16,4 +16,5 @@ class FeedbackForm(Form):
 class PostForm(Form):
     title = StringField('Title', validators=[DataRequired('Please enter a title')])
     content = PageDownField("What's on your mind?", validators=[DataRequired("Body can't be left blank")])
+    recaptcha = RecaptchaField()
     submit = SubmitField('submit')

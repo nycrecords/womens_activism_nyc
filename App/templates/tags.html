@@ -1,32 +1,18 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-<head>
-    <title>Tags</title>
-</head>
+{% block title %}NYC Womens Activism{% endblock %}
 
-{% block content %}
-<div class="container">
-    {% for message in get_flashed_messages() %}
-    <div class="alert alert-warning">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        {{ message }}
-    </div>
-    {% endfor %}
-
-    {% block page_content %}
-        {{ wtf.quick_form(form) }}
-
-        {% for tag in tags %}
-            <li>{{tag}}</li>
-        {% endfor %}
-
-
-
-    {% endblock %}
+{% block page_content %}
+<div class="page-header">
+   <h1>Tags</h1>
+</div>
+<div>
+{{ wtf.quick_form(form) }}
+<br>
+   {% for tag in tags %}
+       <li>{{ tag.name }}</li>
+   {% endfor %}
+   <br>
 </div>
 {% endblock %}
-
-
-
-

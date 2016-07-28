@@ -7,5 +7,5 @@ class TagForm(Form):
     add = StringField('Add', validators=[Optional()])
     remove = StringField('Delete', validators=[Optional()])
     current = StringField('Current', validators=[Optional()])
-    edit = StringField('edit', validators=[Optional()])
+    edit = StringField('Edit', validators=[Optional()])
     submit = SubmitField('Submit')

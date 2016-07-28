@@ -15,9 +15,6 @@
     {% endfor %}
 
     {% block page_content %}
-        <button type="button">Add</button>
-        <button type="button">Delete</button>
-
         {{ wtf.quick_form(form) }}
 
         {% for tag in tags %}

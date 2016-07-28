@@ -18,6 +18,13 @@ class Config:
     # WOMENS_ADMIN = os.environ.get('FLASKY_ADMIN')
     WOMENS_ADMIN = 'womensactivismnyc@gmail.com'
 
+    # recaptcha key from womensactivismnyc@gmail.com
+    # registered on google's recaptcha
+
+    RECAPTCHA_PUBLIC_KEY = '6LexECYTAAAAAFaNYELFVlBX_ARf8_4QETX9SjYK'
+    RECAPTCHA_PRIVATE_KEY = '6LexECYTAAAAAEHJZpWG41ASelOpb4VCTAtbuwLr'
+
+
     FLASKY_POSTS_PER_PAGE = 10
 
     @staticmethod

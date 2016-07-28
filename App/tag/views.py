@@ -20,15 +20,22 @@ def tags():
 
     if form.validate_on_submit():
         if len(add) > 0:
-            add_tag = Tag(name=add)
-            db.session.add(add_tag)
-            db.session.commit()
+            if Tag.query.filter_by(name=add).first():
+                flash('Tag already in the list.')
+                return render_template('tags.html', form=form, tags=tags)
+            else:
+                add_tag = Tag(name=add)
+                db.session.add(add_tag)
+                db.session.commit()
             flash('New tag had been added.')
         if len(delete) > 0:
-            delete_tag = Tag.query.filter_by(name=delete).first()
-            print(delete_tag)
-            db.session.delete(delete_tag)
-            db.session.commit()
+            if not Tag.query.filter_by(name=delete).first():
+                flash("Tag doesn't exist.")
+                return render_template('tags.html', form=form, tags=tags)
+            else:
+                delete_tag = Tag.query.filter_by(name=delete).first()
+                db.session.delete(delete_tag)
+                db.session.commit()
             flash('The tag had been deleted.')
         if len(current) > 0 and len(edit) > 0:
             current_tag = Tag.query.filter_by(name=current).first()

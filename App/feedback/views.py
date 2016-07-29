@@ -16,7 +16,8 @@ def feedback():
         feedback = Feedback(title=title, email=email, reason=reason)
         db.session.add(feedback)
         db.session.commit()
-        send_email(current_app.config['WOMENS_ADMIN'],'New Feedback', 'mail/new_user', feedback=feedback)
+        send_email(to=current_app.config['WOMENS_ADMIN'],subject='New Feedback',
+                   template='mail/new_user', feedback=feedback)
         flash('Thank you for your feedback!')
         return redirect(url_for('.feedback'))
     return render_template('feedback.html', form=form)

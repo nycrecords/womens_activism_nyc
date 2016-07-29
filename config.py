@@ -21,8 +21,8 @@ class Config:
     # recaptcha key from womensactivismnyc@gmail.com
     # registered on google's recaptcha
 
-    RECAPTCHA_PUBLIC_KEY = '6LexECYTAAAAAFaNYELFVlBX_ARf8_4QETX9SjYK'
-    RECAPTCHA_PRIVATE_KEY = '6LexECYTAAAAAEHJZpWG41ASelOpb4VCTAtbuwLr'
+    RECAPTCHA_PUBLIC_KEY = '6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH'
+    RECAPTCHA_PRIVATE_KEY = '6LetUSYTAAAAAN1pLPLyyIFUh6rEemXczfMFT4um'
 
 
     FLASKY_POSTS_PER_PAGE = 10

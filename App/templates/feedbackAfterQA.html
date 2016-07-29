@@ -39,3 +39,36 @@
         {{ wtf.quick_form(form) }}
     </form>
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Women's Activism{% endblock %}
+
+ <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+
+{% block page_content %}
+
+    <div class="page-header">
+    <h1>Feedback Form</h1>
+    </div>
+
+  <body>
+    <form action="/" method="post">
+      <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"></div>
+        {{ wtf.quick_form(form) }}
+    </form>
+  </body>
+{% endblock %}

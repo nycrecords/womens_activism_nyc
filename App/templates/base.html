@@ -1,6 +1,6 @@
 {% extends "bootstrap/base.html" %}
 
-{% block title %}WomensActivismNYC{% endblock %}
+{% block title %}Flasky{% endblock %}
 
 {% block head %}
 {{ super() }}
@@ -18,14 +18,21 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="\">Womens Activism NYC</a>
+            <a class="navbar-brand" href="{{ url_for('main.index') }}">Womens Actvism NYC</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="\">Home</a></li>
-                <!-- ATTENTION OVER HERE FAM-->
-                <li><a href="\feedback">Feedback</a></li>
-                <li><a href="\flags">Flags</a></li>
+                <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                <li><a href="{{ url_for('feedback.feedback') }}">Feedback</a></li>
+                <li><a href="{{ url_for('tags.tags') }}">Tags</a></li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+                {% else %}
+                <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+                {% endif %}
             </ul>
         </div>
     </div>
@@ -48,4 +55,5 @@
 {% block scripts %}
 {{ super() }}
 {{ moment.include_moment() }}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
 {% endblock %}

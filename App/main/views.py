@@ -1,52 +1,35 @@
-from flask import render_template, flash, current_app, session, redirect, url_for
-from .forms import FeedbackForm, FlagsForm
-from App.email_notification import send_email
-from ..models import Feedback, Flag
+from flask import render_template, redirect, url_for, current_app, flash, request
+from .. import db
+from ..models import *
 from . import main
-
-post_title = 'The Life of Harriet Tubman'
-
-
-@main.route('/')
-def home():
-    return render_template('home.html')
+from .forms import PostForm
 
 
-@main.route('/feedback', methods=['GET', 'POST'])
-def feedback():
-    form = FeedbackForm()
+@main.route('/', methods=['GET', 'POST'])
+def index():
+    form = PostForm()
     if form.validate_on_submit():
-        flash("We received your feedback, Thanks!")
-        feedback = Feedback(email=form.email.data.lower(),
-                            title=form.subject.data,
-                            reason=form.reason.data)
-        current_app.logger.info(
-            "Subject: {}\nEmail: {}\nReason: {}\n".format(form.subject.data, form.email.data, form.reason.data))
-        send_email(to=feedback.email, subject='Feedback', template='email_feedback',
-                   reason=feedback.reason, title=feedback.title)
-        return redirect(url_for('main.feedback'))
-    else:
-        return render_template('feedback.html', form=form)
+        title = form.title.data
+        content = form.content.data
 
+        post = Post(title=title, content=content, is_edited=False, is_visible=True)
+        #print(db.func.current_timestamp())
+        #print(datetime.utcnow())
+        db.session.add(post)
+        db.session.commit()
+        flash('Post submitted!')
+        return redirect(url_for('.index'))
+    #posts = Post.query.order_by(Post.creation_time.desc()).all()
+    #return render_template('index.html', form=form, posts=posts)
 
-@main.route('/flags', methods=['GET', 'POST'])
-def flags():
-    form = FlagsForm()
-    # On final build there should be a variable "post_title" gotten from calling DB/URL/etc
-    if form.validate_on_submit():
-        flash('Thanks for your input, a moderator has been notified')
-        flags = Flag(type=form.flag_reason.data,
-                     reason=form.flag_description.data)
-        current_app.logger.info(
-            "Flag_reason: {}\nFlag_description: {}".format(form.flag_reason.data, form.flag_description.data))
-        send_email(to=current_app.config['FLAG_MAIL_ADMIN'], subject='Flag', template='email_flags',
-                   reason=flags.type, description=flags.reason)
-        return redirect(url_for('main.flags'))
-    else:
-        return render_template('flags.html', form=form, post_title=post_title)
+    page = request.args.get('page', 1, type=int)
+    pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
+        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+        error_out=True)
+    # need to change this config parameter if I want to change the default 20 posts per page
 
-
-
-
+    posts = pagination.items
+    return render_template('index.html', form=form, posts=posts,
+                           pagination=pagination)
 
 

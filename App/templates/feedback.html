@@ -2,17 +2,19 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}Women's Activism{% endblock %}
+
 {% block page_content %}
 
-<div class="page-header">
-   <h1>Welcome to the {% if name %}{{ name }}{% else %}Woman Activism's Feedback form{% endif %}!</h1>
-</div>
-{{ wtf.quick_form(form) }}
-    <div class="g-recaptcha" data-sitekey="6LexECYTAAAAAFaNYELFVlBX_ARf8_4QETX9SjYK"></div>
-
+  <body>
+    <form>
+      <div class="g-recaptcha" data-sitekey="6LexECYTAAAAAFaNYELFVlBX_ARf8_4QETX9SjYK"></div>
+        {{ wtf.quick_form(form) }}
+    </form>
+  </body>
 {% endblock %}
-{% block scripts %}
 
 
+<head>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
 
-{% endblock %}

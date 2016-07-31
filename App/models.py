@@ -135,6 +135,12 @@ class CommentEdit(db.Model):
 
 
 class Role(db.Model):
+
+    """
+    Specifies the properties of a role. The roles table is used to create roles such as Administrator
+    and Agency Use. The roles table is linked to users table
+    """
+
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
@@ -147,12 +153,12 @@ class Role(db.Model):
 class User(UserMixin, db.Model):
 
     """
-    Specifies the properties of a user. The role attribute should either be "agency user" or "admin"
+    Specifies the properties of a user. The role attribute is a foreign key to the roles table
     A user's email address must be unique
     A user will use their email to log in
     phone should be put in with no dashes "-" in between
     phone number treated as a string in so no leading 0's are lost
-    password should be hashed
+    password is a hashed value
     """
 
     __tablename__ = "users"
@@ -162,7 +168,6 @@ class User(UserMixin, db.Model):
     last_name = db.Column(db.String(30), nullable=False)
     email = db.Column(db.String(50), nullable=False, unique=True, index=True)
     phone = db.Column(db.String(11), nullable=False)
-    #role = db.Column(db.Enum('Administrator', 'Agency User', name='user_roles'), nullable=False)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 
     @property

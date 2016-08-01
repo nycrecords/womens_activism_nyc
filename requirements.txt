@@ -1,37 +1,3 @@
-<<<<<<< .merge_file_Y7gqFq
-alembic==0.6.2
-antiorm==1.2.1
-bleach==1.4.3
-blinker==1.3
-click==6.6
-db==0.1.1
-dominate==2.2.1
-Flask==0.10.1
-Flask-Bootstrap==3.0.3.1
-Flask-Login==0.3.1
-Flask-Mail==0.9.0
-Flask-Migrate==1.1.0
-Flask-Moment==0.2.1
-Flask-PageDown==0.2.1
-Flask-Script==0.6.6
-Flask-SQLAlchemy==1.0
-Flask-WTF==0.12
-ForgeryPy==0.1
-html5lib==0.9999999
-itsdangerous==0.23
-Jinja2==2.7.1
-Mako==0.9.1
-Markdown==2.6.6
-MarkupSafe==0.18
-psycopg2==2.6.2
-python-editor==1.0.1
-six==1.10.0
-SQLAlchemy==0.9.9
-visitor==0.1.3
-Werkzeug==0.10.4
-WTForms==2.1
-gunicorn==19.6.0
-=======
 alembic==0.8.6
 antiorm==1.2.1
 BareNecessities==0.2.8
@@ -70,4 +36,3 @@ visitor==0.1.3
 Werkzeug==0.11.10
 WTForms==2.1
 
->>>>>>> .merge_file_ieYiIi

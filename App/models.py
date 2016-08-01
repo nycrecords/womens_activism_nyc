@@ -3,7 +3,7 @@ Models for women's activism nyc db
 """
 
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, flash
 from flask_script import Manager
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, MigrateCommand
@@ -154,7 +154,6 @@ class Flag(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
     type = db.Column(db.String(30), nullable=False)
     reason = db.Column(db.Text, nullable=False)
-
 
     def __repr__(self):
         return '<Flag %r>' % self.flag_id

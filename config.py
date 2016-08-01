@@ -23,9 +23,9 @@ class Config:
     # MAIL_SENDER = "Women's Activism <sgong@records.nyc.gov>"
     # FLAG_MAIL_ADMIN = "Women's Activism Flag<jmo@records.nyc.gov>"
     WOMENS_MAIL_SUBJECT_PREFIX = '[Womens Activism NYC]'
-    WOMENS_MAIL_SENDER = 'Womens Activism NYC Admin <flasky@example.com>'
+    WOMENS_MAIL_SENDER = 'Womens Activism NYC Sender <womensactivismnyc@gmail.com>'
     # WOMENS_ADMIN = os.environ.get('FLASKY_ADMIN')
-    WOMENS_ADMIN = 'womensactivismnyc@gmail.com'
+    WOMENS_ADMIN = 'Womens Activism NYC Admin <womensactivismnyc@gmail.com>'
 
     # RECAPTCHA_PUBLIC_KEY = '6LemCCYTAAAAAK99u6ze-TTRr5eXfIBnIJUUoncO'
     # RECAPTCHA_PRIVATE_KEY = '6LemCCYTAAAAADPl7wdf5iE8yFgUKor1B8geMhlV'
@@ -40,7 +40,7 @@ class Config:
     RECAPTCHA_PRIVATE_KEY = '6LexECYTAAAAAEHJZpWG41ASelOpb4VCTAtbuwLr'
 
 
-    FLASKY_POSTS_PER_PAGE = 10
+    POSTS_PER_PAGE = 10
 
 
     @staticmethod

@@ -1,0 +1,3 @@
+New feedback from {{feedback.email}}
+Subject: {{feedback.title}}
+Reason: {{feedback.reason}}

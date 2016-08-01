@@ -1,12 +1,10 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}Flasky{% endblock %}
+{% block title %}Womens Activism NYC{% endblock %}
 
 {% block page_content %}
-<head>
-<!--<script src='https://www.google.com/recaptcha/api.js'></script>-->
-   </head>
+
 <body>
     <div class="page-header">
         <h1>Flag a post so that a moderator can look at it</h1>
@@ -17,12 +15,5 @@
 
 
 {{ wtf.quick_form(form) }}
-<form action="/" method="post">
-    {{ form.username }}
-    {{ form.recaptcha }}
-</form>
 
-    <!--<form>-->
-        <!--<div class="g-recaptcha" data-sitekey="6LemCCYTAAAAAK99u6ze-TTRr5eXfIBnIJUUoncO"></div>-->
-    <!--</form>-->
 {% endblock %}

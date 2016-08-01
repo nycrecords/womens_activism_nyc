@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='index.css') }}"/>
+
+{% block title %}NYC Womens Activism{% endblock %}
+
+{% block page_content %}
+    <div class="posts-header">
+    <h2>All Posts</h2>
+    </div>
+
+{% include '_posts.html' %}
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.all_posts') }}
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ pagedown.include_pagedown() }}
+{% endblock %}

@@ -1,15 +1,30 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}NYC Womens Activism{% endblock %}
+{% block title %}Women's Activism NYC{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
    <h1>Tags</h1>
 </div>
-<div>
-{{ wtf.quick_form(form) }}
-<br>
+
+<div class="page-header">
+<h2><b>Add</b></h2>
+{{ wtf.quick_form(addform) }} <br>
+</div>
+
+<div class="page-header">
+<h2><b>Delete</b></h2>
+{{ wtf.quick_form(removeform) }} <br>
+</div>
+
+<div class="page-header">
+<h2><b>Edit</b></h2>
+{{ wtf.quick_form(editform) }} <br>
+</div>
+
+<div> <br>
+<h2><b>Tag List</b></h2>
    {% for tag in tags %}
        <li>{{ tag.name }}</li>
    {% endfor %}

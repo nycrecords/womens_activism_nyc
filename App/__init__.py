@@ -45,4 +45,10 @@ def create_app(config_name):
     from .feedback import feedback as feedback_blueprint
     current_app.register_blueprint(feedback_blueprint)
 
+    from .flags import flags as flags_blueprint
+    current_app.register_blueprint(flags_blueprint)
+
+    from .posts import posts as posts_blueprint
+    current_app.register_blueprint(posts_blueprint)
+
     return current_app

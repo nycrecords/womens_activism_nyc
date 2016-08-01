@@ -1,5 +1,9 @@
-<head>
-    <style type="text/css">
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Womens Activism NYC{% endblock %}
+
+<style type="text/css">
         A{text-decoration:none}
         #share-buttons img {
             width: 35px;
@@ -9,51 +13,37 @@
             display: inline;
         }
     </style>
-</head>
 
+{% block page_content %}
 <body>
+    <div class="page-header">
+        <h1>{{ post.title }}</h1>
+    </div>
+    <div class="page-body">
+        <p>{{ post.content | safe }}</p>
+    </div>
+    <div class="time-made">
+        {%  if post.just_now %}
+            Posted: Just Now
+        {%  else %}
+            Posted: {{ moment(post.creation_time).fromNow() }}
+        {% endif %}
+    </div>
+    {% if post.is_edited == True %}
+        This post was edited
+    {% endif %}
 
-    <ul class="posts">
-        {% for post in posts %}
 
-        <li class="post">
-            <div class="post-content">
-                <div class="post-date">
-                    {%  if post.just_now %}
-                        Just Now
-                    {%  else %}
-                        {{ moment(post.creation_time).fromNow() }}
-                    {% endif %}
-                </div>
-                <div class="post-title"> <b>{{ post.title }}</b> </div>
-                <div class="post-content">
-                    {{ post.content | safe}}
-                    <!--{% if post.content_html %}-->
-                        <!--{{ post.content_html | safe }}-->
-                    <!--{% else %}-->
-                        <!--{{ post.content }}-->
-                    <!--{% endif %}-->
-                </div>
-            </div>
-            <br>
-
-            <div class="post-redirect">
-                <a href="{{ url_for('posts.posts', id=post.id) }}">
-                    <span class="label label-primary">View this post on a single page</span>
-                </a>
-            </div>
-            <br>
-
+    <br> <br>
             <p1>
                 Something wrong with this post? Tell us
             </p1>
-            <div class="post-footer">
+            <div class="post-footer1">
                 <a href="{{ url_for('flags.flags', id=post.id) }}">
                     <span class="label label-primary">Flag</span>
                 </a>
             </div>
             <br>
-
             <p2>
                 Like this post? Share it with friends!
             </p2>
@@ -71,12 +61,7 @@
                     <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
                 </a>
             </div>
-        </li>
-
-        {% endfor %}
-    </ul>
 
 </body>
 
-
-
+{% endblock %}

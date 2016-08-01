@@ -2,7 +2,6 @@
 Models for women's activism nyc db
 """
 
-<<<<<<< HEAD
 from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
@@ -11,17 +10,14 @@ from flask_login import UserMixin
 from datetime import datetime, timedelta
 from markdown import markdown
 import bleach
-=======
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
->>>>>>> remotes/origin/feature/WOM-12_2
 
 
 class Post(db.Model):
 
     """
-    Specifies the properties of a post. A post will show the title, content, and creation time to anonymous users.
-    is_edited determines if the post has been edited by an agency user/admin
+    Specifies the properties of a post. A post will show the title, content, and time.
     if edited = True, pull from Post_Edit instead
     is_visible determines if the post is visible to the public
     if visible = False, a post is "deleted" (hidden from anonymous users)
@@ -29,16 +25,11 @@ class Post(db.Model):
 
     __tablename__ = "posts"
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(140), nullable=False)
-    content = db.Column(db.String(5000), nullable=False)
-<<<<<<< HEAD
-    content_html = db.Column(db.Text)
-    creation_time = db.Column(db.DateTime, nullable=False, index=True, default=datetime.utcnow)
-=======
-    creation_time = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
->>>>>>> remotes/origin/feature/WOM-12_2
-    is_edited = db.Column(db.Boolean, nullable=False)
-    is_visible = db.Column(db.Boolean, nullable=False)
+    title = db.Column(db.String(30), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    time = db.Column(db.DateTime, nullable=True)
+    edited = db.Column(db.Boolean, nullable=True)
+    visible = db.Column(db.Boolean, nullable=True)
 
     def __repr__(self):
         return '<Post %r>' % self.title
@@ -120,13 +111,11 @@ class Comment(db.Model):
     """
 
     __tablename__ = "comments"
-    id = db.Column(db.Integer, primary_key=True)
+    comment_id = db.Column(db.Integer, primary_key=True)
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"), nullable=False)
-    content = db.Column(db.String(750), nullable=False)
-    creation_time = db.Column(db.DateTime,  nullable=False)
-    is_edited = db.Column(db.Boolean, nullable=False)
-    is_visible = db.Column(db.Boolean, nullable=False)
-<<<<<<< HEAD
+    content = db.Column(db.Text, nullable=False, index=True)
+    time = db.Column(db.DateTime,  nullable=True)
+
 
     def __repr__(self):
         return '<Comment %r>' % self.id
@@ -161,11 +150,6 @@ class Role(db.Model):
     Specifies the properties of a role. The roles table is used to create roles such as Administrator
     and Agency Use. The roles table is linked to users table
     """
-=======
-
-    def __repr__(self):
-        return '<Comment %r>' % self.id
->>>>>>> remotes/origin/feature/WOM-12_2
 
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
@@ -223,21 +207,17 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     first_name = db.Column(db.String(30), nullable=False)
     last_name = db.Column(db.String(30), nullable=False)
-<<<<<<< HEAD
     email = db.Column(db.String(50), nullable=False, unique=True, index=True)
     phone = db.Column(db.String(11), nullable=False)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     confirmed = db.Column(db.Boolean, default=False)
-=======
     email = db.Column(db.String(50), nullable=False, unique=True)
     phone = db.Column(db.String(11), nullable=False)
     role = db.Column(db.Enum('Administrator', 'Agency User', name='user_roles'), nullable=False)
->>>>>>> remotes/origin/feature/WOM-12_2
 
     @property
     def password(self):
         raise AttributeError('password is not a readable attribute')
-<<<<<<< HEAD
 
     @password.setter
     def password(self, password):
@@ -279,8 +259,6 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         return True
 
-=======
-
     @password.setter
     def password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -288,7 +266,6 @@ class User(UserMixin, db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
->>>>>>> remotes/origin/feature/WOM-12_2
     def __repr__(self):
         return '<User %r>' % self.first_name
 
@@ -328,13 +305,8 @@ class Flag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
     type = db.Column(db.Enum(
-<<<<<<< HEAD
         'Offensive Content', 'Wrong Information', 'Inappropriate Content', 'Other ', name='flag_types'))
     reason = db.Column(db.String(500), nullable=False)
-=======
-        'Offensive content', 'Wrong information', 'Inappropriate content', 'Other ', name='flag_types'))
-    reason = db.Column(db.Text, nullable=False)
->>>>>>> remotes/origin/feature/WOM-12_2
 
     def __repr__(self):
         return '<Flag %r>' % self.id
@@ -355,12 +327,8 @@ class Feedback(db.Model):
 
     def __repr__(self):
         return '<Feedback %r>' % self.title
-<<<<<<< HEAD
 
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
-=======
->>>>>>> remotes/origin/feature/WOM-12_2

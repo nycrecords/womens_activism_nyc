@@ -14,7 +14,7 @@ def flags(id):
 
     form = FlagsForm()
     if form.validate_on_submit():
-        flash('Thanks for your input, a moderator has been notified.')
+        flash('Thank you for your input, a moderator has been notified.')
         flags = Flag(post_id=post.id,
                     type=form.flag_reason.data,
                     reason=form.flag_description.data)

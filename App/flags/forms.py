@@ -3,8 +3,8 @@ from wtforms import SelectField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Length
 from flask_wtf.recaptcha import RecaptchaField
 
-flag_choices = [('Inappropriate content', 'Inappropriate content'), ('Offensive content', "Offensive content"),
-                ('Incorrect information', 'Incorrect information'), ('Other', 'Other')]
+flag_choices = [('Inappropriate Content', 'Inappropriate Content'), ('Offensive Content', "Offensive Content"),
+                ('Incorrect Information', 'Incorrect Information'), ('Other', 'Other')]
 
 
 class FlagsForm(Form):

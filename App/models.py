@@ -266,7 +266,7 @@ class Flag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
     type = db.Column(db.Enum(
-        'Offensive content', 'Wrong information', 'Inappropriate content', 'Other ', name='flag_types'))
+        'Offensive Content', 'Wrong Information', 'Inappropriate Content', 'Other ', name='flag_types'))
     reason = db.Column(db.String(500), nullable=False)
 
     def __repr__(self):

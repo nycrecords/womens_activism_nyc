@@ -8,5 +8,5 @@ class FeedbackForm(Form):
     subject = StringField('Subject', validators=[DataRequired("Please enter the subject."), Length(1, 64)])
     email = StringField('Email', validators=[DataRequired("Please enter your email."), Email(), Length(1, 64)])
     reason = TextAreaField('Comments', validators=[DataRequired("Please enter your report."), Length(1, 500)])
-    recaptcha = RecaptchaField(validators=[DataRequired("Please complete reCAPTCHA")])
+    recaptcha = RecaptchaField()
     submit = SubmitField('Submit')

@@ -1,45 +1,27 @@
-from flask import render_template, redirect, url_for, current_app, flash, request
+from flask import render_template, redirect, url_for, current_app, flash
 from .. import db
-from ..models import Post
+from ..models import Feedback
+from ..email import send_email
 from . import main
-from .forms import PostForm
+from .forms import FeedbackForm
 
 
 @main.route('/', methods=['GET', 'POST'])
-def index(data=None):
+def index():
+    form = FeedbackForm()
 
-    page = request.args.get('page', 1, type=int)
-    pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
-        page, per_page=current_app.config['POSTS_PER_PAGE'],
-        error_out=True)
-    # need to change this config parameter if I want to change the default 20 posts per page
+    if form.validate_on_submit():
+        subject = form.subject.data
+        email = form.email.data
+        reason = form.reason.data
+        print('Subject: {}\nEmail: {}\nReason: {}'.format(subject, email, reason))
 
-    posts = pagination.items
+        feedback = Feedback(title=subject, email=email, reason=reason)
+        db.session.add(feedback)
 
-    if data or request.method == 'POST':
-        if request.form['input_title'] == '':
-            if request.form['editor1'] == '':
-                flash('Please enter a title.')
-                flash('Please enter content.')
-                return render_template('index.html', posts=posts, pagination=pagination)
-            else:
-                flash('Please enter a title.')
-                return render_template('index.html', posts=posts, pagination=pagination)
-        elif request.form['editor1'] == '':
-            flash('Please enter content.')
-            return render_template('index.html', posts=posts, pagination=pagination)
-        else:
-            title = request.form['input_title']
-            content = request.form['editor1']
-            post = Post(title=title, content=content, is_edited=False, is_visible=True)
-            #print(db.func.current_timestamp())
-            #print(datetime.utcnow())
-            db.session.add(post)
-            db.session.commit()
-            flash('Post submitted!')
-            return redirect(url_for('.index'))
-    #posts = Post.query.order_by(Post.creation_time.desc()).all()
-    return render_template('index.html', posts=posts, pagination=pagination)
+        send_email(current_app.config['WOMENS_ADMIN'],'New Feedback', 'mail/new_user', feedback=feedback)
 
+        flash('Thank you for your feedback!')
+        return redirect(url_for('.index'))
 
-
+    return render_template('index.html', form=form)

@@ -5,7 +5,10 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+<<<<<<< HEAD
     SQLALCHEMY_TRACK_MODIFICATIONS = True
+=======
+>>>>>>> remotes/origin/feature/WOM-12_2
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
@@ -18,6 +21,7 @@ class Config:
     # WOMENS_ADMIN = os.environ.get('FLASKY_ADMIN')
     WOMENS_ADMIN = 'womensactivismnyc@gmail.com'
 
+<<<<<<< HEAD
     # recaptcha key from womensactivismnyc@gmail.com
     # registered on google's recaptcha
 
@@ -27,6 +31,8 @@ class Config:
 
     POSTS_PER_PAGE = 10
 
+=======
+>>>>>>> remotes/origin/feature/WOM-12_2
     @staticmethod
     def init_app(app):
         pass
@@ -34,12 +40,17 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
+<<<<<<< HEAD
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
                               'postgresql://localhost:5432/women'
+=======
+    SQLALCHEMY_DATABASE_URI = 'postgresql://@localhost/women'
+>>>>>>> remotes/origin/feature/WOM-12_2
 
 
 class TestingConfig(Config):
     TESTING = True
+<<<<<<< HEAD
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
                               'postgresql://localhost:5432/women'
 
@@ -47,6 +58,13 @@ class TestingConfig(Config):
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
                               'postgresql://localhost:5432/women'
+=======
+    SQLALCHEMY_DATABASE_URI = 'postgresql://@localhost/women'
+
+
+class ProductionConfig(Config):
+    SQLALCHEMY_DATABASE_URI = 'postgresql://@localhost/women'
+>>>>>>> remotes/origin/feature/WOM-12_2
 
 
 config = {

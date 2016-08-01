@@ -159,28 +159,6 @@ class Role(db.Model):
     def __repr__(self):
         return '<Role %r>' % self.name
 
-class CommentEdit(db.Model):
-
-    """
-    Specifies properties of an edited comment. An edited post keeps track of the original comment.id,
-    the user.id of who edited the comment, the time it was edited,
-    the type of edit that was made (an edit or a deletion),
-    the contents of the newly edited comment, and reason why the user edited the comment.
-    If there were multiple edits made to a comment, pull the most recent change based off edit_time
-    """
-
-    __tablename__ = "comment_edits"
-    id = db.Column(db.Integer, primary_key=True)
-    comment_id = db.Column(db.Integer, db.ForeignKey("comments.id"))
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    edit_time = db.Column(db.DateTime, nullable=False)
-    type = db.Column(db.Enum('Edit', 'Delete', name='comment_edit_types'), nullable=False)
-    content = db.Column(db.Text, nullable=False)
-    reason = db.Column(db.Text, nullable=False)
-
-    def __repr__(self):
-        return '<Edit %r>' % self.id
-
 
 class User(UserMixin, db.Model):
 
@@ -211,8 +189,6 @@ class User(UserMixin, db.Model):
     phone = db.Column(db.String(11), nullable=False)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     confirmed = db.Column(db.Boolean, default=False)
-    email = db.Column(db.String(50), nullable=False, unique=True)
-    phone = db.Column(db.String(11), nullable=False)
     role = db.Column(db.Enum('Administrator', 'Agency User', name='user_roles'), nullable=False)
 
     @property

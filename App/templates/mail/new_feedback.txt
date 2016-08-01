@@ -1,1 +1,3 @@
-User {{ feedback.title }} has joined.
+New feedback from {{feedback.email}}
+Subject: {{feedback.title}}
+Reason: {{feedback.reason}}

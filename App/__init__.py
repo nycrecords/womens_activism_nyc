@@ -37,7 +37,7 @@ def create_app(config_name):
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 
-    from .tag import tags as tag_blueprint
+    from .tags import tags as tag_blueprint
     app.register_blueprint(tag_blueprint)
 
     from .feedback import feedback as feedback_blueprint

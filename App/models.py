@@ -10,14 +10,13 @@ from flask_login import UserMixin
 from datetime import datetime, timedelta
 from markdown import markdown
 import bleach
-from . import db
-from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class Post(db.Model):
 
     """
-    Specifies the properties of a post. A post will show the title, content, and time.
+    Specifies the properties of a post. A post will show the title, content, and creation time to anonymous users.
+    is_edited determines if the post has been edited by an agency user/admin
     if edited = True, pull from Post_Edit instead
     is_visible determines if the post is visible to the public
     if visible = False, a post is "deleted" (hidden from anonymous users)
@@ -25,11 +24,11 @@ class Post(db.Model):
 
     __tablename__ = "posts"
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(30), nullable=False)
-    content = db.Column(db.Text, nullable=False)
-    time = db.Column(db.DateTime, nullable=True)
-    edited = db.Column(db.Boolean, nullable=True)
-    visible = db.Column(db.Boolean, nullable=True)
+    title = db.Column(db.String(140), nullable=False)
+    content = db.Column(db.String(5000), nullable=False)
+    creation_time = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
+    is_edited = db.Column(db.Boolean, nullable=False)
+    is_visible = db.Column(db.Boolean, nullable=False)
 
     def __repr__(self):
         return '<Post %r>' % self.title
@@ -111,11 +110,12 @@ class Comment(db.Model):
     """
 
     __tablename__ = "comments"
-    comment_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"), nullable=False)
-    content = db.Column(db.Text, nullable=False, index=True)
-    time = db.Column(db.DateTime,  nullable=True)
-
+    content = db.Column(db.String(750), nullable=False)
+    creation_time = db.Column(db.DateTime,  nullable=False)
+    is_edited = db.Column(db.Boolean, nullable=False)
+    is_visible = db.Column(db.Boolean, nullable=False)
 
     def __repr__(self):
         return '<Comment %r>' % self.id
@@ -163,21 +163,14 @@ class Role(db.Model):
 class User(UserMixin, db.Model):
 
     """
-<<<<<<< HEAD
     Specifies the properties of a user. The role attribute is a foreign key to the roles table
-=======
-    Specifies the properties of a user. The role attribute should either be "agency user" or "admin"
->>>>>>> remotes/origin/feature/WOM-12_2
+    The role attribute should either be "agency user" or "admin"
     A user's email address must be unique
     A user will use their email to log in
     phone should be put in with no dashes "-" in between
     phone number treated as a string in so no leading 0's are lost
-<<<<<<< HEAD
     password is a hashed value
     confirmed determines if the user account is confirmed or not
-=======
-    password should be hashed
->>>>>>> remotes/origin/feature/WOM-12_2
     """
 
     __tablename__ = "users"
@@ -234,13 +227,6 @@ class User(UserMixin, db.Model):
         self.password = new_password
         db.session.add(self)
         return True
-
-    @password.setter
-    def password(self, password):
-        self.password_hash = generate_password_hash(password)
-
-    def verify_password(self, password):
-        return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
         return '<User %r>' % self.first_name
@@ -303,7 +289,6 @@ class Feedback(db.Model):
 
     def __repr__(self):
         return '<Feedback %r>' % self.title
-
 
 @login_manager.user_loader
 def load_user(user_id):

@@ -5,7 +5,6 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
-    SQLALCHEMY_TRACK_MODIFICATIONS = True
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
@@ -14,7 +13,6 @@ class Config:
     MAIL_PASSWORD = 'doris1234'
     WOMENS_MAIL_SUBJECT_PREFIX = '[Womens Activism NYC]'
     WOMENS_MAIL_SENDER = 'Womens Activism NYC Admin <flasky@example.com>'
-    # WOMENS_ADMIN = os.environ.get('FLASKY_ADMIN')
     WOMENS_ADMIN = 'womensactivismnyc@gmail.com'
     RECAPTCHA_PUBLIC_KEY = '6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH'
     RECAPTCHA_PRIVATE_KEY = '6LetUSYTAAAAAN1pLPLyyIFUh6rEemXczfMFT4um'

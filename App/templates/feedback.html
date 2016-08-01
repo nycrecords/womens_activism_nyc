@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+<<<<<<< .merge_file_wdCTzf
+{% block title %}Women's Activism NYC{% endblock %}
+
+{% block page_content %}
+    <div class="page-header">
+    <h1>Feedback Form</h1>
+    </div>
+{{ wtf.quick_form(form) }}
+{% endblock %}
+=======
+{% block title %}Women's Activism{% endblock %}
+{% block page_content %}
+<head>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+   </head>
+<div class="page-header">
+   <h1>Welcome to the {% if name %}{{ name }}{% else %}Woman Activism's Feedback form{% endif %}!</h1>
+</div>
+{{ wtf.quick_form(form) }}
+
+<form>
+   <div class="g-recaptcha" data-sitekey="6LexECYTAAAAAFaNYELFVlBX_ARf8_4QETX9SjYK"></div>
+</form>
+{% endblock %}
+{% block scripts %}
+
+
+
+{% endblock %}
+>>>>>>> .merge_file_DaCmeF

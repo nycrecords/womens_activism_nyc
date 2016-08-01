@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Women's Activism{% endblock %}
+
+{% block page_content %}
+{{ wtf.quick_form(form) }}
+{% endblock %}
+
+
+
+
+ <head>
+    <title>reCAPTCHA demo: Simple page</title>
+     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+ </head>
+  <body>
+    <form action="?" method="POST">
+      <div class="g-recaptcha" data-sitekey="6LexECYTAAAAAFaNYELFVlBX_ARf8_4QETX9SjYK"></div>
+      <br/>
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+
+
+
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Women's Activism{% endblock %}
+
+<head>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+</head>
+
+{% block page_content %}
+    <form>
+        <div class="g-recaptcha" data-sitekey="6LexECYTAAAAAFaNYELFVlBX_ARf8_4QETX9SjYK"></div>
+        {{ wtf.quick_form(form) }}
+    </form>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Women's Activism{% endblock %}
+
+ <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+
+{% block page_content %}
+
+    <div class="page-header">
+    <h1>Feedback Form</h1>
+    </div>
+
+  <body>
+    <form action="/" method="post">
+      <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"></div>
+        {{ wtf.quick_form(form) }}
+    </form>
+  </body>
+{% endblock %}

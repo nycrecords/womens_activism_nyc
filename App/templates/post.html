@@ -20,7 +20,7 @@
         <h1>{{ post.title }}</h1>
     </div>
     <div class="page-body">
-        <p>{{ post.content_html | safe }}</p>
+        <p>{{ post.content | safe }}</p>
     </div>
     <div class="time-made">
         {%  if post.just_now() %}

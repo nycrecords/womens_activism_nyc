@@ -69,4 +69,11 @@
 {{ super() }}
 {{ moment.include_moment() }}
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+
+<script>
+    var myElements = document.querySelectorAll(".remove-videodetector");
+
+for (var i = 0; i < myElements.length; i++) {
+    myElements[i].style.display = 'none';
+}</script>
 {% endblock %}

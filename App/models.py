@@ -4,8 +4,10 @@ Models for women's activism nyc db
 
 from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from flask import current_app
 from flask_login import UserMixin
-from datetime import datetime
+from datetime import datetime, timedelta
 from markdown import markdown
 import bleach
 
@@ -55,6 +57,15 @@ class Post(db.Model):
         target.content_html = bleach.linkify(bleach.clean(
             markdown(value, output_format='html'),
             tags=allowed_tags, strip=True))
+
+    def just_now(self):
+        a = datetime.utcnow()
+        b = self.creation_time
+        difference = a - b
+        difference_in_minutes = difference / timedelta(minutes=1)
+        if difference_in_minutes < 5:
+            return True
+        return False
 
 
 db.event.listen(Post.content, 'set', Post.on_changed_content)
@@ -159,6 +170,7 @@ class User(UserMixin, db.Model):
     phone should be put in with no dashes "-" in between
     phone number treated as a string in so no leading 0's are lost
     password is a hashed value
+    confirmed determines if the user account is confirmed or not
     """
 
     __tablename__ = "users"
@@ -169,6 +181,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(50), nullable=False, unique=True, index=True)
     phone = db.Column(db.String(11), nullable=False)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    confirmed = db.Column(db.Boolean, default=False)
 
     @property
     def password(self):
@@ -180,6 +193,39 @@ class User(UserMixin, db.Model):
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def generate_confirmation_token(self, expiration=3600):
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        return s.dumps({'confirm': self.id})
+
+    def confirm(self, token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return False
+        if data.get('confirm') != self.id:
+            return False
+        self.confirmed = True
+        db.session.add(self)
+        db.session.commit()
+        return True
+
+    def generate_reset_token(self, expiration=3600):
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        return s.dumps({'reset': self.id})
+
+    def reset_password(self, token, new_password):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return False
+        if data.get('reset') != self.id:
+            return False
+        self.password = new_password
+        db.session.add(self)
+        return True
 
     def __repr__(self):
         return '<User %r>' % self.first_name
@@ -221,7 +267,7 @@ class Flag(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
     type = db.Column(db.Enum(
         'Offensive content', 'Wrong information', 'Inappropriate content', 'Other ', name='flag_types'))
-    reason = db.Column(db.Text, nullable=False)
+    reason = db.Column(db.String(500), nullable=False)
 
     def __repr__(self):
         return '<Flag %r>' % self.id

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='index.css') }}"/>
+
+{% block title %}Women's Activism NYC{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Welcome</h1>
+</div>
+<div>
+{{ wtf.quick_form(form) }}
+    <br>
+</div>
+
+{% include '_posts.html' %}
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.index') }}
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ pagedown.include_pagedown() }}
+{% endblock %}

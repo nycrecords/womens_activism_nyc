@@ -1,0 +1,3 @@
+Post title: {{ post_title }}
+Flag reason: {{ reason }}
+Flag description: {{ description }}

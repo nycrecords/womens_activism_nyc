@@ -1,0 +1,57 @@
+<html>
+
+    {% extends "base.html" %}
+    {% block title %}Flasky{% endblock %}
+    {% block page_content %}
+    <!-- This is the html to go at the end of post html !-->
+    <!-- Required arguments from the .py script are the address bar "link" of the post and
+        "post_title" of the specific post
+        !-->
+    <!-- Not feasible to build share buttons to instagram and snapchat see links below
+        SNAPCHAT : Does not make their API public, unauthorized
+            http://snapchat-blog.com/post/99998266095/third-party-applications-and-the-snapchat-api
+            https://backchannel.com/snapchat-s-non-vanishing-message-you-can-trust-us-6606e6774b8b#.xy043x1th
+        INSTAGRAM : To use their API, need authorization through process
+            https://www.instagram.com/developer/
+            http://developers.instagram.com
+        !-->
+
+    <head>
+        <style type="text/css">
+            A{text-decoration:none}
+            p{color: rebeccapurple}
+            #share-buttons img {
+                width: 35px;
+                padding: 5px;
+                border: 0;
+                box-shadow: 0;
+                display: inline;
+            }
+        </style>
+    </head>
+    <body>
+        <p>
+            Like this post? Share it with friends!
+        </p>
+        <!-- Images for share buttons from simplesharebuttons.com -->
+        <div id="share-buttons">
+
+        <!-- Facebook -->
+        <a href="http://www.facebook.com/sharer.php?url={{ link }}" target="_blank">
+            <img src="https://simplesharebutons.com/images/somacro/facebook.png" alt="Facebook"/>
+        </a>
+
+        <!-- Tumblr-->
+        <a href="http://www.tumblr.com/share/link?url={{ link }}&amp;title=Women's Activism NYC" target="_blank">
+            <img src="https://simplesharebuttons.com/images/somacro/tumblr.png" alt="Tumblr" />
+        </a>
+
+        <!-- Twitter -->
+        <a href="https://twitter.com/share?url={{ link }}&amp;text={{ post_title }}&amp;hashtags=WomensActivismNYC" target="_blank">
+            <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
+        </a>
+
+        </div>
+    </body>
+    {% endblock %}
+</html>

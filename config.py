@@ -25,7 +25,7 @@ class Config:
     RECAPTCHA_PRIVATE_KEY = '6LetUSYTAAAAAN1pLPLyyIFUh6rEemXczfMFT4um'
 
 
-    POSTS_PER_PAGE = 10
+    POSTS_PER_PAGE = 20
 
     @staticmethod
     def init_app(app):

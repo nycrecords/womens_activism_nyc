@@ -3,8 +3,9 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
+
     '''
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
+        SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'localhost'
     MAIL_PORT = os.environ.get('MAIL_PORT') or 2500
@@ -19,6 +20,7 @@ class Config:
     POSTS_PER_PAGE = 10
     '''
 
+
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
@@ -28,6 +30,7 @@ class Config:
     WOMENS_MAIL_SUBJECT_PREFIX = '[Womens Activism NYC]'
     WOMENS_MAIL_SENDER = 'Womens Activism NYC Admin <flasky@example.com>'
     WOMENS_ADMIN = 'womensactivismnyc@gmail.com'
+
 
     # recaptcha key from womensactivismnyc@gmail.com
     # registered on google's recaptcha

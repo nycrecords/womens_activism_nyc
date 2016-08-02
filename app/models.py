@@ -8,8 +8,6 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from flask_login import UserMixin
 from datetime import datetime, timedelta
-from markdown import markdown
-import bleach
 
 
 class Permission:
@@ -55,6 +53,7 @@ class Role(db.Model):
     def __repr__(self):
         return '<Role %r>' % self.name
 
+
 class Post(db.Model):
 
     """
@@ -68,7 +67,7 @@ class Post(db.Model):
     __tablename__ = "posts"
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(140), nullable=False)
-    content = db.Column(db.String(5000), nullable=False)
+    content = db.Column(db.Text, nullable=False)
     creation_time = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     is_edited = db.Column(db.Boolean, nullable=False)
     is_visible = db.Column(db.Boolean, nullable=False)
@@ -91,15 +90,6 @@ class Post(db.Model):
             db.session.add(p)
             db.session.commit()
 
-    @staticmethod
-    def on_changed_content(target, value, oldvalue, initiator):
-        allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
-                        'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
-                        'h1', 'h2', 'h3', 'p']
-        target.content_html = bleach.linkify(bleach.clean(
-            markdown(value, output_format='html'),
-            tags=allowed_tags, strip=True))
-
     def just_now(self):
         a = datetime.utcnow()
         b = self.creation_time
@@ -108,9 +98,6 @@ class Post(db.Model):
         if difference_in_minutes < 5:
             return True
         return False
-
-
-db.event.listen(Post.content, 'set', Post.on_changed_content)
 
 
 class Tag(db.Model):
@@ -178,7 +165,7 @@ class CommentEdit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     comment_id = db.Column(db.Integer, db.ForeignKey("comments.id"))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    edit_time = db.Column(db.DateTime, nullable=False)
+    edit_time = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     type = db.Column(db.Enum('Edit', 'Delete', name='comment_edit_types'), nullable=False)
     content = db.Column(db.Text, nullable=False)
     reason = db.Column(db.Text, nullable=False)
@@ -286,7 +273,7 @@ class PostEdit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    edit_time = db.Column(db.DateTime, nullable=False)
+    edit_time = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     type = db.Column(db.String(6), nullable=False)
     content = db.Column(db.Text, nullable=False)
     reason = db.Column(db.Text, nullable=False)

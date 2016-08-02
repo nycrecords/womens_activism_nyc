@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, current_app, flash, reques
 from .. import db
 from ..models import *
 from . import main
-from .forms import PostForm, DeleteForm
+from .forms import DeleteForm
 import bleach
 
 
@@ -49,25 +49,25 @@ def edit(id):
     # if current_user != post.author and \
     #         not current_user.can(Permission.ADMINISTER):
     #     abort(403)
-    form = PostForm()
-    if form.validate_on_submit():
-        posttags = PostTag.query.filter_by(post_id=id).all()
-        for posttag in posttags:
-            db.session.delete(posttag)
-        comments = Comment.query.filter_by(post_id=id).all()
-        for comment in comments:
-            db.session.delete(comment)
-        post.body = form.body.data
-        post.title = form.title.data
-        post.content = form.content.data
+    if request.method == 'POST':
+        data = request.form.copy()
+        post.title = data['input_title']
+        post.content = data['editor1']
         db.session.add(post)
         db.session.commit()
+    # if form.validate_on_submit():
+    #     posttags = PostTag.query.filter_by(post_id=id).all()
+    #     post.body = form.body.data
+    #     post.title = form.title.data
+    #     post.content = form.content.data
+    #     db.session.add(post)
+    #     db.session.commit()
         flash('The post has been updated.')
-        return redirect(url_for('main.index'))
-    post = Post.query.filter_by(id=id).first()
-    form.title.data = post.title
-    form.content.data = strip_html(post.content)
-    return render_template('edit_post.html', form=form, post=post)
+        return redirect(url_for('main.index', id=post.id))
+    # post = Post.query.filter_by(id=id).first()
+    # form.title.data = post.title
+    # form.content.data = strip_html(post.content)
+    return render_template('edit_post.html', post=post)
 
 
 @main.route('/delete/post/<int:id>', methods=['GET', 'POST'])

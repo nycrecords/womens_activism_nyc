@@ -7,7 +7,7 @@ from flask_wtf.recaptcha import RecaptchaField
 class PostForm(Form):
     title = StringField('Title', validators=[DataRequired('Please enter a title')])
     content = TextAreaField("What's on your mind?", validators=[DataRequired("Body can't be left blank")])
-    recaptcha = RecaptchaField()
+    # recaptcha = RecaptchaField()
     submit = SubmitField('submit')
 
 

@@ -12,6 +12,49 @@ from markdown import markdown
 import bleach
 
 
+class Permission:
+    MODERATE_COMMENTS = 0x02
+    MODERATE_POST = 0x04
+    MODERATE_TAGS = 0x06
+    MODERATE_USERS = 0x08
+    ADMINISTER = 0x80
+
+
+class Role(db.Model):
+
+    """
+    Specifies the properties of a role. The roles table is used to create roles such as Administrator
+    and Agency Use. The roles table is linked to users table
+    """
+
+    @staticmethod
+    def insert_roles():
+        roles = {
+            'User': (Permission.MODERATE_COMMENTS |
+                          Permission.MODERATE_POST |
+                          Permission.MODERATE_TAGS, True),
+            'Administrator': (0xff, False)
+        }
+        for r in roles:
+            role = Role.query.filter_by(name=r).first()
+            if role is None:
+                role = Role(name=r)
+            role.permissions = roles[r][0]
+            role.default = roles[r][1]
+            db.session.add(role)
+        db.session.commit()
+
+
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    default = db.Column(db.Boolean, default=False, index=True)
+    permissions = db.Column(db.Integer)
+    users = db.relationship('User', backref='role', lazy='dynamic')
+
+    def __repr__(self):
+        return '<Role %r>' % self.name
+
 class Post(db.Model):
 
     """
@@ -144,22 +187,6 @@ class CommentEdit(db.Model):
         return '<Edit %r>' % self.id
 
 
-class Role(db.Model):
-
-    """
-    Specifies the properties of a role. The roles table is used to create roles such as Administrator
-    and Agency Use. The roles table is linked to users table
-    """
-
-    __tablename__ = 'roles'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True)
-    users = db.relationship('User', backref='user_role', lazy='dynamic')
-
-    def __repr__(self):
-        return '<Role %r>' % self.name
-
-
 class User(UserMixin, db.Model):
 
     """
@@ -182,7 +209,14 @@ class User(UserMixin, db.Model):
     phone = db.Column(db.String(11), nullable=False)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     confirmed = db.Column(db.Boolean, default=False)
-    role = db.Column(db.Enum('Administrator', 'Agency User', name='user_roles'), nullable=False)
+
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+        if self.role is None:
+            if self.email == current_app.config['WOMENS_ADMIN']:
+                self.role = Role.query.filter_by(permissions=0xff).first()
+            else:
+                self.role = Role.query.filter_by(default=True).first()
 
     @property
     def password(self):
@@ -228,6 +262,13 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         return True
 
+    def can(self, permissions):
+        return self.role is not None and \
+            (self.role.permissions & permissions) == permissions
+
+    def is_administrator(self):
+        return self.can(Permission.ADMINISTER)
+
     def __repr__(self):
         return '<User %r>' % self.first_name
 
@@ -267,7 +308,7 @@ class Flag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
     type = db.Column(db.Enum(
-        'Offensive Content', 'Wrong Information', 'Inappropriate Content', 'Other ', name='flag_types'))
+        'Offensive Content', 'Wrong Information', 'Inappropriate Content', 'Other', name='flag_types'))
     reason = db.Column(db.String(500), nullable=False)
 
     def __repr__(self):

@@ -51,7 +51,13 @@ def edit(id):
     #     abort(403)
     form = PostForm()
     if form.validate_on_submit():
-        # post.body = form.body.data
+        posttags = PostTag.query.filter_by(post_id=id).all()
+        for posttag in posttags:
+            db.session.delete(posttag)
+        comments = Comment.query.filter_by(post_id=id).all()
+        for comment in comments:
+            db.session.delete(comment)
+        post.body = form.body.data
         post.title = form.title.data
         post.content = form.content.data
         db.session.add(post)
@@ -61,7 +67,7 @@ def edit(id):
     post = Post.query.filter_by(id=id).first()
     form.title.data = post.title
     form.content.data = strip_html(post.content)
-    return render_template('edit_post.html', form=form)
+    return render_template('edit_post.html', form=form, post=post)
 
 
 @main.route('/delete/post/<int:id>', methods=['GET', 'POST'])

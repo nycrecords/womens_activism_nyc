@@ -30,7 +30,7 @@ def index(data=None):
         else:
             title = request.form['input_title']
             content = request.form['editor1']
-            post = Post(title=title, content=content, content_html=content, is_edited=False, is_visible=True)
+            post = Post(title=title, content=content, is_edited=False, is_visible=True)
             #print(db.func.current_timestamp())
             #print(datetime.utcnow())
             db.session.add(post)

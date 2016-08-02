@@ -4,63 +4,68 @@
 {% block title %}Flasky{% endblock %}
 
 <style type="text/css">
-        A{text-decoration:none}
-        #share-buttons img {
-            width: 35px;
-            padding: 5px;
-            border: 0;
-            box-shadow: 0;
-            display: inline;
-        }
-    </style>
+    A {
+        text-decoration: none
+    }
+
+    #share-buttons img {
+        width: 35px;
+        padding: 5px;
+        border: 0;
+        box-shadow: 0;
+        display: inline;
+    }
+</style>
 
 {% block page_content %}
 <body>
-    <div class="page-header">
-        <h1>{{ post.title }}</h1>
-    </div>
-    <div class="page-body">
-        <p>{{ post.content | safe }}</p>
-    </div>
-    <div class="time-made">
-        {%  if post.just_now %}
-            Posted: Just Now
-        {%  else %}
-            Posted: {{ moment(post.creation_time).fromNow() }}
-        {% endif %}
-    </div>
-    {% if post.is_edited == True %}
-        This post was edited
+<div class="page-header">
+    <h1>{{ post.title }}</h1>
+</div>
+<div class="page-body">
+    <p>{{ post.content | safe }}</p>
+</div>
+<div class="time-made">
+    {% if post.just_now %}
+    Posted: Just Now
+    {% else %}
+    Posted: {{ moment(post.creation_time).fromNow() }}
     {% endif %}
+</div>
+{% if post.is_edited == True %}
+This post was edited
+{% endif %}
 
 
-    <br> <br>
-            <p1>
-                Something wrong with this post? Tell us
-            </p1>
-            <div class="post-footer1">
-                <a href="{{ url_for('flags.flags', id=post.id) }}">
-                    <span class="label label-primary">Flag</span>
-                </a>
-            </div>
-            <br>
-            <p2>
-                Like this post? Share it with friends!
-            </p2>
-            <div id="share-buttons">
-                <!-- Facebook -->
-                <a href="http://www.facebook.com/sharer.php?url={{ url_for('posts.posts', id=post.id) }}" target="_blank">
-                    <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook"/>
-                </a>
-                <!-- Tumblr-->
-                <a href="http://www.tumblr.com/share/link?url={{ url_for('posts.posts', id=post.id) }}&amp;title={{ post.title }}" target="_blank">
-                    <img src="https://simplesharebuttons.com/images/somacro/tumblr.png" alt="Tumblr" />
-                </a>
-                <!-- Twitter -->
-                <a href="https://twitter.com/share?url={{ url_for('posts.posts', id=post.id) }}&amp;text={{ post.title }}&amp;hashtags=WomensActivismNYC" target="_blank">
-                    <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
-                </a>
-            </div>
+<br> <br>
+<p1>
+    Something wrong with this post? Tell us
+</p1>
+<div class="post-footer1">
+    <a href="{{ url_for('flags.flags', id=post.id) }}">
+        <span class="label label-primary">Flag</span>
+    </a>
+</div>
+<br>
+<p2>
+    Like this post? Share it with friends!
+</p2>
+<div id="share-buttons">
+    <!-- Facebook -->
+    <a href="http://www.facebook.com/sharer.php?url={{ url_for('posts.posts', id=post.id) }}" target="_blank">
+        <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook"/>
+    </a>
+    <!-- Tumblr-->
+    <a href="http://www.tumblr.com/share/link?url={{ url_for('posts.posts', id=post.id) }}&amp;title={{ post.title }}"
+       target="_blank">
+        <img src="https://simplesharebuttons.com/images/somacro/tumblr.png" alt="Tumblr"/>
+    </a>
+    <!-- Twitter -->
+    <a href="https://twitter.com/share?url={{ url_for('posts.posts', id=post.id) }}&amp;text={{ post.title }}&amp;hashtags=WomensActivismNYC"
+       target="_blank">
+        <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter"/>
+    </a>
+</div>
 
 </body>
 

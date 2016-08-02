@@ -1,8 +1,7 @@
 from flask_wtf import Form 
 from wtforms import StringField, SubmitField 
 from wtforms.validators import DataRequired 
-from flask_pagedown.fields import PageDownField 
-from flask_wtf.recaptcha import RecaptchaField 
+from flask_wtf.recaptcha import RecaptchaField
 
 
 class PostForm(Form):

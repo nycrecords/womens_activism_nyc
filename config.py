@@ -15,7 +15,7 @@ class Config:
     WOMENS_MAIL_SENDER = 'Womens Activism NYC Admin <flasky@example.com>'
     WOMENS_ADMIN = 'womensactivismnyc@gmail.com'
     RECAPTCHA_PUBLIC_KEY = '6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH'
-    RECAPTCHA_PRIVATE_KEY = '6LetUSYTAAAAAN1pLPLyyIFUh6rEemXczfMFT4um'
+    RECAPTCHA_PRIVATE_KEY = '6LetUSgYTAAAAAN1pLPLyyIFUh6rEemXczfMFT4um'
     POSTS_PER_PAGE = 10
 
     @staticmethod
@@ -26,18 +26,18 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-                              'postgresql://localhost:5432/women'
+                              'postgresql://localhost:5432/womens_activism_nyc_dev'
 
 
 class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-                              'postgresql://localhost:5432/women'
+                              'postgresql://localhost:5432/womens_activism_nyc_test'
 
 
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-                              'postgresql://localhost:5432/women'
+                              'postgresql://localhost:5432/womens_activism_nyc'
 
 
 config = {

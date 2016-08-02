@@ -4,7 +4,7 @@ from . import auth
 from ..models import User
 from .forms import LoginForm, RegistrationForm, ChangePasswordForm, PasswordResetRequestForm, PasswordResetForm
 from .. import db
-from ..email import send_email
+from ..send_email import send_email
 from flask_login import current_user
 
 

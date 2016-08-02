@@ -1,7 +1,7 @@
 from flask  import render_template, redirect, url_for, current_app, flash
 from .. import db
 from ..models import Flag, Post
-from ..email import send_email
+from ..send_email import send_email
 from . import flags
 from .forms import FlagsForm
 

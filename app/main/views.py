@@ -1,3 +1,4 @@
+# TODO: Module level docstring
 from flask import render_template, redirect, url_for, current_app, flash, request
 from .. import db
 from ..models import *
@@ -6,7 +7,7 @@ from . import main
 
 @main.route('/', methods=['GET', 'POST'])
 def index(data=None):
-
+    # TODO: Function docstring
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
         page, per_page=current_app.config['POSTS_PER_PAGE'],
@@ -33,6 +34,7 @@ def index(data=None):
             post = Post(title=title, content=content, is_edited=False, is_visible=True)
             #print(db.func.current_timestamp())
             #print(datetime.utcnow())
+            # TODO: Should be done in a separate file (utils)
             db.session.add(post)
             db.session.commit()
             flash('Post submitted!')

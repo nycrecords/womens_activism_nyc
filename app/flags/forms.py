@@ -1,3 +1,4 @@
+# TODO: Module level docstring
 from flask_wtf import Form
 from wtforms import SelectField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Length
@@ -8,6 +9,7 @@ flag_choices = [('Inappropriate Content', 'Inappropriate Content'), ('Offensive 
 
 
 class FlagsForm(Form):
+    # TODO: Description of form and form fields
     flag_reason = SelectField('Please choose a reason for flagging:', choices=flag_choices,
                               validators=[DataRequired('Please select a reason.')])
     flag_description = TextAreaField('Please provide a brief description:', validators=[Length(0, 500)])

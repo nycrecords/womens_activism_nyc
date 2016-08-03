@@ -1,3 +1,4 @@
+# TODO: Module level docstring
 from flask  import render_template, redirect, url_for, current_app, flash
 from .. import db
 from ..models import Flag, Post
@@ -8,6 +9,7 @@ from .forms import FlagsForm
 
 @flags.route('/flag/<int:id>', methods=['GET', 'POST'])
 def flags(id):
+    # TODO: Function docstring
     post = Post.query.get_or_404(id)
     post_title = post.title
     print(post_title)
@@ -18,6 +20,7 @@ def flags(id):
         flags = Flag(post_id=post.id,
                     type=form.flag_reason.data,
                     reason=form.flag_description.data)
+        # TODO: Should be done in a separate file (utils)
         db.session.add(flags)
         db.session.commit()
         current_app.logger.info(

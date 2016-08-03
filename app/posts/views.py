@@ -10,7 +10,6 @@ def all_posts():
     """
     Route for seperate post tab that shows all posts in the db.
     Displays all posts in a paginated fashion.
-
     :return: renders 'postTab.html', passes in post_feed as all posts in Post table (ordered by creation_time)
     """
     page = request.args.get('page', 1, type=int)

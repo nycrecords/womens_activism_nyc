@@ -1,3 +1,5 @@
+# TODO: Module Level Documentation
+
 from flask.ext.wtf import Form
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
@@ -6,6 +8,7 @@ from ..models import User
 
 
 class LoginForm(Form):
+    # TODO: Short description of class with form fields.
     email = StringField('Email', validators=[DataRequired(), Length(1, 64), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Keep me logged in')
@@ -13,6 +16,7 @@ class LoginForm(Form):
 
 
 class RegistrationForm(Form):
+    # TODO: Short description of class with form fields.
     first_name = StringField('First Name', validators=[DataRequired(), Length(1,30)])
     last_name = StringField('Last Name', validators=[DataRequired(), Length(1, 30)])
     email = StringField('Email', validators=[DataRequired(), Length(1, 64), Email()])
@@ -26,6 +30,7 @@ class RegistrationForm(Form):
     #    DataRequired(), Length(1, 64), Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,'Usernames must have only letters, ''numbers, dots or underscores')])
 
     def validate_email(self, field):
+        # TODO: Function docstring
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('Email already registered.')
 
@@ -50,14 +55,9 @@ class RegistrationForm(Form):
         if not (has_num or has_capital):
             raise ValidationError('Passwords must contain at least one number and one capital letter')
 
-        if not has_num:
-            raise ValidationError('Password must contain at least one number')
-
-        if not has_capital:
-            raise ValidationError('Password must contain at least one capital letter')
-
 
 class ChangePasswordForm(Form):
+    # TODO: Short description of class with form fields.
     old_password = PasswordField('Old password', validators=[DataRequired()])
     password = PasswordField('New password', validators=[
         DataRequired(), EqualTo('password2', message='Passwords must match')])
@@ -66,12 +66,14 @@ class ChangePasswordForm(Form):
 
 
 class PasswordResetRequestForm(Form):
+    # TODO: Short description of class with form fields.
     email = StringField('Email', validators=[DataRequired(), Length(1, 64),
                                              Email()])
     submit = SubmitField('Reset Password')
 
 
 class PasswordResetForm(Form):
+    # TODO: Short description of class with form fields.
     email = StringField('Email', validators=[DataRequired(), Length(1, 64),
                                              Email()])
     password = PasswordField('New Password', validators=[
@@ -80,5 +82,6 @@ class PasswordResetForm(Form):
     submit = SubmitField('Reset Password')
 
     def validate_email(self, field):
+        # TODO: Function docstring
         if User.query.filter_by(email=field.data).first() is None:
             raise ValidationError('Unknown email address.')

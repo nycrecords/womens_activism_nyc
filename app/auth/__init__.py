@@ -1,3 +1,4 @@
+# TODO: Module level docstring
 from flask import Blueprint
 
 auth = Blueprint('auth', __name__)

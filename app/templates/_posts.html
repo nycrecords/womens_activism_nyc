@@ -55,7 +55,6 @@
             <br>
             <p2>
                 Like this post? Share it with friends!
-                {{ domain_name }}{{ url_for('posts.posts', id=post.id) }}
             </p2>
             <div id="share-buttons">
                 <!-- Facebook -->
@@ -67,7 +66,7 @@
                     <img src="../static/tumblr_icon.png" alt="Tumblr" width="32" height="32" />
                 </a>
                 <!-- Twitter -->
-                <a href="https://twitter.com/share?url={{ url_for('posts.posts', id=post.id, _external=True) }}text={{ post.title }}&amp;hashtags=WomensActivismNYC" target="_blank">
+                <a href="https://twitter.com/share?url={{ url_for('posts.posts', id=post.id, _external=True) }}&text={{ post.title }}&hashtags=WomensActivismNYC" target="_blank">
                     <img src="../static/twitter_icon.png" alt="Twitter" width="32" height="32" />
                 </a>
             </div>

@@ -30,6 +30,7 @@ class Config:
     WOMENS_MAIL_SUBJECT_PREFIX = '[Womens Activism NYC]'
     WOMENS_MAIL_SENDER = 'Womens Activism NYC Admin <flasky@example.com>'
     WOMENS_ADMIN = 'womensactivismnyc@gmail.com'
+    JIM = True
 
 
     # recaptcha key from womensactivismnyc@gmail.com

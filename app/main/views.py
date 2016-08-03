@@ -13,7 +13,6 @@ def index(data=None):
         page, per_page=current_app.config['POSTS_PER_PAGE'],
         error_out=True)
     # need to change this config parameter if I want to change the default 20 posts per page
-
     posts = pagination.items
 
     if data or request.method == 'POST':

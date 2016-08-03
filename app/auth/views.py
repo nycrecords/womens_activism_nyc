@@ -57,7 +57,7 @@ def register():
     if form.validate_on_submit():
         # TODO: We should not be writing to the database in views. Maybe use a utilities file to handle this
         user = User(password=form.password.data, first_name=form.first_name.data, last_name=form.first_name.data,
-                    email=form.email.data, phone=form.phone.data, role_id=1)
+                    email=form.email.data, phone=form.phone.data)
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()

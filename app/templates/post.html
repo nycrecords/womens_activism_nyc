@@ -4,14 +4,8 @@
 {% block title %}Women's Activism NYC{% endblock %}
 
 <style type="text/css">
-    A {
-        text-decoration: none
-    }
+    A {text-decoration: none}
     #share-buttons img {
-        /*width: 35px;*/
-        /*padding: 5px;*/
-        /*border: 0;*/
-        /*box-shadow: 0;*/
         display: inline;
     }
 </style>
@@ -35,10 +29,9 @@
 This post was edited
 {% endif %}
 
-
 <br> <br>
 <p1>
-    Something wrong with this post? Tell us
+    Something wrong with this post? Tell us!
 </p1>
 <div class="post-flag">
     <a href="{{ url_for('flags.flags', id=post.id) }}">
@@ -63,7 +56,5 @@ This post was edited
         <img src="../static/twitter_icon.png" alt="Twitter" width="32" height="32" />
     </a>
 </div>
-
 </body>
-
 {% endblock %}

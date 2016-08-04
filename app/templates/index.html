@@ -18,12 +18,13 @@
     <form name="input" class="form-horizontal" id="submitPost" method="post">
         <div class="lead">Title
             <div class="control-group">
-                <input class="input_title" name="input_title" name="Title" maxlength="140" required>
+                <input class="input_title" name="input_title" name="Title"
+                       maxlength="140" value="{{ post_title or '' }}" required>
             </div>
         </div>
         <div class="lead">Content
             <div class="control-group">
-                <textarea id="editor1" name="editor1" required></textarea>
+                <textarea id="editor1" name="editor1" required>{{ post_content or '' }}</textarea>
             </div>
         </div>
         <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"></div> <br>
@@ -55,4 +56,5 @@
 <script type="text/javascript">
     CKEDITOR.replace( 'editor1' );
 </script>
+{<script src='https://www.google.com/recaptcha/api.js' async defer></script>
 {% endblock %}

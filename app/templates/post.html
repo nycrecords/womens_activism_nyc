@@ -26,7 +26,7 @@
     <p>{{ post.content | safe }}</p>
 </div>
 <div class="time-made">
-    {% if post.just_now %}
+    {% if post.just_now() %}
     Posted: Just Now
     {% else %}
     Posted: {{ moment(post.creation_time).fromNow() }}

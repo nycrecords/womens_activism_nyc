@@ -245,7 +245,7 @@ class PostEdit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    edit_time = db.Column(db.DateTime, nullable=False)
+    edit_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     type = db.Column(db.String(6), nullable=False)
     content = db.Column(db.Text, nullable=False)
     reason = db.Column(db.Text, nullable=False)
@@ -289,6 +289,7 @@ class Feedback(db.Model):
 
     def __repr__(self):
         return '<Feedback %r>' % self.title
+
 
 @login_manager.user_loader
 def load_user(user_id):

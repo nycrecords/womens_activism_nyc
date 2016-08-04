@@ -18,6 +18,7 @@
     <form name="input" class="form-horizontal" id="submitPost" method="post">
         <div class="lead">Title
             <div class="control-group">
+{#                ADDED CHANGES HERE #}
                 <input class="input_title" name="input_title" name="Title" maxlength="140" required>
             </div>
         </div>
@@ -25,6 +26,15 @@
             <div class="control-group">
                 <textarea id="editor1" name="editor1" required> </textarea>
             </div>
+            <div class="lead">Tags
+            <div class="dropdown">
+               <select id="tags" name="tags" required>
+                   {% for tag in tags %}
+                       <option>{{ tag.name }}</option>
+                   {% endfor %}
+               </select>
+           </div>
+           </div>
         </div>
         <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"></div> <br>
         <div id="requestButton" class="control-group">

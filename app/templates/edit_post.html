@@ -18,6 +18,12 @@
                 <input class="input_title" name="input_title" value ="{{ post.title }}" name="Title" maxlength="140" required>
             </div>
         </div>
+{#        added reason box#}
+        <div class="lead">Reason
+            <div class="control-group">
+                <input class="input_reason" name="input_reason" name="Reason" maxlength="140" required>
+            </div>
+        </div>
         <div class="lead">Content
             <div class="control-group">
                 <textarea id="editor1" name="editor1" required>{{ post.content }}</textarea>

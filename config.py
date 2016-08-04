@@ -1,47 +1,45 @@
 import os
-
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
-    SQLALCHEMY_COMMIT_ON_TEARDOWN = True
-    SQLALCHEMY_TRACK_MODIFICATIONS = True
 
-    # MAIL_SERVER = 'email-smtp.us-east-1.amazonaws.com'
-    # MAIL_USERNAME = 'AKIAI3HES27X3MSXQZEA'
-    # MAIL_PASSWORD = 'AuQQ/mTon4kIKEYl+fkow6IMC68bI7XqxgHr6nk5cVdV'
-    # MAIL_PORT = 587
-    # MAIL_USE_TLS = True
+    '''
+        SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
+    SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+    MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'localhost'
+    MAIL_PORT = os.environ.get('MAIL_PORT') or 2500
+    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') or False
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or None
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or None
+    WOMENS_MAIL_SUBJECT_PREFIX = '[Women\'s Activism NYC]'
+    WOMENS_MAIL_SENDER = 'Women\'s Activism NYC Admin <flasky@example.com>'
+    WOMENS_ADMIN = 'womensactivismnyc@gmail.com'
+    RECAPTCHA_PUBLIC_KEY = '6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH'
+    RECAPTCHA_PRIVATE_KEY = '6LetUSgYTAAAAAN1pLPLyyIFUh6rEemXczfMFT4um'
+    POSTS_PER_PAGE = 10
+    '''
+
+
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
     MAIL_USERNAME = 'womensactivismnyc@gmail.com'
-    # MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_PASSWORD = 'doris1234'
-
-    # MAIL_SENDER = "Women's Activism <sgong@records.nyc.gov>"
-    # FLAG_MAIL_ADMIN = "Women's Activism Flag<jmo@records.nyc.gov>"
     WOMENS_MAIL_SUBJECT_PREFIX = '[Womens Activism NYC]'
-    WOMENS_MAIL_SENDER = 'Womens Activism NYC Sender <womensactivismnyc@gmail.com>'
-    # WOMENS_ADMIN = os.environ.get('FLASKY_ADMIN')
-    WOMENS_ADMIN = 'Womens Activism NYC Admin <womensactivismnyc@gmail.com>'
+    WOMENS_MAIL_SENDER = 'Womens Activism NYC Admin <flasky@example.com>'
+    WOMENS_ADMIN = 'womensactivismnyc@gmail.com'
+    JIM = True
 
-    # RECAPTCHA_PUBLIC_KEY = '6LemCCYTAAAAAK99u6ze-TTRr5eXfIBnIJUUoncO'
-    # RECAPTCHA_PRIVATE_KEY = '6LemCCYTAAAAADPl7wdf5iE8yFgUKor1B8geMhlV'
-    # RECAPTCHA_USE_SSL = False
-    # RECAPTCHA_PUBLIC_KEY = 'public'
-    # RECAPTCHA_PRIVATE_KEY = 'private'
-    # RECAPTCHA_OPTIONS = {'theme': 'white'}
 
     # recaptcha key from womensactivismnyc@gmail.com
     # registered on google's recaptcha
-    RECAPTCHA_PUBLIC_KEY = '6LexECYTAAAAAFaNYELFVlBX_ARf8_4QETX9SjYK'
-    RECAPTCHA_PRIVATE_KEY = '6LexECYTAAAAAEHJZpWG41ASelOpb4VCTAtbuwLr'
 
+    RECAPTCHA_PUBLIC_KEY = '6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH'
+    RECAPTCHA_PRIVATE_KEY = '6LetUSYTAAAAAN1pLPLyyIFUh6rEemXczfMFT4um'
 
     POSTS_PER_PAGE = 10
-
 
     @staticmethod
     def init_app(app):
@@ -51,18 +49,25 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-                             'postgresql://localhost:5432/women'
-    # SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-    #                           'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
+                              'postgresql://localhost:5432/womens_activism_nyc_dev'
+
 
 class TestingConfig(Config):
     TESTING = True
-    #SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-    #                          'postgresql://localhost:5432/women'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+                              'postgresql://localhost:5432/womens_activism_nyc_test'
 
 
 class ProductionConfig(Config):
-    pass
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    MAIL_SERVER = os.environ.get('MAIL_SERVER')
+    MAIL_PORT = os.environ.get('MAIL_PORT')
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or None
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or None
+    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') or False
+    RECAPTCHA_PRIVATE_KEY = os.environ.get('RECAPTCHA_PRIVATE_KEY')
+    RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAPTCHA_PUBLIC_KEY')
 
 
 config = {

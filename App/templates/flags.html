@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}Womens Activism NYC{% endblock %}
+{% block title %}Women's Activism NYC{% endblock %}
 
 {% block page_content %}
-
 <body>
     <div class="page-header">
-        <h1>Flag a post so that a moderator can look at it</h1>
-        <h2>What was wrong with "{{post_title}}"?</h2>
+        <h1>Flagging: "{{post_title}}"</h1>
+        {% if comment_content %}
+            <h2>{{ comment_content }}</h2>
+        {% endif %}
     </div>
 
 </body>
-
 
 {{ wtf.quick_form(form) }}
 

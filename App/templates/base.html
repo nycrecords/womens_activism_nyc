@@ -1,14 +1,11 @@
 {% extends "bootstrap/base.html" %}
-
-{% block title %}Womens Activism NYC{% endblock %}
-
+{% block title %}Women's Activism NYC{% endblock %}
 {% block head %}
 {{ super() }}
 <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 <script src='https://www.google.com/recaptcha/api.js'></script>
 {% endblock %}
-
 {% block navbar %}
 <div class="navbar navbar-inverse" role="navigation">
     <div class="container">
@@ -29,9 +26,9 @@
                 <li><a href="{{ url_for('feedback.feedback') }}">Feedback</a></li>
                 <li><a href="{{ url_for('tags.tags') }}">Tags</a></li>
                 {% else %}
-                    <li><a href="{{ url_for('main.index') }}">Home</a></li>
-                    <li><a href="{{ url_for('posts.all_posts') }}">Posts</a></li>
-                    <li><a href="{{ url_for('feedback.feedback') }}">Feedback</a></li>
+                <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                <li><a href="{{ url_for('posts.all_posts') }}">Posts</a></li>
+                <li><a href="{{ url_for('feedback.feedback') }}">Feedback</a></li>
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -51,7 +48,6 @@
     </div>
 </div>
 {% endblock %}
-
 {% block content %}
 <div class="container">
     {% for message in get_flashed_messages() %}
@@ -60,13 +56,18 @@
         {{ message }}
     </div>
     {% endfor %}
-
     {% block page_content %}{% endblock %}
 </div>
 {% endblock %}
-
 {% block scripts %}
 {{ super() }}
 {{ moment.include_moment() }}
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+
+<script>
+    var myElements = document.querySelectorAll(".remove-videodetector");
+    for (var i = 0; i < myElements.length; i++) {
+        myElements[i].style.display = 'none';
+    }
+</script>
 {% endblock %}

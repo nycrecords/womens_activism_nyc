@@ -4,7 +4,7 @@ from . import auth
 from ..models import User
 from .forms import LoginForm, RegistrationForm, ChangePasswordForm, PasswordResetRequestForm, PasswordResetForm
 from .. import db
-from ..email import send_email
+from ..send_email import send_email
 from flask_login import current_user
 
 
@@ -50,7 +50,7 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(password=form.password.data, first_name=form.first_name.data, last_name=form.first_name.data,
-                    email=form.email.data, phone=form.phone.data, role_id=1)
+                    email=form.email.data, phone=form.phone.data)
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()

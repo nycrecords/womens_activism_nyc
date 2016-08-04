@@ -16,9 +16,9 @@
 <!--NEW STUFF HERE-->
 <div id="page-body">
     <form name="input" class="form-horizontal" id="submitPost" method="post">
-        <div class="lead">Title
+        <div class="lead">Activist Name
             <div class="control-group">
-                <input class="input_title" name="input_title" name="Title"
+                <input class="input_title" name="input_title" name="Activist Name"
                        maxlength="140" value="{{ post_title or '' }}" required>
             </div>
         </div>
@@ -52,9 +52,10 @@
 
 {% block scripts %}
 {{ super() }}
+
 <script src="static/ckeditor/ckeditor.js"></script>
 <script type="text/javascript">
-    CKEDITOR.replace( 'editor1' );
+    CKEDITOR.replace('editor1');
 </script>
 {<script src='https://www.google.com/recaptcha/api.js' async defer></script>
 {% endblock %}

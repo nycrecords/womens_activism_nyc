@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, current_app, flash, request
+from flask import render_template, redirect, url_for, flash, request
 from .. import db
 from ..models import *
 from . import main

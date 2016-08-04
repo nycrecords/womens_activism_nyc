@@ -1,12 +1,14 @@
 import os
 from dotenv import load_dotenv, find_dotenv
 
-load_dotenv(find_dotenv())
+#load_dotenv(find_dotenv())
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY')
+
+    """
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'localhost'
     MAIL_PORT = os.environ.get('MAIL_PORT') or 2500
@@ -16,9 +18,32 @@ class Config:
     MAIL_SUBJECT_PREFIX = os.environ.get('MAIL_SUBJECT_PREFIX') or '[Women\'s Activism NYC]'
     MAIL_SENDER = os.environ.get('MAIL_SENDER') or 'Women\'s Activism NYC Admin <flasky@example.com>'
     WOMENS_ADMIN = 'womensactivismnyc@gmail.com'
-    RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAPTCHA_PUBLIC_KEY')
-    RECAPTCHA_PRIVATE_KEY = os.environ.get('RECAPTCHA_PRIVATE_KEY')
+    RECAPTCHA_PUBLIC_KEY = '6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH'
+    RECAPTCHA_PRIVATE_KEY = '6LetUSgYTAAAAAN1pLPLyyIFUh6rEemXczfMFT4um'
     POSTS_PER_PAGE = 10
+    RECAPTCHA_ENABLED = True
+    RECAPTCHA_SITE_KEY = '6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH'
+    RECAPTCHA_SECRET_KEY = '6LetUSgYTAAAAAN1pLPLyyIFUh6rEemXczfMFT4um'
+    """
+
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
+    MAIL_SERVER = 'smtp.googlemail.com'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USERNAME = 'womensactivismnyc@gmail.com'
+    MAIL_PASSWORD = 'doris1234'
+    MAIL_SUBJECT_PREFIX = '[Womens Activism NYC]'
+    MAIL_SENDER = 'Womens Activism NYC Admin <flasky@example.com>'
+    WOMENS_ADMIN = 'womensactivismnyc@gmail.com'
+    POSTS_PER_PAGE = 10
+
+    RECAPTCHA_PUBLIC_KEY = '6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH'
+    RECAPTCHA_PRIVATE_KEY = '6LetUSYTAAAAAN1pLPLyyIFUh6rEemXczfMFT4um'
+
+    RECAPTCHA_ENABLED = True
+    RECAPTCHA_SITE_KEY = "6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"
+    RECAPTCHA_SECRET_KEY = "6LetUSYTAAAAAN1pLPLyyIFUh6rEemXczfMFT4um"
+
 
     @staticmethod
     def init_app(app):

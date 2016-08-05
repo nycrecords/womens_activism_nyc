@@ -275,6 +275,7 @@ class PostEdit(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     edit_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     type = db.Column(db.String(6), nullable=False)
+    title = db.Column(db.String(140), nullable=False)
     content = db.Column(db.Text, nullable=False)
     reason = db.Column(db.Text, nullable=False)
 

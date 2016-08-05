@@ -19,7 +19,7 @@
     <p>{{ post.content | safe }}</p>
 </div>
 <div class="time-made">
-    {% if post.just_now %}
+    {% if post.just_now() %}
     Posted: Just Now
     {% else %}
     Posted: {{ moment(post.creation_time).fromNow() }}
@@ -34,7 +34,7 @@ This post was edited
     Something wrong with this post? Tell us!
 </p1>
 <div class="post-flag">
-    <a href="{{ url_for('flags.flags', id=post.id) }}">
+    <a href="{{ url_for('flags.flag_post', id=post.id) }}">
         <span class="label label-primary">Flag</span>
     </a>
 </div>

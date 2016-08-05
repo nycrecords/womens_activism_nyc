@@ -1,4 +1,3 @@
-# TODO: Module level docstring
 from flask import Blueprint
 
 main = Blueprint('main', __name__)

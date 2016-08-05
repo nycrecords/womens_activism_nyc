@@ -42,7 +42,6 @@ class Role(db.Model):
             db.session.add(role)
         db.session.commit()
 
-
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
@@ -112,7 +111,7 @@ class Tag(db.Model):
     name = db.Column(db.String(32), nullable=False)
 
     def __repr__(self):
-        return '<Tag %r>' % self.name
+        return '<Tag %r>' % self
 
 
 class PostTag(db.Model):
@@ -294,8 +293,7 @@ class Flag(db.Model):
     __tablename__ = "flags"
     id = db.Column(db.Integer, primary_key=True)
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
-    type = db.Column(db.Enum(
-        'Offensive Content', 'Wrong Information', 'Inappropriate Content', 'Other', name='flag_types'))
+    type = db.Column(db.String(30))
     reason = db.Column(db.String(500), nullable=False)
 
     def __repr__(self):
@@ -317,6 +315,7 @@ class Feedback(db.Model):
 
     def __repr__(self):
         return '<Feedback %r>' % self.title
+
 
 @login_manager.user_loader
 def load_user(user_id):

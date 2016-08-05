@@ -71,6 +71,7 @@ class Post(db.Model):
     creation_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     is_edited = db.Column(db.Boolean, nullable=False)
     is_visible = db.Column(db.Boolean, nullable=False)
+    comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
     def __repr__(self):
         return '<Post %r>' % self.title
@@ -143,9 +144,18 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"), nullable=False)
     content = db.Column(db.String(750), nullable=False)
-    creation_time = db.Column(db.DateTime,  nullable=False)
-    is_edited = db.Column(db.Boolean, nullable=False)
-    is_visible = db.Column(db.Boolean, nullable=False)
+    creation_time = db.Column(db.DateTime,  nullable=False, default=datetime.utcnow())
+    is_edited = db.Column(db.Boolean, nullable=False, default=False)
+    is_visible = db.Column(db.Boolean, nullable=False, default=True)
+
+    def just_now(self):
+        a = datetime.utcnow()
+        b = self.creation_time
+        difference = a - b
+        difference_in_minutes = difference / timedelta(minutes=1)
+        if difference_in_minutes < 5:
+            return True
+        return False
 
     def __repr__(self):
         return '<Comment %r>' % self.id

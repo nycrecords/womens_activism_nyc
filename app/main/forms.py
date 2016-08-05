@@ -9,3 +9,9 @@ class PostForm(Form):
     content = PageDownField("What's on your mind?", validators=[DataRequired("Body can't be left blank")])
     recaptcha = RecaptchaField()
     submit = SubmitField('submit')
+
+
+class Comment(Form):
+    content = StringField('Comment', validators=[DataRequired("Comment can't be left blank")])
+    submit = SubmitField('submit')
+

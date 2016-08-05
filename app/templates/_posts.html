@@ -12,10 +12,8 @@
 </head>
 
 <body>
-
     <ul class="posts">
         {% for post in posts %}
-
         <li class="post">
             <div class="post-content">
                 <div class="post-date">
@@ -28,17 +26,15 @@
                 <div class="post-title"> <b>{{ post.title }}</b> </div>
                 <div class="post-content">
                         {{ post.content | safe}}
-{#                    #{ % if post.content_html %}#}
-{##{{post.content_html | safe}}#}
-{##{ % else %}#}
-{##{{post.content}}#}
-{##{ % endif %}#}
                 </div> <br>
             </div>
 
-            <div class="post-redirect">
+            <div class="post-footer1">
                 <a href="{{ url_for('posts.posts', id=post.id) }}">
-                    <span class="label label-primary">Link</span>
+                    <span class="label label-primary">View Post</span>
+                </a>
+                <a href="{{ url_for('posts.posts', id=post.id) }}#comments">
+                    <span class="label label-primary">{{ post.comments.count() }} Comments</span>
                 </a>
             </div>
             <br>
@@ -46,12 +42,11 @@
             <p1>
                 Something wrong with this post? Tell us!
             </p1>
-            <div class="post-footer1">
+            <div class="post-footer2">
                 <a href="{{ url_for('flags.flags', id=post.id) }}">
                     <span class="label label-primary">Flag</span>
                 </a>
             </div>
-            <br>
             <p2>
                 Like this post? Share it with friends!
             </p2>

@@ -26,6 +26,16 @@
                 <textarea id="editor1" name="editor1" required></textarea>
             </div>
         </div>
+        <div class="'lead">Tags
+            <div class="'dropdown">
+                <select id="tags" name="tags" required>
+                    {% for tag in tags %}
+                        {{ tag.name }}
+                        <option>{{ tag.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
         <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"></div> <br>
         <div id="requestButton" class="control-group">
             <div>

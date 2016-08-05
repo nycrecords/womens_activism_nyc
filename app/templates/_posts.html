@@ -8,62 +8,58 @@
 </head>
 
 <body>
-
     <ul class="posts">
         {% for post in posts %}
-
-        <li class="post">
-            <div class="post-content">
-                <div class="post-date">
-                    {%  if post.just_now %}
-                        Just Now
-                    {%  else %}
-                        {{ moment(post.creation_time).fromNow() }}
-                    {% endif %}
-                </div>
-                <div class="post-title"> <b>{{ post.title }}</b> </div>
+            <li class="post">
                 <div class="post-content">
-                        {{ post.content | safe}}
+                    <div class="post-date">
+                        {%  if post.just_now() %}
+                            Just Now
+                        {%  else %}
+                            {{ moment(post.creation_time).fromNow() }}
+                        {% endif %}
+                    </div>
+                    <div class="post-title"> <b>{{ post.title }}</b> </div>
+                    <div class="post-content">
+                            {{ post.content | safe}}
+                    </div>
                 </div>
-            </div>
-            <br>
+                <br>
 
-            <div class="post-redirect">
-                <a href="{{ url_for('posts.posts', id=post.id) }}">
-                    <span class="label label-primary">Link</span>
-                </a>
-            </div>
-            <br>
+                <div class="post-redirect">
+                    <a href="{{ url_for('posts.posts', id=post.id) }}">
+                        <span class="label label-primary">Link</span>
+                    </a>
+                </div>
+                <br>
 
-            <p1>
-                Something wrong with this post? Tell us!
-            </p1>
-            <div class="post-flag">
-                <a href="{{ url_for('flags.flags', id=post.id) }}">
-                    <span class="label label-primary">Flag</span>
-                </a>
-            </div>
-            <br>
-            <p2>
-                Like this post? Share it with friends!
-            </p2>
-            <div id="share-buttons">
-                <!-- Facebook -->
-                <a href="http://www.facebook.com/sharer.php?u={{ url_for('posts.posts', id=post.id, _external=True) }}" target="_blank">
-                    <img src="../static/facebook_icon.png" alt="Facebook" width="32" height="32" />
-                </a>
-                <!-- Tumblr-->
-                <a href="http://www.tumblr.com/share/link?url={{ url_for('posts.posts', id=post.id, _external=True) }}&name={{ post.title }}&description=WomensActivismNYC" target="_blank">
-                    <img src="../static/tumblr_icon.png" alt="Tumblr" width="32" height="32" />
-                </a>
-                <!-- Twitter -->
-                <a href="https://twitter.com/share?url={{ url_for('posts.posts', id=post.id, _external=True) }}&text={{ post.title }}&hashtags=WomensActivismNYC" target="_blank">
-                    <img src="../static/twitter_icon.png" alt="Twitter" width="32" height="32" />
-                </a>
-            </div>
-        </li>
-
+                <p1>
+                    Something wrong with this post? Tell us!
+                </p1>
+                <div class="post-flag">
+                    <a href="{{ url_for('flags.flag_post', id=post.id) }}">
+                        <span class="label label-primary">Flag</span>
+                    </a>
+                </div>
+                <br>
+                <p2>
+                    Like this post? Share it with friends!
+                </p2>
+                <div id="share-buttons">
+                    <!-- Facebook -->
+                    <a href="http://www.facebook.com/sharer.php?u={{ url_for('posts.posts', id=post.id, _external=True) }}" target="_blank">
+                        <img src="../static/facebook_icon.png" alt="Facebook" width="32" height="32" />
+                    </a>
+                    <!-- Tumblr-->
+                    <a href="http://www.tumblr.com/share/link?url={{ url_for('posts.posts', id=post.id, _external=True) }}&name={{ post.title }}&description=WomensActivismNYC" target="_blank">
+                        <img src="../static/tumblr_icon.png" alt="Tumblr" width="32" height="32" />
+                    </a>
+                    <!-- Twitter -->
+                    <a href="https://twitter.com/share?url={{ url_for('posts.posts', id=post.id, _external=True) }}&text={{ post.title }}&hashtags=WomensActivismNYC" target="_blank">
+                        <img src="../static/twitter_icon.png" alt="Twitter" width="32" height="32" />
+                    </a>
+                </div>
+            </li>
         {% endfor %}
-    </ul>
-
+        </ul>
 </body>

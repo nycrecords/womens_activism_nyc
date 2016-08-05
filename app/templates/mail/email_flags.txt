@@ -1,3 +1,6 @@
 Post title: {{ post_title }}
+if comment_content:
+    Comment Content: {{ comment_content }}
+endif
 Flag reason: {{ reason }}
 Flag description: {{ description }}

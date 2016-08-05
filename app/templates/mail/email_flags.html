@@ -6,6 +6,9 @@
 </head>
 <body>
     Post Title: {{ post_title }}<br>
+    {% if comment_content %}
+        Comment Content: {{ comment_content }}
+    {% endif %}
     Flag Reason: {{ reason }}<br>
     Flag Description: {{ description }}
 </body>

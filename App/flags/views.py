@@ -18,10 +18,12 @@ send_email() function defined in app/send_email.py used to send email to recipie
 """
 from flask import render_template, redirect, url_for, current_app, flash
 from .. import db
+from ..db_helpers import put_obj
 from ..models import Flag, Post, Comment
 from ..send_email import send_email
 from . import flags
 from .forms import FlagsForm
+
 
 
 @flags.route('/flag/posts/<int:id>', methods=['GET', 'POST'])
@@ -46,10 +48,7 @@ def flag_post(id):
             flag_post = Flag(post_id=post.id,
                              type=form.flag_reason.data,
                              reason=form.flag_description.data)
-            db.session.add(flag_post)
-            db.session.commit()
-            current_app.logger.info(
-                "Flag_reason: {}\nFlag_description: {}".format(form.flag_reason.data, form.flag_description.data))
+            put_obj(flag_post)
             send_email(to=current_app.config['WOMENS_ADMIN'], subject='Flagged Post',template='mail/email_flags',
                        post_title=post_title, reason=flag_post.type, description=flag_post.reason)
             return redirect(url_for('main.index'))

@@ -33,9 +33,9 @@
                 <a href="{{ url_for('posts.posts', id=post.id) }}">
                     <span class="label label-primary">View Post</span>
                 </a>
-                <a href="{{ url_for('posts.posts', id=post.id) }}#comments">
+                <div>
                     <span class="label label-primary">{{ post.comments.count() }} Comments</span>
-                </a>
+                </div>
             </div>
             <br>
 

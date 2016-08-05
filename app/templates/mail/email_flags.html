@@ -5,11 +5,29 @@
     <title>Flag Form</title>
 </head>
 <body>
+
+    <p>Notice [Women's Activism NYC]: <b>Flagged Content</b>!</p>
+
+    <p>
     Post Title: {{ post_title }}<br>
     {% if comment_content %}
         Comment Content: {{ comment_content }}
+        <br>
     {% endif %}
     Flag Reason: {{ reason }}<br>
-    Flag Description: {{ description }}
+    Flag Description: {{ description }}<br>
+    </p>
+
+    <p>To view the post please <a href="{{ url_for('posts.posts', id=post.id, _external=True) }}">click here</a>.<br>
+    Alternatively, you can paste the following link in your browser's address bar:<br>
+    {{ url_for('posts.posts', id=post.id, _external=True) }}
+    </p>
+
+    <p>
+    Sincerely,<br>
+    Women's Activism NYC<br>
+    <small>Note: replies to this email address are not monitored.</small>
+    </p>
+
 </body>
 </html>

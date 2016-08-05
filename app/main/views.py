@@ -29,6 +29,7 @@ def index(data=None):
         else:
             title = request.form['input_title']
             content = request.form['editor1']
+
             post = Post(title=title, content=content, is_edited=False, is_visible=True)
             db.session.add(post)
             db.session.commit()

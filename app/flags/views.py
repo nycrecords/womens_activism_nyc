@@ -25,7 +25,6 @@ from . import flags
 from .forms import FlagsForm
 
 
-
 @flags.route('/flag/posts/<int:id>', methods=['GET', 'POST'])
 def flag_post(id):
     """
@@ -49,12 +48,14 @@ def flag_post(id):
                              type=form.flag_reason.data,
                              reason=form.flag_description.data)
             put_obj(flag_post)
-            send_email(to=current_app.config['WOMENS_ADMIN'], subject='Flagged Post',template='mail/email_flags',
-                       post_title=post_title, reason=flag_post.type, description=flag_post.reason)
+
+            send_email(to=current_app.config['WOMENS_ADMIN'], subject='Flagged Post', template='mail/email_flags',
+                       post_title=post_title, post=post, reason=flag_post.type, description=flag_post.reason)
             return redirect(url_for('main.index'))
     return render_template('flags.html', form=form, post_title=post_title)
 
 
+################## NOT USED UNTIL COMMENTS ARE IMPLEMENTED #####################
 # @flags.route('/flag/posts/<int:id>/comments/<int:id2>', methods=['GET', 'POST'])
 # def flag_comment(id, id2):
 #     post = Post.query.get_or_404(id)

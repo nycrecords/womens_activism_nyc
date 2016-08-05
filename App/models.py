@@ -42,7 +42,6 @@ class Role(db.Model):
             db.session.add(role)
         db.session.commit()
 
-
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
@@ -112,7 +111,7 @@ class Tag(db.Model):
     name = db.Column(db.String(32), nullable=False)
 
     def __repr__(self):
-        return '<Tag %r>' % self.name
+        return '<Tag %r>' % self
 
 
 class PostTag(db.Model):

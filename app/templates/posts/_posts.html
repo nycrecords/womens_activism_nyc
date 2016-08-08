@@ -53,20 +53,22 @@
                 <div id="share-buttons">
                     <!-- Facebook -->
                     <a href="http://www.facebook.com/sharer.php?u={{ url_for('posts.posts', id=post.id, _external=True) }}" target="_blank">
-                        <img src="../static/facebook_icon.png" alt="Facebook" width="32" height="32" />
+                        <img src="../../static/facebook_icon.png" alt="Facebook" width="32" height="32" />
                     </a>
                     <!-- Tumblr-->
                     <a href="http://www.tumblr.com/share/link?url={{ url_for('posts.posts', id=post.id, _external=True) }}&name={{ post.title }}&description=WomensActivismNYC" target="_blank">
-                        <img src="../static/tumblr_icon.png" alt="Tumblr" width="32" height="32" />
+                        <img src="../../static/tumblr_icon.png" alt="Tumblr" width="32" height="32" />
                     </a>
                     <!-- Twitter -->
                     <a href="https://twitter.com/share?url={{ url_for('posts.posts', id=post.id, _external=True) }}&text={{ post.title }}&hashtags=WomensActivismNYC" target="_blank">
-                        <img src="../static/twitter_icon.png" alt="Twitter" width="32" height="32" />
+                        <img src="../../static/twitter_icon.png" alt="Twitter" width="32" height="32" />
+                    </a>
+                    <!-- LinkedIn -->
+                    <a href="http://www.linkedin.com/shareArticle?url={{ url_for('posts.posts', id=post.id, _external=True) }}&title={{ post.title }}" target="_blank">
+                        <img src="'../../static/linkedin_icon.png" alt="LinkedIn" width="32" height="32" />
                     </a>
                 </div>
         </li>
-
         {% endfor %}
     </ul>
-
 </body>

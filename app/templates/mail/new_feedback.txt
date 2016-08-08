@@ -1,3 +1,10 @@
-New feedback from {{feedback.email}}
-Subject: {{feedback.title}}
-Reason: {{feedback.reason}}
+Notice [Women's Activism NYC]: General Feedback!
+
+
+Subject: {{ feedback.title }}
+Reason: {{ feedback.reason }}
+Feedback from: {{ feedback.email }}
+
+Sincerely,
+Women's Activism NYC
+Note: replies to this email address are not monitored.

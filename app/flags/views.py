@@ -46,7 +46,7 @@ def flag_post(id):
         if (form.flag_reason.data == "Other") and (len(form.flag_description.data) < 50):
             flash('Reason "Other" requires a description of 50 or more characters.')
             flash('Please resubmit your flag ticket.')
-            return render_template('flags.html', form=form, post_title=post_title)
+            return render_template('flags/flags.html', form=form, post_title=post_title)
         else:
             flash('Thank you for your input, a moderator has been notified.')
             flag_post = Flag(post_id=post.id,
@@ -56,7 +56,7 @@ def flag_post(id):
             send_email(to=current_app.config['WOMENS_ADMIN'], subject='Flagged Post', template='mail/email_flags',
                        post_title=post_title, post=post, reason=flag_post.type, description=flag_post.reason)
             return redirect(url_for('main.index'))
-    return render_template('flags.html', form=form, post_title=post_title)
+    return render_template('flags/flags.html', form=form, post_title=post_title)
 
 
 ################## NOT USED UNTIL COMMENTS ARE IMPLEMENTED #####################

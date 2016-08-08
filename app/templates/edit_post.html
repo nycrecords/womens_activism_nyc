@@ -1,24 +1,17 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}Womens Activism - Edit Post{% endblock %}
+{% block title %}Women's Activism NYC - Edit Post{% endblock %}
 {% block page_content %}
 <div class="page-header">
     <h1>Edit Post</h1>
-{#<div>#}
-{#    {{ wtf.quick_form(form) }}#}
-{##}
-{#</div>#}
-<!--NEW STUFF HERE-->
 
 <div id="page-body">
     <form name="input" class="form-horizontal" id="submitPost" method="post">
         <div class="lead">Title
-
             <div class="control-group">
                 <input class="input_title" name="input_title" value ="{{ post.title }}" name="Title" maxlength="140" required>
             </div>
         </div>
-{#        added reason box#}
         <div class="lead">Reason
             <div class="control-group">
                 <input class="input_reason" name="input_reason" name="Reason" maxlength="140" required>
@@ -41,8 +34,6 @@
 </div>
     <br>
 </div>
-
-
 
 {% endblock %}
 

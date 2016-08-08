@@ -4,11 +4,15 @@
 
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='index.css') }}"/>
 
-
 {% block title %}Womens Activism NYC{% endblock %}
 
 {% block page_content %}
-
+    {% block view_stories %}
+        {{ super() }}
+    {% endblock %}
+    {% block test %}
+        test
+    {% endblock %}
 <div class="page-header">
     <h1>Welcome</h1>
 </div>
@@ -63,16 +67,6 @@
     {% endif %}
 {% endblock %}
 
-{% block scripts %}
-    {{ super() }}
-
-    # Additional scripts here
-    <script src="static/ckeditor/ckeditor.js"></script>
-    <script type="text/javascript">
-        CKEDITOR.replace( 'editor1' );
-    </script>
-{% endblock %}
-
 {% block hear_our_story %}
     {% include "_hear_our_story.html" %}
 {% endblock %}
@@ -107,4 +101,12 @@
 
 {% block footer %}
     {% include "_footer.html" %}
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="static/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript">
+        CKEDITOR.replace( 'editor1' );
+    </script>
 {% endblock %}

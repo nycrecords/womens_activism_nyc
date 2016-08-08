@@ -1,12 +1,21 @@
 {% extends "bootstrap/base.html" %}
+
 {% block title %}Women's Activism NYC{% endblock %}
+
 {% block head %}
     {{ super() }}
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <script src='https://www.google.com/recaptcha/api.js'></script>
 {% endblock %}
+
 {% block navbar %}
+
+    {% block header_icon %}
+        Hello, World!
+    {% endblock %}
+
+    {% block header_navbar %}
     <div class="navbar navbar-inverse" role="navigation">
         <div class="container">
             <div class="navbar-header">
@@ -49,7 +58,10 @@
             </div>
         </div>
     </div>
+    {% endblock %}
+
 {% endblock %}
+
 {% block content %}
     <div class="container">
         {% for message in get_flashed_messages() %}
@@ -58,9 +70,12 @@
                 {{ message }}
             </div>
         {% endfor %}
-        {% block page_content %}{% endblock %}
+
+        {% block page_content %}
+        {% endblock %}
     </div>
 {% endblock %}
+
 {% block scripts %}
     {{ super() }}
     {{ moment.include_moment() }}
@@ -71,10 +86,4 @@
             myElements[i].style.display = 'none';
         }
     </script>
-    {% block view_stories %}
-    {% endblock %}
-    {% block view_story %}
-    {% endblock %}
-
 {% endblock %}
-

@@ -45,7 +45,6 @@ class Config:
     RECAPTCHA_SITE_KEY = "6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"
     RECAPTCHA_SECRET_KEY = "6LetUSYTAAAAAN1pLPLyyIFUh6rEemXczfMFT4um"
 
-
     @staticmethod
     def init_app(app):
         pass

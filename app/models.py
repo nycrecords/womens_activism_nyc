@@ -25,7 +25,7 @@ class Role(db.Model):
     Specifies the properties of a role. The roles table is used to create roles such as Administrator
     and Agency User, and Poster. The roles table is linked to users table
     Poster has no permissions
-    Administrator has al permissions
+    Administrator has all permissions
     """
 
     @staticmethod
@@ -36,6 +36,7 @@ class Role(db.Model):
             'User': (Permission.MODERATE_COMMENTS |
                      Permission.MODERATE_POST |
                      Permission.MODERATE_TAGS, False),
+
             'Administrator': (0xff, False)
         }
         for r in roles:
@@ -117,20 +118,6 @@ class Post(db.Model):
         return False
 
 
-class Event(db.Model):
-
-    """
-    Specifies the properties of a event created by an Admin
-    Events will have a title, description, and date stored in the database
-    """
-
-    __tablename__ = "events"
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(50), nullable=False)
-    description = db.Column(db.String(1000), nullable=False)
-    event_date = db.Column(db.DateTime, nullable = False)
-
-
 class Tag(db.Model):
 
     """
@@ -143,7 +130,7 @@ class Tag(db.Model):
     name = db.Column(db.String(32), nullable=False)
 
     def __repr__(self):
-        return '<Tag %r>' % self.name
+        return '<Tag %r>' % self
 
 
 class PostTag(db.Model):
@@ -361,6 +348,7 @@ class Feedback(db.Model):
 
     def __repr__(self):
         return '<Feedback %r>' % self.title
+
 
 @login_manager.user_loader
 def load_user(user_id):

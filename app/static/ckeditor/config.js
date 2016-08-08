@@ -60,7 +60,7 @@ CKEDITOR.editorConfig = function( config ) {
 
     // Maximum allowed Char Count, -1 is default for unlimited
     maxCharCount: 5000,
-
+		
     // Add filter to add or remove element before counting (see CKEDITOR.htmlParser.filter), Default value : null (no filter)
     filter: new CKEDITOR.htmlParser.filter({
         elements: {

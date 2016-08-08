@@ -1,60 +1,73 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
 
 {% block title %}Women's Activism NYC{% endblock %}
 
-<style type="text/css">
-    A {text-decoration: none}
-    #share-buttons img {
-        display: inline;
-    }
-</style>
-
 {% block page_content %}
-<body>
-<div class="page-header">
-    <h1>{{ post.title }}</h1>
-</div>
-<div class="page-body">
-    <p>{{ post.content | safe }}</p>
-</div>
-<div class="time-made">
-    {% if post.just_now() %}
-    Posted: Just Now
-    {% else %}
-    Posted: {{ moment(post.creation_time).fromNow() }}
-    {% endif %}
-</div>
-{% if post.is_edited == True %}
-This post was edited
-{% endif %}
+    <ul class="posts">
+        {% for post in posts %}
+        <li class="post">
+            <div class="post-content">
+                <div class="post-date">
+                    {%  if post.just_now() %}
+                        Just Now
+                    {%  else %}
+                        {{ moment(post.creation_time).fromNow() }}
+                    {% endif %}
+                </div>
+                <div class="post-title"> <b>{{ post.title }}</b> </div>
+                <div class="post-content">
+                        {{ post.content | safe}}
+                </div> <br>
+            </div>
 
-<br> <br>
-<p1>
-    Something wrong with this post? Tell us!
-</p1>
-<div class="post-flag">
-    <a href="{{ url_for('flags.flag_post', id=post.id) }}">
-        <span class="label label-primary">Flag</span>
-    </a>
+            <div class="post-footer1">
+                <a href="{{ url_for('posts.posts', id=post.id) }}#comments">
+                    <span class="label label-primary">{{ post.comments.count() }} Comments</span>
+                </a>
+            </div>
+            <br>
+
+            <p1>
+                Something wrong with this post? Tell us!
+            </p1>
+            <div class="post-footer2">
+                <a href="{{ url_for('flags.flag_post', id=post.id) }}">
+                    <span class="label label-primary">Flag</span>
+                </a>
+            </div>
+            <p2>
+                Like this post? Share it with friends!
+            </p2>
+            <div id="share-buttons">
+                <!-- Facebook -->
+                <a href="http://www.facebook.com/sharer.php?u={{ url_for('posts.posts', id=post.id, _external=True) }}" target="_blank">
+                    <img src="../static/facebook_icon.png" alt="Facebook" width="32" height="32" />
+                </a>
+                <!-- Tumblr-->
+                <a href="http://www.tumblr.com/share/link?url={{ url_for('posts.posts', id=post.id, _external=True) }}&name={{ post.title }}&description=WomensActivismNYC" target="_blank">
+                    <img src="../static/tumblr_icon.png" alt="Tumblr" width="32" height="32" />
+                </a>
+                <!-- Twitter -->
+                <a href="https://twitter.com/share?url={{ url_for('posts.posts', id=post.id, _external=True) }}&text={{ post.title }}&hashtags=WomensActivismNYC" target="_blank">
+                    <img src="../static/twitter_icon.png" alt="Twitter" width="32" height="32" />
+                </a>
+            </div>
+        </li>
+
+        {% endfor %}
+    </ul>
+
+<h4 id="comments">Comments</h4>
+<div class="comment-form">
+    {{ wtf.quick_form(form) }}
 </div>
-<br>
-<p2>
-    Like this post? Share it with friends!
-</p2>
-<div id="share-buttons">
-    <!-- Facebook -->
-    <a href="http://www.facebook.com/sharer.php?u={{ url_for('posts.posts', id=post.id, _external=True) }}" target="_blank">
-        <img src="../static/facebook_icon.png" alt="Facebook" width="32" height="32" />
-    </a>
-    <!-- Tumblr-->
-    <a href="http://www.tumblr.com/share/link?url={{ url_for('posts.posts', id=post.id, _external=True) }}&name={{ post.title }}&description=WomensActivismNYC" target="_blank">
-        <img src="../static/tumblr_icon.png" alt="Tumblr" width="32" height="32" />
-    </a>
-    <!-- Twitter -->
-    <a href="https://twitter.com/share?url={{ url_for('posts.posts', id=post.id, _external=True) }}&text={{ post.title }}&hashtags=WomensActivismNYC" target="_blank">
-        <img src="../static/twitter_icon.png" alt="Twitter" width="32" height="32" />
-    </a>
+{% include '_comments.html' %}
+{% if pagination %}
+<div class="pagination">
+{#    {{ macros.pagination_widget(pagination, 'posts.posts', fragment='#comments', id=posts[0].id) }}#}
+    {{ macros.pagination_widget(pagination, 'posts.posts', id=posts[0].id) }}
 </div>
-</body>
+{% endif %}
 {% endblock %}

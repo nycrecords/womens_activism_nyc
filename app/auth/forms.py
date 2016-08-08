@@ -1,11 +1,21 @@
+"""
+Modules used for auth/forms.py
+flask_wtf: wrapper class for WTForms
+WTForms: used to create web forms for Users
+WTForms.validators: used to validate the fields in the
+..models: import User table from models.py
+"""
 from flask_wtf import Form
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, ValidationError
 from wtforms.validators import DataRequired, Length, Email, EqualTo
-from wtforms import ValidationError
 from ..models import User
 
 
 class LoginForm(Form):
+    """
+    WTForm used for users to login to their accounts
+    users log in with their email and have an option to stay logged in with remember_me
+    """
     email = StringField('Email', validators=[DataRequired(), Length(1, 64), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Keep me logged in')
@@ -13,6 +23,11 @@ class LoginForm(Form):
 
 
 class RegistrationForm(Form):
+    """
+    WTForm used for new users to register accounts
+    the data from this form will be passed in to create a User object from models
+    """
+
     first_name = StringField('First Name', validators=[DataRequired(), Length(1,30)])
     last_name = StringField('Last Name', validators=[DataRequired(), Length(1, 30)])
     email = StringField('Email', validators=[DataRequired(), Length(1, 64), Email()])
@@ -24,6 +39,12 @@ class RegistrationForm(Form):
 
 
     def validate_email(self, field):
+        """
+        function used to check if the email the user is using is already registered in the database
+
+        :param field: the email field from the RegistrationForm
+        :return: A validation message if the email is already registered in the database
+        """
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('Email already registered.')
 
@@ -56,6 +77,10 @@ class RegistrationForm(Form):
 
 
 class ChangePasswordForm(Form):
+    """
+    WTForm used for users to change their existing password, only visible when a user is logged in
+    Users enter their old password and the new password they want to change it to
+    """
     old_password = PasswordField('Old password', validators=[DataRequired()])
     password = PasswordField('New password', validators=[
         DataRequired(), EqualTo('password2', message='Passwords must match')])
@@ -64,12 +89,20 @@ class ChangePasswordForm(Form):
 
 
 class PasswordResetRequestForm(Form):
+    """
+    WTForm used for a user to request a password reset
+    an email will be sent to the user if their email is valid
+    """
     email = StringField('Email', validators=[DataRequired(), Length(1, 64),
                                              Email()])
     submit = SubmitField('Reset Password')
 
 
 class PasswordResetForm(Form):
+    """
+    WTForm used to reset their password
+    user will enter their email to verify their account and then their newly selected password
+    """
     email = StringField('Email', validators=[DataRequired(), Length(1, 64),
                                              Email()])
     password = PasswordField('New Password', validators=[

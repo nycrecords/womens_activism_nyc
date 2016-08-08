@@ -5,18 +5,19 @@ flask_wtf:
 wtforms:
     used SelectField for drop down list of options
     used TextAreaField for area for user's explanation
+    used SubmitField for submit button
 wtforms.validators:
     used Length to verify the length maximum of 500 characters
 flask_wtf.recaptcha:
-    used RecaptchaField for Recaptcha verificiation of form submission
-..utils:
+    used RecaptchaField for Recaptcha verification of form submission
+app.utils:
     used flag_choices list to populate the drop down menu
 """
 from flask_wtf import Form
 from wtforms import SelectField, SubmitField, TextAreaField
 from wtforms.validators import Length
 from flask_wtf.recaptcha import RecaptchaField
-from ..utils import flag_choices
+from app.utils import flag_choices
 
 
 class FlagsForm(Form):

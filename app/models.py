@@ -29,6 +29,7 @@ class Post(db.Model):
     creation_time = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     is_edited = db.Column(db.Boolean, nullable=False)
     is_visible = db.Column(db.Boolean, nullable=False)
+    version = db.Column(db.Integer, default=1)
 
     def __repr__(self):
         return '<Post %r>' % self.title
@@ -247,8 +248,11 @@ class PostEdit(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     edit_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     type = db.Column(db.String(6), nullable=False)
+    title = db.Column(db.String(140))
     content = db.Column(db.Text, nullable=False)
     reason = db.Column(db.Text, nullable=False)
+    version = db.Column(db.Integer, default=1)
+
 
     def __repr__(self):
         return '<Edit %r>' % self.id

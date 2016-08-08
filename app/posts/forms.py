@@ -9,3 +9,7 @@ class PostForm(Form):
     content = TextAreaField("What's on your mind?", validators=[DataRequired("Body can't be left blank")])
     recaptcha = RecaptchaField()
     submit = SubmitField('submit')
+
+
+class DeleteForm(Form):
+    submit = SubmitField('submit')

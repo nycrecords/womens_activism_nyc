@@ -17,4 +17,3 @@ def put_obj(obj):
         current_app.logger.info("\n\nCommitted object to database: %s" % obj)
         return True
     return False
-

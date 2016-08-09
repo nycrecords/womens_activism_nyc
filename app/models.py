@@ -8,6 +8,8 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from flask_login import UserMixin
 from datetime import datetime, timedelta
+from markdown import markdown
+import bleach
 
 
 class Permission:
@@ -130,7 +132,7 @@ class Tag(db.Model):
     name = db.Column(db.String(32), nullable=False)
 
     def __repr__(self):
-        return '<Tag %r>' % self
+        return '<Tag %r>' % self.name
 
 
 class PostTag(db.Model):
@@ -199,6 +201,22 @@ class CommentEdit(db.Model):
 
     def __repr__(self):
         return '<Edit %r>' % self.id
+
+
+class Role(db.Model):
+
+    """
+    Specifies the properties of a role. The roles table is used to create roles such as Administrator
+    and Agency Use. The roles table is linked to users table
+    """
+
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    users = db.relationship('User', backref='user_role', lazy='dynamic')
+
+    def __repr__(self):
+        return '<Role %r>' % self.name
 
 
 class User(UserMixin, db.Model):

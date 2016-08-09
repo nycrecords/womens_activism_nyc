@@ -8,3 +8,7 @@ class CommentForm(Form):
     content = TextAreaField('Enter your comment', validators=[DataRequired("Comment can't be left blank")])
     recaptcha = RecaptchaField()
     submit = SubmitField('submit')
+
+
+class DeleteForm(Form):
+    submit = SubmitField('submit')

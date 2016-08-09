@@ -4,7 +4,6 @@
 
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='index.css') }}"/>
 
-
 {% block title %}Women's Activism NYC{% endblock %}
 
 {% block page_content %}
@@ -12,7 +11,7 @@
 <div class="page-header">
     <h1>Share Your Activist Story</h1>
 </div>
-<div>
+<div> <!-- <-- THAT DIV LOOKS VERY UNECESSARY -->
 <!--NEW STUFF HERE-->
 <div id="page-body">
     <form name="input" class="form-horizontal" id="submitPost" method="post">
@@ -22,21 +21,23 @@
                        maxlength="140" value="{{ post_title or '' }}" required>
             </div>
         </div>
+
         <div class="lead">Content
             <div class="control-group">
                 <textarea id="editor1" name="editor1" required>{{ post_content or '' }}</textarea>
             </div>
-        </div>
-        <div class="'lead">Tags
-            <div class="'dropdown">
-                <select id="tags" name="tags" required>
-                    {% for tag in tags %}
-                        {{ tag.name }}
-                        <option>{{ tag.name }}</option>
-                    {% endfor %}
-                </select>
+
+            <div class="lead">Tags
+                <div class="dropdown">
+                   <select id="tags" name="tags" required>
+                       {% for tag in tags %}
+                           <option>{{ tag.name }}</option>
+                       {% endfor %}
+                   </select>
+                </div>
             </div>
         </div>
+
         <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"></div> <br>
         <div id="requestButton" class="control-group">
             <div>
@@ -52,20 +53,55 @@
     <h2>Recent Posts</h2>
 </div>
 
-{% include 'posts/_posts.html' %}
-{% if pagination %}
-<div class="pagination">
-    {{ macros.pagination_widget(pagination, '.index') }}
-</div>
-{% endif %}
+{% include '_posts.html' %}
+    {% if pagination %}
+        <div class="pagination">
+            {{ macros.pagination_widget(pagination, '.index') }}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block hear_our_story %}
+    {% include "_hear_our_story.html" %}
+{% endblock %}
+
+{% block share_your_story %}
+    {% include "_share_your_story.html" %}
+{% endblock %}
+
+{% block submit_share_story %}
+    {% include "_submit_share_story.html" %}
+{% endblock %}
+
+{% block attend_our_events %}
+    {% include "_attend_our_events.html" %}
+{% endblock %}
+
+{% block give %}
+    {% include "_give.html" %}
+{% endblock %}
+
+{% block quote1 %}
+    {% include "_quote1.html" %}
+{% endblock %}
+
+{% block quote2 %}
+    {% include "_quote2.html" %}
+{% endblock %}
+
+{% block take_action_now %}
+    {% include "_take_action_now.html" %}
+{% endblock %}
+
+{% block footer %}
+    {% include "_footer.html" %}
 {% endblock %}
 
 {% block scripts %}
-{{ super() }}
-
-<script src="static/ckeditor/ckeditor.js"></script>
-<script type="text/javascript">
-    CKEDITOR.replace('editor1');
-</script>
-{<script src='https://www.google.com/recaptcha/api.js' async defer></script>
+    {{ super() }}
+    <script src="static/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript">
+        CKEDITOR.replace( 'editor1' );
+    </script>
+    {<script src='https://www.google.com/recaptcha/api.js' async defer></script>
 {% endblock %}

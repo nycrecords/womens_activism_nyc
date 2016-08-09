@@ -1,7 +1,8 @@
-from flask import render_template, redirect, url_for, flash, request
+from flask import render_template, redirect, url_for, current_app, flash, request
 from .. import db
 from ..models import *
-from . import main
+from app.main import main
+from app.db_helpers import put_obj
 from .. import recaptcha
 
 
@@ -19,10 +20,12 @@ def index(data=None):
     if data or request.method == 'POST':
         if request.form['input_title'] == '':
             if request.form['editor1'] == '':
-                return render_template('index.html', posts=posts, pagination=pagination, tags=tags)
+                flash('Please enter a title.')
+                flash('Please enter content.')
+                return render_template('index.html', tags=tags, posts=posts, pagination=pagination)
             else:
                 flash('Please enter a title.')
-                return render_template('index.html', posts=posts, pagination=pagination, tags=tags)
+                return render_template('index.html', tags=tags, posts=posts, pagination=pagination)
         elif request.form['editor1'] == '':
             flash('Please enter content.')
             return render_template('index.html', posts=posts, pagination=pagination, tags=tags)
@@ -35,8 +38,7 @@ def index(data=None):
             content = request.form['editor1']
 
             post = Post(title=title, content=content, is_edited=False, is_visible=True)
-            db.session.add(post)
-            db.session.commit()
+            put_obj(post)
             flash('Post submitted!')
             return redirect(url_for('.index'))
     return render_template('index.html', posts=posts, pagination=pagination, tags=tags)

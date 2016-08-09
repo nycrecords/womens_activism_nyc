@@ -41,3 +41,12 @@ def index(data=None):
     return render_template('index.html', postedit=postedit, posts=posts, pagination=pagination, tags=tags)
 
 
+@main.route('/about', methods=['GET', 'POST'])
+def about():
+    return render_template('about.html')
+
+
+@main.route('/archive', methods=['GET', 'POST'])
+def archive():
+    return render_template('archive.html')
+

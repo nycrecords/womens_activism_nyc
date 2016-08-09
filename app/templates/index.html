@@ -2,105 +2,56 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "_macros.html" as macros %}
 
-<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='index.css') }}"/>
+{% block title %}Women's Activism NYC{% endblock %}
 
-{% block title %}Womens Activism NYC{% endblock %}
-
-{% block page_content %}
+{% block content %}
     {% block view_stories %}
-        {{ super() }}
+        {% include "_view_stories.html" %}
     {% endblock %}
-    {% block test %}
-        test
+
+    {% block view_story %}
+        {% include "_view_story.html" %}
     {% endblock %}
-<div class="page-header">
-    <h1>Welcome</h1>
-</div>
-<div> <!-- <-- THAT DIV LOOKS VERY UNECESSARY -->
-<!--NEW STUFF HERE-->
-<div id="page-body">
-    <form name="input" class="form-horizontal" id="submitPost" method="post">
-        <div class="lead">Title
-            <div class="control-group">
-                {# ADDED CHANGES HERE #}
-                {# TODO: THIS INPUT TAG HAS TWO NAME ATTRIBUTES - Sarv #}
-                <input class="input_title" name="input_title" name="Title" maxlength="140" required>
-            </div>
-        </div>
 
-        <div class="lead">Content
-            <div class="control-group">
-                <textarea id="editor1" name="editor1" required> </textarea>
-            </div>
+    {% block page_body %}
+        {% include "_page_body.html" %}
+    {% endblock %}
 
-            <div class="lead">Tags
-                <div class="dropdown">
-                   <select id="tags" name="tags" required>
-                       {% for tag in tags %}
-                           <option>{{ tag.name }}</option>
-                       {% endfor %}
-                   </select>
-               </div>
-           </div>
-        </div>
+    {% block hear_our_story %}
+        {% include "_hear_our_story.html" %}
+    {% endblock %}
 
-        <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"></div> <br>
-        <div id="requestButton" class="control-group">
-            <div>
-                <button type="submit" title="submit_post" class="btn btn-primary">Submit</button>
-            </div>
-        </div>
-    </form>
-</div>
-    <br>
-</div>
+    {% block share_your_story %}
+        {% include "_share_your_story.html" %}
+    {% endblock %}
 
-<div class="posts-header">
-    <h2>Recent Posts</h2>
-</div>
+    {% block submit_share_story %}
+        {% include "_submit_share_story.html" %}
+    {% endblock %}
 
-{% include '_posts.html' %}
-    {% if pagination %}
-        <div class="pagination">
-            {{ macros.pagination_widget(pagination, '.index') }}
-        </div>
-    {% endif %}
-{% endblock %}
+    {% block attend_our_events %}
+        {% include "_attend_our_events.html" %}
+    {% endblock %}
 
-{% block hear_our_story %}
-    {% include "_hear_our_story.html" %}
-{% endblock %}
+    {% block give %}
+        {% include "_give.html" %}
+    {% endblock %}
 
-{% block share_your_story %}
-    {% include "_share_your_story.html" %}
-{% endblock %}
+    {% block quote1 %}
+        {% include "_quote1.html" %}
+    {% endblock %}
 
-{% block submit_share_story %}
-    {% include "_submit_share_story.html" %}
-{% endblock %}
+    {% block quote2 %}
+        {% include "_quote2.html" %}
+    {% endblock %}
 
-{% block attend_our_events %}
-    {% include "_attend_our_events.html" %}
-{% endblock %}
+    {% block take_action_now %}
+        {% include "_take_action_now.html" %}
+    {% endblock %}
 
-{% block give %}
-    {% include "_give.html" %}
-{% endblock %}
-
-{% block quote1 %}
-    {% include "_quote1.html" %}
-{% endblock %}
-
-{% block quote2 %}
-    {% include "_quote2.html" %}
-{% endblock %}
-
-{% block take_action_now %}
-    {% include "_take_action_now.html" %}
-{% endblock %}
-
-{% block footer %}
-    {% include "_footer.html" %}
+    {% block footer %}
+        {% include "_footer.html" %}
+    {% endblock %}
 {% endblock %}
 
 {% block scripts %}

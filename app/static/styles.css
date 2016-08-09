@@ -4,33 +4,60 @@ ul.posts {
     margin: 16px 0px 0px 0px;
     border-top: 1px solid #e0e0e0;
 }
+
 ul.posts li.post {
     padding: 8px;
     border-bottom: 1px solid #e0e0e0;
 }
+
 ul.posts li.post:hover {
     background-color: #f0f0f0;
 }
+
 div.post-date {
     float: right;
 }
+
 div.post-content {
     margin-left: 48px;
     min-height: 48px;
 }
+
 div.pagination {
     width: 100%;
     text-align: center;
     padding: 0px;
     margin: 0px;
 }
+
 .post-body h1 {
     font-size: 140%;
 }
+
 .post-body h2 {
     font-size: 130%;
 }
+
 .post-body h3 {
     font-size: 120%;
 }
 
+.brand img{
+    width: 40%;
+    height: 60px;
+}
+
+.navbar .navbar-nav {
+    display: inline-block;
+    float: none;
+    vertical-align: top;
+}
+
+.navbar .navbar-collapse {
+    text-align: center;
+}
+
+.narbar-default {
+    background-color: #ffaa17
+    /*border-color: */
+}

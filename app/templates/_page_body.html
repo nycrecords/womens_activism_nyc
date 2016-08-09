@@ -1,0 +1,55 @@
+{% import "_macros.html" as macros %}
+]
+<div class="page-header">
+    <h1>Welcome</h1>
+</div>
+<div> <!-- <-- THAT DIV LOOKS VERY UNECESSARY -->
+<!--NEW STUFF HERE-->
+<div id="page-body">
+    <form name="input" class="form-horizontal" id="submitPost" method="post">
+        <div class="lead">Title
+            <div class="control-group">
+                {# ADDED CHANGES HERE #}
+                {# TODO: THIS INPUT TAG HAS TWO NAME ATTRIBUTES - Sarv #}
+                <input class="input_title" name="input_title" name="Title" maxlength="140" required>
+            </div>
+        </div>
+
+        <div class="lead">Content
+            <div class="control-group">
+                <textarea id="editor1" name="editor1" required> </textarea>
+            </div>
+
+            <div class="lead">Tags
+                <div class="dropdown">
+                   <select id="tags" name="tags" required>
+                       {% for tag in tags %}
+                           <option>{{ tag.name }}</option>
+                       {% endfor %}
+                   </select>
+               </div>
+           </div>
+        </div>
+
+        <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"></div> <br>
+        <div id="requestButton" class="control-group">
+            <div>
+                <button type="submit" title="submit_post" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+    <br>
+</div>
+
+<div class="posts-header">
+    <h2>Recent Posts</h2>
+</div>
+
+{% include '_posts.html' %}
+
+{% if pagination %}
+    <div class="pagination">
+        {{ macros.pagination_widget(pagination, '.index') }}
+    </div>
+{% endif %}

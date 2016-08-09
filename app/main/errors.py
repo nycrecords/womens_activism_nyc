@@ -1,5 +1,12 @@
-from flask import render_template 
-from . import main 
+"""
+Modules needed for main/errors.py
+flask:
+    used render_template to load templates
+app.main:
+    used to import the main blueprint where routes are defined from
+"""
+from flask import render_template
+from app.main import main
 
 
 @main.app_errorhandler(404) 

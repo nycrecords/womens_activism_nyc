@@ -7,7 +7,7 @@ flask:
     used current_app for config data variables
     used flash to send messages to the user
 app.db_helpers:
-    used to add and commit sessions for Flags with the put_obj() function
+    used to add and commit sessions for Feedback with the put_obj() function
 app.models:
     used Feedback table to add a row of data every time user successfully submitted feedback
 app.send_email:

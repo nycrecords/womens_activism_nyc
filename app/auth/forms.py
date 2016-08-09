@@ -2,7 +2,7 @@
 Modules used for auth/forms.py
 flask_wtf: wrapper class for WTForms
 WTForms: used to create web forms for Users
-WTForms.validators: used to validate the fields in the
+WTForms.validators: used to validate the fields in the WTForms
 app.models: import User table from models.py
 """
 from flask_wtf import Form

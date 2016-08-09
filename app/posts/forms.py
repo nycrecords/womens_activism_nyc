@@ -1,3 +1,10 @@
+"""
+Modules for post/forms.py
+flask_wtf: wrapper class for WTForms
+WTForms: used to create web forms for Users
+WTForms.validators: used to validate the fields in the
+flask_wtf.recaptcha: used to implement reCAPTCHA functionality into the WTForms
+"""
 from flask_wtf import Form
 from wtforms import SubmitField, TextAreaField
 from wtforms.validators import DataRequired

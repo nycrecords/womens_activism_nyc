@@ -7,6 +7,7 @@ app.models: used to get the User table to create and edit users
 app.auth.forms: used to get the WTForms used throughout view functions
 app: used to get db so we can perform SQLalchemy operations
 app.send_email: used to send email to users when they register, confirm, and reset passwords
+app.db_helpers: used as utility functions for SQLalchemy operations
 """
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
@@ -15,6 +16,7 @@ from app.models import User
 from app.auth.forms import LoginForm, RegistrationForm, ChangePasswordForm, PasswordResetRequestForm, PasswordResetForm
 from app import db
 from app.send_email import send_email
+from app.db_helpers import put_obj
 
 
 @auth.before_app_request
@@ -87,8 +89,7 @@ def register():
     if form.validate_on_submit():
         user = User(password=form.password.data, first_name=form.first_name.data, last_name=form.first_name.data,
                     email=form.email.data, phone=form.phone.data)
-        db.session.add(user)
-        db.session.commit()
+        put_obj(user)
         token = user.generate_confirmation_token()
         send_email(user.email, 'Confirm Your Account',
                    'auth/email/confirm', user=user, token=token)
@@ -142,7 +143,7 @@ def change_password():
     if form.validate_on_submit():
         if current_user.verify_password(form.old_password.data):
             current_user.password = form.password.data
-            db.session.add(current_user)
+            put_obj(current_user)
             flash('Your password has been updated.')
             return redirect(url_for('main.index'))
         else:

@@ -130,7 +130,7 @@ class Tag(db.Model):
     name = db.Column(db.String(32), nullable=False)
 
     def __repr__(self):
-        return '<Tag %r>' % self
+        return '<Tag %r>' % self.name
 
 
 class PostTag(db.Model):

@@ -5,7 +5,6 @@ from .forms import AddTagForm, RemoveTagForm, EditTagForm
 from . import tags
 from flask_login import login_required
 
-
 @tags.route('/tags', methods=['GET', 'POST'])
 @login_required
 def tags():

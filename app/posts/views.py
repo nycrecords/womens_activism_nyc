@@ -1,8 +1,3 @@
-from flask import render_template, request, current_app, flash, redirect, url_for
-from .. import db
-from ..models import Post, Comment
-from . import posts
-from .forms import CommentForm
 from flask import render_template, current_app, flash, request, redirect, url_for
 # from .. import db
 from app.models import Post, PostEdit
@@ -16,44 +11,25 @@ from app.db_helpers import put_obj
 @posts.route('/posts', methods=['GET', 'POST'])
 def all_posts():
     """
-    Route for seperate post tab that shows all posts in the db.
-    Displays all posts in a paginated fashion.
-    :return: renders 'postTab.html', passes in post_feed as all posts in Post table (ordered by creation_time)
+    Shows all post with the page buttons on the bottom of the page.
+
     """
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
         page, per_page=current_app.config['POSTS_PER_PAGE'],
         error_out=True)
-    posts_feed = pagination.items
-    return render_template('postsTab.html', posts=posts_feed, pagination=pagination)
+    posts=pagination.items
+    return render_template('postsTab.html', posts=posts, pagination=pagination)
 
 
 @posts.route('/posts/<int:id>', methods=['GET', 'POST'])
-def posts(id):
+def single(id):
     """
-    :param id: Unique identifier for post (post_id).
-    Views a single post on its own page
-    :return: renders 'post.html', passes in post information
+    shows the social media sites/buttons and the flagging button
+    also the creation times of the post
     """
     post = Post.query.get_or_404(id)
-    form = CommentForm()
-    if form.validate_on_submit():
-        comment = Comment(post_id=post.id, content=form.content.data, post=post)
-        db.session.add(comment)
-        db.session.commit()
-        flash('Comment Submited!')
-        return redirect(url_for('posts.posts', id=post.id, page=-1))
-    page = request.args.get('page', 1, type=int)
-    if page == -1:
-        page = (post.comments.count() - 1) // \
-               current_app.config['COMMENTS_PER_PAGE'] + 1
-    pagination = post.comments.order_by(Comment.creation_time.asc()).paginate(
-        page, per_page=current_app.config['COMMENTS_PER_PAGE'],
-        error_out=True)
-    comments = pagination.items
-    return render_template('posts/post.html', posts=[post], form=form,
-                           comments=comments, pagination=pagination)
-
+    return render_template('post.html', post=post)
 
 
 @posts.route('/posts/edit/<int:id>', methods=['GET', 'POST'])

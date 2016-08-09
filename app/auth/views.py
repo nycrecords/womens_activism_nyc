@@ -14,7 +14,6 @@ from flask_login import login_user, logout_user, login_required, current_user
 from app.auth import auth
 from app.models import User
 from app.auth.forms import LoginForm, RegistrationForm, ChangePasswordForm, PasswordResetRequestForm, PasswordResetForm
-from app import db
 from app.send_email import send_email
 from app.db_helpers import put_obj
 

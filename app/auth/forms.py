@@ -37,7 +37,6 @@ class RegistrationForm(Form):
     password2 = PasswordField('Confirm password', validators=[DataRequired()])
     submit = SubmitField('Register')
 
-
     def validate_email(self, field):
         """
         function used to check if the email the user is using is already registered in the database

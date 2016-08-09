@@ -8,7 +8,6 @@ app.posts.forms: used to get the CommentForm to create Comments
 app.db_helpers: used as utility functions for SQLalchemy operations
 """
 from flask import render_template, request, current_app, flash, redirect, url_for
-from app import db
 from app.models import Post, Comment
 from app.posts import posts
 from app.posts.forms import CommentForm
@@ -53,7 +52,7 @@ def posts(id):
         page, per_page=current_app.config['COMMENTS_PER_PAGE'],
         error_out=True)
     comments = pagination.items
-    return render_template('post.html', posts=[post], form=form,
+    return render_template('posts/post.html', posts=[post], form=form,
                            comments=comments, pagination=pagination)
 
 

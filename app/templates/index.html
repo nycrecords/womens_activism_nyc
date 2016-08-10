@@ -13,6 +13,7 @@
         {% include "_view_story.html" %}
     {% endblock %}
 
+{# this is rendering the old main page#}
     {% block page_body %}
         {% include "_page_body.html" %}
     {% endblock %}
@@ -41,6 +42,10 @@
         {% include "_quote1.html" %}
     {% endblock %}
 
+    {% block women_inspire %}
+        {% include "_women_inspire_women.html" %}
+    {% endblock %}
+
     {% block quote2 %}
         {% include "_quote2.html" %}
     {% endblock %}
@@ -49,15 +54,12 @@
         {% include "_take_action_now.html" %}
     {% endblock %}
 
+    {% block join_the_conversation %}
+        {% include "_join_the_conversation.html" %}
+    {% endblock %}
+
+
     {% block footer %}
         {% include "_footer.html" %}
     {% endblock %}
-{% endblock %}
-
-{% block scripts %}
-    {{ super() }}
-    <script src="static/ckeditor/ckeditor.js"></script>
-    <script type="text/javascript">
-        CKEDITOR.replace( 'editor1' );
-    </script>
 {% endblock %}

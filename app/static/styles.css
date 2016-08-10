@@ -58,6 +58,26 @@ div.pagination {
 }
 
 .narbar-default {
-    background-color: #ffaa17
+    background-color: #c99a05
     /*border-color: */
+}
+.navbar .navbar-nav {
+  display: inline-block;
+  float: none;
+  vertical-align: top;
+}
+.navbar .navbar-collapse {
+  text-align: center;
+}
+
+.navbar-default {
+    background-color: #f5f5f5;
+    /*border-color: #e79c17;*/
+}
+.navbar .nav > li > a {
+    float: none;
+    line-height: 30px;
+    padding: 9px 10px 11px;
+    text-decoration: none;
+    color: #000000;
 }

@@ -59,6 +59,8 @@ def index(data=None):
         else:  # successful submission of the post
             title = request.form['input_title']
             content = request.form['editor1']
+            tags = request.form['tags']
+            ### Todo: get tags associated with posts
 
             post = Post(title=title, content=content, is_edited=False, is_visible=True)
             put_obj(post)

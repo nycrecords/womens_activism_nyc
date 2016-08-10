@@ -1,12 +1,16 @@
 import os
-from dotenv import load_dotenv, find_dotenv
 
-load_dotenv(find_dotenv())
-basedir = os.path.abspath(os.path.dirname(__file__))
+
+
+# from dotenv import load_dotenv, find_dotenv
+#
+# load_dotenv(find_dotenv())
+# basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    """
+
+
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'localhost'
@@ -20,29 +24,11 @@ class Config:
     RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAPTCHA_PUBLIC_KEY')
     RECAPTCHA_PRIVATE_KEY = os.environ.get('RECAPTCHA_PRIVATE_KEY')
     POSTS_PER_PAGE = 10
+    COMMENTS_PER_PAGE = 10
     RECAPTCHA_ENABLED = True
     RECAPTCHA_SITE_KEY = os.environ.get('RECAPTCHA_SITE_KEY')
     RECAPTCHA_SECRET_KEY = os.environ.get('RECAPTCHA_SECRET_KEY')
-    """
 
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
-    MAIL_SERVER = 'smtp.googlemail.com'
-    MAIL_PORT = 587
-    MAIL_USE_TLS = True
-    MAIL_USERNAME = 'womensactivismnyc@gmail.com'
-    MAIL_PASSWORD = 'doris1234'
-    MAIL_SUBJECT_PREFIX = '[Womens Activism NYC]'
-    MAIL_SENDER = 'Womens Activism NYC Admin <flasky@example.com>'
-    WOMENS_ADMIN = 'womensactivismnyc@gmail.com'
-    POSTS_PER_PAGE = 10
-    COMMENTS_PER_PAGE = 10
-
-    RECAPTCHA_PUBLIC_KEY = '6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH'
-    RECAPTCHA_PRIVATE_KEY = '6LetUSYTAAAAAN1pLPLyyIFUh6rEemXczfMFT4um'
-
-    RECAPTCHA_ENABLED = True
-    RECAPTCHA_SITE_KEY = "6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"
-    RECAPTCHA_SECRET_KEY = "6LetUSYTAAAAAN1pLPLyyIFUh6rEemXczfMFT4um"
 
     @staticmethod
     def init_app(app):

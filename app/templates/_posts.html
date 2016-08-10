@@ -18,7 +18,7 @@
                 <li class="post">
                     <div class="post-content">
                         <div class="post-date">
-                            {%  if post.just_now() %}
+                            {%  if post.just_now %}
                                 Just Now
                             {%  else %}
                                 {{ moment(post.creation_time).fromNow() }}

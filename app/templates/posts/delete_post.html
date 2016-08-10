@@ -1,15 +1,13 @@
 {% extends "base.html" %}
-{% block title %}Women's Activism NYC - Edit Post{% endblock %}
+{% block title %}Women's Activism NYC - Delete Post{% endblock %}
 {% block page_content %}
 <div class="page-header">
-    <h1>Edit Post</h1>
+    <h1>Really Delete this Post?</h1>
 
 <div id="page-body">
     <form name="input" class="form-horizontal" id="submitPost" method="post">
         <div class="lead">Title
-            <div class="control-group">
-                <input class="input_title" name="input_title" value ="{{ post.title }}" name="Title" maxlength="140" required>
-            </div>
+            <h2>{{ post.title }}</h2>
         </div>
         <div class="lead">Reason
             <div class="control-group">
@@ -17,15 +15,13 @@
             </div>
         </div>
         <div class="lead">Content
-            <div class="control-group">
-                <textarea id="editor1" name="editor1" required>{{ post.content }}</textarea>
-            </div>
+            <h3>Content: {{ post.content | safe }}</h3>
         </div>
 
         <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"></div> <br>
         <div id="requestButton" class="control-group">
             <div>
-                <button type="submit" title="submit_post" class="btn btn-primary">Submit</button>
+                <button type="submit" title="delete_post" class="btn btn-primary">Delete</button>
                 <input action="action" type="button" value="Cancel" onclick="history.go(-1);" class="btn btn-primary" />
             </div>
         </div>

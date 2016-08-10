@@ -85,6 +85,7 @@ class Post(db.Model):
     poster_last = db.Column(db.String(30), nullable=True)
     content = db.Column(db.Text, nullable=False)
     creation_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    edit_time = db.Column(db.DateTime)
     is_edited = db.Column(db.Boolean, nullable=False)
     is_visible = db.Column(db.Boolean, nullable=False)
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
@@ -110,7 +111,7 @@ class Post(db.Model):
 
     def just_now(self):
         a = datetime.utcnow()
-        b = self.creation_time
+        b = self.edit_time or self.creation_time
         difference = a - b
         difference_in_minutes = difference / timedelta(minutes=1)
         if difference_in_minutes < 5:
@@ -303,7 +304,8 @@ class PostEdit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    edit_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    creation_time = db.Column(db.DateTime)
+    edit_time = db.Column(db.DateTime)
     type = db.Column(db.String(6), nullable=False)
     title = db.Column(db.String(140))
     content = db.Column(db.Text, nullable=False)

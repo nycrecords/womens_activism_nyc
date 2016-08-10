@@ -33,8 +33,20 @@ div.pagination {
 .post-body h3 {
     font-size: 120%;
 }
-div.post-footer1 {
+div.post-redirect {
     text-align: right;
+}
+div.post-edit {
+    text-align:right;
+}
+div.post-delete {
+    text-align:right;
+}
+div.post-comment_count {
+    text-align:right;
+}
+div.post-status{
+    text-align:right;
 }
 ul.comments {
     list-style-type: none;

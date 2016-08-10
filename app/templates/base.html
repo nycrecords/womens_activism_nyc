@@ -24,10 +24,12 @@
                 <li><a href="{{ url_for('posts.all_posts') }}">Posts</a></li>
                 <li><a href="{{ url_for('feedback.feedback') }}">Feedback</a></li>
                 <li><a href="{{ url_for('tags.tags') }}">Tags</a></li>
+                    <li><a href="{{ url_for('main.lightbox') }}">Lightbox</a></li>
                 {% else %}
                 <li><a href="{{ url_for('main.index') }}">Home</a></li>
                 <li><a href="{{ url_for('posts.all_posts') }}">Posts</a></li>
                 <li><a href="{{ url_for('feedback.feedback') }}">Feedback</a></li>
+                    <li><a href="{{ url_for('main.lightbox') }}">Lightbox</a></li>
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">

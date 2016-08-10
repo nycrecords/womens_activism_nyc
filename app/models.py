@@ -350,6 +350,21 @@ class Feedback(db.Model):
         return '<Feedback %r>' % self.title
 
 
+class html_module(db.Model):
+
+    __tablename__ = "html_modules"
+    id = db.Column(db.Integer, primary_key=True)
+    html_template = db.Column(db.Text)
+    quote = db.Column(db.String(140))
+    date = db.Column(db.DateTime)
+    theme = db.Column(db.String(5)) # light or dark
+
+
+class Image(db.Model):
+    __tablename__ = "images"
+    id = db.Column(db.Interval, primary_key=True)
+    image = db.Column(db.LargeBinary)
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))

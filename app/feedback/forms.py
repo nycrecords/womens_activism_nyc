@@ -4,6 +4,7 @@ from wtforms.validators import DataRequired, Email, Length
 from flask_wtf.recaptcha import RecaptchaField
 
 
+
 class FeedbackForm(Form):
     subject = StringField('Subject', validators=[DataRequired("Please enter the subject."), Length(1, 64)])
     email = StringField('Email', validators=[DataRequired("Please enter your email."), Email(), Length(1, 64)])

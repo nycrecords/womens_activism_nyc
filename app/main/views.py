@@ -40,3 +40,8 @@ def index(data=None):
             flash('Post submitted!')
             return redirect(url_for('.index'))
     return render_template('index.html', posts=posts, pagination=pagination, tags=tags)
+
+
+@main.route('/lightbox', methods=['GET', 'POST'])
+def lightbox():
+    return render_template('lightbox.html')

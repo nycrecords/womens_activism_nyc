@@ -1,19 +1,11 @@
 {% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
-{% import "_macros.html" as macros %}
-
-
-{% block title %}Women's Activism NYC{% endblock %}
 
 {% block page_content %}
-
-<div class="page-header">
-    <h1>Share Your Activist Story</h1>
-</div>
-<div>
-<!--NEW STUFF HERE-->
-<div id="page-body">
-    <form name="input" class="form-horizontal" id="submitPost" method="post">
+<a class="lightbox" href="#goofy">
+   <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/158388/goofy.jpg"/>
+</a>
+<div class="lightbox-target" id="goofy">
+   <form name="input" class="form-horizontal" id="submitPost" method="post">
         <div class="lead">Activist Name
             <div class="control-group">
                 <input class="input_title" name="input_title" name="Activist Name"
@@ -42,28 +34,6 @@
             </div>
         </div>
     </form>
+   <a class="lightbox-close" href="#"></a>
 </div>
-    <br>
-</div>
-
-<div class="posts-header">
-    <h2>Recent Posts</h2>
-</div>
-
-{% include '_posts.html' %}
-{% if pagination %}
-<div class="pagination">
-    {{ macros.pagination_widget(pagination, '.index') }}
-</div>
-{% endif %}
-{% endblock %}
-
-{% block scripts %}
-{{ super() }}
-
-<script src="static/ckeditor/ckeditor.js"></script>
-<script type="text/javascript">
-    CKEDITOR.replace('editor1');
-</script>
-{<script src='https://www.google.com/recaptcha/api.js' async defer></script>
 {% endblock %}

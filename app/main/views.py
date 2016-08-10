@@ -43,23 +43,27 @@ def index(data=None):
     tags = Tag.query.all()
 
     if data or request.method == 'POST':  # user presses the submit button
-        if request.form['input_title'] == '':  # user has not entered a title
-            if request.form['editor1'] == '':  # user has not entered any information into both fields
-                return render_template('index.html', posts=posts, pagination=pagination, tags=tags)
+        data = request.form.copy()
+        if data['input_title'] == '':  # user has not entered a title
+            if data['editor1'] == '':  # user has not entered any information into both fields
+                return render_template('index.html', posts=posts, post_title=data['input_title'],
+                                       post_content=data['editor1'], pagination=pagination, tags=tags)
             else:
                 flash('Please enter a title.')
-                return render_template('index.html', posts=posts, pagination=pagination, tags=tags)
-        elif request.form['editor1'] == '':  # user has not entered a description/content
+                return render_template('index.html', posts=posts, post_title=data['input_title'],
+                                       post_content=data['editor1'], pagination=pagination, tags=tags)
+        elif data['editor1'] == '':  # user has not entered a description/content
             flash('Please enter content.')
-            return render_template('index.html', posts=posts, pagination=pagination, tags=tags)
+            return render_template('index.html', posts=posts, post_title=data['input_title'],
+                                   post_content=data['editor1'], pagination=pagination, tags=tags)
         elif recaptcha.verify() == False:  # user has not passed the recaptcha verification
             flash("Please complete reCAPTCHA")
-            return render_template('index.html', posts=posts, post_title=request.form['input_title'],
-                                   post_content=request.form['editor1'], pagination=pagination, tags=tags)
+            return render_template('index.html', posts=posts, post_title=data['input_title'],
+                                   post_content=data['editor1'], pagination=pagination, tags=tags)
         else:  # successful submission of the post
-            title = request.form['input_title']
-            content = request.form['editor1']
-            tags = request.form['tags']
+            title = data['input_title']
+            content = data['editor1']
+            tags = data['tags']
             ### Todo: get tags associated with posts
 
             post = Post(title=title, content=content, is_edited=False, is_visible=True)

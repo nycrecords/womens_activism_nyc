@@ -15,14 +15,13 @@
                 <div class="lead">Title
                     <div class="control-group">
                         {# ADDED CHANGES HERE #}
-                        {# TODO: THIS INPUT TAG HAS TWO NAME ATTRIBUTES - Sarv #}
-                        <input class="input_title" name="input_title" name="Title" maxlength="140" required>
+                        <input class="input_title" name="input_title" value ="{{ post_title }}" name="Title" maxlength="140" required>
                     </div>
                 </div>
 
                 <div class="lead">Content
                     <div class="control-group">
-                        <textarea id="editor1" name="editor1" required> </textarea>
+                        <textarea id="editor1" name="editor1" required>{{ post_content }}</textarea>
                     </div>
 
                     </div>
@@ -36,7 +35,6 @@
                            </select>
                        </div>
                    </div>
-                </div>
 
                 <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"></div> <br>
                 <div id="requestButton" class="control-group">

@@ -55,7 +55,6 @@ def edit(id):
                              )
         put_obj(post_edit)
 
-
         new_title = data['input_title']
         new_content = data['editor1']
         new_is_edited = True
@@ -87,7 +86,7 @@ def delete(id):
         data = request.form.copy()
 
         # add in user id later, setting post.is_visible = False
-        post_edit = PostEdit(post_id=post.id,creation_time=post.creation_time, edit_time=datetime.utcnow(),
+        post_edit = PostEdit(post_id=post.id, creation_time=post.creation_time, edit_time=datetime.utcnow(),
                              type='Delete', title=post.title,
                              content=post.content, reason=data['input_reason'], version=post.version)
         put_obj(post_edit)
@@ -128,24 +127,3 @@ def posts(id):
     comments = pagination.items
     return render_template('posts/post.html', posts=[post], form=form,
                            comments=comments, pagination=pagination)
-
-
-
-# @posts.route('/edit/<int:id>', method=['GET','POST'])
-# def edit(id):
-#     post = Post.query.get_or_404(id)
-#     if request.method == 'POST':
-#         data = request.form.copy()
-#         new_title = data['input_title']
-#         new_content = data['editor1']
-#         post_id = post.id
-#         reason = data['input_reason']
-#         type = 'edit'
-#         post.is_edited = True
-#         postedit = PostEdit(post_id=post_id, content=new_content, reason=reason, type=type)
-#         put_obj(postedit)
-#         put_obj(post)
-#         flash('The post has been updated')
-#         return redirect(url_for('main.index'))
-#     return render_template('edit_post.html', post=post)
-

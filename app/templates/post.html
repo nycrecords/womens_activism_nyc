@@ -62,15 +62,18 @@
         {% endfor %}
     </ul>
 
-<h4 id="comments">Comments</h4>
-<div class="comment-form">
-    {{ wtf.quick_form(form) }}
-</div>
-{% include '_comments.html' %}
-{% if pagination %}
-<div class="pagination">
-{#    {{ macros.pagination_widget(pagination, 'posts.posts', fragment='#comments', id=posts[0].id) }}#}
-    {{ macros.pagination_widget(pagination, 'posts.posts', id=posts[0].id) }}
-</div>
-{% endif %}
+    <h4 id="comments">Comments</h4>
+    <div class="comment-form">
+        {{ wtf.quick_form(form) }}
+    </div>
+
+    {% include '_comments.html' %}
+
+    {% if pagination %}
+        <div class="pagination">
+        {#    {{ macros.pagination_widget(pagination, 'posts.posts', fragment='#comments', id=posts[0].id) }}#}
+            {{ macros.pagination_widget(pagination, 'posts.posts', id=posts[0].id) }}
+        </div>
+    {% endif %}
+
 {% endblock %}

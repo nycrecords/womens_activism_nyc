@@ -1,14 +1,8 @@
 import os
 
 
-
-# from dotenv import load_dotenv, find_dotenv
-#
-# load_dotenv(find_dotenv())
-# basedir = os.path.abspath(os.path.dirname(__file__))
-
-
 class Config:
+
 
     # SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     # SQLALCHEMY_COMMIT_ON_TEARDOWN = True
@@ -46,6 +40,7 @@ class Config:
     RECAPTCHA_ENABLED = True
     RECAPTCHA_SITE_KEY = "6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"
     RECAPTCHA_SECRET_KEY = "6LetUSYTAAAAAN1pLPLyyIFUh6rEemXczfMFT4um"
+
 
 
     @staticmethod

@@ -20,6 +20,7 @@ Flask-ReCaptcha==0.4.2
 Flask-Script==2.0.5
 Flask-SQLAlchemy==2.1
 Flask-WTF==0.12
+Flask-Recaptcha==0.4.2
 ForgeryPy==0.1
 get==0.0.11
 gunicorn==19.6.0
@@ -34,6 +35,7 @@ ordereddict==1.1
 post==0.0.8
 psycopg2==2.6.2
 public==0.0.34
+python-env==1.0.0
 python-editor==1.0.1
 python-env==1.0.0
 query-string==0.0.8

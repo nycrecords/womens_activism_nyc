@@ -190,6 +190,8 @@ def password_reset(token):
         if user is None:
             return redirect(url_for('main.index'))
         if user.reset_password(token, form.password.data):
+            user.password=form.password.data
+            put_obj(user)
             flash('Your password has been updated.')
             return redirect(url_for('auth.login'))
         else:

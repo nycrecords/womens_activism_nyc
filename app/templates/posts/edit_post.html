@@ -1,46 +1,59 @@
 {% extends "base.html" %}
 {% block title %}Women's Activism NYC - Edit Post{% endblock %}
+
+<h1>skdjhfskdjhfskjf</h1>
+
+
 {% block page_content %}
-<div class="page-header">
-    <h1>Edit Post</h1>
+    {% if current_user.is_administrator() %}
 
-<div id="page-body">
-    <form name="input" class="form-horizontal" id="submitPost" method="post">
-        <div class="lead">Title
-            <div class="control-group">
-                <input class="input_title" name="input_title" value ="{{ post.title }}" name="Title" maxlength="140" required>
-            </div>
-        </div>
-        <div class="lead">Reason
-            <div class="control-group">
-                <input class="input_reason" name="input_reason" name="Reason" maxlength="140" required>
-            </div>
-        </div>
-        <div class="lead">Content
-            <div class="control-group">
-                <textarea id="editor1" name="editor1" required>{{ post.content }}</textarea>
-            </div>
-        </div>
+    <div class="page-header">
+        <h1>Edit Post</h1>
 
-        <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"></div> <br>
-        <div id="requestButton" class="control-group">
-            <div>
-                <button type="submit" title="submit_post" class="btn btn-primary">Submit</button>
-                <input action="action" type="button" value="Cancel" onclick="history.go(-1);" class="btn btn-primary" />
+    <div id="page-body">
+        <form name="input" class="form-horizontal" id="submitPost" method="post">
+            <div class="lead">Reason
+                <div class="control-group">
+                    <input class="input_reason" name="input_reason" name="Reason" maxlength="140" required>
+                </div>
             </div>
-        </div>
-    </form>
-</div>
-    <br>
-</div>
+
+            <div class="lead">
+                <h2>Title</h2>
+                <div class="control-group">
+                    <input class="input_title" name="input_title" value ="{{ post.title }}" name="Title" maxlength="140" required>
+                </div>
+            </div>
+
+            <div class="lead">
+                <h2>Content</h2>
+                <div class="control-group">
+                    <textarea id="editor1" name="editor1" required>{{ post.content }}</textarea>
+                </div>
+            </div>
+
+
+            <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"></div> <br>
+            <div id="requestButton" class="control-group">
+                <div>
+                    <button type="submit" title="submit_post" class="btn btn-primary">Submit</button>
+                    <input action="action" type="button" value="Cancel" onclick="history.go(-1);" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+        <br>
+    </div>
+    {% else %}
+        <h1>You must be an Administrator to view this page</h1>
+    {% endif %}
 
 {% endblock %}
 
 {% block scripts %}
-{{ super() }}
-<script type="text/javascript" src="//cdn.ckeditor.com/4.4.7/full/ckeditor.js"></script>
-<script type="text/javascript">
-    CKEDITOR.replace( 'editor1' );
-</script>
-
+    {{ super() }}
+    <script type="text/javascript" src="//cdn.ckeditor.com/4.4.7/full/ckeditor.js"></script>
+    <script type="text/javascript">
+        CKEDITOR.replace( 'editor1' );
+    </script>
 {% endblock %}

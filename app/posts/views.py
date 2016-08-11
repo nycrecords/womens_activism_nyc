@@ -34,7 +34,7 @@ def all_posts():
 
 
 @posts.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
-# ONLY ADMINS SHOULD SEE THIS ROUTE
+@login_required
 def edit(id):
     """
     :param(id) Query the db with id for the Post to display information in it
@@ -72,7 +72,7 @@ def edit(id):
 
 
 @posts.route('/posts/delete/<int:id>', methods=['GET', 'POST'])
-# ONLY ADMINS SHOULD SEE THIS ROUTE
+@login_required
 def delete(id):
     """
     :param(id) Query the db with id for the Post to display information in it

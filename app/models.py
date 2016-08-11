@@ -6,7 +6,7 @@ from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
-from flask_login import UserMixin
+from flask_login import UserMixin, AnonymousUserMixin
 from datetime import datetime, timedelta
 
 
@@ -31,11 +31,11 @@ class Role(db.Model):
     @staticmethod
     def insert_roles():
         roles = {
-            'Poster': (Permission.NO_PERMISSIONS, True),
+            'Poster': (Permission.NO_PERMISSIONS, False),
 
-            'User': (Permission.MODERATE_COMMENTS |
+            'Agency_User': (Permission.MODERATE_COMMENTS |
                      Permission.MODERATE_POST |
-                     Permission.MODERATE_TAGS, False),
+                     Permission.MODERATE_TAGS, True),
 
             'Administrator': (0xff, False)
         }
@@ -351,6 +351,16 @@ class Feedback(db.Model):
     def __repr__(self):
         return '<Feedback %r>' % self.title
 
+
+class AnonymousUser(AnonymousUserMixin):
+    def can(self, permissions):
+        return False
+
+    def is_administrator(self):
+        return False
+
+
+login_manager.anonymous_user=AnonymousUser
 
 @login_manager.user_loader
 def load_user(user_id):

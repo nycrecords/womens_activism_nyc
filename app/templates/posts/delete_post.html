@@ -1,21 +1,26 @@
 {% extends "base.html" %}
 {% block title %}Women's Activism NYC - Delete Post{% endblock %}
 {% block page_content %}
+    {% if current_user.is_administrator() %}
 <div class="page-header">
-    <h1>Really Delete this Post?</h1>
+    <h1>Do you really want to delete this post?</h1>
 
 <div id="page-body">
     <form name="input" class="form-horizontal" id="submitPost" method="post">
-        <div class="lead">Title
-            <h2>{{ post.title }}</h2>
-        </div>
         <div class="lead">Reason
             <div class="control-group">
                 <input class="input_reason" name="input_reason" name="Reason" maxlength="140" required>
             </div>
         </div>
-        <div class="lead">Content
-            <h3>Content: {{ post.content | safe }}</h3>
+
+        <div class="lead">
+            <h1>Title</h1>
+            {{ post.title }}
+        </div>
+
+        <div class="lead">
+            <h1>Content</h1>
+            {{ post.content | safe }}
         </div>
 
         <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"></div> <br>
@@ -29,7 +34,9 @@
 </div>
     <br>
 </div>
-
+{% else %}
+        <h1>You must be an Administrator to view this page</h1>
+    {% endif %}
 {% endblock %}
 
 {% block scripts %}

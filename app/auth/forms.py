@@ -31,7 +31,7 @@ class RegistrationForm(Form):
     first_name = StringField('First Name', validators=[DataRequired(), Length(1,30)])
     last_name = StringField('Last Name', validators=[DataRequired(), Length(1, 30)])
     email = StringField('Email', validators=[DataRequired(), Length(1, 64), Email()])
-    phone = StringField('Phone (no spaces or dashes)', validators=[DataRequired(), Length(1,10)])
+    phone = StringField('Phone (no spaces or dashes)', validators=[DataRequired(), Length(10,11)])
     password = PasswordField('Password (must be at lease 8 characters long with one capital and one number)',
                              validators=[DataRequired(), EqualTo('password2', message='Passwords must match.')])
     password2 = PasswordField('Confirm password', validators=[DataRequired()])
@@ -95,6 +95,10 @@ class PasswordResetRequestForm(Form):
     email = StringField('Email', validators=[DataRequired(), Length(1, 64),
                                              Email()])
     submit = SubmitField('Reset Password')
+
+    def validate_email(self, field):
+        if User.query.filter_by(email=field.data).first() is None:
+            raise ValidationError('Unknown email address.')
 
 
 class PasswordResetForm(Form):

@@ -3,7 +3,6 @@ import os
 
 class Config:
 
-
     # SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     # SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     # MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'localhost'
@@ -40,7 +39,6 @@ class Config:
     RECAPTCHA_ENABLED = True
     RECAPTCHA_SITE_KEY = "6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"
     RECAPTCHA_SECRET_KEY = "6LetUSYTAAAAAN1pLPLyyIFUh6rEemXczfMFT4um"
-
 
 
     @staticmethod

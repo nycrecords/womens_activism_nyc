@@ -25,8 +25,13 @@
             </div>
         </div>
         <div class="lead">Tags
-            {{ wtf.form_field(form.tag1) }}
-            {{ wtf.form_field(form.tag2) }}
+            <div class="control-group">
+                <select class="selectpicker" data-width="fit" name="input_tags" multiple required>
+                    {% for tag in tags %}
+                        <option value="{{ tag.name }}">{{ tag.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
         <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"></div> <br>
         <div id="requestButton" class="control-group">
@@ -59,22 +64,25 @@
     CKEDITOR.replace('editor1');
 </script>
 <script src='https://www.google.com/recaptcha/api.js' async defer></script>
-<script>
-    var expanded = false;
-    function showTagButtons() {
-        var tagButtons = document.getElementById("tagButtons");
-        if (!expanded) {
-            tagButtons.style.display = "block";
-            expanded = true;
-        } else {
-            tagButtons.style.display = "none";
-            expanded = false;
-        }
-    }
-</script>
-<script>
-    $(".btn").click(function(){
-       $(this).hasClass("active") ? $(this).removeClass("active") : $(this).addClass("active");
-    });
-</script>
+{#<script>#}
+{#    var expanded = false;#}
+{#    function showTagButtons() {#}
+{#        var tagButtons = document.getElementById("tagButtons");#}
+{#        if (!expanded) {#}
+{#            tagButtons.style.display = "block";#}
+{#            expanded = true;#}
+{#        } else {#}
+{#            tagButtons.style.display = "none";#}
+{#            expanded = false;#}
+{#        }#}
+{#    }#}
+{#</script>#}
+{#<script>#}
+{#    $(".btn").click(function(){#}
+{#       $(this).hasClass("active") ? $(this).removeClass("active") : $(this).addClass("active");#}
+{#    });#}
+{#</script>#}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-*.min.js"></script>
 {% endblock %}

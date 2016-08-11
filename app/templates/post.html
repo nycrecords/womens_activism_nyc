@@ -10,21 +10,24 @@
         <li class="post">
             <div class="post-content">
                 <div class="post-date">
-                    {%  if post.just_now() %}
+                    {%  if post[3] %}
                         Just Now
                     {%  else %}
-                        {{ moment(post.creation_time).fromNow() }}
+                        {{ moment(post[4]).fromNow() }}
                     {% endif %}
                 </div>
-                <div class="post-title"> <b>{{ post.title }}</b> </div>
+                <div class="post-title"> <b>{{ post[1] }}</b> </div>
                 <div class="post-content">
-                        {{ post.content | safe}}
+                        {{ post[2] | safe}}
                 </div> <br>
+                {% for tag in post[6] %}
+                    <span class="label label-primary">{{ tag[1] }}</span>
+                {% endfor %}
             </div>
 
             <div class="post-footer1">
-                <a href="{{ url_for('posts.posts', id=post.id) }}#comments">
-                    <span class="label label-primary">{{ post.comments.count() }} Comments</span>
+                <a href="{{ url_for('posts.posts', id=post[0]) }}#comments">
+                    <span class="label label-primary">{{ post[5] }} Comments</span>
                 </a>
             </div>
             <br>
@@ -33,7 +36,7 @@
                 Something wrong with this post? Tell us!
             </p1>
             <div class="post-footer2">
-                <a href="{{ url_for('flags.flag_post', id=post.id) }}">
+                <a href="{{ url_for('flags.flag_post', id=post[0]) }}">
                     <span class="label label-primary">Flag</span>
                 </a>
             </div>
@@ -42,15 +45,15 @@
             </p2>
             <div id="share-buttons">
                 <!-- Facebook -->
-                <a href="http://www.facebook.com/sharer.php?u={{ url_for('posts.posts', id=post.id, _external=True) }}" target="_blank">
+                <a href="http://www.facebook.com/sharer.php?u={{ url_for('posts.posts', id=post[0], _external=True) }}" target="_blank">
                     <img src="../static/facebook_icon.png" alt="Facebook" width="32" height="32" />
                 </a>
                 <!-- Tumblr-->
-                <a href="http://www.tumblr.com/share/link?url={{ url_for('posts.posts', id=post.id, _external=True) }}&name={{ post.title }}&description=WomensActivismNYC" target="_blank">
+                <a href="http://www.tumblr.com/share/link?url={{ url_for('posts.posts', id=post[0], _external=True) }}&name={{ post[1] }}&description=WomensActivismNYC" target="_blank">
                     <img src="../static/tumblr_icon.png" alt="Tumblr" width="32" height="32" />
                 </a>
                 <!-- Twitter -->
-                <a href="https://twitter.com/share?url={{ url_for('posts.posts', id=post.id, _external=True) }}&text={{ post.title }}&hashtags=WomensActivismNYC" target="_blank">
+                <a href="https://twitter.com/share?url={{ url_for('posts.posts', id=post[0], _external=True) }}&text={{ post[1] }}&hashtags=WomensActivismNYC" target="_blank">
                     <img src="../static/twitter_icon.png" alt="Twitter" width="32" height="32" />
                 </a>
             </div>

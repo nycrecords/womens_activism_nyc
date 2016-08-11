@@ -46,10 +46,10 @@ def index(data=None):
         elif len(request.form.getlist('input_tags')) == 0:
             flash('Please choose at least one tag.')
             return render_template('index.html', posts=page_posts, pagination=pagination, tags=all_tags)
-        # elif recaptcha.verify() == False:
-        #     flash("Please complete reCAPTCHA")
-        #     return render_template('index.html', posts=page_posts, post_title=request.form['input_title'],
-        #                            post_content=request.form['editor1'], pagination=pagination, tags=all_tags)
+        elif recaptcha.verify() == False:
+            flash("Please complete reCAPTCHA")
+            return render_template('index.html', posts=page_posts, post_title=request.form['input_title'],
+                                   post_content=request.form['editor1'], pagination=pagination, tags=all_tags)
         else:
             title = request.form['input_title']
             content = request.form['editor1']

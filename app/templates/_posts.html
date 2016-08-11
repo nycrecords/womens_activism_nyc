@@ -18,38 +18,41 @@
                 <li class="post">
                     <div class="post-content">
                         <div class="post-date">
-                            {%  if post.just_now %}
+                            {%  if post[3] %}
                                 Just Now
                             {%  else %}
-                                {{ moment(post.creation_time).fromNow() }}
+                                {{ moment(post.post[4]).fromNow() }}
                             {% endif %}
                         </div>
-                        <div class="post-title"> <b>{{ post.title }}</b> </div>
+                        <div class="post-title"> <b>{{ post[1] }}</b> </div>
                         <div class="post-content">
-                                {{ post.content | safe}}
+                                {{ post[2] | safe}}
                         </div> <br>
+                        {% for tag in post[6] %}
+                            <span class="label label-primary">{{ tag[1] }}</span>
+                        {% endfor %}
                     </div>
 
-                    <div class="post-redirect">
-                        <a href="{{ url_for('posts.posts', id=post.id) }}">
-                            <span class="label label-primary">View Post</span>
-                        </a>
-                        <div>
-                            <span class="label label-primary">{{ post.comments.count() }} Comments</span>
-                        </div>
-                    </div>
-                    <br>
+            <div class="post-footer1">
+                <a href="{{ url_for('posts.posts', id=post[0]) }}">
+                    <span class="label label-primary">View Post</span>
+                </a>
+                <div>
+                    <span class="label label-primary">{{ post[5] }} Comments</span>
+                </div>
+            </div>
+            <br>
 
                     {% if current_user.is_administrator() %}
                         <div class="post-edit">
-                            <a href="{{ url_for('posts.edit', id=post.id) }}">
+                            <a href="{{ url_for('posts.edit', id=post[0]) }}">
                                 <span class="label label-primary">Edit Post</span>
                             </a>
                         </div>
                         <br>
 
                         <div class="post-delete">
-                            <a href="{{ url_for('posts.delete', id=post.id) }}">
+                            <a href="{{ url_for('posts.delete', id=post[0]) }}">
                                 <span class="label label-primary">Delete Post</span>
                             </a>
                         </div>
@@ -59,8 +62,10 @@
                     {% if post.is_edited %}
                         <div class="post-status">
                             {% if post.just_now() %}
+{#                                need to add a [] here and in page_posts#}
                                 <p3>Edited: Just Now</p3>
                             {% else %}
+{#                                need to add a [] here and in page_posts#}
                                 <p3>Edited: {{ moment(post.edit_time).fromNow() }}</p3>
                             {% endif %}
                         </div>
@@ -71,7 +76,7 @@
                         Something wrong with this post? Tell us!
                     </p1>
                     <div class="post-flag">
-                        <a href="{{ url_for('flags.flag_post', id=post.id) }}">
+                        <a href="{{ url_for('flags.flag_post', id=post[0]) }}">
                             <span class="label label-primary">Flag</span>
                         </a>
                     </div>
@@ -106,4 +111,5 @@
             {% endif %}
         {% endfor %}
     </ul>
+
 </body>

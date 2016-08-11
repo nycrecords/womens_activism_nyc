@@ -30,6 +30,24 @@ def all_posts():
         page, per_page=current_app.config['POSTS_PER_PAGE'],
         error_out=True)
     posts_feed = pagination.items
+
+    page_posts = []
+
+    for post in posts_feed:
+        id = post.id
+        title = post.title
+        content = post.content
+        just_now = post.just_now()
+        time = post.creation_time
+        comment_count = post.comments.count()
+
+        post_tags = PostTag.query.filter_by(post_id=post.id).all()
+        tags = []
+        for post_tag in post_tags:
+            name = Tag.query.filter_by(id=post_tag.tag_id).first().name
+            tags.append([post_tag.tag_id, name])
+        page_posts.append([id, title, content, just_now, time, comment_count, tags])
+    return render_template('postsTab.html', posts=page_posts, pagination=pagination)
     return render_template('posts/postsTab.html', posts=posts_feed, pagination=pagination)
 
 
@@ -111,6 +129,22 @@ def posts(id):
     :return: renders 'post.html', passes in post information
     """
     post = Post.query.get_or_404(id)
+    page_posts = []
+
+    id = post.id
+    title = post.title
+    content = post.content
+    just_now = post.just_now()
+    time = post.creation_time
+    comment_count = post.comments.count()
+
+    post_tags = PostTag.query.filter_by(post_id=post.id).all()
+    tags = []
+    for post_tag in post_tags:
+        name = Tag.query.filter_by(id=post_tag.tag_id).first().name
+        tags.append([post_tag.tag_id, name])
+    page_posts.append([id, title, content, just_now, time, comment_count, tags])
+
     form = CommentForm()
     if form.validate_on_submit():
         comment = Comment(post_id=post.id, content=form.content.data, post=post)
@@ -125,5 +159,5 @@ def posts(id):
         page, per_page=current_app.config['COMMENTS_PER_PAGE'],
         error_out=True)
     comments = pagination.items
-    return render_template('posts/post.html', posts=[post], form=form,
+    return render_template('posts/post.html', posts=page_posts, form=form,
                            comments=comments, pagination=pagination)

@@ -17,24 +17,40 @@ def index(data=None):
     posts = pagination.items
     tags = Tag.query.all()
 
+    page_posts = []
+
+    for post in posts:
+        id = post.id
+        title = post.title
+        content = post.content
+        just_now = post.just_now()
+        time = post.creation_time
+        comment_count = post.comments.count()
+
+        post_tags = PostTag.query.filter_by(post_id=post.id).all()
+        tags = []
+        for post_tag in post_tags:
+            name = Tag.query.filter_by(id=post_tag.tag_id).first().name
+            tags.append([post_tag.tag_id, name])
+        page_posts.append([id, title, content, just_now, time, comment_count, tags])
     if data or request.method == 'POST':
         print (request.form.getlist('input_tags'))
         if request.form['input_title'] == '':
             if request.form['editor1'] == '':
-                return render_template('index.html', posts=posts, pagination=pagination, tags=tags)
+                return render_template('index.html', posts=page_posts, pagination=pagination, tags=tags)
             else:
                 flash('Please enter a title.')
-                return render_template('index.html', posts=posts, pagination=pagination, tags=tags)
+                return render_template('index.html', posts=page_posts, pagination=pagination, tags=tags)
         elif request.form['editor1'] == '':
             flash('Please enter content.')
-            return render_template('index.html', posts=posts, pagination=pagination, tags=tags)
+            return render_template('index.html', posts=page_posts, pagination=pagination, tags=tags)
         elif len(request.form.getlist('input_tags')) == 0:
             flash('Please choose at least one tag.')
-            return render_template('index.html', posts=posts, pagination=pagination, tags=tags)
-        elif recaptcha.verify() == False:
-            flash("Please complete reCAPTCHA")
-            return render_template('index.html', posts=posts, post_title=request.form['input_title'],
-                                   post_content=request.form['editor1'], pagination=pagination, tags=tags)
+            return render_template('index.html', posts=page_posts, pagination=pagination, tags=tags)
+        # elif recaptcha.verify() == False:
+        #     flash("Please complete reCAPTCHA")
+        #     return render_template('index.html', posts=posts, post_title=request.form['input_title'],
+        #                            post_content=request.form['editor1'], pagination=pagination, tags=tags)
         else:
             title = request.form['input_title']
             content = request.form['editor1']
@@ -44,9 +60,9 @@ def index(data=None):
 
             tag_list = request.form.getlist('input_tags')
             for tag in tag_list:
-                post_tag = PostTag(post_id=post.id, tag_id=Tag.query.filter_by(name=tag).id)
+                post_tag = PostTag(post_id=post.id, tag_id=Tag.query.filter_by(name=tag).first().id)
                 db.session.add(post_tag)
                 db.session.commit()
             flash('Post submitted!')
             return redirect(url_for('.index'))
-    return render_template('index.html', posts=posts, pagination=pagination, tags=tags)
+    return render_template('index.html', posts=page_posts, pagination=pagination, tags=tags)

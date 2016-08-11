@@ -4,11 +4,11 @@
 
 {% block title %}Women's Activism NYC{% endblock %}
 
-{% block page_content %}
-
 <div class="page-header">
-    <h1>Share Your Activist Story</h1>
+    <h1>Share your activist story</h1>
 </div>
+
+{% block page_content %}
 <div>
 
 <div id="page-body">
@@ -44,44 +44,63 @@
     <br>
 </div>
 
-<div class="posts-header">
-    <h2>Recent Posts</h2>
-</div>
+        <div class="posts-header">
+            <h2>Recent Posts</h2>
+        </div>
 
 {% include '_posts.html' %}
-
-{% if pagination %}
-    <div class="pagination">
-        {{ macros.pagination_widget(pagination, '.index') }}
+            {% if pagination %}
+                <div class="pagination">
+                    {{ macros.pagination_widget(pagination, '.index') }}
+                </div>
+            {% endif %}
     </div>
-{% endif %}
 {% endblock %}
+
+{#{% block hear_our_story %}#}
+{#    {% include "_hear_our_story.html" %}#}
+{#{% endblock %}#}
+{##}
+{#{% block share_your_story %}#}
+{#    {% include "_share_your_story.html" %}#}
+{#{% endblock %}#}
+{##}
+{#{% block submit_share_story %}#}
+{#    {% include "_submit_share_story.html" %}#}
+{#{% endblock %}#}
+{##}
+{#{% block attend_our_events %}#}
+{#    {% include "_attend_our_events.html" %}#}
+{#{% endblock %}#}
+{##}
+{#{% block give %}#}
+{#    {% include "_give.html" %}#}
+{#{% endblock %}#}
+{##}
+{#{% block quote1 %}#}
+{#    {% include "_quote1.html" %}#}
+{#{% endblock %}#}
+{##}
+{#{% block quote2 %}#}
+{#    {% include "_quote2.html" %}#}
+{#{% endblock %}#}
+{##}
+{#{% block take_action_now %}#}
+{#    {% include "_take_action_now.html" %}#}
+{#{% endblock %}#}
+{##}
+{#{% block footer %}#}
+{#    {% include "_footer.html" %}#}
+{#{% endblock %}#}
 
 {% block scripts %}
 {{ super() }}
+
 <script src="static/ckeditor/ckeditor.js"></script>
 <script type="text/javascript">
     CKEDITOR.replace('editor1');
 </script>
 <script src='https://www.google.com/recaptcha/api.js' async defer></script>
-{#<script>#}
-{#    var expanded = false;#}
-{#    function showTagButtons() {#}
-{#        var tagButtons = document.getElementById("tagButtons");#}
-{#        if (!expanded) {#}
-{#            tagButtons.style.display = "block";#}
-{#            expanded = true;#}
-{#        } else {#}
-{#            tagButtons.style.display = "none";#}
-{#            expanded = false;#}
-{#        }#}
-{#    }#}
-{#</script>#}
-{#<script>#}
-{#    $(".btn").click(function(){#}
-{#       $(this).hasClass("active") ? $(this).removeClass("active") : $(this).addClass("active");#}
-{#    });#}
-{#</script>#}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-*.min.js"></script>

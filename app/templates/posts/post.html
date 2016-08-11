@@ -25,21 +25,49 @@
                 {% endfor %}
             </div>
 
-            <div class="post-footer1">
+            <div class="post-comment_count">
                 <a href="{{ url_for('posts.posts', id=post[0]) }}#comments">
                     <span class="label label-primary">{{ post[5] }} Comments</span>
                 </a>
             </div>
             <br>
+            {% if current_user.is_administrator() %}
+                <div class="post-edit">
+                    <a href="{{ url_for('posts.edit', id=post[0]) }}">
+                        <span class="label label-primary">Edit Post</span>
+                    </a>
+                </div>
+                <br>
+
+                <div class="post-delete">
+                    <a href="{{ url_for('posts.delete', id=post[0]) }}">
+                        <span class="label label-primary">Delete Post</span>
+                    </a>
+                </div>
+                <br>
+            {% endif %}
+
+            {% if post.is_edited %}
+                <div class="post-status">
+                    {% if post[3] %}
+                        <p3>Edited: Just Now</p3>
+                    {% else %}
+                        <p3>Edited: {{ moment(post[6]).fromNow() }}</p3>
+                    {% endif %}
+                </div>
+                <br>
+            {% endif %}
 
             <p1>
                 Something wrong with this post? Tell us!
             </p1>
-            <div class="post-footer2">
+            <div class="post-flag">
                 <a href="{{ url_for('flags.flag_post', id=post[0]) }}">
                     <span class="label label-primary">Flag</span>
                 </a>
             </div>
+            <br>
+
             <p2>
                 Like this post? Share it with friends!
             </p2>
@@ -56,9 +84,16 @@
                 <a href="https://twitter.com/share?url={{ url_for('posts.posts', id=post[0], _external=True) }}&text={{ post[1] }}&hashtags=WomensActivismNYC" target="_blank">
                     <img src="../static/twitter_icon.png" alt="Twitter" width="32" height="32" />
                 </a>
+                <!-- Linkedin -->
+                <a href="http://www.linkedin.com/shareArticle?url={{ url_for('posts.posts', id=post.id, _external=True) }}&title={{ post.title }}" target="_blank">
+                    <img src="../static/linkedin_icon.png" alt="LinkedIn" width="32" height="32" />
+                </a>
+                <!-- Email -->
+                <a href="mailto:?subject=[Women's Activism NYC] {{ post.title }}&body={{ post.content | safe }}" target="_blank">
+                    <img src="../static/email_icon.png" alt="Email" width="32" height="32" />
+                </a>
             </div>
         </li>
-
         {% endfor %}
     </ul>
 

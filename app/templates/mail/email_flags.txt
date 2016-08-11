@@ -4,7 +4,6 @@ Post Title: {{ post_title }}
 {% if comment_content %}
     Comment Content: {{ comment_content }}
 {% endif %}
-
 Flag Reason: {{ reason }}
 Flag Description: {{ description }}
 

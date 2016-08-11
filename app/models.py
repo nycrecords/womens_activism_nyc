@@ -6,7 +6,7 @@ from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
-from flask_login import UserMixin
+from flask_login import UserMixin, AnonymousUserMixin
 from datetime import datetime, timedelta
 
 
@@ -31,11 +31,11 @@ class Role(db.Model):
     @staticmethod
     def insert_roles():
         roles = {
-            'Poster': (Permission.NO_PERMISSIONS, True),
+            'Poster': (Permission.NO_PERMISSIONS, False),
 
-            'User': (Permission.MODERATE_COMMENTS |
+            'Agency_User': (Permission.MODERATE_COMMENTS |
                      Permission.MODERATE_POST |
-                     Permission.MODERATE_TAGS, False),
+                     Permission.MODERATE_TAGS, True),
 
             'Administrator': (0xff, False)
         }
@@ -85,6 +85,7 @@ class Post(db.Model):
     poster_last = db.Column(db.String(30), nullable=True)
     content = db.Column(db.Text, nullable=False)
     creation_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    edit_time = db.Column(db.DateTime)
     is_edited = db.Column(db.Boolean, nullable=False)
     is_visible = db.Column(db.Boolean, nullable=False)
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
@@ -110,7 +111,7 @@ class Post(db.Model):
 
     def just_now(self):
         a = datetime.utcnow()
-        b = self.creation_time
+        b = self.edit_time or self.creation_time
         difference = a - b
         difference_in_minutes = difference / timedelta(minutes=1)
         if difference_in_minutes < 5:
@@ -303,7 +304,8 @@ class PostEdit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    edit_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    creation_time = db.Column(db.DateTime)
+    edit_time = db.Column(db.DateTime)
     type = db.Column(db.String(6), nullable=False)
     title = db.Column(db.String(140))
     content = db.Column(db.Text, nullable=False)
@@ -349,6 +351,16 @@ class Feedback(db.Model):
     def __repr__(self):
         return '<Feedback %r>' % self.title
 
+
+class AnonymousUser(AnonymousUserMixin):
+    def can(self, permissions):
+        return False
+
+    def is_administrator(self):
+        return False
+
+
+login_manager.anonymous_user=AnonymousUser
 
 @login_manager.user_loader
 def load_user(user_id):

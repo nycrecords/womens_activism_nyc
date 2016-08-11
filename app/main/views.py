@@ -15,7 +15,7 @@ def index(data=None):
         error_out=True)
 
     posts = pagination.items
-    tags = Tag.query.all()
+    all_tags = Tag.query.all()
 
     page_posts = []
 
@@ -34,23 +34,22 @@ def index(data=None):
             tags.append([post_tag.tag_id, name])
         page_posts.append([id, title, content, just_now, time, comment_count, tags])
     if data or request.method == 'POST':
-        print (request.form.getlist('input_tags'))
         if request.form['input_title'] == '':
             if request.form['editor1'] == '':
-                return render_template('index.html', posts=page_posts, pagination=pagination, tags=tags)
+                return render_template('index.html', posts=page_posts, pagination=pagination, tags=all_tags)
             else:
                 flash('Please enter a title.')
-                return render_template('index.html', posts=page_posts, pagination=pagination, tags=tags)
+                return render_template('index.html', posts=page_posts, pagination=pagination, tags=all_tags)
         elif request.form['editor1'] == '':
             flash('Please enter content.')
-            return render_template('index.html', posts=page_posts, pagination=pagination, tags=tags)
+            return render_template('index.html', posts=page_posts, pagination=pagination, tags=all_tags)
         elif len(request.form.getlist('input_tags')) == 0:
             flash('Please choose at least one tag.')
-            return render_template('index.html', posts=page_posts, pagination=pagination, tags=tags)
+            return render_template('index.html', posts=page_posts, pagination=pagination, tags=all_tags)
         # elif recaptcha.verify() == False:
         #     flash("Please complete reCAPTCHA")
-        #     return render_template('index.html', posts=posts, post_title=request.form['input_title'],
-        #                            post_content=request.form['editor1'], pagination=pagination, tags=tags)
+        #     return render_template('index.html', posts=page_posts, post_title=request.form['input_title'],
+        #                            post_content=request.form['editor1'], pagination=pagination, tags=all_tags)
         else:
             title = request.form['input_title']
             content = request.form['editor1']
@@ -65,4 +64,4 @@ def index(data=None):
                 db.session.commit()
             flash('Post submitted!')
             return redirect(url_for('.index'))
-    return render_template('index.html', posts=page_posts, pagination=pagination, tags=tags)
+    return render_template('index.html', posts=page_posts, pagination=pagination, tags=all_tags)

@@ -19,7 +19,7 @@ app:
 """
 from flask import render_template, redirect, url_for, flash, request, current_app
 from app.db_helpers import put_obj
-from app.models import Post, Tag
+from app.models import Post, Tag, PostTag
 from app.main import main
 from app import recaptcha
 
@@ -51,28 +51,31 @@ def index(data=None):
         just_now = post.just_now()
         time = post.creation_time
         comment_count = post.comments.count()
+        edit_time = post.edit_time
+        is_visible = post.is_visible
+        is_edited = post.is_edited
 
         post_tags = PostTag.query.filter_by(post_id=post.id).all()
         tags = []
         for post_tag in post_tags:
             name = Tag.query.filter_by(id=post_tag.tag_id).first().name
             tags.append([post_tag.tag_id, name])
-        page_posts.append([id, title, content, just_now, time, comment_count, tags]
+        page_posts.append([id, title, content, just_now, time, comment_count, tags, edit_time, is_visible, is_edited])
 
     if data or request.method == 'POST':  # user presses the submit button
         data = request.form.copy()
         if data['input_title'] == '':  # user has not entered a title
             if data['editor1'] == '':  # user has not entered any information into both fields
                 return render_template('index.html', posts=page_posts, post_title=data['input_title'],
-                                       post_content=data['editor1'], pagination=pagination, tags=tags)
+                                       post_content=data['editor1'], pagination=pagination, tags=all_tags)
             else:
                 flash('Please enter a title.')
                 return render_template('index.html', posts=page_posts, post_title=data['input_title'],
-                                       post_content=data['editor1'], pagination=pagination, tags=tags)
+                                       post_content=data['editor1'], pagination=pagination, tags=all_tags)
         elif data['editor1'] == '':  # user has not entered a description/content
             flash('Please enter content.')
             return render_template('index.html', posts=page_posts, post_title=data['input_title'],
-                                   post_content=data['editor1'], pagination=pagination, tags=tags)
+                                   post_content=data['editor1'], pagination=pagination, tags=all_tags)
         elif len(request.form.getlist('input_tags')) == 0:
             ## TODO See jim later for data[] FIX
             flash('Please choose at least one tag.')
@@ -80,7 +83,7 @@ def index(data=None):
         elif recaptcha.verify() == False:  # user has not passed the recaptcha verification
             flash("Please complete reCAPTCHA")
             return render_template('index.html', posts=page_posts, post_title=data['input_title'],
-                                   post_content=data['editor1'], pagination=pagination, tags=tags)
+                                   post_content=data['editor1'], pagination=pagination, tags=all_tags)
         else:  # successful submission of the post
             title = data['input_title']
             content = data['editor1']
@@ -94,5 +97,6 @@ def index(data=None):
                 post_tag = PostTag(post_id=post.id, tag_id=Tag.query.filter_by(name=tag).first().id)
                 put_obj(post_tag)
             flash('Post submitted!')
+            print(page_posts)
             return redirect(url_for('.index'))
     return render_template('index.html', posts=page_posts, pagination=pagination, tags=all_tags)

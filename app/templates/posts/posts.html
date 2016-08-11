@@ -47,7 +47,7 @@
                 <br>
             {% endif %}
 
-            {% if post.is_edited %}
+            {% if post[9] %}
                 <div class="post-status">
                     {% if post[3] %}
                         <p3>Edited: Just Now</p3>
@@ -85,11 +85,11 @@
                     <img src="../static/twitter_icon.png" alt="Twitter" width="32" height="32" />
                 </a>
                 <!-- Linkedin -->
-                <a href="http://www.linkedin.com/shareArticle?url={{ url_for('posts.posts', id=post.id, _external=True) }}&title={{ post.title }}" target="_blank">
+                <a href="http://www.linkedin.com/shareArticle?url={{ url_for('posts.posts', id=post[0], _external=True) }}&title={{ post[1] }}" target="_blank">
                     <img src="../static/linkedin_icon.png" alt="LinkedIn" width="32" height="32" />
                 </a>
                 <!-- Email -->
-                <a href="mailto:?subject=[Women's Activism NYC] {{ post.title }}&body={{ post.content | safe }}" target="_blank">
+                <a href="mailto:?subject=[Women's Activism NYC] {{ post[1] }}&body={{ post[2] | safe }}" target="_blank">
                     <img src="../static/email_icon.png" alt="Email" width="32" height="32" />
                 </a>
             </div>

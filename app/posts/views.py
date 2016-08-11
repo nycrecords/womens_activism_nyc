@@ -10,7 +10,7 @@ app.db_helpers: used as utility functions for SQLalchemy operations
 flask_login: used login_required so that only
 """
 from flask import render_template, request, current_app, flash, redirect, url_for
-from app.models import Post, Comment, PostEdit
+from app.models import Post, Comment, PostEdit, PostTag, Tag
 from app.posts import posts
 from app.posts.forms import CommentForm
 from app.db_helpers import put_obj
@@ -47,8 +47,7 @@ def all_posts():
             name = Tag.query.filter_by(id=post_tag.tag_id).first().name
             tags.append([post_tag.tag_id, name])
         page_posts.append([id, title, content, just_now, time, comment_count, tags])
-    return render_template('postsTab.html', posts=page_posts, pagination=pagination)
-    return render_template('posts/postsTab.html', posts=posts_feed, pagination=pagination)
+    return render_template('posts/postsTab.html', posts=page_posts, pagination=pagination)
 
 
 @posts.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
@@ -159,5 +158,5 @@ def posts(id):
         page, per_page=current_app.config['COMMENTS_PER_PAGE'],
         error_out=True)
     comments = pagination.items
-    return render_template('posts/post.html', posts=page_posts, form=form,
+    return render_template('posts/posts.html', posts=page_posts, form=form,
                            comments=comments, pagination=pagination)

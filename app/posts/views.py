@@ -159,4 +159,4 @@ def posts(id):
         error_out=True)
     comments = pagination.items
     return render_template('posts/posts.html', posts=page_posts, form=form,
-                           comments=comments, pagination=pagination)
+                           comments=comments, pagination=pagination, post=post)

@@ -106,8 +106,7 @@
 
     {% if pagination %}
         <div class="pagination">
-        {#    {{ macros.pagination_widget(pagination, 'posts.posts', fragment='#comments', id=posts[0].id) }}#}
-            {{ macros.pagination_widget(pagination, 'posts.posts', id=posts[0].id) }}
+            {{ macros.pagination_widget(pagination, 'posts.posts', id=post.id) }}
         </div>
     {% endif %}
 

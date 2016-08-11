@@ -1,8 +1,8 @@
 from flask import render_template, redirect, url_for, flash, request
-from .. import db
 from ..models import *
 from . import main
 from .. import recaptcha
+from app.db_helpers import put_obj
 # from .forms import TagForm
 
 
@@ -54,14 +54,12 @@ def index(data=None):
             title = request.form['input_title']
             content = request.form['editor1']
             post = Post(title=title, content=content, is_edited=False, is_visible=True)
-            db.session.add(post)
-            db.session.commit()
+            put_obj(post)
 
             tag_list = request.form.getlist('input_tags')
             for tag in tag_list:
                 post_tag = PostTag(post_id=post.id, tag_id=Tag.query.filter_by(name=tag).first().id)
-                db.session.add(post_tag)
-                db.session.commit()
+                put_obj(post_tag)
             flash('Post submitted!')
             return redirect(url_for('.index'))
     return render_template('index.html', posts=page_posts, pagination=pagination, tags=all_tags)

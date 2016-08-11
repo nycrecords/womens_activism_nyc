@@ -3,7 +3,7 @@
 	:synopsis: Functions that interact with the Postgres database via Flask-SQLAlchemy
 .. modlueauthor:: Richa Agarwal <richa@codeforamerica.org>
 """
-from . import db
+from app import db
 from flask import current_app
 
 

@@ -14,7 +14,6 @@ from flask_login import login_user, logout_user, login_required, current_user
 from app.auth import auth
 from app.models import User
 from app.auth.forms import LoginForm, RegistrationForm, ChangePasswordForm, PasswordResetRequestForm, PasswordResetForm
-from app import db
 from app.send_email import send_email
 from app.db_helpers import put_obj
 
@@ -191,6 +190,8 @@ def password_reset(token):
         if user is None:
             return redirect(url_for('main.index'))
         if user.reset_password(token, form.password.data):
+            user.password=form.password.data
+            put_obj(user)
             flash('Your password has been updated.')
             return redirect(url_for('auth.login'))
         else:

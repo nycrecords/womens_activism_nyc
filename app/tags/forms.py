@@ -7,9 +7,11 @@ class AddTagForm(Form):
     add = StringField('Please enter a tag to add:', validators=[Optional()])
     submit = SubmitField('Submit')
 
+
 class RemoveTagForm(Form):
     remove = StringField('Please enter a tag to remove:', validators=[Optional()])
     submit = SubmitField('Submit')
+
 
 class EditTagForm(Form):
     current = StringField('Please enter an existing tag:', validators=[Optional()])

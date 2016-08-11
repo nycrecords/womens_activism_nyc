@@ -159,5 +159,5 @@ def posts(id):
         page, per_page=current_app.config['COMMENTS_PER_PAGE'],
         error_out=True)
     comments = pagination.items
-    return render_template('post.html', posts=page_posts, form=form,
+    return render_template('posts/post.html', posts=page_posts, form=form,
                            comments=comments, pagination=pagination)

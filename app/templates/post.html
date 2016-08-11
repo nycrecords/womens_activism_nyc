@@ -3,7 +3,6 @@
 {% import "_macros.html" as macros %}
 
 {% block title %}Women's Activism NYC{% endblock %}
-
 {% block page_content %}
     <ul class="posts">
         {% for post in posts %}
@@ -17,9 +16,9 @@
                     {% endif %}
                 </div>
                 <div class="post-title"> <b>{{ post.title }}</b> </div>
-                <div class="post-content">
-                        {{ post.content | safe}}
-                </div> <br>
+{#                <div class="post-body">#}
+{#                        {{ post.content_html | safe}}#}
+{#                </div> <br>#}
             </div>
 
             <div class="post-footer1">

@@ -17,6 +17,28 @@ def index(data=None):
 
     posts = pagination.items
     tags = Tag.query.all()
+    return render_template('index.html', postedit=postedit, posts=posts, pagination=pagination)
+
+
+@main.route('/about', methods=['GET', 'POST'])
+def about():
+    return render_template('about.html')
+
+
+@main.route('/archive', methods=['GET', 'POST'])
+def archive():
+    return render_template('archive.html')
+
+
+@main.route('/share', methods=['GET', 'POST'])
+def share(data=None):
+    page = request.args.get('page', 1, type=int)
+    pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
+        page, per_page=current_app.config['POSTS_PER_PAGE'],
+        error_out=True)
+    postedit = PostEdit.query.all()
+    posts = pagination.items
+
     if data or request.method == 'POST':
         if request.form['input_title'] == '':
             if request.form['editor1'] == '':
@@ -35,18 +57,8 @@ def index(data=None):
             content = request.form['editor1']
             post = Post(title=title, content=content, is_edited=False, is_visible=True)
             put_obj(post)
-            db.session.commit()
             flash('Post submitted!')
             return redirect(url_for('.index'))
-    return render_template('index.html', postedit=postedit, posts=posts, pagination=pagination, tags=tags)
 
-
-@main.route('/about', methods=['GET', 'POST'])
-def about():
-    return render_template('about.html')
-
-
-@main.route('/archive', methods=['GET', 'POST'])
-def archive():
-    return render_template('archive.html')
+    return render_template('share.html')
 

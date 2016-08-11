@@ -35,7 +35,7 @@
             {#    {%  for tag.name in tag.name %}#}
             {#                {% %}#}
                                 <div class="post-redirect">
-                                    <a href="{{ url_for('posts.single', id=post.id) }}">
+                                    <a href="{{ url_for('posts.posts', id=post.id) }}">
                                         <span class="label label-primary">Link</span>
                                     </a>
                                 </div>
@@ -47,7 +47,7 @@
                                 {#       EDIT BUTTON #}
                                 <div class="post-footer2">
                     {#                 <a href="{{url_for('.edit', id=post.id) }}">#}
-                                    <a href="{{url_for('posts.edit', id=post.id) }}">
+                                    <a href="{{url_for('posts.posts', id=post.id) }}">
                                         <span class="label label-primary">Edit</span>
                                     </a>
                     {#            FLAG BUTTON#}
@@ -63,7 +63,7 @@
                                 </div>
                                 <div></div>
                                     <div class="post-footer3">
-                                <a href="{{ url_for('posts.delete', id=post.id) }}">
+                                <a href="{{ url_for('posts.posts', id=post.id) }}">
                                     <span class="label label-danger">Delete</span>
                                 </a>
 
@@ -73,15 +73,15 @@
                                 </p2>
                                 <div id="share-buttons">
                                     <!-- Facebook -->
-                                    <a href="http://www.facebook.com/sharer.php?url={{ url_for('posts.single', id=post.id) }}" target="_blank">
+                                    <a href="http://www.facebook.com/sharer.php?url={{ url_for('posts.posts', id=post.id) }}" target="_blank">
                                         <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook"/>
                                     </a>
                                     <!-- Tumblr-->
-                                    <a href="http://www.tumblr.com/share/link?url={{ url_for('posts.single', id=post.id) }}&amp;title={{ post.title }}" target="_blank">
+                                    <a href="http://www.tumblr.com/share/link?url={{ url_for('posts.posts', id=post.id) }}&amp;title={{ post.title }}" target="_blank">
                                         <img src="https://simplesharebuttons.com/images/somacro/tumblr.png" alt="Tumblr" />
                                     </a>
                                     <!-- Twitter -->
-                                    <a href="https://twitter.com/share?url={{ url_for('posts.single', id=post.id) }}&amp;text={{ post.title }}&amp;hashtags=WomensActivismNYC" target="_blank">
+                                    <a href="https://twitter.com/share?url={{ url_for('posts.posts', id=post.id) }}&amp;text={{ post.title }}&amp;hashtags=WomensActivismNYC" target="_blank">
                                         <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
                                     </a>
                                 </div>

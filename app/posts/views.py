@@ -43,7 +43,7 @@ def posts(id):
     if form.validate_on_submit():
         comment = Comment(post_id=post.id, content=form.content.data, post=post)
         put_obj(comment)
-        flash('Comment Submited!')
+        flash('Comment Submitted!')
         return redirect(url_for('posts.posts', id=post.id, page=-1))
     page = request.args.get('page', 1, type=int)
     if page == -1:
@@ -53,7 +53,7 @@ def posts(id):
         page, per_page=current_app.config['COMMENTS_PER_PAGE'],
         error_out=True)
     comments = pagination.items
-    return render_template('post.html', posts=[post], form=form,
+    return render_template('_share_your_story.html', posts=[post], form=form,
                            comments=comments, pagination=pagination)
 
 

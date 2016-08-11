@@ -5,6 +5,7 @@
 {% block title %}Women's Activism NYC{% endblock %}
 
 {% block content %}
+
     {% block view_stories %}
         {% include "_view_stories.html" %}
     {% endblock %}
@@ -14,13 +15,11 @@
     {% endblock %}
 
 {# this is rendering the old main page#}
-    {% block page_body %}
-        {% include "_page_body.html" %}
-    {% endblock %}
 
-    {% block hear_our_story %}
-        {% include "_hear_our_story.html" %}
-    {% endblock %}
+
+{#    {% block hear_our_story %}#}
+{#        {% include "_hear_our_story.html" %}#}
+{#    {% endblock %}#}
 
     {% block share_your_story %}
         {% include "_share_your_story.html" %}
@@ -28,7 +27,12 @@
 
     {% block submit_share_story %}
         {% include "_submit_share_story.html" %}
+        {% include "postsTab.html" %}
     {% endblock %}
+
+{#    {% include "_posts.html" %}#}
+
+{#    {% include "tags.html" %}#}
 
     {% block attend_our_events %}
         {% include "_attend_our_events.html" %}
@@ -53,13 +57,12 @@
     {% block take_action_now %}
         {% include "_take_action_now.html" %}
     {% endblock %}
-
-    {% block join_the_conversation %}
-        {% include "_join_the_conversation.html" %}
-    {% endblock %}
-
+{#    {% block join_the_conversation %}#}
+{#        {% include "_join_the_conversation.html" %}#}
+{#    {% endblock %}#}
 
     {% block footer %}
         {% include "_footer.html" %}
     {% endblock %}
+
 {% endblock %}

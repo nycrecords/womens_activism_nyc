@@ -3,10 +3,10 @@ from .. import db
 from ..models import Tag
 from .forms import AddTagForm, RemoveTagForm, EditTagForm
 from . import tags
-from flask_login import login_required
+# from flask_login import login_required
+
 
 @tags.route('/tags', methods=['GET', 'POST'])
-@login_required
 def tags():
     tags = Tag.query.all()
     addform = AddTagForm()

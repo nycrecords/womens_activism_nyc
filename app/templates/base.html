@@ -1,6 +1,7 @@
 {% extends "bootstrap/base.html" %}
 
 {% block head %}
+
     {{ super() }}
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
@@ -13,7 +14,7 @@
             <nav class="navbartest">
             <a href="{{ url_for('main.index') }}">
                         <center>
-                        <img alt="hi" src="https://1.bp.blogspot.com/-qtymWpKxKSw/V5EQfVGyc7I/AAAAAAAA89U/rxpJ5_gO5J4ELHSnMUAGV7eEDWWO3ixBQCLcB/s1600/kled2.jpg"
+                        <img alt="hi" src="https://scontent-iad3-1.xx.fbcdn.net/v/t1.0-9/1688221_796075630408020_1581764105_n.jpg?oh=9d37959ab12b653154699843276c3677&oe=585854F6"
                          height="50" width="40">
                         </center>
                     </a>
@@ -34,14 +35,18 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                 </button>
+{#                <a class="navbar-brand" href="{{ url_for('main.index') }}"></a>#}
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                         <li><a href="{{ url_for('main.about') }}">ABOUT</a></li>
                         <li><a href="{{ url_for('main.archive') }}">ARCHIVE</a></li>
                         <li><a href="{{ url_for('feedback.feedback') }}">CONTACT</a></li>
-                        <li><a href="{{ url_for('tags.tags') }}">GIVE</a></li>
+                        <li><a href="{{ url_for('main.archive') }}">GIVE</a></li>
+                        <li><a href="{{ url_for('main.share') }}">SHARE</a></li>
+                        <li><a href="{{ url_for('tags.tags') }}">Tags</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                 </ul>
@@ -49,6 +54,7 @@
         </div>
     </div>
     {% endblock %}
+
 
 {% endblock %}
 

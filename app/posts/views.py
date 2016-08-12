@@ -40,13 +40,16 @@ def all_posts():
         just_now = post.just_now()
         time = post.creation_time
         comment_count = post.comments.count()
+        edit_time = post.edit_time
+        is_visible = post.is_visible
+        is_edited = post.is_edited
 
         post_tags = PostTag.query.filter_by(post_id=post.id).all()
         tags = []
         for post_tag in post_tags:
             name = Tag.query.filter_by(id=post_tag.tag_id).first().name
             tags.append([post_tag.tag_id, name])
-        page_posts.append([id, title, content, just_now, time, comment_count, tags])
+        page_posts.append([id, title, content, just_now, time, comment_count, edit_time, is_visible, is_edited, tags])
     return render_template('posts/postsTab.html', posts=page_posts, pagination=pagination)
 
 
@@ -67,9 +70,9 @@ def edit(id):
         data = request.form.copy()
 
         # add in user id later, writing the old post history into PostEdit table
-        post_edit = PostEdit(post_id=post.id, creation_time=post.creation_time, edit_time=datetime.utcnow(), type='Edit'
-                             , title=post.title, content=post.content, reason=data['input_reason'], version=post.version
-                             )
+        post_edit = PostEdit(post_id=post.id, creation_time=post.creation_time, edit_time=datetime.utcnow(),
+                             type='Edit', title=post.title, content=post.content, reason=data['input_reason'],
+                             version=post.version)
         put_obj(post_edit)
 
         new_title = data['input_title']
@@ -129,20 +132,37 @@ def posts(id):
     """
     post = Post.query.get_or_404(id)
     page_posts = []
-
+    """
+        page_posts is a list of lists containing attributes of posts
+        page_posts is used because tags cannot be accessed through posts
+        the indexes of page_posts are as follows:
+        0 = id
+        1 = title
+        2 = content
+        3 = just_now
+        4 = time
+        5 = comment_count
+        6 = edit_time
+        7 = is_visible
+        8 = is_edited
+        9 = tags
+    """
     id = post.id
     title = post.title
     content = post.content
     just_now = post.just_now()
     time = post.creation_time
     comment_count = post.comments.count()
+    edit_time = post.edit_time
+    is_visible = post.is_visible
+    is_edited = post.is_edited
 
     post_tags = PostTag.query.filter_by(post_id=post.id).all()
     tags = []
     for post_tag in post_tags:
         name = Tag.query.filter_by(id=post_tag.tag_id).first().name
         tags.append([post_tag.tag_id, name])
-    page_posts.append([id, title, content, just_now, time, comment_count, tags])
+    page_posts.append([id, title, content, just_now, time, comment_count, edit_time, is_visible, is_edited, tags])
 
     form = CommentForm()
     if form.validate_on_submit():

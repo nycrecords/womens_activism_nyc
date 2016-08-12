@@ -15,3 +15,11 @@ class CommentForm(Form):
     content = TextAreaField('Enter your comment', validators=[DataRequired("Comment can't be left blank")])
     recaptcha = RecaptchaField()
     submit = SubmitField('submit')
+
+
+class CommentEditForm(Form):
+    reason = TextAreaField('Reason', validators=[DataRequired("Reason can't be left blank")])
+    content = TextAreaField('Comment Content', validators=[DataRequired("Comment can't be left blank")])
+    recaptcha = RecaptchaField()
+    submit = SubmitField('Submit')
+

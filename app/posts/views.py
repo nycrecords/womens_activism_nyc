@@ -12,7 +12,7 @@ flask_login: used login_required so that only
 from flask import render_template, request, current_app, flash, redirect, url_for
 from app.models import Post, Comment, PostEdit, PostTag, Tag
 from app.posts import posts
-from app.posts.forms import CommentForm
+from app.posts.forms import CommentForm, CommentEditForm
 from app.db_helpers import put_obj
 from flask_login import login_required
 from datetime import datetime
@@ -88,16 +88,19 @@ def edit(id):
     return render_template('posts/edit_post.html', post=post)
 
 
-# @posts.route('/comments/edit/<int:id>'), methods=['GET', 'POST'])
-# def edit_comment(id):
-#     comment = Comment.query.get_or_404(id)
-#     form = CommentForm()
-#     if form.validate_on_submit():
-#         comment = Comment(post_id=post.id, content=form.content.data, post=post)
-#         put_obj(comment)
-#         flash('Comment Submited!')
-#         return redirect(url_for('posts.posts', id=post.id, page=-1))
+@posts.route('/comments/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_comment(id):
+    comment = Comment.query.get_or_404(id)
+    post_id = comment.post_id
+    comment_content=comment.content
+    form = CommentEditForm()
+    form.content.data = comment.content
+    if form.validate_on_submit():
 
+        flash('Comment Edited')
+        return redirect(url_for('posts.posts', id=post_id, page=-1))
+    return render_template('posts/edit_comment.html', form=form, comment=comment)
 
 
 

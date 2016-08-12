@@ -1,5 +1,6 @@
 <ul class="comments">
     {% for comment in comments %}
+        <h1>sdalskdjfhaslkdjfh</h1>
     <li class="comment">
         <div class="comment-content">
             <div class="comment-date">
@@ -12,9 +13,14 @@
             <div class="comment-content">
                 {{ comment.content | safe }}
             </div>
-            <div class="post-flag">
+            <div class="comment-flag">
                 <a href="{{ url_for('flags.flag_comment', id=post.id, id2=comment.id) }}">
                     <span class="label label-primary">Flag</span>
+                </a>
+            </div>
+            <div class="comment-edit">
+                <a href="{{ url_for('posts.edit_comment', id=comment.id) }}">
+                    <span class="label label-primary">Edit</span>
                 </a>
             </div>
         </div>

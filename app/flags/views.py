@@ -89,8 +89,6 @@ def flag_comment(id, id2):
                                 type=form.flag_reason.data,
                                 reason=form.flag_description.data)
             put_obj(flag_comment)
-            current_app.logger.info(
-                "Flag_reason: {}\nFlag_description: {}".format(form.flag_reason.data, form.flag_description.data))
             send_email(to=current_app.config['WOMENS_ADMIN'], subject='Flagged Comment', template='mail/email_flags',
                        post_title=post_title, post=post, comment_content=comment.content,
                        reason=flag_comment.type, description=flag_comment.reason)

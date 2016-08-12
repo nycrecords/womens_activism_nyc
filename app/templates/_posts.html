@@ -2,10 +2,6 @@
     <style type="text/css">
         A{text-decoration:none}
         #share-buttons img {
-            width: 35px;
-            padding: 5px;
-            border: 0;
-            box-shadow: 0;
             display: inline;
         }
     </style>
@@ -14,7 +10,7 @@
 <body>
     <ul class="posts">
         {% for post in posts %}
-{#            {% if post.is_visible %}#}
+            {% if post[7] %}
                 <li class="post">
                     <div class="post-content">
                         <div class="post-date">
@@ -28,7 +24,7 @@
                         <div class="post-content">
                                 {{ post[2] | safe}}
                         </div> <br>
-                        {% for tag in post[6] %}
+                        {% for tag in post[9] %}
                             <span class="label label-primary">{{ tag[1] }}</span>
                         {% endfor %}
                     </div>
@@ -59,7 +55,7 @@
                         <br>
                     {% endif %}
 
-                    {% if post[9] %}
+                    {% if post[8] %}
                         <div class="post-status">
                             {% if post[3] %}
                                 <p3>Edited: Just Now</p3>
@@ -106,7 +102,7 @@
                             </a>
                         </div>
                 </li>
-{#            {% endif %}#}
+            {% endif %}
         {% endfor %}
     </ul>
 

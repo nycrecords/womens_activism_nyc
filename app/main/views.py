@@ -43,7 +43,21 @@ def index(data=None):
     all_tags = Tag.query.all()
 
     page_posts = []
-
+    """
+    page_posts is a list of lists containing attributes of posts
+    page_posts is used because tags cannot be accessed through posts
+    the indexes of page_posts are as follows:
+    0 = id
+    1 = title
+    2 = content
+    3 = just_now
+    4 = time
+    5 = comment_count
+    6 = edit_time
+    7 = is_visible
+    8 = is_edited
+    9 = tags
+    """
     for post in posts:
         id = post.id
         title = post.title
@@ -60,7 +74,7 @@ def index(data=None):
         for post_tag in post_tags:
             name = Tag.query.filter_by(id=post_tag.tag_id).first().name
             tags.append([post_tag.tag_id, name])
-        page_posts.append([id, title, content, just_now, time, comment_count, tags, edit_time, is_visible, is_edited])
+        page_posts.append([id, title, content, just_now, time, comment_count, edit_time, is_visible, is_edited, tags])
 
     if data or request.method == 'POST':  # user presses the submit button
         data = request.form.copy()
@@ -77,7 +91,6 @@ def index(data=None):
             return render_template('index.html', posts=page_posts, post_title=data['input_title'],
                                    post_content=data['editor1'], pagination=pagination, tags=all_tags)
         elif len(request.form.getlist('input_tags')) == 0:
-            ## TODO See jim later for data[] FIX
             flash('Please choose at least one tag.')
             return render_template('index.html', posts=page_posts, pagination=pagination, tags=all_tags)
         elif recaptcha.verify() == False:  # user has not passed the recaptcha verification
@@ -87,7 +100,6 @@ def index(data=None):
         else:  # successful submission of the post
             title = data['input_title']
             content = data['editor1']
-            ### Todo: get tags associated with posts
 
             post = Post(title=title, content=content, is_edited=False, is_visible=True)
             put_obj(post)

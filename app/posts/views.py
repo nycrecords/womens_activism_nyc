@@ -32,6 +32,21 @@ def all_posts():
     posts_feed = pagination.items
 
     page_posts = []
+    """
+    page_posts is a list of lists containing attributes of posts
+    page_posts is used because tags cannot be accessed through posts
+    the indexes of page_posts are as follows:
+    0 = id
+    1 = title
+    2 = content
+    3 = just_now
+    4 = time
+    5 = comment_count
+    6 = edit_time
+    7 = is_visible
+    8 = is_edited
+    9 = tags
+    """
 
     for post in posts_feed:
         id = post.id

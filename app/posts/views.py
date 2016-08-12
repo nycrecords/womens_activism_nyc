@@ -10,7 +10,7 @@ app.db_helpers: used as utility functions for SQLalchemy operations
 flask_login: used login_required so that only
 """
 from flask import render_template, request, current_app, flash, redirect, url_for
-from app.models import Post, Comment, PostEdit, PostTag, Tag
+from app.models import Post, Comment, PostEdit, CommentEdit, PostTag, Tag
 from app.posts import posts
 from app.posts.forms import CommentForm, CommentEditForm
 from app.db_helpers import put_obj
@@ -93,14 +93,27 @@ def edit(id):
 def edit_comment(id):
     comment = Comment.query.get_or_404(id)
     post_id = comment.post_id
-    comment_content=comment.content
+    comment_content = comment.content
     form = CommentEditForm()
-    form.content.data = comment.content
+    #form.content.data = comment.content
     if form.validate_on_submit():
 
+        comment_edit = CommentEdit(comment_id=comment.id, creation_time=comment.creation_time, edit_time=datetime.utcnow(),
+                                   type='Edit', content=comment.content, reason=form.reason.data, version=comment.version)
+        put_obj(comment_edit)
+
+        new_content = form.content.data
+        new_is_edited = True
+        new_version = comment.version + 1
+        new_edit_time = datetime.utcnow()
+        comment.content = new_content
+        comment.is_edited = new_is_edited
+        comment.version = new_version
+        comment.edit_time = new_edit_time
+        put_obj(comment)
         flash('Comment Edited')
         return redirect(url_for('posts.posts', id=post_id, page=-1))
-    return render_template('posts/edit_comment.html', form=form, comment=comment)
+    return render_template('posts/edit_comment.html', form=form)
 
 
 
@@ -152,6 +165,7 @@ def posts(id):
     just_now = post.just_now()
     time = post.creation_time
     comment_count = post.comments.count()
+
 
     post_tags = PostTag.query.filter_by(post_id=post.id).all()
     tags = []

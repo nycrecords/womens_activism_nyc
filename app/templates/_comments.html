@@ -12,6 +12,11 @@
             <div class="comment-content">
                 {{ comment.content | safe }}
             </div>
+            <div class="post-flag">
+                <a href="{{ url_for('flags.flag_comment', id=post.id, id2=comment.id) }}">
+                    <span class="label label-primary">Flag</span>
+                </a>
+            </div>
         </div>
     </li>
     {% endfor %}

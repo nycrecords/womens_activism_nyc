@@ -9,14 +9,17 @@
                         {{ moment(comment.creation_time).fromNow() }}
                 {% endif %}
             </div>
+
             <div class="comment-content">
                 {{ comment.content | safe }}
             </div>
+
             <div class="post-flag">
-                <a href="{{ url_for('flags.flag_comment', id=post.id, id2=comment.id) }}">
+                <a href="{{ url_for('flags.flag_comment', id=post[0], id2=comment.id) }}">
                     <span class="label label-primary">Flag</span>
                 </a>
             </div>
+
         </div>
     </li>
     {% endfor %}

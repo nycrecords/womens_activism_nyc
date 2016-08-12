@@ -75,14 +75,12 @@ def flag_comment(id, id2):
         else:
             flash('Thank you for your input, a moderator has been notified.')
             flag_comment = Flag(post_id=post.id,
-                                # comment_id=comment.id,
+                                comment_id=comment.id,
                                 type=form.flag_reason.data,
                                 reason=form.flag_description.data)
             put_obj(flag_comment)
-            current_app.logger.info(
-                "Flag_reason: {}\nFlag_description: {}".format(form.flag_reason.data, form.flag_description.data))
             send_email(to=current_app.config['WOMENS_ADMIN'], subject='Flagged Comment', template='mail/email_flags',
-                       post_title=post_title, post=post, comment_content=comment,
+                       post_title=post_title, post=post, comment_content=comment_content,
                        reason=flag_comment.type, description=flag_comment.reason)
-            return redirect(url_for('posts.posts', id=post.id, _external=True))
+            return redirect(url_for('posts.posts', id=post.id))
     return render_template('flags/flags.html', form=form, post_title=post_title, comment_content=comment_content)

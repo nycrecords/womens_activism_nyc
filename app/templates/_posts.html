@@ -2,10 +2,6 @@
     <style type="text/css">
         A{text-decoration:none}
         #share-buttons img {
-            width: 35px;
-            padding: 5px;
-            border: 0;
-            box-shadow: 0;
             display: inline;
         }
     </style>
@@ -14,7 +10,7 @@
 <body>
     <ul class="posts">
         {% for post in posts %}
-{#            {% if post.is_visible %}#}
+            {% if post[8] %}
                 <li class="post">
                     <div class="post-content">
                         <div class="post-date">
@@ -33,7 +29,7 @@
                         {% endfor %}
                     </div>
 
-            <div class="post-footer1">
+            <div class="post-redirect">
                 <a href="{{ url_for('posts.posts', id=post[0]) }}">
                     <span class="label label-primary">View Post</span>
                 </a>
@@ -49,7 +45,6 @@
                                 <span class="label label-primary">Edit Post</span>
                             </a>
                         </div>
-                        <br>
 
                         <div class="post-delete">
                             <a href="{{ url_for('posts.delete', id=post[0]) }}">
@@ -101,12 +96,12 @@
                                 <img src="../static/linkedin_icon.png" alt="LinkedIn" width="32" height="32" />
                             </a>
                             <!-- Email -->
-                            <a href="mailto:?subject=[Women's Activism NYC] {{ post[1] }}&body={{ post[2] | safe }}" target="_blank">
+                            <a href="mailto:?subject=[Women's Activism NYC] {{ post[1] }}&body={{ post[2] }}" target="_blank">
                                 <img src="../static/email_icon.png" alt="Email" width="32" height="32" />
                             </a>
                         </div>
                 </li>
-{#            {% endif %}#}
+            {% endif %}
         {% endfor %}
     </ul>
 

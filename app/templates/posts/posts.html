@@ -7,107 +7,109 @@
 {% block page_content %}
     <ul class="posts">
         {% for post in posts %}
-        <li class="post">
-            <div class="post-content">
-                <div class="post-date">
-                    {%  if post[3] %}
-                        Just Now
-                    {%  else %}
-                        {{ moment(post[4]).fromNow() }}
-                    {% endif %}
-                </div>
-                <div class="post-title"> <b>{{ post[1] }}</b> </div>
-                <div class="post-content">
-                        {{ post[2] | safe}}
-                </div> <br>
-                {% for tag in post[6] %}
-                    <span class="label label-primary">{{ tag[1] }}</span>
-                {% endfor %}
-            </div>
+            {% if post[8] %}
+                <li class="post">
+                    <div class="post-content">
+                        <div class="post-date">
+                            {%  if post[3] %}
+                                Just Now
+                            {%  else %}
+                                {{ moment(post[4]).fromNow() }}
+                            {% endif %}
+                        </div>
+                        <div class="post-title"> <b>{{ post[1] }}</b> </div>
+                        <div class="post-content">
+                                {{ post[2] | safe}}
+                        </div> <br>
+                        {% for tag in post[6] %}
+                            <span class="label label-primary">{{ tag[1] }}</span>
+                        {% endfor %}
+                    </div>
 
-            <div class="post-comment_count">
-                <a href="{{ url_for('posts.posts', id=post[0]) }}#comments">
+            <div class="post-redirect">
+                <a href="{{ url_for('posts.posts', id=post[0]) }}">
+                    <span class="label label-primary">View Post</span>
+                </a>
+                <div>
                     <span class="label label-primary">{{ post[5] }} Comments</span>
-                </a>
+                </div>
             </div>
             <br>
-            {% if current_user.is_administrator() %}
-                <div class="post-edit">
-                    <a href="{{ url_for('posts.edit', id=post[0]) }}">
-                        <span class="label label-primary">Edit Post</span>
-                    </a>
-                </div>
-                <br>
 
-                <div class="post-delete">
-                    <a href="{{ url_for('posts.delete', id=post[0]) }}">
-                        <span class="label label-primary">Delete Post</span>
-                    </a>
-                </div>
-                <br>
-            {% endif %}
+                    {% if current_user.is_administrator() %}
+                        <div class="post-edit">
+                            <a href="{{ url_for('posts.edit', id=post[0]) }}">
+                                <span class="label label-primary">Edit Post</span>
+                            </a>
+                        </div>
 
-            {% if post[9] %}
-                <div class="post-status">
-                    {% if post[3] %}
-                        <p3>Edited: Just Now</p3>
-                    {% else %}
-                        <p3>Edited: {{ moment(post[6]).fromNow() }}</p3>
+                        <div class="post-delete">
+                            <a href="{{ url_for('posts.delete', id=post[0]) }}">
+                                <span class="label label-primary">Delete Post</span>
+                            </a>
+                        </div>
+                        <br>
                     {% endif %}
-                </div>
-                <br>
+
+                    {% if post[9] %}
+                        <div class="post-status">
+                            {% if post[3] %}
+                                <p3>Edited: Just Now</p3>
+                            {% else %}
+                                <p3>Edited: {{ moment(post[4]).fromNow() }}</p3>
+                            {% endif %}
+                        </div>
+                        <br>
+                    {% endif %}
+
+                    <p1>
+                        Something wrong with this post? Tell us!
+                    </p1>
+                    <div class="post-flag">
+                        <a href="{{ url_for('flags.flag_post', id=post[0]) }}">
+                            <span class="label label-primary">Flag</span>
+                        </a>
+                    </div>
+                    <br>
+
+                    <p2>
+                        Like this post? Share it with friends!
+                    </p2>
+                        <div id="share-buttons">
+                            <!-- Facebook -->
+                            <a href="http://www.facebook.com/sharer.php?u={{ url_for('posts.posts', id=post[0], _external=True) }}" target="_blank">
+                                <img src="../static/facebook_icon.png" alt="Facebook" width="32" height="32" />
+                            </a>
+                            <!-- Tumblr-->
+                            <a href="http://www.tumblr.com/share/link?url={{ url_for('posts.posts', id=post[0], _external=True) }}&name={{ post[1] }}&description=WomensActivismNYC" target="_blank">
+                                <img src="../static/tumblr_icon.png" alt="Tumblr" width="32" height="32" />
+                            </a>
+                            <!-- Twitter -->
+                            <a href="https://twitter.com/share?url={{ url_for('posts.posts', id=post[0], _external=True) }}&text={{ post[1] }}&hashtags=WomensActivismNYC" target="_blank">
+                                <img src="../static/twitter_icon.png" alt="Twitter" width="32" height="32" />
+                            </a>
+                            <!-- LinkedIn -->
+                            <a href="http://www.linkedin.com/shareArticle?url={{ url_for('posts.posts', id=post[0], _external=True) }}&title={{ post[1] }}" target="_blank">
+                                <img src="../static/linkedin_icon.png" alt="LinkedIn" width="32" height="32" />
+                            </a>
+                            <!-- Email -->
+                            <a href="mailto:?subject=[Women's Activism NYC] {{ post[1] }}&body={{ post[2] }}" target="_blank">
+                                <img src="../static/email_icon.png" alt="Email" width="32" height="32" />
+                            </a>
+                        </div>
+                </li>
+
+                <h4 id="comments">Comments</h4>
+                    <div class="comment-form">
+                        {{ wtf.quick_form(form) }}
+                    </div>
+
+                    {% include '_comments.html' %}
+
+            {% else %}
+                <h1>This post has been deleted by a moderator.</h1>
             {% endif %}
-
-            <p1>
-                Something wrong with this post? Tell us!
-            </p1>
-            <div class="post-flag">
-                <a href="{{ url_for('flags.flag_post', id=post[0]) }}">
-                    <span class="label label-primary">Flag</span>
-                </a>
-            </div>
-            <br>
-
-            <p2>
-                Like this post? Share it with friends!
-            </p2>
-            <div id="share-buttons">
-                <!-- Facebook -->
-                <a href="http://www.facebook.com/sharer.php?u={{ url_for('posts.posts', id=post[0], _external=True) }}" target="_blank">
-                    <img src="../static/facebook_icon.png" alt="Facebook" width="32" height="32" />
-                </a>
-                <!-- Tumblr-->
-                <a href="http://www.tumblr.com/share/link?url={{ url_for('posts.posts', id=post[0], _external=True) }}&name={{ post[1] }}&description=WomensActivismNYC" target="_blank">
-                    <img src="../static/tumblr_icon.png" alt="Tumblr" width="32" height="32" />
-                </a>
-                <!-- Twitter -->
-                <a href="https://twitter.com/share?url={{ url_for('posts.posts', id=post[0], _external=True) }}&text={{ post[1] }}&hashtags=WomensActivismNYC" target="_blank">
-                    <img src="../static/twitter_icon.png" alt="Twitter" width="32" height="32" />
-                </a>
-                <!-- Linkedin -->
-                <a href="http://www.linkedin.com/shareArticle?url={{ url_for('posts.posts', id=post[0], _external=True) }}&title={{ post[1] }}" target="_blank">
-                    <img src="../static/linkedin_icon.png" alt="LinkedIn" width="32" height="32" />
-                </a>
-                <!-- Email -->
-                <a href="mailto:?subject=[Women's Activism NYC] {{ post[1] }}&body={{ post[2] | safe }}" target="_blank">
-                    <img src="../static/email_icon.png" alt="Email" width="32" height="32" />
-                </a>
-            </div>
-        </li>
         {% endfor %}
     </ul>
-
-    <h4 id="comments">Comments</h4>
-    <div class="comment-form">
-        {{ wtf.quick_form(form) }}
-    </div>
-
-    {% include '_comments.html' %}
-
-    {% if pagination %}
-        <div class="pagination">
-            {{ macros.pagination_widget(pagination, 'posts.posts', id=post.id) }}
-        </div>
-    {% endif %}
 
 {% endblock %}

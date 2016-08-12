@@ -40,13 +40,17 @@ def all_posts():
         just_now = post.just_now()
         time = post.creation_time
         comment_count = post.comments.count()
+        edit_time = post.edit_time
+        is_visible = post.is_visible
+        is_edited = post.is_edited
+
 
         post_tags = PostTag.query.filter_by(post_id=post.id).all()
         tags = []
         for post_tag in post_tags:
             name = Tag.query.filter_by(id=post_tag.tag_id).first().name
             tags.append([post_tag.tag_id, name])
-        page_posts.append([id, title, content, just_now, time, comment_count, tags])
+        page_posts.append([id, title, content, just_now, time, comment_count, tags, edit_time, is_visible, is_edited])
     return render_template('posts/postsTab.html', posts=page_posts, pagination=pagination)
 
 
@@ -136,13 +140,16 @@ def posts(id):
     just_now = post.just_now()
     time = post.creation_time
     comment_count = post.comments.count()
+    edit_time = post.edit_time
+    is_visible = post.is_visible
+    is_edited = post.is_edited
 
     post_tags = PostTag.query.filter_by(post_id=post.id).all()
     tags = []
     for post_tag in post_tags:
         name = Tag.query.filter_by(id=post_tag.tag_id).first().name
         tags.append([post_tag.tag_id, name])
-    page_posts.append([id, title, content, just_now, time, comment_count, tags])
+    page_posts.append([id, title, content, just_now, time, comment_count, tags, edit_time, is_visible, is_edited])
 
     form = CommentForm()
     if form.validate_on_submit():
@@ -159,4 +166,4 @@ def posts(id):
         error_out=True)
     comments = pagination.items
     return render_template('posts/posts.html', posts=page_posts, form=form,
-                           comments=comments, pagination=pagination, post=post)
+                           comments=comments, pagination=pagination)

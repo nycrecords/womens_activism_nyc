@@ -163,8 +163,10 @@ class Comment(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"), nullable=False)
     content = db.Column(db.String(750), nullable=False)
     creation_time = db.Column(db.DateTime,  nullable=False, default=datetime.utcnow())
+    edit_time = db.Column(db.DateTime)
     is_edited = db.Column(db.Boolean, nullable=False, default=False)
     is_visible = db.Column(db.Boolean, nullable=False, default=True)
+    version = db.Column(db.Integer, default=1)
 
     def just_now(self):
         a = datetime.utcnow()
@@ -193,10 +195,12 @@ class CommentEdit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     comment_id = db.Column(db.Integer, db.ForeignKey("comments.id"))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    edit_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    type = db.Column(db.Enum('Edit', 'Delete', name='comment_edit_types'), nullable=False)
+    creation_time = db.Column(db.DateTime)
+    edit_time = db.Column(db.DateTime)
+    type = db.Column(db.String(6), nullable=False)
     content = db.Column(db.Text, nullable=False)
     reason = db.Column(db.Text, nullable=False)
+    version = db.Column(db.Integer, default=1)
 
     def __repr__(self):
         return '<Edit %r>' % self.id

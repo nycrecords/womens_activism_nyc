@@ -42,6 +42,9 @@ div.post-edit {
 div.post-delete {
     text-align:right;
 }
+div.post-footer1{
+    text-align: right;
+}
 div.post-comment_count {
     text-align:right;
 }

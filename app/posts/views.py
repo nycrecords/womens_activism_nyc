@@ -88,6 +88,19 @@ def edit(id):
     return render_template('posts/edit_post.html', post=post)
 
 
+# @posts.route('/comments/edit/<int:id>'), methods=['GET', 'POST'])
+# def edit_comment(id):
+#     comment = Comment.query.get_or_404(id)
+#     form = CommentForm()
+#     if form.validate_on_submit():
+#         comment = Comment(post_id=post.id, content=form.content.data, post=post)
+#         put_obj(comment)
+#         flash('Comment Submited!')
+#         return redirect(url_for('posts.posts', id=post.id, page=-1))
+
+
+
+
 @posts.route('/posts/delete/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete(id):

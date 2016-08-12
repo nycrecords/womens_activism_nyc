@@ -28,7 +28,7 @@ class Config:
     MAIL_USERNAME = 'womensactivismnyc@gmail.com'
     MAIL_PASSWORD = 'doris1234'
     MAIL_SUBJECT_PREFIX = '[Womens Activism NYC]'
-    MAIL_SENDER = 'Womens Activism NYC Admin <flasky@example.com>'
+    MAIL_SENDER = 'Womens Activism NYC Admin <womensactivismnyc@gmail.com>'
     WOMENS_ADMIN = 'womensactivismnyc@gmail.com'
     POSTS_PER_PAGE = 10
     COMMENTS_PER_PAGE = 10
@@ -40,10 +40,10 @@ class Config:
     RECAPTCHA_SITE_KEY = "6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"
     RECAPTCHA_SECRET_KEY = "6LetUSYTAAAAAN1pLPLyyIFUh6rEemXczfMFT4um"
 
-
     @staticmethod
     def init_app(app):
         pass
+
 
 class DevelopmentConfig(Config):
     DEBUG = True

@@ -328,6 +328,7 @@ class Flag(db.Model):
     __tablename__ = "flags"
     id = db.Column(db.Integer, primary_key=True)
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
+    # comment_id = db.Column(db.Integer, db.ForeignKey("comments.id"))
     type = db.Column(db.String(30))
     reason = db.Column(db.String(500), nullable=False)
 

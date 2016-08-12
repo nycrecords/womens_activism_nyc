@@ -16,7 +16,6 @@ Flask-Mail==0.9.1
 Flask-Migrate==1.8.1
 Flask-Moment==0.5.1
 Flask-PageDown==0.1.4
-Flask-ReCaptcha==0.4.2
 Flask-Script==2.0.5
 Flask-SQLAlchemy==2.1
 Flask-WTF==0.12
@@ -37,7 +36,6 @@ psycopg2==2.6.2
 public==0.0.34
 python-env==1.0.0
 python-editor==1.0.1
-python-env==1.0.0
 query-string==0.0.8
 records==0.4.3
 requests==2.10.0

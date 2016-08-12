@@ -59,31 +59,30 @@ def flag_post(id):
     return render_template('flags/flags.html', form=form, post_title=post_title)
 
 
-################## NOT USED UNTIL COMMENTS ARE IMPLEMENTED #####################
-# @flags.route('/flag/posts/<int:id>/comments/<int:id2>', methods=['GET', 'POST'])
-# def flag_comment(id, id2):
-#     post = Post.query.get_or_404(id)
-#     comment = Comment.query.get_or_404(id2)
-#     comment_content = comment.content
-#     post_title = post.title
-#     form = FlagsForm()
-#     if form.validate_on_submit():
-#         if (form.flag_reason.data == "Other") and (len(form.flag_description.data) < 50):
-#             flash('Reason "Other" requires a description of 50 or more characters.')
-#             flash('Please resubmit your flag ticket.')
-#             return render_template('flags.html',
-#                                    form=form, post_title=post_title, comment_content=comment_content)
-#         else:
-#             flash('Thank you for your input, a moderator has been notified.')
-#             flag_comment = Flag(comment_id=comment.id,
-#                                 type=form.flag_reason.data,
-#                                 reason=form.flag_description.data)
-#             db.session.add(flag_comment)
-#             db.session.commit()
-#             current_app.logger.info(
-#                 "Flag_reason: {}\nFlag_description: {}".format(form.flag_reason.data, form.flag_description.data))
-#             send_email(to=current_app.config['WOMENS_ADMIN'], subject='Flagged Comment', template='mail/email_flags',
-#                        post_title=post_title, comment_content=comment,
-#                        reason=flag_comment.type, description=flag_comment.reason)
-#             return redirect(url_for('main.index'))
-#     return render_template('flags.html', form=form, post_title=post_title, comment_content=comment_content)
+@flags.route('/flag/posts/<int:id>/comments/<int:id2>', methods=['GET', 'POST'])
+def flag_comment(id, id2):
+    post = Post.query.get_or_404(id)
+    comment = Comment.query.get_or_404(id2)
+    post_title = post.title
+    comment_content = comment.content
+    form = FlagsForm()
+    if form.validate_on_submit():
+        if (form.flag_reason.data == "Other") and (len(form.flag_description.data) < 50):
+            flash('Reason "Other" requires a description of 50 or more characters.')
+            flash('Please resubmit your flag ticket.')
+            return render_template('flags/flags.html',
+                                   form=form, post_title=post_title, comment_content=comment_content)
+        else:
+            flash('Thank you for your input, a moderator has been notified.')
+            flag_comment = Flag(post_id=post.id,
+                                # comment_id=comment.id,
+                                type=form.flag_reason.data,
+                                reason=form.flag_description.data)
+            put_obj(flag_comment)
+            current_app.logger.info(
+                "Flag_reason: {}\nFlag_description: {}".format(form.flag_reason.data, form.flag_description.data))
+            send_email(to=current_app.config['WOMENS_ADMIN'], subject='Flagged Comment', template='mail/email_flags',
+                       post_title=post_title, post=post, comment_content=comment,
+                       reason=flag_comment.type, description=flag_comment.reason)
+            return redirect(url_for('posts.posts', id=post.id, _external=True))
+    return render_template('flags/flags.html', form=form, post_title=post_title, comment_content=comment_content)

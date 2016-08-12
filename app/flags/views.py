@@ -61,6 +61,16 @@ def flag_post(id):
 
 @flags.route('/flag/posts/<int:id>/comments/<int:id2>', methods=['GET', 'POST'])
 def flag_comment(id, id2):
+    """
+        Function flag_comment will allow user to provide a reason and description of why they think a comment on a post shouldn't be there
+        The view function will then commit the information of the flag to the database
+        An email will be sent to the email account of WOMENS_ADMIN detailing the information user provided
+        User also cannot submit the form if reason for flagging "Other" is selected along with a description of less than
+            50 characters
+        :param id: identifies the post that is currently being flagged
+        :return: template that renders a form where user will provide their reasoning and issues with the comment of a post
+        redirects user back to main page when completed
+        """
     post = Post.query.get_or_404(id)
     comment = Comment.query.get_or_404(id2)
     post_title = post.title

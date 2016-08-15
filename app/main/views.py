@@ -135,7 +135,7 @@ def simonarchive():
 @main.route('/simonshare', methods=['GET', 'POST'])
 def simonshare():
     # TODO: rename this route and put it into posts/views.py
-    # TODO:
+    # TODO: update the template so that it has add media button plugin
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
         page, per_page=current_app.config['POSTS_PER_PAGE'],

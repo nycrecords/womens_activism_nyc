@@ -38,6 +38,7 @@ def create_app(config_name):
     login_manager.init_app(app)
 
     # TODO: add in docstrings for blueprints
+    # TODO: CHANGE .posts to .stories
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)

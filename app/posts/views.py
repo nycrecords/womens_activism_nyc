@@ -20,6 +20,7 @@ from app import db
 
 @posts.route('/posts', methods=['GET', 'POST'])
 def all_posts():
+    # TODO: Render the correct template - archive.html instead of postTab.html
     """
     Route for seperate post tab that shows all posts in the db.
     Displays all posts in a paginated fashion.
@@ -60,6 +61,7 @@ def all_posts():
 @posts.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit(id):
+    # TODO: change post attributes to reflect new models.py
     """
     :param(id) Query the db with id for the Post to display information in it
     :return template with ckeditor with post information to begin the edit
@@ -129,6 +131,7 @@ def edit(id):
 @posts.route('/posts/delete/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete(id):
+    # TODO: change post attributes to reflect new models.py
     """
     :param(id) Query the db with id for the Post to display information in it
     :return redirect to posts page with feed of all posts
@@ -159,6 +162,7 @@ def delete(id):
 
 @posts.route('/posts/<int:id>', methods=['GET', 'POST'])
 def posts(id):
+    # TODO: change post attributes to reflect new models.py
     """
     Route used to show a post on its own single page
     :param id: Unique identifier for post (post_id).

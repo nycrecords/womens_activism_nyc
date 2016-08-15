@@ -14,7 +14,7 @@ from app.models import Post, Comment, PostEdit, PostTag, Tag
 from app.posts import posts
 from app.posts.forms import CommentForm
 from app.db_helpers import put_obj
-from flask_login import login_required
+from flask_login import login_required, current_user
 from datetime import datetime
 
 
@@ -81,11 +81,34 @@ def edit(id):
     All post history that cannot be seen by user lives in PostEdit table
     """
     post = Post.query.get_or_404(id)
+
+    page_post = []
+
+    id = post.id
+    title = post.title
+    content = post.content
+    just_now = False
+    time = post.creation_time
+    comment_count = post.comments.count()
+    edit_time = post.edit_time
+    is_visible = post.is_visible
+    is_edited = post.is_edited
+
+    post_tags = PostTag.query.filter_by(post_id=post.id).all()
+    tags = []
+    for post_tag in post_tags:
+        name = Tag.query.filter_by(id=post_tag.tag_id).first().name
+        tags.append([post_tag.tag_id, name])
+    page_post.append([id, title, content, just_now, time, comment_count, edit_time, is_visible, is_edited, tags])
+    all_tags = Tag.query.all()
+
     if request.method == 'POST':
         data = request.form.copy()
+        user = current_user.id
 
         # add in user id later, writing the old post history into PostEdit table
-        post_edit = PostEdit(post_id=post.id, creation_time=post.creation_time, edit_time=datetime.utcnow(),
+        post_edit = PostEdit(post_id=post.id, user_id=user, creation_time=post.creation_time,
+                             edit_time=datetime.utcnow(),
                              type='Edit', title=post.title, content=post.content, reason=data['input_reason'],
                              version=post.version)
         put_obj(post_edit)
@@ -103,7 +126,7 @@ def edit(id):
         put_obj(post)
         flash('The post has been edited.')
         return redirect(url_for('posts.all_posts'))
-    return render_template('posts/edit_post.html', post=post)
+    return render_template('posts/edit_post.html', post=page_post, tags=all_tags, post_tags=tags)
 
 
 @posts.route('/posts/delete/<int:id>', methods=['GET', 'POST'])
@@ -119,9 +142,9 @@ def delete(id):
     post = Post.query.get_or_404(id)
     if request.method == 'POST':
         data = request.form.copy()
+        user = current_user.id
 
-        # add in user id later, setting post.is_visible = False
-        post_edit = PostEdit(post_id=post.id, creation_time=post.creation_time, edit_time=datetime.utcnow(),
+        post_edit = PostEdit(post_id=post.id, user_id=user, creation_time=post.creation_time, edit_time=datetime.utcnow(),
                              type='Delete', title=post.title,
                              content=post.content, reason=data['input_reason'], version=post.version)
         put_obj(post_edit)

@@ -12,11 +12,11 @@
                 <li class="post">
                     <div class="post-content">
                         <div class="post-date">
-                            {% if post[3] %}
-                                Just Now
-                            {% else %}
+{#                            {% if post[3] %}#}
+{#                                Just Now#}
+{#                            {% else %}#}
                                 {{ moment(post[4]).fromNow() }}
-                            {% endif %}
+{#                            {% endif %}#}
                         </div>
                         <div class="post-title"> <b>{{ post[1] }}</b> </div>
                         <div class="post-content">

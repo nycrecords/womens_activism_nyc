@@ -46,17 +46,6 @@ def index(data=None):
     """
     page_posts is a list of dictionary containing attributes of posts
     page_posts is used because tags cannot be accessed through posts
-    the indexes of page_posts are as follows:
-    0 = id
-    1 = title
-    2 = content
-    3 = just_now
-    4 = time
-    5 = comment_count
-    6 = edit_time
-    7 = is_visible
-    8 = is_edited
-    9 = tags
     """
     for post in posts:
         post_tags = PostTag.query.filter_by(post_id=post.id).all()
@@ -64,7 +53,7 @@ def index(data=None):
         for post_tag in post_tags:
             name = Tag.query.filter_by(id=post_tag.tag_id).first().name
             tags.append(name)
-        post = {
+        story = {
             'id': post.id,
             'title': post.title,
             'content': post.content,
@@ -75,7 +64,7 @@ def index(data=None):
             'is_edited': post.is_edited,
             'tags': tags
         }
-        page_posts.append(post)
+        page_posts.append(story)
 
     if data or request.method == 'POST':  # user presses the submit button
         data = request.form.copy()

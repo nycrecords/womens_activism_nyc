@@ -43,7 +43,7 @@ def all_posts():
         for post_tag in post_tags:
             name = Tag.query.filter_by(id=post_tag.tag_id).first().name
             tags.append(name)
-        post = {
+        story = {
             'id': post.id,
             'title': post.title,
             'content': post.content,
@@ -54,7 +54,7 @@ def all_posts():
             'is_edited': post.is_edited,
             'tags': tags
         }
-        page_posts.append(post)
+        page_posts.append(story)
     return render_template('posts/postsTab.html', posts=page_posts, pagination=pagination)
 
 

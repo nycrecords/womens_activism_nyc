@@ -19,7 +19,7 @@ app:
 """
 from flask import render_template, redirect, url_for, flash, request, current_app
 from app.db_helpers import put_obj
-from app.models import Post, Tag, PostTag, PostEdit
+from app.models import User, Post, Tag, PostTag
 from app.main import main
 from app import recaptcha
 
@@ -27,18 +27,36 @@ from app import recaptcha
 @main.route('/simon', methods=['GET', 'POST'])
 # TODO: Delete this route, we don't need it anymore - any changes made by simon needs to be implemented into index.html
 def simonindex(data=None):
-
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
         page, per_page=current_app.config['POSTS_PER_PAGE'],
         error_out=True)
-    postedit = PostEdit.query.all()
-
-    # need to change this config parameter if I want to change the default 20 posts per page
-
     posts = pagination.items
-    tags = Tag.query.all()
-    return render_template('index.html', postedit=postedit, posts=posts, pagination=pagination)
+
+    page_posts = []
+
+    for post in posts:
+        post_tags = PostTag.query.filter_by(post_id=post.id).all()
+        tags = []
+        for post_tag in post_tags:
+            name = Tag.query.filter_by(id=post_tag.tag_id).first().name
+            tags.append(name)
+        story = {
+            'id': post.id,
+            'activist_first': post.activist_first,
+            'activist_last': post.activist_last,
+            'activist_start': post.activist_start,
+            'activist_end': post.activist_end,
+            'creation_time': post.creation_time,
+            'edit_time': post.edit_time,
+            'content': post.content,
+            'is_visible': post.is_visible,
+            'is_edited': post.is_edited,
+            'tags': tags
+        }
+        page_posts.append(story)
+
+    return render_template('new_index.html', posts=page_posts, pagination=pagination)
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -135,56 +153,60 @@ def simonarchive():
 @main.route('/simonshare', methods=['GET', 'POST'])
 def simonshare():
     # TODO: rename this route and put it into posts/views.py
-    # TODO:
-    page = request.args.get('page', 1, type=int)
-    pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
-        page, per_page=current_app.config['POSTS_PER_PAGE'],
-        error_out=True)
-    postedit = PostEdit.query.all()
-    posts = pagination.items
-
+    tags = Tag.query.all()
     data = request.form.copy()
+
     if data or request.method == 'POST':
+
+        activist_first_name = data['inspire_first_name'].strip()
+        activist_last_name = data['inspire_last_name'].strip()
+        activist_start_date = data['input_birth'].strip()
+        activist_end_date = data['input_death'].strip()
+        content = data['editor1'].strip()
+        author_first_name = data['input_first_name'].strip()
+        author_last_name = data['input_last_name'].strip()
+        author_email = data['input_email'].strip()
         errors = False
-        if data['inspire_name'] == '':
-            flash('Please enter a name.')
+
+        if activist_first_name == '':
+            flash("Please enter a first name for women's activist.")
             errors = True
-        if data['input_birth'] == '':
-            flash('Please enter a day of birth.')
+        if activist_last_name == '':
+            flash("Please enter a last name for women's activist.")
             errors = True
-        if data['input_death'] == '':
-            flash('Please enter a death.')
+        if activist_start_date == '':
+            flash("Please enter a year of birth for women's activist.")
             errors = True
-        if data['editor1'] == '':
-            flash('Please share a story.')
+        if activist_end_date == '':
+            flash("Please enter a year of death for women's activist.")
             errors = True
-        if data['input_fullname'] == '':
-            flash('Please enter your full name.')
+        if content == '':
+            flash('Please enter a story.')
             errors = True
-        if data['input_email'] == '':
+        if author_first_name == '':
+            flash('Please enter your first name.')
+            errors = True
+        if author_last_name == '':
+            flash('Please enter your last name.')
+            errors = True
+        if author_email == '':
             flash('Please enter your email.')
             errors = True
-        if data['input_website'] == '':
-            flash('Please enter your website.')
-            errors = True
-
         if errors:
             return render_template('share.html')
 
-        activist_name = data['inspire_name']
-        activist_start_date = data['input_birth']
-        activist_end_date = data['input_death']
-        content = data['editor1']
-        author_name = data['input_fullname']
-        author_email = data['input_email']
-        author_website = data['input_website']
-        post = Post(activist_name=activist_name, activist_start_date=activist_start_date,
-                    activist_end_date=activist_end_date, author_name=author_name, author_email=author_email,
-                    author_website=author_website, content=content, is_edited=False, is_visible=True)
+        post = Post(activist_start=activist_start_date, activist_end=activist_end_date,
+                    activist_first=author_first_name, activist_last=author_last_name, content=content, is_edited=False,
+                    is_visible=True)
         put_obj(post)
+
+        if len(author_first_name.strip()) > 0 or len(author_last_name.strip()) > 0 or (author_email.strip()) > 0:
+            user = User(first_name=author_first_name, last_name=author_last_name, email=author_email)
+            put_obj(user)
+
         flash('Post submitted!')
         return redirect(url_for('.index'))
     else:
-        return render_template('share.html')
+        return render_template('share.html', tags=tags)
 
 

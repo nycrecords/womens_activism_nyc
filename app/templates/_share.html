@@ -1,37 +1,74 @@
-<body>
-<center>
-     <h1>Who Inspires You?</h1> <br> <br> <br>
-    <form action="action_page.php">
-        <fieldset>
-    <h4>Name:</h4><br>
-    <input type="text" name="name">
-            <h1>She Lived</h1> <br> <br> <br>
-            <h4>Time lived</h4><br>
-    <input type="text" name="born">
-    <input type="text" name="death">
-            <h1>What is She Known For?</h1> <br> <br> <br>
-            <h1>Share Her Story</h1> <br> <br> <br>
-            <h4> My mother was</h4><br>
-    <input type="" name="mother ">
-            <br>
-            <br>
-            <br>
-            <br>
-            <div class="post-footer2">
-            <button type="button" class="btn btn-secondary">Add Media</button>
-                </div>
-            <h1>Tell Us About Yourself</h1> <br> <br> <br>
-    <input type="text" name="text ">
-            <br>
-    <input type="text" name="text2 ">
-            <br>
-    <input type="text" name="text3 ">
+{% import "_macros.html" as macros %}
 
-            <div class="post-footer3">
-            <button type="button" class="btn btn-secondary">Share</button>
+<center>
+
+<div id="page-body">
+    <form name="input" class="form-horizontal" id="submitPost" method="post">
+
+        <div class="sharestory1">
+            <div class="lead">Who Inspires You?
+                <div class="control-group">
+                    <input class="inspire_first_name" name="inspire_first_name" title="inspire_first" maxlength="140" placeholder="Mary" required>
+                    <input class="inspire_last_name" name="inspire_last_name" title="inspire_last" maxlength="140" placeholder="Smith" required>
+                </div>
             </div>
 
-    </form>
-</center>
-</body>
+            <div class="lead">She Lived
+                <div class="control-group">
+                    <input class="input_birth" name="input_birth" title="birth" maxlength="140" placeholder="1960" required> -
+                    <input class="input_death" name="input_death" title="death" maxlength="140" placeholder="Today" required>
+                </div>
+            </div>
+        </div>
 
+        <div class="sharestory2">
+            <div class="lead">What is She Known For?
+                <div class="control-group">
+                    <select class="selectpicker" data-width="fit" name="input_tags" multiple required>
+                        {% for tag in tags %}
+                            <option value="{{ tag.name }}">{{ tag.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="lead">Share Her Story
+                <div class="control-group">
+                    <textarea id="editor1" name="editor1" placeholder="My mother was ..." required></textarea>
+                </div>
+            </div>
+
+            <div class="lead">Add a Link
+                <div class="control-group">
+                   <input class="input_url_link" name="input_url_link" title="url_link" maxlength="140" placeholder="msmith@gmail.com">
+                </div>
+            </div>
+
+            <div class="lead">Add Media
+                <div class="control-group">
+                    <button type="button" class="btn btn-secondary">Add Media</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="sharestory1">
+            <div class="lead">Tell Us About Yourself
+                <div class="control-group">
+                    <input class="input_first_name" name="input_first_name" title="first_name" maxlength="140" placeholder="Mary" required>
+                    <input class="input_last_name" name="input_last_name" title="last_name" maxlength="140" placeholder="Smith" required> <br>
+                    <input class="input_email" name="input_email" title="email" maxlength="140" placeholder="msmith@gmail.com" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"></div> <br>
+
+        <div id="requestButton" class="control-group">
+            <div>
+                <button type="submit" title="submit_post" class="btn btn-primary">Share</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</center>

@@ -80,7 +80,7 @@ class Post(db.Model):
 
     __tablename__ = "posts"
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(140), nullable=False)
+    title = db.Column(db.String(140), nullable=True)
     activist_first = db.Column(db.String(30))
     activist_last = db.Column(db.String(30))
     activist_start = db.Column(db.Integer)

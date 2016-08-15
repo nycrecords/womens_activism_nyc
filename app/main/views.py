@@ -39,7 +39,7 @@ def index(data=None):
         page, per_page=current_app.config['POSTS_PER_PAGE'],
         error_out=True)
 
-    posts_feed = pagination.items
+    posts = pagination.items
     all_tags = Tag.query.all()
 
     page_posts = []
@@ -47,7 +47,7 @@ def index(data=None):
     page_posts is a list of dictionary containing attributes of posts
     page_posts is used because tags cannot be accessed through posts
     """
-    for post in posts_feed:
+    for post in posts:
         post_tags = PostTag.query.filter_by(post_id=post.id).all()
         tags = []
         for post_tag in post_tags:

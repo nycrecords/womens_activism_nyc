@@ -6,23 +6,27 @@
     <form name="input" class="form-horizontal" id="submitPost" method="post">
 
         <div class="sharestory1">
-            <div class="lead">Who Inspires You?
+            <div class="lead">Who Inspires You?<br>
+                <h5>Share you story about an empowering female<br>
+                whose activism has inspired you.</h5>
                 <div class="control-group">
-                    <input class="inspire_first_name" name="inspire_first_name" title="inspire_first" maxlength="140" placeholder="Mary" required>
-                    <input class="inspire_last_name" name="inspire_last_name" title="inspire_last" maxlength="140" placeholder="Smith" required>
+                    <input class="activist_first_name" name="activist_first_name" title="activist_first" maxlength="140" placeholder="Mary" required>
+                    <input class="activist_last_name" name="activist_last_name" title="activist_last" maxlength="140" placeholder="Smith" required>
                 </div>
             </div>
 
-            <div class="lead">She Lived
+            <div class="lead">She Lived<br>
+                <h5>If still living, enter "today".</h5>
                 <div class="control-group">
-                    <input class="input_birth" name="input_birth" title="birth" maxlength="140" placeholder="1960" required> -
-                    <input class="input_death" name="input_death" title="death" maxlength="140" placeholder="Today" required>
+                    <input class="input_birth" name="input_birth" title="birth" maxlength="4" placeholder="1960" required> -
+                    <input class="input_death" name="input_death" title="death" maxlength="4" placeholder="Today" required>
                 </div>
             </div>
         </div>
 
         <div class="sharestory2">
-            <div class="lead">What is She Known For?
+            <div class="lead">What is She Known For?<br>
+                <h5>Choose one or more categories.</h5>
                 <div class="control-group">
                     <select class="selectpicker" data-width="fit" name="input_tags" multiple required>
                         {% for tag in tags %}
@@ -32,19 +36,25 @@
                 </div>
             </div>
 
-            <div class="lead">Share Her Story
+            <div class="lead">Share Her Story<br>
+                <h5>Share a few words about how your female activist<br>
+                has inspired you and others.</h5>
                 <div class="control-group">
                     <textarea id="editor1" name="editor1" placeholder="My mother was ..." required></textarea>
                 </div>
             </div>
 
-            <div class="lead">Add a Link
+            <div class="lead">Add a Link<br>
+                <h5>Enter a URL to allow others to learn<br>
+                more about your female activist online.</h5>
                 <div class="control-group">
                    <input class="input_url_link" name="input_url_link" title="url_link" maxlength="140" placeholder="msmith@gmail.com">
                 </div>
             </div>
 
-            <div class="lead">Add Media
+            <div class="lead">Add Media<br>
+                <h5>Upload your favorite photo or video of your<br>
+                female activist to help tell your story.</h5>
                 <div class="control-group">
                     <button type="button" class="btn btn-secondary">Add Media</button>
                 </div>
@@ -52,11 +62,13 @@
         </div>
 
         <div class="sharestory1">
-            <div class="lead">Tell Us About Yourself
+            <div class="lead">Tell Us About Yourself<br>
+                <h5>If you would like to share your name, enter below.<br>
+                Your email address will not be made public.</h5>
                 <div class="control-group">
-                    <input class="input_first_name" name="input_first_name" title="first_name" maxlength="140" placeholder="Mary" required>
-                    <input class="input_last_name" name="input_last_name" title="last_name" maxlength="140" placeholder="Smith" required> <br>
-                    <input class="input_email" name="input_email" title="email" maxlength="140" placeholder="msmith@gmail.com" required>
+                    <input class="author_first_name" name="author_first_name" title="author_first_name" maxlength="140" placeholder="Mary" required>
+                    <input class="author_last_name" name="author_last_name" title="author_last_name" maxlength="140" placeholder="Smith" required> <br>
+                    <input class="author_email" name="author_email" title="author_email" maxlength="140" placeholder="msmith@gmail.com" required>
                 </div>
             </div>
         </div>

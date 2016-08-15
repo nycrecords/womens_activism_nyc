@@ -147,7 +147,8 @@ def simonabout():
 def simonarchive():
     # TODO: rename this route and put it into posts/views.py
     # TODO: edit archive.html to have the contents of postTab.html and then delete postTab.html
-    return render_template('archive.html')
+    tags = Tag.query.all()
+    return render_template('archive.html', tags=tags)
 
 
 @main.route('/simonshare', methods=['GET', 'POST'])
@@ -158,13 +159,13 @@ def simonshare():
 
     if data or request.method == 'POST':
 
-        activist_first_name = data['inspire_first_name'].strip()
-        activist_last_name = data['inspire_last_name'].strip()
+        activist_first_name = data['activist_first_name'].strip()
+        activist_last_name = data['activist_last_name'].strip()
         activist_start_date = data['input_birth'].strip()
         activist_end_date = data['input_death'].strip()
         content = data['editor1'].strip()
-        author_first_name = data['input_first_name'].strip()
-        author_last_name = data['input_last_name'].strip()
+        author_first_name = data['author_first_name'].strip()
+        author_last_name = data['author_last_name'].strip()
         author_email = data['input_email'].strip()
         errors = False
 
@@ -196,8 +197,8 @@ def simonshare():
             return render_template('share.html')
 
         post = Post(activist_start=activist_start_date, activist_end=activist_end_date,
-                    activist_first=author_first_name, activist_last=author_last_name, content=content, is_edited=False,
-                    is_visible=True)
+                    activist_first=author_first_name, activist_last=author_last_name, content=content,
+                    author_first=author_first_name, author_last=author_last_name, is_edited=False, is_visible=True)
         put_obj(post)
 
         if len(author_first_name.strip()) > 0 or len(author_last_name.strip()) > 0 or (author_email.strip()) > 0:
@@ -208,5 +209,3 @@ def simonshare():
         return redirect(url_for('.index'))
     else:
         return render_template('share.html', tags=tags)
-
-

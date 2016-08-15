@@ -29,7 +29,7 @@ def all_posts():
     pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
         page, per_page=current_app.config['POSTS_PER_PAGE'],
         error_out=True)
-    posts = pagination.items
+    posts_feed = pagination.items
 
     page_posts = []
     """
@@ -37,7 +37,7 @@ def all_posts():
     page_posts is used because tags cannot be accessed through posts
     """
 
-    for post in posts:
+    for post in posts_feed:
         post_tags = PostTag.query.filter_by(post_id=post.id).all()
         tags = []
         for post_tag in post_tags:

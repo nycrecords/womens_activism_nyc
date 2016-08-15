@@ -19,7 +19,7 @@ app:
 """
 from flask import render_template, redirect, url_for, flash, request, current_app
 from app.db_helpers import put_obj
-from app.models import Post, Tag, PostTag
+from app.models import Post, Tag, PostTag, PostEdit
 from app.main import main
 from app import recaptcha
 

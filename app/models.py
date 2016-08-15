@@ -12,7 +12,6 @@ from datetime import datetime
 # TODO: comment on permissions
 class Permission:
     NO_PERMISSIONS = 0x00
-    MODERATE_COMMENTS = 0x02
     MODERATE_POST = 0x04
     MODERATE_TAGS = 0x06
     MODERATE_USERS = 0x08
@@ -33,7 +32,7 @@ class Role(db.Model):
         roles = {
             'Poster': (Permission.NO_PERMISSIONS, False),
 
-            'Agency_User': (Permission.MODERATE_COMMENTS |
+            'Agency_User': (
                      Permission.MODERATE_POST |
                      Permission.MODERATE_TAGS, True),
 
@@ -84,15 +83,14 @@ class Post(db.Model):
     title = db.Column(db.String(140), nullable=False)
     activist_first = db.Column(db.String(30))
     activist_last = db.Column(db.String(30))
-    activist_start = db.Column(db.Integer, nullable=False)
-    activist_end = db.Column(db.Integer, nullable=False)
+    activist_start = db.Column(db.Integer)
+    activist_end = db.Column(db.Integer)
     poster_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     content = db.Column(db.Text, nullable=False)
     creation_time = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     edit_time = db.Column(db.DateTime)
     is_edited = db.Column(db.Boolean, nullable=False)
     is_visible = db.Column(db.Boolean, nullable=False)
-    comments = db.relationship('Comment', backref='post', lazy='dynamic')
     version = db.Column(db.Integer, default=1)
 
     def __repr__(self):
@@ -142,50 +140,6 @@ class PostTag(db.Model):
 
     def __repr__(self):
         return '<Post_Tag %r>' % self.post_id
-
-
-class Comment(db.Model):
-
-    """
-    Specifies the properties of a comment. A comment is assigned to an existing post referenced by post_id
-    Comments only show the content and time. One post can have many comments.
-    if is_edited = True then an agency user/admin has edited the comment
-    if is_visible = False then an agency user/admin has "deleted" the comment (made it hidden to the public)
-    """
-
-    __tablename__ = "comments"
-    id = db.Column(db.Integer, primary_key=True)
-    post_id = db.Column(db.Integer, db.ForeignKey("posts.id"), nullable=False)
-    content = db.Column(db.String(750), nullable=False)
-    creation_time = db.Column(db.DateTime,  nullable=False, default=datetime.utcnow())
-    is_edited = db.Column(db.Boolean, nullable=False, default=False)
-    is_visible = db.Column(db.Boolean, nullable=False, default=True)
-
-    def __repr__(self):
-        return '<Comment %r>' % self.id
-
-
-class CommentEdit(db.Model):
-
-    """
-    Specifies properties of an edited comment. An edited post keeps track of the original comment.id,
-    the user.id of who edited the comment, the time it was edited,
-    the type of edit that was made (an edit or a deletion),
-    the contents of the newly edited comment, and reason why the user edited the comment.
-    If there were multiple edits made to a comment, pull the most recent change based off edit_time
-    """
-
-    __tablename__ = "comment_edits"
-    id = db.Column(db.Integer, primary_key=True)
-    comment_id = db.Column(db.Integer, db.ForeignKey("comments.id"))
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    edit_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    type = db.Column(db.Enum('Edit', 'Delete', name='comment_edit_types'), nullable=False)
-    content = db.Column(db.Text, nullable=False)
-    reason = db.Column(db.Text, nullable=False)
-
-    def __repr__(self):
-        return '<Edit %r>' % self.id
 
 
 class User(UserMixin, db.Model):
@@ -314,7 +268,6 @@ class Flag(db.Model):
     __tablename__ = "flags"
     id = db.Column(db.Integer, primary_key=True)
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
-    comment_id = db.Column(db.Integer, db.ForeignKey("comments.id"))
     type = db.Column(db.String(30))
     reason = db.Column(db.String(500), nullable=False)
 

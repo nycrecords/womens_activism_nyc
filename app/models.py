@@ -81,15 +81,15 @@ class Post(db.Model):
 
     __tablename__ = "posts"
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(140), nullable=False) # we will take this out later
+    title = db.Column(db.String(140), nullable=False)
     activist_first = db.Column(db.String(30))
     activist_last = db.Column(db.String(30))
-    activist_start = db.Column(db.DateTime)
-    activist_end = db.Column(db.DateTime)
+    activist_start = db.Column(db.Integer, nullable=False)
+    activist_end = db.Column(db.Integer, nullable=False)
     poster_first = db.Column(db.String(30), nullable=True)
     poster_last = db.Column(db.String(30), nullable=True)
     content = db.Column(db.Text, nullable=False)
-    creation_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    creation_time = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     edit_time = db.Column(db.DateTime)
     is_edited = db.Column(db.Boolean, nullable=False)
     is_visible = db.Column(db.Boolean, nullable=False)

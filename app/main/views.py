@@ -24,6 +24,22 @@ from app.main import main
 from app import recaptcha
 
 
+@main.route('/simon', methods=['GET', 'POST'])
+def simonindex(data=None):
+
+    page = request.args.get('page', 1, type=int)
+    pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
+        page, per_page=current_app.config['POSTS_PER_PAGE'],
+        error_out=True)
+    postedit = PostEdit.query.all()
+
+    # need to change this config parameter if I want to change the default 20 posts per page
+
+    posts = pagination.items
+    tags = Tag.query.all()
+    return render_template('index.html', postedit=postedit, posts=posts, pagination=pagination)
+
+
 @main.route('/', methods=['GET', 'POST'])
 def index(data=None):
     """
@@ -102,3 +118,68 @@ def index(data=None):
             print(page_posts)
             return redirect(url_for('.index'))
     return render_template('index.html', posts=page_posts, pagination=pagination, tags=all_tags)
+
+@main.route('/simonabout', methods=['GET', 'POST'])
+def simonabout():
+    return render_template('about.html')
+
+
+@main.route('/simonarchive', methods=['GET', 'POST'])
+def simonarchive():
+    return render_template('archive.html')
+
+
+@main.route('/simonshare', methods=['GET', 'POST'])
+def simonshare():
+    page = request.args.get('page', 1, type=int)
+    pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
+        page, per_page=current_app.config['POSTS_PER_PAGE'],
+        error_out=True)
+    postedit = PostEdit.query.all()
+    posts = pagination.items
+
+    data = request.form.copy()
+    if data or request.method == 'POST':
+        errors = False
+        if data['inspire_name'] == '':
+            flash('Please enter a name.')
+            errors = True
+        if data['input_birth'] == '':
+            flash('Please enter a day of birth.')
+            errors = True
+        if data['input_death'] == '':
+            flash('Please enter a death.')
+            errors = True
+        if data['editor1'] == '':
+            flash('Please share a story.')
+            errors = True
+        if data['input_fullname'] == '':
+            flash('Please enter your full name.')
+            errors = True
+        if data['input_email'] == '':
+            flash('Please enter your email.')
+            errors = True
+        if data['input_website'] == '':
+            flash('Please enter your website.')
+            errors = True
+
+        if errors:
+            return render_template('share.html')
+
+        activist_name = data['inspire_name']
+        activist_start_date = data['input_birth']
+        activist_end_date = data['input_death']
+        content = data['editor1']
+        author_name = data['input_fullname']
+        author_email = data['input_email']
+        author_website = data['input_website']
+        post = Post(activist_name=activist_name, activist_start_date=activist_start_date,
+                    activist_end_date=activist_end_date, author_name=author_name, author_email=author_email,
+                    author_website=author_website, content=content, is_edited=False, is_visible=True)
+        put_obj(post)
+        flash('Post submitted!')
+        return redirect(url_for('.index'))
+    else:
+        return render_template('share.html')
+
+

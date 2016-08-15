@@ -8,6 +8,7 @@
 </head>
 
 <body>
+
     <ul class="posts">
         {% for post in posts %}
             {% if post['is_visible'] %}
@@ -96,6 +97,5 @@
                 </li>
             {% endif %}
         {% endfor %}
-    </ul>
-
+        </ul>
 </body>

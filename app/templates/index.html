@@ -56,43 +56,66 @@
             {% endif %}
 {% endblock %}
 
-{#{% block hear_our_story %}#}
-{#    {% include "_hear_our_story.html" %}#}
-{#{% endblock %}#}
-{##}
-{#{% block share_your_story %}#}
-{#    {% include "_share_your_story.html" %}#}
-{#{% endblock %}#}
-{##}
-{#{% block submit_share_story %}#}
-{#    {% include "_submit_share_story.html" %}#}
-{#{% endblock %}#}
-{##}
-{#{% block attend_our_events %}#}
-{#    {% include "_attend_our_events.html" %}#}
-{#{% endblock %}#}
-{##}
-{#{% block give %}#}
-{#    {% include "_give.html" %}#}
-{#{% endblock %}#}
-{##}
-{#{% block quote1 %}#}
-{#    {% include "_quote1.html" %}#}
-{#{% endblock %}#}
-{##}
-{#{% block quote2 %}#}
-{#    {% include "_quote2.html" %}#}
-{#{% endblock %}#}
-{##}
-{#{% block take_action_now %}#}
-{#    {% include "_take_action_now.html" %}#}
-{#{% endblock %}#}
-{##}
-{#{% block footer %}#}
-{#    {% include "_footer.html" %}#}
-{#{% endblock %}#}
+    {% block view_stories %}
+        {% include "_view_stories.html" %}
+    {% endblock %}
 
-{% block scripts %}
+    {% block view_story %}
+        {% include "_view_story.html" %}
+    {% endblock %}
+
+{# this is rendering the old main page#}
+
+
+{#    {% block hear_our_story %}#}
+{#        {% include "_hear_our_story.html" %}#}
+{#    {% endblock %}#}
+
+    {% block share_your_story %}
+        {% include "_share_your_story.html" %}
+    {% endblock %}
+
+    {% block submit_share_story %}
+        {% include "_submit_share_story.html" %}
+        {% include "postsTab.html" %}
+    {% endblock %}
+
+{#    {% include "_posts.html" %}#}
+
+{#    {% include "tags.html" %}#}
+
+    {% block attend_our_events %}
+        {% include "_attend_our_events.html" %}
+    {% endblock %}
+
+    {% block give %}
+        {% include "_give.html" %}
+    {% endblock %}
+
+    {% block quote1 %}
+        {% include "_quote1.html" %}
+    {% endblock %}
+
+    {% block women_inspire %}
+        {% include "_women_inspire_women.html" %}
+    {% endblock %}
+
+    {% block quote2 %}
+        {% include "_quote2.html" %}
+    {% endblock %}
+
+    {% block take_action_now %}
+        {% include "_take_action_now.html" %}
+    {% endblock %}
+{#    {% block join_the_conversation %}#}
+{#        {% include "_join_the_conversation.html" %}#}
+{#    {% endblock %}#}
+
+    {% block footer %}
+        {% include "_footer.html" %}
+    {% endblock %}
+
+% block scripts %}
 {{ super() }}
 
 <script src="static/ckeditor/ckeditor.js"></script>

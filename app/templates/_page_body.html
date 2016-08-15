@@ -1,25 +1,48 @@
 {% import "_macros.html" as macros %}
 ]
+<center>
 <div class="page-header">
-    <h1>Welcome</h1>
 </div>
 <div> <!-- <-- THAT DIV LOOKS VERY UNNECESSARY -->
 <!--NEW STUFF HERE-->
 <div id="page-body">
     <form name="input" class="form-horizontal" id="submitPost" method="post">
-        <div class="lead">Title
+        <div class="lead">Who Inspires You?
             <div class="control-group">
                 {# ADDED CHANGES HERE #}
                 {# TODO: THIS INPUT TAG HAS TWO NAME ATTRIBUTES - Sarv #}
-                <input class="input_title" name="input_title", title="title" maxlength="140" required>
+                <input class="inspire_name" name="inspire_name", title="inspire" maxlength="140" required>
             </div>
         </div>
 
-        <div class="lead">Content
+        <div class="lead"> She Lived
+            <div class="control-group">
+                <input class="input_birth" name="input_birth", title="birth" maxlength="140" required> -
+                <input class="input_death" name="input_death", title="death" maxlength="140" required>
+            </div>
+        </div>
+                 <h3>What is She Known For?</h3>
+                    <h5>Insert Tag System</h5>
+              <div class="lead"> Share Her Story
             <div class="control-group">
                 <textarea id="editor1" name="editor1" required> </textarea>
             </div>
+              </div>
+{# Add Media Button #}
+                  <div class="post-footer2">
+            <button type="button" class="btn btn-secondary">Add Media</button>
+                </div>
 
+              <div class="lead">Tell Us About Yourself
+            <div class="control-group">
+                <input class="input_fullname" name="input_fullname", title="fullname" maxlength="140" required> <br>
+                <input class="input_email" name="input_email", title="email" maxlength="140" required> <br>
+                <input class="input_website" name="input_website", title="website" maxlength="140" required> </br>
+
+            </div>
+                  <div class="post-footer3">
+            <button type="button" class="btn btn-secondary">Share</button>
+                  </div>
 {#            <div class="lead">Tags#}
 {#                <div class="dropdown">#}
 {#                   <select id="tags" name="tags" required>#}
@@ -37,19 +60,23 @@
                 <button type="submit" title="submit_post" class="btn btn-primary">Submit</button>
             </div>
         </div>
+
     </form>
+
 </div>
     <br>
 </div>
 
-<div class="posts-header">
-    <h2>Recent Posts</h2>
-</div>
-
-{% include '_posts.html' %}
+{##}
+{#<div class="posts-header">#}
+{#    <h2>Recent Posts</h2>#}
+{#</div>#}
+{##}
+{#{% include '_posts.html' %}#}
 
 {#{% if pagination %}#}
 {#    <div class="pagination">#}
 {#        {{ macros.pagination_widget(pagination, '.index') }}#}
 {#    </div>#}
 {#{% endif %}#}
+    </center>

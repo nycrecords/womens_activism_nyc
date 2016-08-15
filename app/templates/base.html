@@ -12,7 +12,7 @@
 {% block navbar %}
     {% block header_icon %}
             <nav class="navbartest">
-            <a href="{{ url_for('main.index') }}">
+            <a href="{{ url_for('main.simonindex') }}">
                         <center>
                         <img alt="hi" src="https://scontent-iad3-1.xx.fbcdn.net/v/t1.0-9/1688221_796075630408020_1581764105_n.jpg?oh=9d37959ab12b653154699843276c3677&oe=585854F6"
                          height="50" width="40">
@@ -41,11 +41,11 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                        <li><a href="{{ url_for('main.about') }}">ABOUT</a></li>
-                        <li><a href="{{ url_for('main.archive') }}">ARCHIVE</a></li>
+                        <li><a href="{{ url_for('main.simonabout') }}">ABOUT</a></li>
+                        <li><a href="{{ url_for('main.simonarchive') }}">ARCHIVE</a></li>
                         <li><a href="{{ url_for('feedback.feedback') }}">CONTACT</a></li>
-                        <li><a href="{{ url_for('main.archive') }}">GIVE</a></li>
-                        <li><a href="{{ url_for('main.share') }}">SHARE</a></li>
+                        <li><a href="{{ url_for('main.simonarchive') }}">GIVE</a></li>
+                        <li><a href="{{ url_for('main.simonshare') }}">SHARE</a></li>
                         <li><a href="{{ url_for('tags.tags') }}">Tags</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

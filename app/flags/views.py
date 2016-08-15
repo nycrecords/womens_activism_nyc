@@ -51,7 +51,7 @@ def flag_post(id):
 
             send_email(to=current_app.config['WOMENS_ADMIN'], subject='Flagged Post', template='mail/email_flags',
                        post_title=post_title, post=post, reason=flag_post.type, description=flag_post.reason)
-            return redirect(url_for('main.index'))
+            return redirect(url_for('main.simonindex'))
     return render_template('flags.html', form=form, post_title=post_title)
 
 

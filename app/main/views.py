@@ -4,8 +4,8 @@ from app.main import main
 from app.db_helpers import put_obj
 
 
-@main.route('/', methods=['GET', 'POST'])
-def index(data=None):
+@main.route('/simon', methods=['GET', 'POST'])
+def simonindex(data=None):
 
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
@@ -20,45 +20,84 @@ def index(data=None):
     return render_template('index.html', postedit=postedit, posts=posts, pagination=pagination)
 
 
-@main.route('/about', methods=['GET', 'POST'])
-def about():
+@main.route('/simonabout', methods=['GET', 'POST'])
+def simonabout():
     return render_template('about.html')
 
 
-@main.route('/archive', methods=['GET', 'POST'])
-def archive():
+@main.route('/simonarchive', methods=['GET', 'POST'])
+def simonarchive():
     return render_template('archive.html')
 
 
-@main.route('/share', methods=['GET', 'POST'])
-def share(data=None):
+@main.route('/simonshare', methods=['GET', 'POST'])
+def simonshare():
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
         page, per_page=current_app.config['POSTS_PER_PAGE'],
         error_out=True)
     postedit = PostEdit.query.all()
     posts = pagination.items
+# fix changes here
+    # do changes here
+    # for post in posts:
+    #     id = post.id
+    #     activist_name = post.inspire_name
+    #     activist_start_date = post.input_birth
+    #     activist_end_date = post.input_death
+    #     content = post.editor1
+    #     author_name = post.input_fullname
+    #     author_email = post.input_email
+    #     author_website = post.website
+    #     author_name = post.input_fullname
+    #     just_now = post.just_now()
+    #     time = post.creation_time
+    #     comment_count = post.comments.count()
+    #     edit_time = post.edit_time
+    #     is_visible = post.is_visible
+    #     is_edited = post.is_edited
 
+    data = request.form.copy()
     if data or request.method == 'POST':
-        if request.form['input_title'] == '':
-            if request.form['editor1'] == '':
-                flash('Please enter a title.')
-                flash('Please enter content.')
-                return render_template('index.html', postedit=postedit, posts=posts, pagination=pagination)
-            else:
-                flash('Please enter a title.')
-                return render_template('index.html', postedit=postedit, posts=posts, pagination=pagination)
-        elif request.form['editor1'] == '':
-            flash('Please enter content.')
-            return render_template('index.html', postedit=postedit, posts=posts, pagination=pagination)
+        errors = False
+        if data['inspire_name'] == '':
+            flash('Please enter a name.')
+            errors = True
+        if data['input_birth'] == '':
+            flash('Please enter a day of birth.')
+            errors = True
+        if data['input_death'] == '':
+            flash('Please enter a death.')
+            errors = True
+        if data['editor1'] == '':
+            flash('Please share a story.')
+            errors = True
+        if data['input_fullname'] == '':
+            flash('Please enter your full name.')
+            errors = True
+        if data['input_email'] == '':
+            flash('Please enter your email.')
+            errors = True
+        if data['input_website'] == '':
+            flash('Please enter your website.')
+            errors = True
 
-        else:
-            title = request.form['input_title']
-            content = request.form['editor1']
-            post = Post(title=title, content=content, is_edited=False, is_visible=True)
-            put_obj(post)
-            flash('Post submitted!')
-            return redirect(url_for('.index'))
+        if errors:
+            return render_template('share.html')
 
-    return render_template('share.html')
+        activist_name = data['inspire_name']
+        activist_start_date = data['input_birth']
+        activist_end_date = data['input_death']
+        content = data['editor1']
+        author_name = data['input_fullname']
+        author_email = data['input_email']
+        author_website = data['input_website']
+        post = Post(activist_name=activist_name, activist_start_date=activist_start_date,
+                    activist_end_date=activist_end_date, author_name=author_name, author_email=author_email,
+                    author_website=author_website, content=content, is_edited=False, is_visible=True)
+        put_obj(post)
+        flash('Post submitted!')
+        return redirect(url_for('.index'))
+    else:
+        return render_template('share.html')
 

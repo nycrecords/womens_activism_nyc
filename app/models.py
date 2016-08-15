@@ -6,7 +6,7 @@ from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
-from flask_login import UserMixin
+from flask_login import UserMixin, AnonymousUserMixin
 from datetime import datetime, timedelta
 
 
@@ -60,38 +60,55 @@ class Role(db.Model):
 
 
 class Post(db.Model):
-
-    """
-    Specifies the properties of a post.
-    A post will show the activist's first and last name, the content, creation_time to annonymous users.
-    poster_first and poster_last can be optionally shown
-    is_edited determines if the post has been edited by an agency user/admin
-    if edited = True, pull from Post_Edit instead
-    is_visible determines if the post is visible to the public
-    if visible = False, a post is "deleted" (hidden from anonymous users)
-    comments is a relationship linking to the comments of a certain
-    version specifies what version of the post is displaying
-
-    """
-
     __tablename__ = "posts"
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(140), nullable=False) # we will take this out later
-    activist_first = db.Column(db.String(30))
-    activist_last = db.Column(db.String(30))
-    activist_start = db.Column(db.DateTime)
-    activist_end = db.Column(db.DateTime)
-    poster_first = db.Column(db.String(30), nullable=True)
-    poster_last = db.Column(db.String(30), nullable=True)
+    activist_name = db.Column(db.String(140), nullable=False)
+    activist_start_date = db.Column(db.Integer, nullable=False)
+    activist_end_date = db.Column(db.Integer, nullable=False)
     content = db.Column(db.Text, nullable=False)
+    author_name = db.Column(db.String(140), nullable=False)
+    author_email = db.Column(db.String(140), nullable=False)
+    author_website = db.Column(db.String(140), nullable=False)
     creation_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     is_edited = db.Column(db.Boolean, nullable=False)
     is_visible = db.Column(db.Boolean, nullable=False)
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
     version = db.Column(db.Integer, default=1)
 
+
+# class (db.Model):
+#
+#     """
+#     Specifies the properties of a post.
+#     A post will show the activist's first and last name, the content, creation_time to annonymous users.
+#     poster_first and poster_last can be optionally shown
+#     is_edited determines if the post has been edited by an agency user/admin
+#     if edited = True, pull from Post_Edit instead
+#     is_visible determines if the post is visible to the public
+#     if visible = False, a post is "deleted" (hidden from anonymous users)
+#     comments is a relationship linking to the comments of a certain
+#     version specifies what version of the post is displaying
+#
+#     """
+#
+#     __tablename__ = "posts"
+#     id = db.Column(db.Integer, primary_key=True)
+#     title = db.Column(db.String(140), nullable=False) # we will take this out later
+#     activist_first = db.Column(db.String(30))
+#     activist_last = db.Column(db.String(30))
+#     activist_start = db.Column(db.DateTime)
+#     activist_end = db.Column(db.DateTime)
+#     poster_first = db.Column(db.String(30), nullable=True)
+#     poster_last = db.Column(db.String(30), nullable=True)
+#     content = db.Column(db.Text, nullable=False)
+#     creation_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+#     is_edited = db.Column(db.Boolean, nullable=False)
+#     is_visible = db.Column(db.Boolean, nullable=False)
+#     comments = db.relationship('Comment', backref='post', lazy='dynamic')
+#     version = db.Column(db.Integer, default=1)
+
     def __repr__(self):
-        return '<Post %r>' % self.title
+        return '<Post %r>' % self.activist_name
 
     @staticmethod
     def generate_fake(count=100):
@@ -348,6 +365,17 @@ class Feedback(db.Model):
 
     def __repr__(self):
         return '<Feedback %r>' % self.title
+
+
+class AnonymousUser(AnonymousUserMixin):
+    def can(self, permissions):
+        return False
+
+    def is_administrator(self):
+        return False
+
+
+login_manager.anonymous_user=AnonymousUser
 
 
 @login_manager.user_loader

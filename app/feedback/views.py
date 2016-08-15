@@ -47,3 +47,4 @@ def feedback():
         flash('Thank you for your feedback!')
         return redirect(url_for('feedback.feedback'))
     return render_template('feedback/feedback.html', form=form)
+

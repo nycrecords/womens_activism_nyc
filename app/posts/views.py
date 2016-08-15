@@ -52,7 +52,7 @@ def all_posts():
         id = post.id
         title = post.title
         content = post.content
-        just_now = post.just_now()
+        just_now = False
         time = post.creation_time
         comment_count = post.comments.count()
         edit_time = post.edit_time
@@ -188,7 +188,7 @@ def posts(id):
     id = post.id
     title = post.title
     content = post.content
-    just_now = post.just_now()
+    just_now = False
     time = post.creation_time
     comment_count = post.comments.count()
     edit_time = post.edit_time

@@ -25,6 +25,7 @@ from app import recaptcha
 
 
 @main.route('/simon', methods=['GET', 'POST'])
+# TODO: Delete this route, we don't need it anymore - any changes made by simon needs to be implemented into index.html
 def simonindex(data=None):
 
     page = request.args.get('page', 1, type=int)
@@ -49,7 +50,7 @@ def index(data=None):
     :return: renders template that displays a ckeditor where user can start writing their post.
         Second half of the page is a feed of most recent posts
     """
-
+    # TODO: Update docstring, should not be able to post on index html - instead this should be a new html file in templates/posts/new_story
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
         page, per_page=current_app.config['POSTS_PER_PAGE'],
@@ -120,16 +121,21 @@ def index(data=None):
 
 @main.route('/simonabout', methods=['GET', 'POST'])
 def simonabout():
+    # TODO: rename this route
     return render_template('about.html')
 
 
 @main.route('/simonarchive', methods=['GET', 'POST'])
 def simonarchive():
+    # TODO: rename this route and put it into posts/views.py
+    # TODO: edit archive.html to have the contents of postTab.html and then delete postTab.html
     return render_template('archive.html')
 
 
 @main.route('/simonshare', methods=['GET', 'POST'])
 def simonshare():
+    # TODO: rename this route and put it into posts/views.py
+    # TODO:
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
         page, per_page=current_app.config['POSTS_PER_PAGE'],

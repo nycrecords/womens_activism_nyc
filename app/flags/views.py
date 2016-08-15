@@ -39,6 +39,7 @@ def flag_post(id):
     :return: template that renders a form where user will provide their reasoning and issues with the post
     redirects user back to main page when completed
     """
+    # TODO: Change post_title to activist first, last . . . . etc
     post = Post.query.get_or_404(id)
     post_title = post.title
     form = FlagsForm()

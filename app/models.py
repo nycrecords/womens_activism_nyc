@@ -7,9 +7,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from flask_login import UserMixin, AnonymousUserMixin
-from datetime import datetime, timedelta
+from datetime import datetime
 
-
+# TODO: comment on permissions
 class Permission:
     NO_PERMISSIONS = 0x00
     MODERATE_COMMENTS = 0x02
@@ -59,6 +59,8 @@ class Role(db.Model):
         return '<Role %r>' % self.name
 
 
+# TODO: Update langauge Post -> Story
+# TODO: as seen in subclass Post
 class Post(db.Model):
 
     """
@@ -73,6 +75,9 @@ class Post(db.Model):
     version specifies what version of the post is displaying
 
     """
+    # TODO: Change start and end to integers
+    # TODO: remove title attribute
+    # TODO: remove comment attribute
 
     __tablename__ = "posts"
     id = db.Column(db.Integer, primary_key=True)

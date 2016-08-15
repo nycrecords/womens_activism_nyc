@@ -21,8 +21,13 @@ class Config:
     # RECAPTCHA_SITE_KEY = os.environ.get('RECAPTCHA_SITE_KEY')
     # RECAPTCHA_SECRET_KEY = os.environ.get('RECAPTCHA_SECRET_KEY')
 
+    # TODO: change hard coding configs to use .env file instead
+    # TODO: add in docstrings
+
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
-    MAIL_SERVER = 'smtp.googlemail.com'
+    SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
+    MAIL_SERVER = 'smtp.googlemail.com' # TODO: decide on mail server to use: google or amazon
     MAIL_PORT = 587
     MAIL_USE_TLS = True
     MAIL_USERNAME = 'womensactivismnyc@gmail.com'
@@ -44,7 +49,7 @@ class Config:
     def init_app(app):
         pass
 
-
+# TODO: add in docstrings
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \

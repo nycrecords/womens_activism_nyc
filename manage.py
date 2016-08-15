@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# TODO: add in docstrings
 import os
 from app import create_app
 from app.models import *
@@ -9,7 +10,8 @@ app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
 migrate = Migrate(app, db)
 
-
+# TODO: update context names to new table names ex: Post -> Story
+# TODO: add docstring
 def make_shell_context():
     return dict(app=app, db=db, Post=Post, Tag=Tag, PostTag=PostTag, Comment=Comment, CommentEdit=CommentEdit,
                 Role=Role, User=User, PostEdit=PostEdit, Flag=Flag, Feedback=Feedback)

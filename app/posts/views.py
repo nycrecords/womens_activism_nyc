@@ -13,7 +13,7 @@ from flask import render_template, request, current_app, flash, redirect, url_fo
 from app.models import Post, Comment, PostEdit, PostTag, Tag
 from app.posts import posts
 from app.posts.forms import CommentForm
-from app.db_helpers import put_obj
+from app.db_helpers import put_obj, delete_obj
 from flask_login import login_required, current_user
 from datetime import datetime
 from app import db
@@ -121,9 +121,9 @@ def edit(id):
                 put_obj(post_tag)
         for tag in story['tags']:
             if tag not in tag_list:
-                oldtag = Tag.query.filter_by(name=tag).first().id
-                PostTag.query.filter_by(post_id=post.id, tag_id=oldtag).delete()
-                db.session.commit()
+                old_tag = Tag.query.filter_by(name=tag).first().id
+                delete_post_tag = PostTag.query.filter_by(post_id=post.id, tag_id=old_tag).first()
+                delete_obj(delete_post_tag)
         flash('The post has been edited.')
         return redirect(url_for('posts.all_posts'))
     return render_template('posts/edit_post.html', post=story, tags=all_tags, post_tags=tags)

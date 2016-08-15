@@ -44,37 +44,27 @@ def index(data=None):
 
     page_posts = []
     """
-    page_posts is a list of lists containing attributes of posts
+    page_posts is a list of dictionary containing attributes of posts
     page_posts is used because tags cannot be accessed through posts
-    the indexes of page_posts are as follows:
-    0 = id
-    1 = title
-    2 = content
-    3 = just_now
-    4 = time
-    5 = comment_count
-    6 = edit_time
-    7 = is_visible
-    8 = is_edited
-    9 = tags
     """
     for post in posts:
-        id = post.id
-        title = post.title
-        content = post.content
-        just_now = False
-        time = post.creation_time
-        comment_count = post.comments.count()
-        edit_time = post.edit_time
-        is_visible = post.is_visible
-        is_edited = post.is_edited
-
         post_tags = PostTag.query.filter_by(post_id=post.id).all()
         tags = []
         for post_tag in post_tags:
             name = Tag.query.filter_by(id=post_tag.tag_id).first().name
-            tags.append([post_tag.tag_id, name])
-        page_posts.append([id, title, content, just_now, time, comment_count, edit_time, is_visible, is_edited, tags])
+            tags.append(name)
+        story = {
+            'id': post.id,
+            'title': post.title,
+            'content': post.content,
+            'time': post.creation_time,
+            'comment_count': post.comments.count(),
+            'edit_time': post.edit_time,
+            'is_visible': post.is_visible,
+            'is_edited': post.is_edited,
+            'tags': tags
+        }
+        page_posts.append(story)
 
     if data or request.method == 'POST':  # user presses the submit button
         data = request.form.copy()

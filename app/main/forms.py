@@ -11,6 +11,7 @@ from flask_wtf import Form
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 
+# TODO: Delete this file, we don't need Comments anymore
 
 class Comment(Form):
     """

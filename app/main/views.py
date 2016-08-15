@@ -75,7 +75,6 @@ def index(data=None):
             'title': post.title,
             'content': post.content,
             'time': post.creation_time,
-            'comment_count': post.comments.count(),
             'edit_time': post.edit_time,
             'is_visible': post.is_visible,
             'is_edited': post.is_edited,

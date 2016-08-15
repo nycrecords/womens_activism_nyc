@@ -21,12 +21,6 @@
                             <span class="label label-primary">{{ tag }}</span>
                         {% endfor %}
                     </div>
-
-                    <div class="post-comment_count">
-                        <a href="{{ url_for('posts.posts', id=post['id']) }}#comments">
-                            <span class="label label-primary">{{ post['comment_count'] }} Comments</span>
-                        </a>
-                    </div>
                     <br>
                     {% if current_user.is_administrator() %}
                         <div class="post-edit">
@@ -87,13 +81,8 @@
                         </a>
                     </div>
                 </li>
-
-                <h4 id="comments">Comments</h4>
-                <div class="comment-form">
-                    {{ wtf.quick_form(form) }}
                 </div>
 
-                {% include '_comments.html' %}
             {% else %}
             <h2>This post has been deleted by a moderator.</h2>
             {% endif %}

@@ -109,15 +109,6 @@ class Post(db.Model):
             db.session.add(p)
             db.session.commit()
 
-    def just_now(self):
-        a = datetime.utcnow()
-        b = self.edit_time or self.creation_time
-        difference = a - b
-        difference_in_minutes = difference / timedelta(minutes=1)
-        if difference_in_minutes < 5:
-            return True
-        return False
-
 
 class Tag(db.Model):
 
@@ -165,15 +156,6 @@ class Comment(db.Model):
     creation_time = db.Column(db.DateTime,  nullable=False, default=datetime.utcnow())
     is_edited = db.Column(db.Boolean, nullable=False, default=False)
     is_visible = db.Column(db.Boolean, nullable=False, default=True)
-
-    def just_now(self):
-        a = datetime.utcnow()
-        b = self.creation_time
-        difference = a - b
-        difference_in_minutes = difference / timedelta(minutes=1)
-        if difference_in_minutes < 5:
-            return True
-        return False
 
     def __repr__(self):
         return '<Comment %r>' % self.id

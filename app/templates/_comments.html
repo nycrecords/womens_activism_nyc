@@ -3,11 +3,11 @@
     <li class="comment">
         <div class="comment-content">
             <div class="comment-date">
-                {%  if comment.just_now() %}
-                        Just Now
-                {%  else %}
+{#                {%  if comment.just_now() %}#}
+{#                        Just Now#}
+{#                {%  else %}#}
                         {{ moment(comment.creation_time).fromNow() }}
-                {% endif %}
+{#                {% endif %}#}
             </div>
             <div class="comment-content">
                 {{ comment.content | safe }}

@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Women's Activism NYC - Edit Post{% endblock %}
 
-<h1>skdjhfskdjhfskjf</h1>
-
 
 {% block page_content %}
     {% if current_user.is_administrator() %}
@@ -21,19 +19,37 @@
             <div class="lead">
                 <h2>Title</h2>
                 <div class="control-group">
-                    <input class="input_title" name="input_title" value ="{{ post.title }}" name="Title" maxlength="140" required>
+                    <input class="input_title" name="input_title" value ="{{ post[0][1] }}" name="Title" maxlength="140" required>
                 </div>
             </div>
 
             <div class="lead">
                 <h2>Content</h2>
                 <div class="control-group">
-                    <textarea id="editor1" name="editor1" required>{{ post.content }}</textarea>
+                    <textarea id="editor1" name="editor1" required>{{ post[0][2] }}</textarea>
                 </div>
             </div>
 
+            {% for item in post_tags %}
+            <p id="{{ item[0] }}">{{ item[1] }}</p>
+            {% endfor %}
 
-            <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"></div> <br>
+            <div class="lead">Tags
+                <div class="control-group">
+                    <select class="selectpicker" data-width="fit" name="input_tags" multiple required>
+
+                        {% for tag in post[0][9] %}
+                            <option value="{{ tag[1] }}">{{ tag[1] }}</option>
+{#                         <option value="test">test</option>#}
+{#                        <option value="test1">test1</option>#}
+{#                        <option value="test2">test2</option>#}
+{#                        <option value="test3">test3</option>#}
+
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
             <div id="requestButton" class="control-group">
                 <div>
                     <button type="submit" title="submit_post" class="btn btn-primary">Submit</button>
@@ -56,4 +72,9 @@
     <script type="text/javascript">
         CKEDITOR.replace( 'editor1' );
     </script>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-*.min.js"></script>
 {% endblock %}

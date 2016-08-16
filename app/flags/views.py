@@ -9,7 +9,7 @@ flask:
 app.db_helpers:
     used to add and commit sessions for Flags with the put_obj() function
 app.models:
-    used Flags table to add a row of data every time user successfully submitted flag
+    used Flag table to add a row of data every time user successfully submitted flag
     used Story table to call in the information pertaining to a specific story
 app.send_email:
     send_email() function defined in app/send_email.py used to send email to recipient, formats subject title and email content
@@ -20,7 +20,7 @@ app.flags.forms:
 """
 from flask import render_template, redirect, url_for, current_app, flash
 from app.db_helpers import put_obj
-from app.models import Flag, Post
+from app.models import Flag, Story
 from app.send_email import send_email
 from app.flags import flags
 from app.flags.forms import FlagsForm
@@ -38,7 +38,7 @@ def flag_story(id):
     :return: template that renders a form where user will provide their reasoning and issues with the post
     redirects user back to main page when completed
     """
-    story = Post.query.get_or_404(id)
+    story = Story.query.get_or_404(id)
     activist_first = story.activist_first
     activist_last = story.activist_last
     form = FlagsForm()

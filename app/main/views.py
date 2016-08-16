@@ -91,4 +91,3 @@ def catalog():
             if posts_dict[key] >= len(tag_list):
                 unique_posts.append(key)
         return render_template('catalog.html', tags=tags, posts=unique_posts, tag_list=tag_list)
-    return render_template('catalog.html', tags=tags)

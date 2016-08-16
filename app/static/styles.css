@@ -1,24 +1,24 @@
-ul.posts {
+ul.stories {
     list-style-type: none;
     padding: 0px;
     margin: 16px 0px 0px 0px;
     border-top: 1px solid #e0e0e0;
 }
 
-ul.posts li.post {
+ul.stories li.story {
     padding: 8px;
     border-bottom: 1px solid #e0e0e0;
 }
 
-ul.posts li.post:hover {
+ul.stories li.story:hover {
     background-color: #f0f0f0;
 }
 
-div.post-date {
+div.story-date {
     float: right;
 }
 
-div.post-content {
+div.story-content {
     margin-left: 48px;
     min-height: 48px;
 }
@@ -30,15 +30,15 @@ div.pagination {
     margin: 0px;
 }
 
-.post-body h1 {
+.story-body h1 {
     font-size: 140%;
 }
 
-.post-body h2 {
+.story-body h2 {
     font-size: 130%;
 }
 
-.post-body h3 {
+.story-body h3 {
     font-size: 120%;
 }
 
@@ -124,19 +124,19 @@ div.pagination {
     right: 35px;
   }
 }
-div.post-redirect {
+div.story-redirect {
     text-align: right;
 }
-div.post-edit {
+div.story-edit {
     text-align:right;
 }
-div.post-delete {
+div.story-delete {
     text-align:right;
 }
-div.post-comment_count {
+div.story-comment_count {
     text-align:right;
 }
-div.post-status{
+div.story-status{
     text-align:right;
 }
 ul.comments {
@@ -189,3 +189,4 @@ div.comment-form {
 #checkboxes label:hover {
     background-color: #1e90ff;
 }
+

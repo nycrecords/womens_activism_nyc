@@ -22,6 +22,7 @@ from app.db_helpers import put_obj
 from app.models import User, Post, Tag, PostTag
 from app.main import main
 from app import recaptcha
+from sqlalchemy.sql import and_, or_
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -72,4 +73,26 @@ def catalog():
     # TODO: rename this route and put it into posts/views.py
     # TODO: edit catalog.html to have the contents of postTab.html and then delete postTab.html
     tags = Tag.query.all()
+    tag_list = request.form.getlist('input_tags')
+    if len(tag_list) == 0:
+        posts = Post.query.all()
+        return render_template('catalog.html', tags=tags, posts=posts, tag_list=tag_list)
+    else:
+        # clauses = or_(*[PostTag.tag_id == Tag.query.filter_by(name=tag).first().id for tag in tag_list])
+        # print(clauses)
+        # post_tags = PostTag.query.filter(clauses).all()
+        # print(post_tags)
+        tag_id_list = []
+        for tag_name in tag_list:
+            tag_id = Tag.query.filter_by(name=tag_name).first().id
+            tag_id_list.append(tag_id)
+        posts = []
+        for tag in tag_list:
+            tag_id = Tag.query.filter_by(name=tag).first().id
+            post_tags = PostTag.query.filter_by(tag_id=tag_id).all()
+            for post_tag in post_tags:
+                post = Post.query.filter_by(id=post_tag.post_id).first()
+                if post not in posts:
+                    posts.append(post)
+        return render_template('catalog.html', tags=tags, posts=posts, tag_list=tag_list)
     return render_template('catalog.html', tags=tags)

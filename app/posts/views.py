@@ -35,6 +35,7 @@ def shareastory(data=None):
         author_first_name = data['author_first_name']
         author_last_name = data['author_last_name']
         author_email = data['author_email']
+        tag_list = request.form.getlist('input_tags')
 
         if activist_first_name == '':  # user has not submitted activist first name
             flash("Please enter a first name for women's activist.")
@@ -42,52 +43,56 @@ def shareastory(data=None):
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email)
+                                   author_email=author_email, tag_list=tag_list)
         elif activist_last_name == '':  # user has not submitted activist last name
             flash("Please enter a last name for women's activist.")
             return render_template('posts/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email)
+                                   author_email=author_email, tag_list=tag_list)
         elif activist_start_date == '':  # user has not submitted activist start date
             flash("Please enter a year of birth for women's activist.")
             return render_template('posts/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email)
+                                   author_email=author_email, tag_list=tag_list)
         elif activist_end_date == '':  # user has not submitted activist end date
             flash("Please enter a year of death for women's activist.")
             return render_template('posts/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email)
+                                   author_email=author_email, tag_list=tag_list)
         elif len(activist_end_date) == 5 and activist_end_date != 'Today':  # user submitted invalid activist end date
             flash("Please enter a valid year of death for women's activist.")
             return render_template('posts/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email)
-        elif len(request.form.getlist('input_tags')) == 0:
+                                   author_email=author_email, tag_list=tag_list)
+        elif len(tag_list) == 0:  # user has not chosen at least one tag
             flash('Please choose at least one tag.')
             return render_template('posts/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email)
+                                   author_email=author_email, tag_list=tag_list)
         elif content == '':  # user has not submitted content
             flash('Please enter a story.')
             return render_template('posts/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email)
+                                   author_email=author_email, tag_list=tag_list)
         elif recaptcha.verify() == False:  # user has not passed the recaptcha verification
             flash("Please complete reCAPTCHA.")
-            return render_template('posts/share.html', tags=tags)
+            return render_template('posts/share.html', tags=tags, activist_first_name=activist_first_name,
+                                   activist_last_name=activist_last_name, activist_start_date=activist_start_date,
+                                   activist_end_date=activist_end_date, content=content, activist_link=activist_link,
+                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_email=author_email, tag_list=tag_list)
         else:  # user has successfully submitted
             post = Post(activist_start=activist_start_date, activist_end=activist_end_date,
                         activist_first=activist_first_name, activist_last=activist_last_name, content=content,
@@ -95,7 +100,6 @@ def shareastory(data=None):
                         is_edited=False, is_visible=True)
             put_obj(post)
 
-            tag_list = request.form.getlist('input_tags')
             for tag in tag_list:
                 post_tag = PostTag(post_id=post.id, tag_id=Tag.query.filter_by(name=tag).first().id)
                 put_obj(post_tag)

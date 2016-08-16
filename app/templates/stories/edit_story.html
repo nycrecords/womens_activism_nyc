@@ -1,32 +1,33 @@
 {% extends "base.html" %}
-{% block title %}Women's Activism NYC - Edit Post{% endblock %}
+{% block title %}Women's Activism NYC - Edit Story{% endblock %}
 
 
-{% block page_content %}
+{% block content %}
     {% if current_user.is_administrator() %}
 
     <div class="page-header">
-        <h1>Edit Post</h1>
+        <h1>Edit Story</h1>
 
     <div id="page-body">
-        <form name="input" class="form-horizontal" id="submitPost" method="post">
+        <form name="input" class="form-horizontal" id="submitStory" method="post">
             <div class="lead">Reason
                 <div class="control-group">
-                    <input class="input_reason" name="input_reason" name="Reason" maxlength="140" required>
+                    <input class="input_reason" name="input_reason" maxlength="140" required>
                 </div>
             </div>
 
             <div class="lead">
-                <h2>Title</h2>
+                <h2>Editing Story For:</h2>
                 <div class="control-group">
-                    <input class="input_title" name="input_title" value ="{{ post['title'] }}" name="Title" maxlength="140" required>
+                    <input class="input_first" name="input_first" value ="{{ story['activist_first'] }}" maxlength="140" required>
+                    <input class="input_last" name="input_last" value ="{{ story['activist_last'] }}" maxlength="140" required>
                 </div>
             </div>
 
             <div class="lead">
                 <h2>Content</h2>
                 <div class="control-group">
-                    <textarea id="editor1" name="editor1" required>{{ post['content'] }}</textarea>
+                    <textarea id="editor1" name="editor1" required>{{ story['content'] }}</textarea>
                 </div>
             </div>
 
@@ -34,7 +35,7 @@
                 <div class="control-group">
                     <select class="selectpicker" data-width="fit" name="input_tags" multiple required>
                     {% for tag in tags %}
-                        {% if tag.name in post['tags'] %}
+                        {% if tag.name in story['tags'] %}
                             <option selected value="{{ tag.name }}">{{ tag.name }}</option>
                         {% else %}
                             <option value="{{ tag.name }}">{{ tag.name }}</option>
@@ -46,7 +47,7 @@
 
             <div id="requestButton" class="control-group">
                 <div>
-                    <button type="submit" title="submit_post" class="btn btn-primary">Submit</button>
+                    <button type="submit" title="submit_story" class="btn btn-primary">Submit</button>
                     <input action="action" type="button" value="Cancel" onclick="history.go(-1);" class="btn btn-primary" />
                 </div>
             </div>

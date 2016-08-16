@@ -215,7 +215,7 @@ def edit(id):
                 delete_obj(delete_story_tag)
         flash('The story has been edited.')
         return redirect(url_for('stories.all_stories'))
-    return render_template('stories/edit_post.html', story=story, tags=all_tags, story_tags=tags)
+    return render_template('stories/edit_story.html', story=story, tags=all_tags, story_tags=tags)
 
 
 @stories.route('/stories/delete/<int:id>', methods=['GET', 'POST'])
@@ -248,7 +248,7 @@ def delete(id):
 
         flash('The story has been deleted.')
         return redirect(url_for('stories.all_stories'))
-    return render_template('stories/delete_post.html', story=story)
+    return render_template('stories/delete_story.html', story=story)
 
 
 @stories.route('/stories/<int:id>', methods=['GET', 'POST'])
@@ -260,24 +260,24 @@ def stories(id):
     Views a single post on its own page
     :return: renders 'post.html', passes in post information
     """
-    story = Story.query.get_or_404(id)
+    single_story = Story.query.get_or_404(id)
     """
         page_posts is a list of dictionary containing attributes of stories
         page_posts is used because tags cannot be accessed through stories
     """
-    story_tags = StoryTag.query.filter_by(story_id=story.id).all()
+    story_tags = StoryTag.query.filter_by(story_id=single_story.id).all()
     tags = []
     for story_tag in story_tags:
         name = Tag.query.filter_by(id=story_tag.tag_id).first().name
         tags.append(name)
     story = {
-        'id': story.id,
-        'title': story.title,
-        'content': story.content,
-        'time': story.creation_time,
-        'edit_time': story.edit_time,
-        'is_visible': story.is_visible,
-        'is_edited': story.is_edited,
+        'id': single_story.id,
+        'title': single_story.title,
+        'content': single_story.content,
+        'time': single_story.creation_time,
+        'edit_time': single_story.edit_time,
+        'is_visible': single_story.is_visible,
+        'is_edited': single_story.is_edited,
         'tags': tags
     }
-    return render_template('stories/stories.html', posts=stories, story=story)
+    return render_template('stories/stories.html', story=story)

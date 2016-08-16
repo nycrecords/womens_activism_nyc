@@ -3,12 +3,12 @@
 
 {% block title %}Women's Activism NYC{% endblock %}
 
-{% block page_content %}
-    <div class="posts-header">
+{% block content %}
+    <div class="stories-header">
     <h2>All Stories</h2>
     </div>
 
-{% include '_stories.html' %}
+{% include 'stories/_stories.html' %}
 {% if pagination %}
 <div class="pagination">
     {{ macros.pagination_widget(pagination, 'stories.all_stories') }}

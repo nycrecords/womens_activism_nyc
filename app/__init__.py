@@ -52,8 +52,8 @@ def create_app(config_name):
     from .flags import flags as flags_blueprint
     app.register_blueprint(flags_blueprint)
 
-    from .posts import posts as posts_blueprint
-    app.register_blueprint(posts_blueprint)
+    from .stories import stories as stories_blueprint
+    app.register_blueprint(stories_blueprint)
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)

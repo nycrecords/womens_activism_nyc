@@ -80,11 +80,13 @@ class Post(db.Model):
 
     __tablename__ = "posts"
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(140), nullable=False)
+    title = db.Column(db.String(140), nullable=True)
     activist_first = db.Column(db.String(30))
     activist_last = db.Column(db.String(30))
     activist_start = db.Column(db.Integer)
     activist_end = db.Column(db.Integer)
+    author_first = db.Column(db.String(30))
+    author_last = db.Column(db.String(30))
     poster_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     content = db.Column(db.Text, nullable=False)
     creation_time = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())

@@ -7,9 +7,6 @@ from flask_login import login_required
 from app.db_helpers import put_obj, delete_obj
 
 
-#  TODO: DOCSTRINGS
-
-
 @tags.route('/tags', methods=['GET', 'POST'])
 @login_required
 def tags():

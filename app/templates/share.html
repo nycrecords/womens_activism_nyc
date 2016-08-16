@@ -5,15 +5,16 @@
 {% block title %}Women's Activism NYC{% endblock %}
 
 {% block content %}
-    {% block page_body %}
-        {% include "_page_body.html" %}
+
+    {% block share %}
+        {% include "_share.html" %}
     {% endblock %}
-
-{#    {% block share %}#}
-{#        {% include "_share.html" %}#}
-{#    {% endblock %}#}
-
 
 {% endblock %}
 
-{#put the posting a form here /creating#}
+{% block scripts %}
+{{ super() }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-*.min.js"></script>
+{% endblock %}

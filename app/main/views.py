@@ -27,6 +27,8 @@ from app import recaptcha
 @main.route('/', methods=['GET', 'POST'])
 # TODO: Delete this route, we don't need it anymore - any changes made by simon needs to be implemented into index.html
 def index():
+    visible_posts = len(Post.query.filter_by(is_visible=True).all())
+
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
         page, per_page=current_app.config['POSTS_PER_PAGE'],
@@ -56,7 +58,7 @@ def index():
         }
         page_posts.append(story)
 
-    return render_template('new_index.html', posts=page_posts, pagination=pagination)
+    return render_template('new_index.html', posts=page_posts, pagination=pagination, visible_posts=visible_posts)
 
 
 @main.route('/about', methods=['GET', 'POST'])

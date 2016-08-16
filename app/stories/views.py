@@ -1,21 +1,27 @@
 """
-modules used for post/views.py
+modules used for stories/views.py
 flask: framework used for project
-app: used to get db so we can perform SQLalchemy operations
-app.models: used to get the Post and Comment table to view Posts and Comments
-            used to get the PostEdit table to write post history to it
-app.posts: used to get the posts blueprint for routes
+    used render_template to load templates
+    used redirect to redirect to specific url
+    used url_for to designate the specific url
+    used current_app for config data variables
+    used flash to send messages to the user
+    used request to query the db or the html
+app.models: used to get the Story table to view stories
+            used to get the StoryEdit table to write story history to it
+            used to get the StoryTag table to get the tags that are associated with story
+            used to get the Tag table to populate the drop down menu when creating a story
+app.stories: used to get the stories blueprint for routes
 app.posts.forms: used to get the CommentForm to create Comments
 app.db_helpers: used as utility functions for SQLalchemy operations
 flask_login: used login_required so that only
 """
 from flask import render_template, request, current_app, flash, redirect, url_for
-from app.models import Post, PostEdit, PostTag, Tag
+from app.models import Story, StoryEdit, StoryTag, Tag
 from app.stories import stories
 from app.db_helpers import put_obj, delete_obj
 from flask_login import login_required, current_user
 from datetime import datetime
-from app import db
 
 
 @posts.route('/stories', methods=['GET', 'POST'])

@@ -1,6 +1,6 @@
 """
-post blueprint
-contains all the routes for viewing/editing/deleting posts
+stories blueprint
+contains routes for viewing a page of stories, single story, edit and delete story
 """
 from flask import Blueprint
 

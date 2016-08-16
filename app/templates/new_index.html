@@ -1,10 +1,11 @@
 {% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
 {% import "_macros.html" as macros %}
 
 {% block title %}Women's Activism NYC{% endblock %}
 
 {% block content %}
+
+    {{ super() }}
 
     {% block hear_our_story %}
         {% include "_hear_our_story.html" %}
@@ -35,15 +36,11 @@
     {% endblock %}
 
     {% block quote1 %}
-        {% include "_quote1.html" %}
+        {% include "_quote.html" %}
     {% endblock %}
 
 {#    {% block women_inspire %}#}
 {#        {% include "_women_inspire_women.html" %}#}
-{#    {% endblock %}#}
-
-{#    {% block quote2 %}#}
-{#        {% include "_quote2.html" %}#}
 {#    {% endblock %}#}
 
     {% block take_action_now %}

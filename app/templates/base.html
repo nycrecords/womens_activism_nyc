@@ -10,6 +10,17 @@
 {% endblock %}
 
 {% block navbar %}
+    {% block header_icon %}
+        <nav class="navbartest">
+            <a href="{{ url_for('main.simonindex') }}">
+                <center>
+                    <img alt="hi" src="https://scontent-iad3-1.xx.fbcdn.net/v/t1.0-9/1688221_796075630408020_1581764105_n.jpg?oh=9d37959ab12b653154699843276c3677&oe=585854F6"
+                         height="50" width="40">
+                    </center>
+            </a>
+        </nav>
+    {% endblock %}
+
 
     {% block header_navbar %}
     <div class="navbar navbar-inverse" role="navigation">
@@ -56,6 +67,36 @@
     </div>
     {% endblock %}
 
+     {% block header_navbar2 %}
+    <div class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+{#                <a class="navbar-brand" href="{{ url_for('main.index') }}"></a>#}
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                        <li><a href="{{ url_for('main.simonabout') }}">ABOUT</a></li>
+                        <li><a href="{{ url_for('main.simonarchive') }}">ARCHIVE</a></li>
+                        <li><a href="{{ url_for('feedback.feedback') }}">CONTACT</a></li>
+                        <li><a href="{{ url_for('main.simonarchive') }}">GIVE</a></li>
+                        <li><a href="{{ url_for('main.simonshare') }}">SHARE</a></li>
+                        <li><a href="{{ url_for('tags.tags') }}">Tags</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
 {% endblock %}
 
 {% block content %}
@@ -76,10 +117,4 @@
     {{ super() }}
     {{ moment.include_moment() }}
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
-    <script>
-        var myElements = document.querySelectorAll(".remove-videodetector");
-        for (var i = 0; i < myElements.length; i++) {
-            myElements[i].style.display = 'none';
-        }
-    </script>
 {% endblock %}

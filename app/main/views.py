@@ -19,9 +19,26 @@ app:
 """
 from flask import render_template, redirect, url_for, flash, request, current_app
 from app.db_helpers import put_obj
-from app.models import Post, Tag, PostTag
+from app.models import Post, Tag, PostTag, PostEdit
 from app.main import main
 from app import recaptcha
+
+
+@main.route('/simon', methods=['GET', 'POST'])
+# TODO: Delete this route, we don't need it anymore - any changes made by simon needs to be implemented into index.html
+def simonindex(data=None):
+
+    page = request.args.get('page', 1, type=int)
+    pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
+        page, per_page=current_app.config['POSTS_PER_PAGE'],
+        error_out=True)
+    postedit = PostEdit.query.all()
+
+    # need to change this config parameter if I want to change the default 20 posts per page
+
+    posts = pagination.items
+    tags = Tag.query.all()
+    return render_template('index.html', postedit=postedit, posts=posts, pagination=pagination)
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -33,7 +50,7 @@ def index(data=None):
     :return: renders template that displays a ckeditor where user can start writing their post.
         Second half of the page is a feed of most recent posts
     """
-
+    # TODO: Update docstring, should not be able to post on index html - instead this should be a new html file in templates/posts/new_story
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
         page, per_page=current_app.config['POSTS_PER_PAGE'],
@@ -44,37 +61,26 @@ def index(data=None):
 
     page_posts = []
     """
-    page_posts is a list of lists containing attributes of posts
+    page_posts is a list of dictionary containing attributes of posts
     page_posts is used because tags cannot be accessed through posts
-    the indexes of page_posts are as follows:
-    0 = id
-    1 = title
-    2 = content
-    3 = just_now
-    4 = time
-    5 = comment_count
-    6 = edit_time
-    7 = is_visible
-    8 = is_edited
-    9 = tags
     """
     for post in posts:
-        id = post.id
-        title = post.title
-        content = post.content
-        just_now = False;
-        time = post.creation_time
-        comment_count = post.comments.count()
-        edit_time = post.edit_time
-        is_visible = post.is_visible
-        is_edited = post.is_edited
-
         post_tags = PostTag.query.filter_by(post_id=post.id).all()
         tags = []
         for post_tag in post_tags:
             name = Tag.query.filter_by(id=post_tag.tag_id).first().name
-            tags.append([post_tag.tag_id, name])
-        page_posts.append([id, title, content, just_now, time, comment_count, edit_time, is_visible, is_edited, tags])
+            tags.append(name)
+        story = {
+            'id': post.id,
+            'title': post.title,
+            'content': post.content,
+            'time': post.creation_time,
+            'edit_time': post.edit_time,
+            'is_visible': post.is_visible,
+            'is_edited': post.is_edited,
+            'tags': tags
+        }
+        page_posts.append(story)
 
     if data or request.method == 'POST':  # user presses the submit button
         data = request.form.copy()
@@ -112,3 +118,73 @@ def index(data=None):
             print(page_posts)
             return redirect(url_for('.index'))
     return render_template('index.html', posts=page_posts, pagination=pagination, tags=all_tags)
+
+@main.route('/simonabout', methods=['GET', 'POST'])
+def simonabout():
+    # TODO: rename this route
+    return render_template('about.html')
+
+
+@main.route('/simonarchive', methods=['GET', 'POST'])
+def simonarchive():
+    # TODO: rename this route and put it into posts/views.py
+    # TODO: edit archive.html to have the contents of postTab.html and then delete postTab.html
+    return render_template('archive.html')
+
+
+@main.route('/simonshare', methods=['GET', 'POST'])
+def simonshare():
+    # TODO: rename this route and put it into posts/views.py
+    # TODO: update the template so that it has add media button plugin
+    page = request.args.get('page', 1, type=int)
+    pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
+        page, per_page=current_app.config['POSTS_PER_PAGE'],
+        error_out=True)
+    postedit = PostEdit.query.all()
+    posts = pagination.items
+
+    data = request.form.copy()
+    if data or request.method == 'POST':
+        errors = False
+        if data['inspire_name'] == '':
+            flash('Please enter a name.')
+            errors = True
+        if data['input_birth'] == '':
+            flash('Please enter a day of birth.')
+            errors = True
+        if data['input_death'] == '':
+            flash('Please enter a death.')
+            errors = True
+        if data['editor1'] == '':
+            flash('Please share a story.')
+            errors = True
+        if data['input_fullname'] == '':
+            flash('Please enter your full name.')
+            errors = True
+        if data['input_email'] == '':
+            flash('Please enter your email.')
+            errors = True
+        if data['input_website'] == '':
+            flash('Please enter your website.')
+            errors = True
+
+        if errors:
+            return render_template('share.html')
+
+        activist_name = data['inspire_name']
+        activist_start_date = data['input_birth']
+        activist_end_date = data['input_death']
+        content = data['editor1']
+        author_name = data['input_fullname']
+        author_email = data['input_email']
+        author_website = data['input_website']
+        post = Post(activist_name=activist_name, activist_start_date=activist_start_date,
+                    activist_end_date=activist_end_date, author_name=author_name, author_email=author_email,
+                    author_website=author_website, content=content, is_edited=False, is_visible=True)
+        put_obj(post)
+        flash('Post submitted!')
+        return redirect(url_for('.index'))
+    else:
+        return render_template('share.html')
+
+

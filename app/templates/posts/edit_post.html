@@ -19,33 +19,27 @@
             <div class="lead">
                 <h2>Title</h2>
                 <div class="control-group">
-                    <input class="input_title" name="input_title" value ="{{ post[0][1] }}" name="Title" maxlength="140" required>
+                    <input class="input_title" name="input_title" value ="{{ post['title'] }}" name="Title" maxlength="140" required>
                 </div>
             </div>
 
             <div class="lead">
                 <h2>Content</h2>
                 <div class="control-group">
-                    <textarea id="editor1" name="editor1" required>{{ post[0][2] }}</textarea>
+                    <textarea id="editor1" name="editor1" required>{{ post['content'] }}</textarea>
                 </div>
             </div>
-
-            {% for item in post_tags %}
-            <p id="{{ item[0] }}">{{ item[1] }}</p>
-            {% endfor %}
 
             <div class="lead">Tags
                 <div class="control-group">
                     <select class="selectpicker" data-width="fit" name="input_tags" multiple required>
-
-                        {% for tag in post[0][9] %}
-                            <option value="{{ tag[1] }}">{{ tag[1] }}</option>
-{#                         <option value="test">test</option>#}
-{#                        <option value="test1">test1</option>#}
-{#                        <option value="test2">test2</option>#}
-{#                        <option value="test3">test3</option>#}
-
-                        {% endfor %}
+                    {% for tag in tags %}
+                        {% if tag.name in post['tags'] %}
+                            <option selected value="{{ tag.name }}">{{ tag.name }}</option>
+                        {% else %}
+                            <option value="{{ tag.name }}">{{ tag.name }}</option>
+                        {% endif %}
+                    {% endfor %}
                     </select>
                 </div>
             </div>

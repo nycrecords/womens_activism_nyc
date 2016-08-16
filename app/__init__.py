@@ -7,6 +7,8 @@ from config import config
 from flask_login import LoginManager
 from flask_recaptcha import ReCaptcha
 
+# TODO: add in docstrings in imports and declarations
+
 
 bootstrap = Bootstrap()
 mail = Mail()
@@ -24,6 +26,7 @@ def create_app(config_name):
     app.config.from_object(config[config_name])
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
+
     config[config_name].init_app(app)
 
     bootstrap.init_app(app)
@@ -33,6 +36,9 @@ def create_app(config_name):
     recaptcha.init_app(app)
 
     login_manager.init_app(app)
+
+    # TODO: add in docstrings for blueprints
+    # TODO: CHANGE .posts to .stories
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)

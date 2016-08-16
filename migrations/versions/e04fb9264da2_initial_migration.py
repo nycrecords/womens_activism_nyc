@@ -1,13 +1,13 @@
 """initial migration
 
-Revision ID: 266841845439
+Revision ID: e04fb9264da2
 Revises: None
-Create Date: 2016-08-15 16:54:38.708444
+Create Date: 2016-08-16 11:23:51.700540
 
 """
 
 # revision identifiers, used by Alembic.
-revision = '266841845439'
+revision = 'e04fb9264da2'
 down_revision = None
 
 from alembic import op
@@ -54,11 +54,13 @@ def upgrade():
     op.create_index(op.f('ix_users_email'), 'users', ['email'], unique=True)
     op.create_table('posts',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('title', sa.String(length=140), nullable=False),
+    sa.Column('title', sa.String(length=140), nullable=True),
     sa.Column('activist_first', sa.String(length=30), nullable=True),
     sa.Column('activist_last', sa.String(length=30), nullable=True),
     sa.Column('activist_start', sa.Integer(), nullable=True),
     sa.Column('activist_end', sa.Integer(), nullable=True),
+    sa.Column('author_first', sa.String(length=30), nullable=True),
+    sa.Column('author_last', sa.String(length=30), nullable=True),
     sa.Column('poster_id', sa.Integer(), nullable=True),
     sa.Column('content', sa.Text(), nullable=False),
     sa.Column('creation_time', sa.DateTime(), nullable=False),

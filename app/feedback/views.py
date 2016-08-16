@@ -42,7 +42,7 @@ def feedback():
         reason = form.reason.data
         feedback = Feedback(title=title, email=email, reason=reason)
         put_obj(feedback)
-        send_email(to=current_app.config['WOMENS_ADMIN'],subject='New Feedback',
+        send_email(to=current_app.config['WOMENS_ADMIN'], subject='New Feedback',
                    template='mail/new_feedback', feedback=feedback)
         flash('Thank you for your feedback!')
         return redirect(url_for('feedback.feedback'))

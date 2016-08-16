@@ -1,15 +1,14 @@
-Notice [Women's Activism NYC]: Flagged Content!
+Notice [Women's Activism NYC]: Flagged Story!
 
-Post Title: {{ post_title }}
-{% if comment_content %}
-    Comment Content: {{ comment_content }}
-{% endif %}
+
+Story About: {{ activist_first }} {{ activist_last }}
+Flag Type: {{ type }}
 Flag Reason: {{ reason }}
-Flag Description: {{ description }}
 
-To view the post please {{ url_for('posts.posts', id=post.id, _external=True) }} click here.
+To view the post please click here.
 Alternatively, you can paste the following link in your browser's address bar:
-{{ url_for('posts.posts', id=post.id, _external=True) }}
+{{ url_for('stories.stories', id=story.id, _external=True) }}
+
 
 Sincerely,
 Women's Activism NYC

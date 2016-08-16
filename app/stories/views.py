@@ -71,7 +71,7 @@ def shareastory(data=None):
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
                                    author_email=author_email)
-        elif len(request.form.getlist('input_tags')) == 0:
+        elif len(request.form.getlist('input_tags')) == 0:  # user submitted no tags
             flash('Please choose at least one tag.')
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
@@ -89,20 +89,25 @@ def shareastory(data=None):
             flash("Please complete reCAPTCHA.")
             return render_template('stories/share.html', tags=tags)
         else:  # user has successfully submitted
-            story = Story(activist_start=activist_start_date, activist_end=activist_end_date,
-                        activist_first=activist_first_name, activist_last=activist_last_name, content=content,
-                        activist_link=activist_link, author_first=author_first_name, author_last=author_last_name,
-                        is_edited=False, is_visible=True)
+
+            if len(author_first_name) > 0 or len(author_last_name) > 0 or len(author_email) > 0:
+                user = User(first_name=author_first_name, last_name=author_last_name, email=author_email)
+                put_obj(user)
+
+                story = Story(activist_start=activist_start_date, activist_end=activist_end_date,
+                              activist_first=activist_first_name, activist_last=activist_last_name, content=content,
+                              activist_url=activist_link, poster_id=user.id, is_edited=False, is_visible=True)
+            else:
+                story = Story(activist_start=activist_start_date, activist_end=activist_end_date,
+                              activist_first=activist_first_name, activist_last=activist_last_name, content=content,
+                              activist_url=activist_link, is_edited=False, is_visible=True)
+
             put_obj(story)
 
             tag_list = request.form.getlist('input_tags')
             for tag in tag_list:
                 story_tag = StoryTag(story_id=story.id, tag_id=Tag.query.filter_by(name=tag).first().id)
                 put_obj(story_tag)
-
-            if len(author_first_name) > 0 or len(author_last_name) > 0 or len(author_email) > 0:
-                user = User(first_name=author_first_name, last_name=author_last_name, email=author_email)
-                put_obj(user)
 
             flash('Story submitted!')
             return redirect(url_for('main.index'))

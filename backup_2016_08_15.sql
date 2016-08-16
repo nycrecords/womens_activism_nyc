@@ -254,7 +254,7 @@ CREATE TABLE post_tags (
 ALTER TABLE post_tags OWNER TO sgong;
 
 --
--- Name: posts; Type: TABLE; Schema: public; Owner: sgong
+-- Name: stories; Type: TABLE; Schema: public; Owner: sgong
 --
 
 CREATE TABLE posts (
@@ -560,7 +560,7 @@ COPY post_tags (post_id, tag_id) FROM stdin;
 
 
 --
--- Data for Name: posts; Type: TABLE DATA; Schema: public; Owner: sgong
+-- Data for Name: stories; Type: TABLE DATA; Schema: public; Owner: sgong
 --
 
 COPY posts (id, activist_name, activist_start_date, activist_end_date, content, author_name, author_email, author_website, creation_time, is_edited, is_visible, version) FROM stdin;

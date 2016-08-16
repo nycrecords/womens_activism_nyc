@@ -18,9 +18,9 @@
     Flag Description: {{ description }}<br>
     </p>
 
-    <p>To view the post please <a href="{{ url_for('posts.posts', id=post.id, _external=True) }}">click here</a>.<br>
+    <p>To view the post please <a href="{{ url_for('stories.stories', id=post.id, _external=True) }}">click here</a>.<br>
     Alternatively, you can paste the following link in your browser's address bar:<br>
-    {{ url_for('posts.posts', id=post.id, _external=True) }}
+    {{ url_for('stories.stories', id=post.id, _external=True) }}
     </p>
 
     <p>

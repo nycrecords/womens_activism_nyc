@@ -15,7 +15,7 @@ class Permission:
     """
     Permissions used for User Roles
     NO_PERMISSIONS: No permissions granted to Anonymous Users
-    MODERATE_STORIES: Ability to edit/delete posts
+    MODERATE_STORIES: Ability to edit/delete stories
     MODERATE_TAGS: Ability to add/delete/edit tags
     MODERATE_USERS: Ability to edit/delete User accounts
     ADMINISTER: All permissions granted

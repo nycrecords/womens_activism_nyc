@@ -24,14 +24,14 @@
                     <br>
                     {% if current_user.is_administrator() %}
                         <div class="post-edit">
-                            <a href="{{ url_for('posts.edit', id=post['id']) }}">
+                            <a href="{{ url_for('stories.edit', id=post['id']) }}">
                                 <span class="label label-primary">Edit Post</span>
                             </a>
                         </div>
                         <br>
 
                         <div class="post-delete">
-                            <a href="{{ url_for('posts.delete', id=post['id']) }}">
+                            <a href="{{ url_for('stories.delete', id=post['id']) }}">
                                 <span class="label label-primary">Delete Post</span>
                             </a>
                         </div>
@@ -60,19 +60,19 @@
                     </p2>
                     <div id="share-buttons">
                         <!-- Facebook -->
-                        <a href="http://www.facebook.com/sharer.php?u={{ url_for('posts.posts', id=post['id'], _external=True) }}" target="_blank">
+                        <a href="http://www.facebook.com/sharer.php?u={{ url_for('stories.stories', id=post['id'], _external=True) }}" target="_blank">
                             <img src="../static/facebook_icon.png" alt="Facebook" width="32" height="32" />
                         </a>
                         <!-- Tumblr-->
-                        <a href="http://www.tumblr.com/share/link?url={{ url_for('posts.posts', id=post['id'], _external=True) }}&name={{ post['title'] }}&description=WomensActivismNYC" target="_blank">
+                        <a href="http://www.tumblr.com/share/link?url={{ url_for('stories.stories', id=post['id'], _external=True) }}&name={{ post['title'] }}&description=WomensActivismNYC" target="_blank">
                             <img src="../static/tumblr_icon.png" alt="Tumblr" width="32" height="32" />
                         </a>
                         <!-- Twitter -->
-                        <a href="https://twitter.com/share?url={{ url_for('posts.posts', id=post['id'], _external=True) }}&text={{ post['title'] }}&hashtags=WomensActivismNYC" target="_blank">
+                        <a href="https://twitter.com/share?url={{ url_for('stories.stories', id=post['id'], _external=True) }}&text={{ post['title'] }}&hashtags=WomensActivismNYC" target="_blank">
                             <img src="../static/twitter_icon.png" alt="Twitter" width="32" height="32" />
                         </a>
                         <!-- Linkedin -->
-                        <a href="http://www.linkedin.com/shareArticle?url={{ url_for('posts.posts', id=post['id'], _external=True) }}&title={{ post['title'] }}" target="_blank">
+                        <a href="http://www.linkedin.com/shareArticle?url={{ url_for('stories.stories', id=post['id'], _external=True) }}&title={{ post['title'] }}" target="_blank">
                             <img src="../static/linkedin_icon.png" alt="LinkedIn" width="32" height="32" />
                         </a>
                         <!-- Email -->

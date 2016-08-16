@@ -62,13 +62,13 @@ def simonindex(data=None):
 @main.route('/', methods=['GET', 'POST'])
 def index(data=None):
     """
-    query the database for a feed of most recent posts
+    query the database for a feed of most recent stories
     query the database for the list of possible tags - passed into drop down selectfield in html
     :param data: initialized as none because we want a blank form to appear when user first loads page
     :return: renders template that displays a ckeditor where user can start writing their post.
-        Second half of the page is a feed of most recent posts
+        Second half of the page is a feed of most recent stories
     """
-    # TODO: Update docstring, should not be able to post on index html - instead this should be a new html file in templates/posts/new_story
+    # TODO: Update docstring, should not be able to post on index html - instead this should be a new html file in templates/stories/new_story
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
         page, per_page=current_app.config['POSTS_PER_PAGE'],
@@ -79,8 +79,8 @@ def index(data=None):
 
     page_posts = []
     """
-    page_posts is a list of dictionary containing attributes of posts
-    page_posts is used because tags cannot be accessed through posts
+    page_posts is a list of dictionary containing attributes of stories
+    page_posts is used because tags cannot be accessed through stories
     """
     for post in posts:
         post_tags = PostTag.query.filter_by(post_id=post.id).all()
@@ -145,7 +145,7 @@ def simonabout():
 
 @main.route('/simonarchive', methods=['GET', 'POST'])
 def simonarchive():
-    # TODO: rename this route and put it into posts/views.py
+    # TODO: rename this route and put it into stories/views.py
     # TODO: edit archive.html to have the contents of postTab.html and then delete postTab.html
     tags = Tag.query.all()
     return render_template('archive.html', tags=tags)
@@ -153,7 +153,7 @@ def simonarchive():
 
 @main.route('/simonshare', methods=['GET', 'POST'])
 def simonshare():
-    # TODO: rename this route and put it into posts/views.py
+    # TODO: rename this route and put it into stories/views.py
     tags = Tag.query.all()
     data = request.form.copy()
 

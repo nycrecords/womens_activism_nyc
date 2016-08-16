@@ -52,7 +52,7 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_users_email'), 'users', ['email'], unique=True)
-    op.create_table('posts',
+    op.create_table('stories',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=140), nullable=True),
     sa.Column('activist_first', sa.String(length=30), nullable=True),
@@ -76,7 +76,7 @@ def upgrade():
     sa.Column('post_id', sa.Integer(), nullable=True),
     sa.Column('type', sa.String(length=30), nullable=True),
     sa.Column('reason', sa.String(length=500), nullable=False),
-    sa.ForeignKeyConstraint(['post_id'], ['posts.id'], ),
+    sa.ForeignKeyConstraint(['post_id'], ['stories.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('post_edits',
@@ -90,14 +90,14 @@ def upgrade():
     sa.Column('content', sa.Text(), nullable=False),
     sa.Column('reason', sa.Text(), nullable=False),
     sa.Column('version', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['post_id'], ['posts.id'], ),
+    sa.ForeignKeyConstraint(['post_id'], ['stories.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('post_tags',
     sa.Column('post_id', sa.Integer(), nullable=False),
     sa.Column('tag_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['post_id'], ['posts.id'], ),
+    sa.ForeignKeyConstraint(['post_id'], ['stories.id'], ),
     sa.ForeignKeyConstraint(['tag_id'], ['tags.id'], ),
     sa.PrimaryKeyConstraint('post_id', 'tag_id')
     )
@@ -109,7 +109,7 @@ def downgrade():
     op.drop_table('post_tags')
     op.drop_table('post_edits')
     op.drop_table('flags')
-    op.drop_table('posts')
+    op.drop_table('stories')
     op.drop_index(op.f('ix_users_email'), table_name='users')
     op.drop_table('users')
     op.drop_table('tags')

@@ -26,7 +26,7 @@ from app.flags import flags
 from app.flags.forms import FlagsForm
 
 
-@flags.route('/flag/posts/<int:id>', methods=['GET', 'POST'])
+@flags.route('/flag/stories/<int:id>', methods=['GET', 'POST'])
 def flag_story(id):
     """
     Function flag_story will allow user to provide a type and reason of why they think a post shouldn't be there

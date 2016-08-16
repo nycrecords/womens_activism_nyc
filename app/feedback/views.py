@@ -25,7 +25,7 @@ from app.feedback import feedback
 from app.feedback.forms import FeedbackForm
 
 
-@feedback.route('/feedback', methods=['GET', 'POST'])
+@feedback.route('/contact', methods=['GET', 'POST'])
 def feedback():
     """
     Function feedback will allow user to provide a subject and their general feedback about the site

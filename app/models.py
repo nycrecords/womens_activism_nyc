@@ -78,7 +78,7 @@ class Post(db.Model):
     # TODO: remove title attribute
     # TODO: remove comment attribute
 
-    __tablename__ = "posts"
+    __tablename__ = "stories"
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(140), nullable=True)
     activist_first = db.Column(db.String(30))
@@ -132,12 +132,12 @@ class Tag(db.Model):
 class PostTag(db.Model):
 
     """
-    Specifies what tags are assigned to what posts, post_id and tag_id are
+    Specifies what tags are assigned to what stories, post_id and tag_id are
     combined to make a unique primary key. One post can have many tags.
     """
 
     __tablename__ = "post_tags"
-    post_id = db.Column(db.Integer, db.ForeignKey("posts.id"), primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey("stories.id"), primary_key=True)
     tag_id = db.Column(db.Integer, db.ForeignKey("tags.id"), primary_key=True)
 
     def __repr__(self):
@@ -244,7 +244,7 @@ class PostEdit(db.Model):
 
     __tablename__ = "post_edits"
     id = db.Column(db.Integer, primary_key=True)
-    post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
+    post_id = db.Column(db.Integer, db.ForeignKey("stories.id"))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     creation_time = db.Column(db.DateTime)
     edit_time = db.Column(db.DateTime)
@@ -269,7 +269,7 @@ class Flag(db.Model):
 
     __tablename__ = "flags"
     id = db.Column(db.Integer, primary_key=True)
-    post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
+    post_id = db.Column(db.Integer, db.ForeignKey("stories.id"))
     type = db.Column(db.String(30))
     reason = db.Column(db.String(500), nullable=False)
 

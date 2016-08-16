@@ -11,20 +11,20 @@ flask_login: used login_required so that only
 """
 from flask import render_template, request, current_app, flash, redirect, url_for
 from app.models import Post, PostEdit, PostTag, Tag
-from app.posts import posts
+from app.stories import stories
 from app.db_helpers import put_obj, delete_obj
 from flask_login import login_required, current_user
 from datetime import datetime
 from app import db
 
 
-@posts.route('/posts', methods=['GET', 'POST'])
+@posts.route('/stories', methods=['GET', 'POST'])
 def all_posts():
     # TODO: Render the correct template - archive.html instead of postTab.html
     """
-    Route for seperate post tab that shows all posts in the db.
-    Displays all posts in a paginated fashion.
-    :return: renders 'postTab.html', passes in post_feed as all posts in Post table (ordered by creation_time)
+    Route for seperate post tab that shows all stories in the db.
+    Displays all stories in a paginated fashion.
+    :return: renders 'postTab.html', passes in post_feed as all stories in Post table (ordered by creation_time)
     """
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
@@ -34,8 +34,8 @@ def all_posts():
 
     page_posts = []
     """
-    page_posts is a list of dictionary containing attributes of posts
-    page_posts is used because tags cannot be accessed through posts
+    page_posts is a list of dictionary containing attributes of stories
+    page_posts is used because tags cannot be accessed through stories
     """
 
     for post in posts_feed:
@@ -55,17 +55,17 @@ def all_posts():
             'tags': tags
         }
         page_posts.append(story)
-    return render_template('posts/postsTab.html', posts=page_posts, pagination=pagination)
+    return render_template('stories/postsTab.html', posts=page_posts, pagination=pagination)
 
 
-@posts.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
+@posts.route('/stories/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit(id):
     # TODO: change post attributes to reflect new models.py
     """
     :param(id) Query the db with id for the Post to display information in it
     :return template with ckeditor with post information to begin the edit
-        on completion it will redirect to the posts page with feed of all posts
+        on completion it will redirect to the stories page with feed of all stories
     Returns the confirmation page for editing a post(s).
     Admins can see both old and new edit(s) from PostEdit table if needed for Audits
     The latest post update lives in Post table
@@ -124,17 +124,17 @@ def edit(id):
                 delete_post_tag = PostTag.query.filter_by(post_id=post.id, tag_id=old_tag).first()
                 delete_obj(delete_post_tag)
         flash('The post has been edited.')
-        return redirect(url_for('posts.all_posts'))
-    return render_template('posts/edit_post.html', post=story, tags=all_tags, post_tags=tags)
+        return redirect(url_for('stories.all_posts'))
+    return render_template('stories/edit_post.html', post=story, tags=all_tags, post_tags=tags)
 
 
-@posts.route('/posts/delete/<int:id>', methods=['GET', 'POST'])
+@posts.route('/stories/delete/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete(id):
     # TODO: change post attributes to reflect new models.py
     """
     :param(id) Query the db with id for the Post to display information in it
-    :return redirect to posts page with feed of all posts
+    :return redirect to stories page with feed of all stories
     Takes a post and makes it not visible - "deleted" status
     Post lives on in Post table but is_visible = False and will not show up on feeds
     Admins can still see the "deleted" post(s)
@@ -156,11 +156,11 @@ def delete(id):
         put_obj(post)
 
         flash('The post has been deleted.')
-        return redirect(url_for('posts.all_posts'))
-    return render_template('posts/delete_post.html', post=post)
+        return redirect(url_for('stories.all_posts'))
+    return render_template('stories/delete_post.html', post=post)
 
 
-@posts.route('/posts/<int:id>', methods=['GET', 'POST'])
+@posts.route('/stories/<int:id>', methods=['GET', 'POST'])
 def posts(id):
     # TODO: change post attributes to reflect new models.py
     """
@@ -171,8 +171,8 @@ def posts(id):
     """
     post = Post.query.get_or_404(id)
     """
-        page_posts is a list of dictionary containing attributes of posts
-        page_posts is used because tags cannot be accessed through posts
+        page_posts is a list of dictionary containing attributes of stories
+        page_posts is used because tags cannot be accessed through stories
     """
     post_tags = PostTag.query.filter_by(post_id=post.id).all()
     tags = []
@@ -189,4 +189,4 @@ def posts(id):
         'is_edited': post.is_edited,
         'tags': tags
     }
-    return render_template('posts/posts.html', posts=post, post=story)
+    return render_template('stories/posts.html', posts=post, post=story)

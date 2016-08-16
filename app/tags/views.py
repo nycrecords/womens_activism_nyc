@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash
 from app import db
-from app.models import Tag, PostTag
+from app.models import Tag, StoryTag
 from app.tags.forms import AddTagForm, RemoveTagForm, EditTagForm
 from app.tags import tags
 from flask_login import login_required
@@ -42,8 +42,8 @@ def tags():
                 flash("Tag doesn't exist.")
                 return render_template('tags/tags.html', addform=addform, removeform=removeform, editform=editform, tags=tags)
             else:
-                post_tags = PostTag.query.filter_by(tag_id=Tag.query.filter_by(name=delete).first().id).all()
-                for post_tag in post_tags:
+                story_tags = StoryTag.query.filter_by(tag_id=Tag.query.filter_by(name=delete).first().id).all()
+                for post_tag in story_tags:
                     delete_obj(post_tag)
                 delete_tag = Tag.query.filter_by(name=delete).first()
                 delete_obj(delete_tag)

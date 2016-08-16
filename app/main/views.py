@@ -19,11 +19,44 @@ app:
 """
 from flask import render_template, redirect, url_for, flash, request, current_app
 from app.db_helpers import put_obj
-from app.models import User, Post, Tag, PostTag
+from app.models import User, Story, Tag, StoryTag
 from app.main import main
 from app import recaptcha
 
 
+# @main.route('/simon', methods=['GET', 'POST'])
+# # TODO: Delete this route, we don't need it anymore - any changes made by simon needs to be implemented into index.html
+# def simonindex(data=None):
+#     page = request.args.get('page', 1, type=int)
+#     pagination = Story.query.order_by(Story.creation_time.desc()).paginate(
+#         page, per_page=current_app.config['POSTS_PER_PAGE'],
+#         error_out=True)
+#     posts = pagination.items
+#
+#     page_posts = []
+#
+#     for post in posts:
+#         post_tags = PostTag.query.filter_by(post_id=post.id).all()
+#         tags = []
+#         for post_tag in post_tags:
+#             name = Tag.query.filter_by(id=post_tag.tag_id).first().name
+#             tags.append(name)
+#         story = {
+#             'id': post.id,
+#             'activist_first': post.activist_first,
+#             'activist_last': post.activist_last,
+#             'activist_start': post.activist_start,
+#             'activist_end': post.activist_end,
+#             'creation_time': post.creation_time,
+#             'edit_time': post.edit_time,
+#             'content': post.content,
+#             'is_visible': post.is_visible,
+#             'is_edited': post.is_edited,
+#             'tags': tags
+#         }
+#         page_posts.append(story)
+#
+#     return render_template('new_index.html', posts=page_posts, pagination=pagination)
 @main.route('/', methods=['GET', 'POST'])
 # TODO: Delete this route, we don't need it anymore - any changes made by simon needs to be implemented into index.html
 def index():

@@ -9,10 +9,20 @@ from flask import current_app
 from flask_login import UserMixin, AnonymousUserMixin
 from datetime import datetime
 
-# TODO: comment on permissions
+
 class Permission:
+
+    """
+    Permissions used for User Roles
+    NO_PERMISSIONS: No permissions granted to Anonymous Users
+    MODERATE_STORIES: Ability to edit/delete posts
+    MODERATE_TAGS: Ability to add/delete/edit tags
+    MODERATE_USERS: Ability to edit/delete User accounts
+    ADMINISTER: All permissions granted
+    """
+
     NO_PERMISSIONS = 0x00
-    MODERATE_POST = 0x04
+    MODERATE_STORIES = 0x04
     MODERATE_TAGS = 0x06
     MODERATE_USERS = 0x08
     ADMINISTER = 0x80
@@ -33,7 +43,7 @@ class Role(db.Model):
             'Poster': (Permission.NO_PERMISSIONS, False),
 
             'Agency_User': (
-                     Permission.MODERATE_POST |
+                     Permission.MODERATE_STORIES |
                      Permission.MODERATE_TAGS, True),
 
             'Administrator': (0xff, False)
@@ -58,61 +68,56 @@ class Role(db.Model):
         return '<Role %r>' % self.name
 
 
-# TODO: Update langauge Post -> Story
-# TODO: as seen in subclass Post
-class Post(db.Model):
+class Story(db.Model):
 
     """
-    Specifies the properties of a post.
-    A post will show the activist's first and last name, the content, creation_time to annonymous users.
-    poster_first and poster_last can be optionally shown
-    is_edited determines if the post has been edited by an agency user/admin
+    Specifies the properties of a story.
+    activist_first is the activist's first name
+    activist_last is the activist's last name
+    activist_start is the birth year of the activist
+    activist_end is the death year of the activist or "Today" is the activist is still alive
+    activist_url is an optional link to get more information about the activist
+    poster_id references a user with the Poster role
+    content is the text of the story
+    is_edited determines if the story has been edited by an agency user/admin
     if edited = True, pull from Post_Edit instead
-    is_visible determines if the post is visible to the public
+    is_visible determines if the story is visible to the public
     if visible = False, a post is "deleted" (hidden from anonymous users)
-    comments is a relationship linking to the comments of a certain
     version specifies what version of the post is displaying
-
     """
-    # TODO: Change start and end to integers
-    # TODO: remove title attribute
-    # TODO: remove comment attribute
 
-    __tablename__ = "posts"
+    __tablename__ = "stories"
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(140), nullable=True)
     activist_first = db.Column(db.String(30))
     activist_last = db.Column(db.String(30))
-    activist_start = db.Column(db.String(30))
-    activist_end = db.Column(db.String(30))
-    activist_link = db.Column(db.String(30))
-    author_first = db.Column(db.String(30))
-    author_last = db.Column(db.String(30))
+    activist_start = db.Column(db.String(4))
+    activist_end = db.Column(db.String(5))
+    activist_url = db.Column(db.Text)
     poster_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     content = db.Column(db.Text, nullable=False)
-    creation_time = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
+    creation_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     edit_time = db.Column(db.DateTime)
     is_edited = db.Column(db.Boolean, nullable=False)
     is_visible = db.Column(db.Boolean, nullable=False)
     version = db.Column(db.Integer, default=1)
 
     def __repr__(self):
-        return '<Post %r>' % self.title
+        return '<Story %r>' % self.activist_first
 
-    @staticmethod
-    def generate_fake(count=100):
-        from random import seed, randint
-        import forgery_py
-
-        seed()
-        for i in range(count):
-            p = Post(title=forgery_py.lorem_ipsum.sentence(),
-                     content=forgery_py.lorem_ipsum.sentences(randint(1, 5)),
-                     creation_time=forgery_py.date.date(True),
-                     is_edited=False,
-                     is_visible=True)
-            db.session.add(p)
-            db.session.commit()
+    # @staticmethod
+    # def generate_fake(count=100):
+    #     from random import seed, randint
+    #     import forgery_py
+    #
+    #     seed()
+    #     for i in range(count):
+    #         s = Story(title=forgery_py.lorem_ipsum.sentence(),
+    #                  content=forgery_py.lorem_ipsum.sentences(randint(1, 5)),
+    #                  creation_time=forgery_py.date.date(True),
+    #                  is_edited=False,
+    #                  is_visible=True)
+    #         db.session.add(s)
+    #         db.session.commit()
 
 
 class Tag(db.Model):
@@ -130,26 +135,26 @@ class Tag(db.Model):
         return '<Tag %r>' % self.name
 
 
-class PostTag(db.Model):
+class StoryTag(db.Model):
 
     """
-    Specifies what tags are assigned to what posts, post_id and tag_id are
-    combined to make a unique primary key. One post can have many tags.
+    Specifies what tags are assigned to what story
+    story_id and tag_id are combined to make a unique primary key
+    One story can have many tags.
     """
 
-    __tablename__ = "post_tags"
-    post_id = db.Column(db.Integer, db.ForeignKey("posts.id"), primary_key=True)
+    __tablename__ = "story_tags"
+    story_id = db.Column(db.Integer, db.ForeignKey("stories.id"), primary_key=True)
     tag_id = db.Column(db.Integer, db.ForeignKey("tags.id"), primary_key=True)
 
     def __repr__(self):
-        return '<Post_Tag %r>' % self.post_id
+        return '<StoryTag %r>' % self.story_id
 
 
 class User(UserMixin, db.Model):
 
     """
     Specifies the properties of a user. The role_id attribute is a foreign key to the roles table
-    A user's email address must be unique
     A user will use their email to log in
     phone should be put in with no dashes "-" in between
     phone number treated as a string in so no leading 0's are lost
@@ -234,23 +239,31 @@ class User(UserMixin, db.Model):
         return '<User %r>' % self.first_name
 
 
-class PostEdit(db.Model):
+class StoryEdit(db.Model):
 
     """
-    Specifies properties of an edited post. An edited post keeps track of the original post.id,
-    the user_id of who edited the post, the time it was edited, the type of edit that was made (an edit or a deletion),
-    the contents of the newly edited post, and reason why the user edited the post.
-    If there were multiple edits made to a post, pull the most recent change based off edit_time
+    Specifies properties of an edited story. Rows stored in this table are old versions of a story that have been edited
+    story_id keeps track of the original story id
+    user_id keeps track of the use account that make the edit
+    creation_time is the original creation time of the story
+    edit_time is the time that the story was edited
+    type specifies is the the story was "edited" or "deleted"
+    Users that make an edit must provide a reason for their actions
     """
 
-    __tablename__ = "post_edits"
+    __tablename__ = "story_edits"
     id = db.Column(db.Integer, primary_key=True)
-    post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
+    story_id = db.Column(db.Integer, db.ForeignKey("stories.id"))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     creation_time = db.Column(db.DateTime)
     edit_time = db.Column(db.DateTime)
     type = db.Column(db.String(6), nullable=False)
-    title = db.Column(db.String(140))
+    activist_first = db.Column(db.String(30))
+    activist_last = db.Column(db.String(30))
+    activist_start = db.Column(db.String(4))
+    activist_end = db.Column(db.String(5))
+    activist_url = db.Column(db.Text)
+    poster_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     content = db.Column(db.Text, nullable=False)
     reason = db.Column(db.Text, nullable=False)
     version = db.Column(db.Integer, default=1)
@@ -262,15 +275,15 @@ class PostEdit(db.Model):
 class Flag(db.Model):
 
     """
-    Specifies the properties of a flag. Keeps track of the post_id of the flagged post.
-    One post can have many flags. The type of flag must be specified
+    Specifies the properties of a flag. Keeps track of the post_id of the flagged story.
+    One story can have many flags. The type of flag must be specified
     when flagging a post (offensive language, wrong info,...)
-    An explanation of why you want to flag a post can be included in the reason attribute
+    An explanation of why you want to flag a story can be included in the reason attribute
     """
 
     __tablename__ = "flags"
     id = db.Column(db.Integer, primary_key=True)
-    post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
+    story_id = db.Column(db.Integer, db.ForeignKey("stories.id"))
     type = db.Column(db.String(30))
     reason = db.Column(db.String(500), nullable=False)
 
@@ -303,7 +316,8 @@ class AnonymousUser(AnonymousUserMixin):
         return False
 
 
-login_manager.anonymous_user=AnonymousUser
+login_manager.anonymous_user = AnonymousUser
+
 
 @login_manager.user_loader
 def load_user(user_id):

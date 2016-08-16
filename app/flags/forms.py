@@ -26,7 +26,7 @@ class FlagsForm(Form):
     flag_reason is a drop down menu that includes all possible reasons to flag something
     flag_description is a box where a user can type their explanation for flagging something
     """
-    flag_reason = SelectField('Please choose a reason for flagging:', choices=flag_choices)
-    flag_description = TextAreaField('Please provide a brief description:', validators=[Length(0, 500)])
+    flag_type = SelectField('Please choose a flag type:', choices=flag_choices)
+    flag_reason = TextAreaField('Please provide a reason:', validators=[Length(0, 500)])
     recaptcha = RecaptchaField()
     submit = SubmitField('Submit')

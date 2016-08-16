@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}Women's Activism NYC{% endblock %}
+
+{% block content %}
+
+    {{ super() }}
+
+    {% block hear_our_story %}
+        {% include "_hear_our_story.html" %}
+    {% endblock %}
+
+    {% block share_your_story %}
+        {% include "_share_your_story.html" %}
+    {% endblock %}
+
+    {% block view_stories %}
+        {% include "_view_stories.html" %}
+    {% endblock %}
+
+    {% block view_story %}
+        {% include "_view_story.html" %}
+    {% endblock %}
+
+{#    {% block submit_share_story %}#}
+{#        {% include "_submit_share_story.html" %}#}
+{#    {% endblock %}#}
+
+    {% block attend_our_events %}
+        {% include "_attend_our_events.html" %}
+    {% endblock %}
+
+    {% block give %}
+        {% include "_give.html" %}
+    {% endblock %}
+
+    {% block quote1 %}
+        {% include "_quote.html" %}
+    {% endblock %}
+
+{#    {% block women_inspire %}#}
+{#        {% include "_women_inspire_women.html" %}#}
+{#    {% endblock %}#}
+
+    {% block take_action_now %}
+        {% include "_take_action_now.html" %}
+    {% endblock %}
+
+{#    {% block join_the_conversation %}#}
+{#        {% include "_join_the_conversation.html" %}#}
+{#    {% endblock %}#}
+
+    {% block footer %}
+        {% include "_footer.html" %}
+    {% endblock %}
+
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}

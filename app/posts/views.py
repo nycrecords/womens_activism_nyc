@@ -15,7 +15,85 @@ from app.posts import posts
 from app.db_helpers import put_obj, delete_obj
 from flask_login import login_required, current_user
 from datetime import datetime
-from app import db
+
+
+@posts.route('/shareastory', methods=['GET', 'POST'])
+def shareastory(data=None):
+    # TODO: rename this route and put it into posts/views.py
+    tags = Tag.query.all()
+
+    if data or request.method == 'POST':  # user pressed submit button
+        data = request.form.copy()
+
+        activist_first_name = data['activist_first_name']
+        activist_last_name = data['activist_last_name']
+        activist_start_date = data['input_birth']
+        activist_end_date = data['input_death']
+        content = data['editor1']
+        activist_link = data['input_url_link']
+        author_first_name = data['author_first_name']
+        author_last_name = data['author_last_name']
+        author_email = data['author_email']
+
+        if activist_first_name == '':  # user has not submitted activist first name
+            flash("Please enter a first name for women's activist.")
+            return render_template('posts/share.html', tags=tags, activist_first_name=activist_first_name,
+                                   activist_last_name=activist_last_name, activist_start_date=activist_start_date,
+                                   activist_end_date=activist_end_date, content=content, activist_link=activist_link,
+                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_email=author_email)
+        elif activist_last_name == '':  # user has not submitted activist last name
+            flash("Please enter a last name for women's activist.")
+            return render_template('posts/share.html', tags=tags, activist_first_name=activist_first_name,
+                                   activist_last_name=activist_last_name, activist_start_date=activist_start_date,
+                                   activist_end_date=activist_end_date, content=content, activist_link=activist_link,
+                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_email=author_email)
+        elif activist_start_date == '':  # user has not submitted activist start date
+            flash("Please enter a year of birth for women's activist.")
+            return render_template('posts/share.html', tags=tags, activist_first_name=activist_first_name,
+                                   activist_last_name=activist_last_name, activist_start_date=activist_start_date,
+                                   activist_end_date=activist_end_date, content=content, activist_link=activist_link,
+                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_email=author_email)
+        elif activist_end_date == '':  # user has not submitted activist end date
+            flash("Please enter a year of death for women's activist.")
+            return render_template('posts/share.html', tags=tags, activist_first_name=activist_first_name,
+                                   activist_last_name=activist_last_name, activist_start_date=activist_start_date,
+                                   activist_end_date=activist_end_date, content=content, activist_link=activist_link,
+                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_email=author_email)
+        elif len(activist_end_date) == 5 and activist_end_date != 'Today':  # user submitted invalid activist end date
+            flash("Please enter a valid year of death for women's activist.")
+            return render_template('posts/share.html', tags=tags, activist_first_name=activist_first_name,
+                                   activist_last_name=activist_last_name, activist_start_date=activist_start_date,
+                                   activist_end_date=activist_end_date, content=content, activist_link=activist_link,
+                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_email=author_email)
+        elif content == '':  # user has not submitted content
+            flash('Please enter a story.')
+            return render_template('posts/share.html', tags=tags, activist_first_name=activist_first_name,
+                                   activist_last_name=activist_last_name, activist_start_date=activist_start_date,
+                                   activist_end_date=activist_end_date, content=content, activist_link=activist_link,
+                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_email=author_email)
+        elif recaptcha.verify() == False:  # user has not passed the recaptcha verification
+            flash("Please complete reCAPTCHA.")
+            return render_template('posts/share.html', tags=tags)
+        else:  # user has successfully submitted
+            post = Post(activist_start=activist_start_date, activist_end=activist_end_date,
+                        activist_first=activist_first_name, activist_last=activist_last_name, content=content,
+                        activist_link=activist_link, author_first=author_first_name, author_last=author_last_name,
+                        is_edited=False, is_visible=True)
+            put_obj(post)
+
+            if len(author_first_name) > 0 or len(author_last_name) > 0 or len(author_email) > 0:
+                user = User(first_name=author_first_name, last_name=author_last_name, email=author_email)
+                put_obj(user)
+
+            flash('Post submitted!')
+            return redirect(url_for('.index'))
+    return render_template('posts/share.html', tags=tags)
 
 
 @posts.route('/posts', methods=['GET', 'POST'])

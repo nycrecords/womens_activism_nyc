@@ -119,6 +119,7 @@ def index(data=None):
             return redirect(url_for('.index'))
     return render_template('index.html', posts=page_posts, pagination=pagination, tags=all_tags)
 
+
 @main.route('/simonabout', methods=['GET', 'POST'])
 def simonabout():
     return render_template('about.html')
@@ -126,7 +127,8 @@ def simonabout():
 
 @main.route('/simonarchive', methods=['GET', 'POST'])
 def simonarchive():
-    return render_template('archive.html')
+    tags = Tag.query.all()
+    return render_template('archive.html', tags=tags)
 
 
 @main.route('/simonshare', methods=['GET', 'POST'])
@@ -141,45 +143,68 @@ def simonshare():
     data = request.form.copy()
     if data or request.method == 'POST':
         errors = False
-        if data['inspire_name'] == '':
-            flash('Please enter a name.')
+        # if data['inspire_name'] == '':
+        #     flash('Please enter a name.')
+        #     errors = True
+        if data['activist_first_name'] == '':
+            flash('Please enter their first name.')
             errors = True
-        if data['input_birth'] == '':
+        if data['activist_last_name'] == '':
+            flash('Please enter their last name.')
+            errors = True
+        if data['activist_start_date'] == '':
             flash('Please enter a day of birth.')
             errors = True
-        if data['input_death'] == '':
+        if data['activist_end_date'] == '':
             flash('Please enter a death.')
             errors = True
-        if data['editor1'] == '':
+        if data['content'] == '':
             flash('Please share a story.')
             errors = True
-        if data['input_fullname'] == '':
-            flash('Please enter your full name.')
+        if data['author_first_name'] == '':
+            flash('Please enter your first name.')
             errors = True
-        if data['input_email'] == '':
-            flash('Please enter your email.')
+        if data['author_last_name'] == '':
+            flash('Please enter your last name.')
             errors = True
-        if data['input_website'] == '':
+        if data['author_website'] == '':
             flash('Please enter your website.')
             errors = True
-
+        if data['author_email'] == '':
+            flash('Please enter your email.')
+            errors = True
+        # if data['input_email'] == '':
+        #     flash('Please enter your email.')
+        #     errors = True
+        # if data['input_website'] == '':
+        #     flash('Please enter your website.')
+        #     errors = True
         if errors:
             return render_template('share.html')
-
-        activist_name = data['inspire_name']
-        activist_start_date = data['input_birth']
-        activist_end_date = data['input_death']
-        content = data['editor1']
-        author_name = data['input_fullname']
-        author_email = data['input_email']
-        author_website = data['input_website']
-        post = Post(activist_name=activist_name, activist_start_date=activist_start_date,
-                    activist_end_date=activist_end_date, author_name=author_name, author_email=author_email,
-                    author_website=author_website, content=content, is_edited=False, is_visible=True)
+# do add media button, images, video and youtube
+# feature/wom-20
+        activist_first_name = data['activist_first_name'].strip()
+        activist_last_name = data['activist_last_name'].strip()
+        activist_start_date = data['activist_start_date'].strip()
+        activist_end_date = data['activist_end_date'].strip()
+        content = data['content'].strip()
+        author_first_name = data['author_first_name'].strip()
+        author_last_name = data['author_last_name'].strip()
+        author_email = data['author_email'].strip()
+        author_website = data['author_website'].strip()
+        # author_name = data['input_fullname']
+        # author_email = data['input_email']
+        # author_website = data['input_website']
+        # author_name=author_name, author_email=author_email, author_website=author_website,
+        post = Post(activist_first_name=activist_first_name, activist_last_name=activist_last_name,
+                    activist_start_date=activist_start_date, activist_end_date=activist_end_date, content=content,
+                    author_first_name=author_first_name, author_last_name=author_last_name,
+                    author_email=author_email, author_website=author_website, is_edited=False, is_visible=True)
         put_obj(post)
         flash('Post submitted!')
         return redirect(url_for('.index'))
     else:
         return render_template('share.html')
+
 
 

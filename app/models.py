@@ -81,14 +81,23 @@ class Post(db.Model):
 
     __tablename__ = "posts"
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(140), nullable=False)
-    activist_first = db.Column(db.String(30))
-    activist_last = db.Column(db.String(30))
-    activist_start = db.Column(db.Integer, nullable=False)
-    activist_end = db.Column(db.Integer, nullable=False)
-    poster_first = db.Column(db.String(30), nullable=True)
-    poster_last = db.Column(db.String(30), nullable=True)
+    title = db.Column(db.String(140), nullable=True)
+    #  dont need title
+    activist_first_name = db.Column(db.String(30))
+    activist_last_name = db.Column(db.String(30))
+    #  activist = who inspires you
+    activist_start_date = db.Column(db.Integer, nullable=False)
+    activist_end_date = db.Column(db.Integer, nullable=False)
     content = db.Column(db.Text, nullable=False)
+    author_website = db.Column(db.String(30), nullable=True)
+    # DOB & death
+    author_first_name = db.Column(db.String(30), nullable=True)
+    author_last_name = db.Column(db.String(30), nullable=True)
+    author_email = db.Column(db.String(30), nullable=True)
+    # posters first and last name
+    # added email + link
+    # poster_email = db.Column(db.String(30), nullable=True)
+    # poster_url = db.Column(db.String(30), nullable=True)
     creation_time = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     edit_time = db.Column(db.DateTime)
     is_edited = db.Column(db.Boolean, nullable=False)

@@ -24,9 +24,9 @@ from app.main import main
 from app import recaptcha
 
 
-@main.route('/simon', methods=['GET', 'POST'])
+@main.route('/', methods=['GET', 'POST'])
 # TODO: Delete this route, we don't need it anymore - any changes made by simon needs to be implemented into index.html
-def simonindex(data=None):
+def index():
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
         page, per_page=current_app.config['POSTS_PER_PAGE'],
@@ -59,153 +59,95 @@ def simonindex(data=None):
     return render_template('new_index.html', posts=page_posts, pagination=pagination)
 
 
-@main.route('/', methods=['GET', 'POST'])
-def index(data=None):
-    """
-    query the database for a feed of most recent posts
-    query the database for the list of possible tags - passed into drop down selectfield in html
-    :param data: initialized as none because we want a blank form to appear when user first loads page
-    :return: renders template that displays a ckeditor where user can start writing their post.
-        Second half of the page is a feed of most recent posts
-    """
-    # TODO: Update docstring, should not be able to post on index html - instead this should be a new html file in templates/posts/new_story
-    page = request.args.get('page', 1, type=int)
-    pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
-        page, per_page=current_app.config['POSTS_PER_PAGE'],
-        error_out=True)
-
-    posts = pagination.items
-    all_tags = Tag.query.all()
-
-    page_posts = []
-    """
-    page_posts is a list of dictionary containing attributes of posts
-    page_posts is used because tags cannot be accessed through posts
-    """
-    for post in posts:
-        post_tags = PostTag.query.filter_by(post_id=post.id).all()
-        tags = []
-        for post_tag in post_tags:
-            name = Tag.query.filter_by(id=post_tag.tag_id).first().name
-            tags.append(name)
-        story = {
-            'id': post.id,
-            'title': post.title,
-            'content': post.content,
-            'time': post.creation_time,
-            'edit_time': post.edit_time,
-            'is_visible': post.is_visible,
-            'is_edited': post.is_edited,
-            'tags': tags
-        }
-        page_posts.append(story)
-
-    if data or request.method == 'POST':  # user presses the submit button
-        data = request.form.copy()
-        if data['input_title'] == '':  # user has not entered a title
-            if data['editor1'] == '':  # user has not entered any information into both fields
-                return render_template('index.html', posts=page_posts, post_title=data['input_title'],
-                                       post_content=data['editor1'], pagination=pagination, tags=all_tags)
-            else:
-                flash('Please enter a title.')
-                return render_template('index.html', posts=page_posts, post_title=data['input_title'],
-                                       post_content=data['editor1'], pagination=pagination, tags=all_tags)
-        elif data['editor1'] == '':  # user has not entered a description/content
-            flash('Please enter content.')
-            return render_template('index.html', posts=page_posts, post_title=data['input_title'],
-                                   post_content=data['editor1'], pagination=pagination, tags=all_tags)
-        elif len(request.form.getlist('input_tags')) == 0:
-            flash('Please choose at least one tag.')
-            return render_template('index.html', posts=page_posts, pagination=pagination, tags=all_tags)
-        elif recaptcha.verify() == False:  # user has not passed the recaptcha verification
-            flash("Please complete reCAPTCHA")
-            return render_template('index.html', posts=page_posts, post_title=data['input_title'],
-                                   post_content=data['editor1'], pagination=pagination, tags=all_tags)
-        else:  # successful submission of the post
-            title = data['input_title']
-            content = data['editor1']
-
-            post = Post(title=title, content=content, is_edited=False, is_visible=True)
-            put_obj(post)
-
-            tag_list = request.form.getlist('input_tags')
-            for tag in tag_list:
-                post_tag = PostTag(post_id=post.id, tag_id=Tag.query.filter_by(name=tag).first().id)
-                put_obj(post_tag)
-            flash('Post submitted!')
-            print(page_posts)
-            return redirect(url_for('.index'))
-    return render_template('index.html', posts=page_posts, pagination=pagination, tags=all_tags)
-
-@main.route('/simonabout', methods=['GET', 'POST'])
-def simonabout():
+@main.route('/about', methods=['GET', 'POST'])
+def about():
     # TODO: rename this route
     return render_template('about.html')
 
 
-@main.route('/simonarchive', methods=['GET', 'POST'])
-def simonarchive():
+@main.route('/catalog', methods=['GET', 'POST'])
+def catalog():
     # TODO: rename this route and put it into posts/views.py
-    # TODO: edit archive.html to have the contents of postTab.html and then delete postTab.html
+    # TODO: edit catalog.html to have the contents of postTab.html and then delete postTab.html
     tags = Tag.query.all()
-    return render_template('archive.html', tags=tags)
+    return render_template('catalog.html', tags=tags)
 
 
-@main.route('/simonshare', methods=['GET', 'POST'])
-def simonshare():
+@main.route('/shareastory', methods=['GET', 'POST'])
+def shareastory(data=None):
     # TODO: rename this route and put it into posts/views.py
     tags = Tag.query.all()
-    data = request.form.copy()
 
     if data or request.method == 'POST':
+        data = request.form.copy()
 
-        activist_first_name = data['activist_first_name'].strip()
-        activist_last_name = data['activist_last_name'].strip()
-        activist_start_date = data['input_birth'].strip()
-        activist_end_date = data['input_death'].strip()
-        content = data['editor1'].strip()
-        author_first_name = data['author_first_name'].strip()
-        author_last_name = data['author_last_name'].strip()
-        author_email = data['input_email'].strip()
-        errors = False
+        activist_first_name = data['activist_first_name']
+        activist_last_name = data['activist_last_name']
+        activist_start_date = data['input_birth']
+        activist_end_date = data['input_death']
+        content = data['editor1']
+        activist_link = data['input_url_link']
+        author_first_name = data['author_first_name']
+        author_last_name = data['author_last_name']
+        author_email = data['author_email']
 
         if activist_first_name == '':
             flash("Please enter a first name for women's activist.")
-            errors = True
-        if activist_last_name == '':
+            return render_template('share.html', tags=tags, activist_first_name=activist_first_name,
+                                   activist_last_name=activist_last_name, activist_start_date=activist_start_date,
+                                   activist_end_date=activist_end_date, content=content, activist_link=activist_link,
+                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_email=author_email)
+        elif activist_last_name == '':
             flash("Please enter a last name for women's activist.")
-            errors = True
-        if activist_start_date == '':
+            return render_template('share.html', tags=tags, activist_first_name=activist_first_name,
+                                   activist_last_name=activist_last_name, activist_start_date=activist_start_date,
+                                   activist_end_date=activist_end_date, content=content, activist_link=activist_link,
+                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_email=author_email)
+        elif activist_start_date == '':
             flash("Please enter a year of birth for women's activist.")
-            errors = True
-        if activist_end_date == '':
+            return render_template('share.html', tags=tags, activist_first_name=activist_first_name,
+                                   activist_last_name=activist_last_name, activist_start_date=activist_start_date,
+                                   activist_end_date=activist_end_date, content=content, activist_link=activist_link,
+                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_email=author_email)
+        elif activist_end_date == '':
             flash("Please enter a year of death for women's activist.")
-            errors = True
-        if content == '':
+            return render_template('share.html', tags=tags, activist_first_name=activist_first_name,
+                                   activist_last_name=activist_last_name, activist_start_date=activist_start_date,
+                                   activist_end_date=activist_end_date, content=content, activist_link=activist_link,
+                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_email=author_email)
+        elif len(activist_end_date) == 5 and activist_end_date != 'Today':
+            flash("Please enter a valid year of death for women's activist.")
+            return render_template('share.html', tags=tags, activist_first_name=activist_first_name,
+                                   activist_last_name=activist_last_name, activist_start_date=activist_start_date,
+                                   activist_end_date=activist_end_date, content=content, activist_link=activist_link,
+                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_email=author_email)
+        elif content == '':
             flash('Please enter a story.')
-            errors = True
-        if author_first_name == '':
-            flash('Please enter your first name.')
-            errors = True
-        if author_last_name == '':
-            flash('Please enter your last name.')
-            errors = True
-        if author_email == '':
-            flash('Please enter your email.')
-            errors = True
-        if errors:
-            return render_template('share.html')
+            return render_template('share.html', tags=tags, activist_first_name=activist_first_name,
+                                   activist_last_name=activist_last_name, activist_start_date=activist_start_date,
+                                   activist_end_date=activist_end_date, content=content, activist_link=activist_link,
+                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_email=author_email)
+        elif recaptcha.verify() == False:  # user has not passed the recaptcha verification
+            flash("Please complete reCAPTCHA.")
+            return render_template('share.html', tags=tags)
 
-        post = Post(activist_start=activist_start_date, activist_end=activist_end_date,
-                    activist_first=author_first_name, activist_last=author_last_name, content=content,
-                    author_first=author_first_name, author_last=author_last_name, is_edited=False, is_visible=True)
-        put_obj(post)
+        else:
+            post = Post(activist_start=activist_start_date, activist_end=activist_end_date,
+                        activist_first=activist_first_name, activist_last=activist_last_name, content=content,
+                        activist_link=activist_link, author_first=author_first_name, author_last=author_last_name,
+                        is_edited=False, is_visible=True)
+            put_obj(post)
 
-        if len(author_first_name.strip()) > 0 or len(author_last_name.strip()) > 0 or (author_email.strip()) > 0:
-            user = User(first_name=author_first_name, last_name=author_last_name, email=author_email)
-            put_obj(user)
+            if len(author_first_name) > 0 or len(author_last_name) > 0 or len(author_email) > 0:
+                user = User(first_name=author_first_name, last_name=author_last_name, email=author_email)
+                put_obj(user)
 
-        flash('Post submitted!')
-        return redirect(url_for('.index'))
-    else:
-        return render_template('share.html', tags=tags)
+            flash('Post submitted!')
+            return redirect(url_for('.index'))
+    return render_template('share.html', tags=tags)

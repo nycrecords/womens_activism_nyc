@@ -23,8 +23,8 @@ from app.utils import flag_choices
 class FlagsForm(Form):
     """
     FlagsForm used for user to create a flag ticket that identifies something wrong with post/comment
-    flag_reason is a drop down menu that includes all possible reasons to flag something
-    flag_description is a box where a user can type their explanation for flagging something
+    flag_type is a drop down menu that includes all possible choices to flag something
+    flag_reason is a box where a user can type their explanation for flagging something
     """
     flag_type = SelectField('Please choose a flag type:', choices=flag_choices)
     flag_reason = TextAreaField('Please provide a reason:', validators=[Length(0, 500)])

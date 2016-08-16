@@ -25,7 +25,7 @@ from app.feedback import feedback
 from app.feedback.forms import FeedbackForm
 
 
-@feedback.route('/feedback', methods=['GET', 'POST'])
+@feedback.route('/contact', methods=['GET', 'POST'])
 def feedback():
     """
     Function feedback will allow user to provide a subject and their general feedback about the site
@@ -42,7 +42,7 @@ def feedback():
         reason = form.reason.data
         feedback = Feedback(title=title, email=email, reason=reason)
         put_obj(feedback)
-        send_email(to=current_app.config['WOMENS_ADMIN'],subject='New Feedback',
+        send_email(to=current_app.config['WOMENS_ADMIN'], subject='New Feedback',
                    template='mail/new_feedback', feedback=feedback)
         flash('Thank you for your feedback!')
         return redirect(url_for('feedback.feedback'))

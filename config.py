@@ -36,7 +36,6 @@ class Config:
     MAIL_SENDER = 'Womens Activism NYC Admin <womensactivismnyc@gmail.com>'
     WOMENS_ADMIN = 'womensactivismnyc@gmail.com'
     POSTS_PER_PAGE = 10
-    COMMENTS_PER_PAGE = 10
 
     RECAPTCHA_PUBLIC_KEY = '6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH'
     RECAPTCHA_PRIVATE_KEY = '6LetUSYTAAAAAN1pLPLyyIFUh6rEemXczfMFT4um'

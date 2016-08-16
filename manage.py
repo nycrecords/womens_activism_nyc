@@ -13,7 +13,7 @@ migrate = Migrate(app, db)
 # TODO: update context names to new table names ex: Post -> Story
 # TODO: add docstring
 def make_shell_context():
-    return dict(app=app, db=db, Post=Post, Tag=Tag, PostTag=PostTag, Comment=Comment, CommentEdit=CommentEdit,
+    return dict(app=app, db=db, Post=Post, Tag=Tag, PostTag=PostTag,
                 Role=Role, User=User, PostEdit=PostEdit, Flag=Flag, Feedback=Feedback)
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)

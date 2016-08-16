@@ -10,9 +10,8 @@ app.db_helpers: used as utility functions for SQLalchemy operations
 flask_login: used login_required so that only
 """
 from flask import render_template, request, current_app, flash, redirect, url_for
-from app.models import Post, Comment, PostEdit, PostTag, Tag
+from app.models import Post, PostEdit, PostTag, Tag
 from app.posts import posts
-from app.posts.forms import CommentForm
 from app.db_helpers import put_obj, delete_obj
 from flask_login import login_required, current_user
 from datetime import datetime
@@ -49,7 +48,6 @@ def all_posts():
             'title': post.title,
             'content': post.content,
             'time': post.creation_time,
-            'comment_count': post.comments.count(),
             'edit_time': post.edit_time,
             'is_visible': post.is_visible,
             'is_edited': post.is_edited,
@@ -83,7 +81,6 @@ def edit(id):
         'title': post.title,
         'content': post.content,
         'time': post.creation_time,
-        'comment_count': post.comments.count(),
         'edit_time': post.edit_time,
         'is_visible': post.is_visible,
         'is_edited': post.is_edited,
@@ -183,26 +180,9 @@ def posts(id):
         'title': post.title,
         'content': post.content,
         'time': post.creation_time,
-        'comment_count': post.comments.count(),
         'edit_time': post.edit_time,
         'is_visible': post.is_visible,
         'is_edited': post.is_edited,
         'tags': tags
     }
-
-    form = CommentForm()
-    if form.validate_on_submit():
-        comment = Comment(post_id=post.id, content=form.content.data, post=post)
-        put_obj(comment)
-        flash('Comment Submited!')
-        return redirect(url_for('posts.posts', id=post.id, page=-1))
-    page = request.args.get('page', 1, type=int)
-    if page == -1:
-        page = (post.comments.count() - 1) // \
-               current_app.config['COMMENTS_PER_PAGE'] + 1
-    pagination = post.comments.order_by(Comment.creation_time.asc()).paginate(
-        page, per_page=current_app.config['COMMENTS_PER_PAGE'],
-        error_out=True)
-    comments = pagination.items
-    return render_template('posts/posts.html', posts=post, form=form,
-                           comments=comments, pagination=pagination, post=story)
+    return render_template('posts/posts.html', posts=post, post=story)

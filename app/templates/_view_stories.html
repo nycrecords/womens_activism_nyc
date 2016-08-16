@@ -1,13 +1,27 @@
-<center>  <h2> A Five-Year Celebration Of Activism <br>
-And The Women's Suffrage Centennial
-</h2>
-<body>
-  <div class="post-footer2">
-      <a href="{{url_for('main.simonabout') }}">
-            <button type="button" class="btn btn-secondary">Hear Our Story</button>
+<center>
 
-      </a>
-  </div>
-</body>
+    <h2>800 Stories Collected, 19,200 More By 2020</h2>
+
+    <ul class="posts">
+        {% for post in posts %}
+            {% if post['is_visible'] %}
+                <li class="post">
+                    <div class="post-content">
+                        <div class="post-title">
+                            <b>{{ post['activist_first'] }} {{ post['activist_last'] }}</b>
+                        </div> <br>
+                        <div class="post-content">
+                            {{ post['content'] | safe }}
+                        </div> <br>
+{#                        {% for tag in post['tags'] %}#}
+{#                            <span class="label label-primary">{{ tag }}</span>#}
+{#                        {% endfor %}#}
+                    </div>
+                </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+
+    <button type="button" class="btn btn-secondary">View All Stories</button> <br>
+
 </center>
-

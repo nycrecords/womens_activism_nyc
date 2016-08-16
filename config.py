@@ -5,6 +5,7 @@ class Config:
 
     # SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     # SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+    # SQLALCHEMY_TRACK_MODIFICATIONS = True
     # MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'localhost'
     # MAIL_PORT = os.environ.get('MAIL_PORT') or 2500
     # MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') or False

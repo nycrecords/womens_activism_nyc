@@ -316,7 +316,8 @@ class AnonymousUser(AnonymousUserMixin):
         return False
 
 
-login_manager.anonymous_user=AnonymousUser
+login_manager.anonymous_user = AnonymousUser
+
 
 @login_manager.user_loader
 def load_user(user_id):

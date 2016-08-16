@@ -78,21 +78,17 @@ def catalog():
         posts = Post.query.all()
         return render_template('catalog.html', tags=tags, posts=posts, tag_list=tag_list)
     else:
-        # clauses = or_(*[PostTag.tag_id == Tag.query.filter_by(name=tag).first().id for tag in tag_list])
-        # print(clauses)
-        # post_tags = PostTag.query.filter(clauses).all()
-        # print(post_tags)
-        tag_id_list = []
-        for tag_name in tag_list:
-            tag_id = Tag.query.filter_by(name=tag_name).first().id
-            tag_id_list.append(tag_id)
         posts = []
+        unique_posts = []
         for tag in tag_list:
             tag_id = Tag.query.filter_by(name=tag).first().id
             post_tags = PostTag.query.filter_by(tag_id=tag_id).all()
             for post_tag in post_tags:
                 post = Post.query.filter_by(id=post_tag.post_id).first()
-                if post not in posts:
-                    posts.append(post)
-        return render_template('catalog.html', tags=tags, posts=posts, tag_list=tag_list)
+                posts.append(post)
+        posts_dict = {i:posts.count(i) for i in posts}
+        for key, value in posts_dict.items():
+            if posts_dict[key] >= len(tag_list):
+                unique_posts.append(key)
+        return render_template('catalog.html', tags=tags, posts=unique_posts, tag_list=tag_list)
     return render_template('catalog.html', tags=tags)

@@ -9,7 +9,7 @@ app: used to get db so we can perform SQLalchemy operations
 app.send_email: used to send email to users when they register, confirm, and reset passwords
 app.db_helpers: used as utility functions for SQLalchemy operations
 """
-from flask import render_template, redirect, request, url_for, flash
+from flask import render_template, redirect, request, url_for, flash, current_app
 from flask_login import login_user, logout_user, login_required, current_user
 from app.auth import auth
 from app.models import User
@@ -54,7 +54,7 @@ def login():
     """
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        user = User.query.filter_by(email=form.email.data.lower()).first()
         if user is not None and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
             flash('You have been logged in.')
@@ -84,6 +84,7 @@ def register():
     :return: if the form was submitted successfully user is redirected to log in page,
     otherwise they are prompted with their registration errors
     """
+    current_app.logger.info('Start function register() [VIEW]')
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(password=form.password.data, first_name=form.first_name.data, last_name=form.first_name.data,
@@ -93,7 +94,9 @@ def register():
         send_email(user.email, 'Confirm Your Account',
                    'auth/email/confirm', user=user, token=token)
         flash('A confirmation email has been sent to you by email.')
+        current_app.logger.info('End function register() [VIEW]')
         return redirect(url_for('auth.login'))
+    current_app.logger.info('End function register() [VIEW]')
     return render_template('auth/register.html', form=form)
 
 

@@ -74,7 +74,8 @@ def catalog():
     # TODO: rename this route and put it into posts/views.py
     # TODO: edit catalog.html to have the contents of postTab.html and then delete postTab.html
     tags = Tag.query.all()
-    return render_template('catalog.html', tags=tags)
+    posts = Post.query.all()
+    return render_template('catalog.html', tags=tags, posts=posts)
     # tag_list = request.form.getlist('input_tags')
     # if len(tag_list) == 0:
     #     posts = Post.query.all()

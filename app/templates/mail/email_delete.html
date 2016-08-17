@@ -16,7 +16,7 @@
                 Activist Url: {{ story_edit.activist_url }}<br>
             {% endif %}
             Tags: {{ old_tags }}<br>
-            Content: {{ story_edit.content }}
+            Content: {{ story_edit.content | safe }}
     </p>
 
 

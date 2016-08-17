@@ -8,7 +8,7 @@ Notice [Women's Activism NYC]: Delete Made on a Story!
             Activist Url: {{ story_edit.activist_url }}
         {% endif %}
         Tags: {{ old_tags }}
-        Content: {{ story_edit.content }}
+        Content: {{ story_edit.content | safe }}
 
 
     Version Information:

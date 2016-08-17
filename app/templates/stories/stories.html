@@ -11,11 +11,10 @@
                 <li class="story">
                     <div class="story-content">
                         <div class="story-date">
-                                {{ moment(story['time']).fromNow() }}
+                                {{ moment(story['creation_time']).fromNow() }}
                         </div>
 {#                    TODO: add in poster first and poster last if entered     #}
-                        <div class="story-first"> <b>{{ story['activist_first'] }}</b> </div>
-                        <div class="story-last"> <b>{{ story['activist_last'] }}</b> </div>
+                        <div class="story-name"> <b>{{ story['activist_last'] }},{{ story['activist_first'] }}</b> </div>
                         <div class="story-content">
                                 {{ story['content'] | safe }}
                         </div> <br>
@@ -42,7 +41,7 @@
 
                     {% if story['is_edited'] %}
                         <div class="story-status">
-                                <p3>Edited: {{ moment(story['time']).fromNow() }}</p3>
+                                <p3>Edited: {{ moment(story['edit_time']).fromNow() }}</p3>
                         </div>
                         <br>
                     {% endif %}

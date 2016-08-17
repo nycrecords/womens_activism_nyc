@@ -43,7 +43,7 @@
                 <div class="control-group">
                     <select class="selectpicker" data-width="fit" name="input_tags" multiple required>
                     {% for tag in tags %}
-                        {% if tag.name in story['tags'] %}
+                        {% if tag.name in story_tags %}
                             <option selected value="{{ tag.name }}">{{ tag.name }}</option>
                         {% else %}
                             <option value="{{ tag.name }}">{{ tag.name }}</option>

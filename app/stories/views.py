@@ -282,7 +282,7 @@ def edit(id):
                    template='mail/email_edit', story_edit=story_edit, story=story,
                    old_tags=old_tags, new_tags=new_tags, user_first=user_first, user_last=user_last)
         return redirect(url_for('stories.all_stories'))
-    return render_template('stories/edit_story.html', story=story, tags=all_tags, story_tags=tags)
+    return render_template('stories/edit_story.html', story=story, tags=all_tags, story_tags=single_story['tags'])
 
 
 @stories.route('/stories/delete/<int:id>', methods=['GET', 'POST'])

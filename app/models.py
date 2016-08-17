@@ -185,9 +185,10 @@ class User(UserMixin, db.Model):
         if self.role is None:
             if self.email == current_app.config['WOMENS_ADMIN']:
                 self.role = Role.query.filter_by(permissions=0xff).first()
-                self.confirmed = True
-            else:
-                self.role = Role.query.filter_by(default=True).first()
+                #self.confirmed = True
+        if self.role is None:
+            self.role = Role.query.filter_by(default=True).first()
+        self.password_list = Password(p1='', p2='', p3='', p4='', p5='', last_changed=datetime.now())
 
     @property
     def password(self):
@@ -219,31 +220,31 @@ class User(UserMixin, db.Model):
 
     def generate_reset_token(self, expiration=3600):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
-        session['reset_token'] = {'token': s, 'valid': True}
+        #session['reset_token'] = {'token': s, 'valid': True}
         return s.dumps({'reset': self.id})
 
     def reset_password(self, token, new_password):
-        # s = Serializer(current_app.config['SECRET_KEY'])
-        # try:
-        #     data = s.loads(token)
-        # except:
-        #     return False
-        # if data.get('reset') != self.id:
-        #     return False
-        # self.password = new_password
-        # db.session.add(self)
-        # return True
-        # checks if the new password is at least 8 characters with at least 1 UPPERCASE AND 1 NUMBER
-        if not re.match(r'^(?=.*?\d)(?=.*?[A-Z])(?=.*?[a-z])[A-Za-z\d]{8,128}$', new_password):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
             return False
-        # If the password has been changed within the last second, the token is invalid.
-        if (datetime.now() - self.password_list.last_changed).seconds < 1:
-            current_app.logger.error('User {} tried to re-use a token.'.format(self.email))
-            raise InvalidResetToken
+        if data.get('reset') != self.id:
+            return False
         self.password = new_password
-        self.password_list.update(self.password_hash)
         db.session.add(self)
         return True
+        # checks if the new password is at least 8 characters with at least 1 UPPERCASE AND 1 NUMBER
+        # if not re.match(r'^(?=.*?\d)(?=.*?[A-Z])(?=.*?[a-z])[A-Za-z\d]{8,128}$', new_password):
+        #     return False
+        # # If the password has been changed within the last second, the token is invalid.
+        # if (datetime.now() - self.password_list.last_changed).seconds < 1:
+        #     current_app.logger.error('User {} tried to re-use a token.'.format(self.email))
+        #     raise InvalidResetToken
+        # self.password = new_password
+        # self.password_list.update(self.password_hash)
+        # db.session.add(self)
+        # return True
 
     def can(self, permissions):
         return self.role is not None and \

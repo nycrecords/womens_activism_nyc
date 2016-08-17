@@ -2,8 +2,6 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "_macros.html" as macros %}
 
-<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='index.css') }}"/>
-
 {% block title %}Womens Activism NYC{% endblock %}
 
 {% block content %}
@@ -36,6 +34,32 @@
 {% block scripts %}
 {{ super() }}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+<script type="text/javascript">
+function get_tags(tag_name) {
+    $(this).click(function() {
+        var tag_list = [];
+        var all_filters = document.getElementsByClassName("active");
+        console.log('All Filters');
+        console.log(all_filters);
+        for (var i = 0; i < all_filters.length; i++) {
+            console.log(all_filters[i].value);
+            tag_list.push(all_filters[i].value);
+        }
+        $.ajax({
+            type: "POST",
+            url: '/_get_tags',
+            dataType: 'application/json',
+            data: JSON.stringify(tag_list),
+            success: function (response) {
+                console.log(tag_list);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    })
+}
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-*.min.js"></script>
 {% endblock %}

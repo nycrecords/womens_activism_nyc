@@ -43,24 +43,93 @@ def unconfirmed():
     return render_template('auth/unconfirmed.html')
 
 
+# @auth.route('/login', methods=['GET', 'POST'])
+# def login():
+#     """
+#     Function allows users to login to their account
+#     Uses LoginForm for users to enter in their credentials
+#     Does a query on the database to see if they account is a valid account or not
+#     :return: redirects user to home page if they credentials match or prompts them with invalid and returns
+#     to login.html
+#     """
+#     form = LoginForm()
+#     if form.validate_on_submit():
+#         user = User.query.filter_by(email=form.email.data.lower()).first()
+#         if user is not None and user.verify_password(form.password.data):
+#             login_user(user, form.remember_me.data)
+#             flash('You have been logged in.')
+#             return redirect(request.args.get('next') or url_for('main.index'))
+#         flash('Invalid username or password.')
+#     return render_template('auth/login.html', form=form)
+
+
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     """
-    Function allows users to login to their account
-    Uses LoginForm for users to enter in their credentials
-    Does a query on the database to see if they account is a valid account or not
-    :return: redirects user to home page if they credentials match or prompts them with invalid and returns
-    to login.html
+    View function to login a user. Redirects the user to the index page on successful login.
+
+    :return: Login page.
     """
+    current_app.logger.info('Start function login() [VIEW]')
+    # Redirect to index if already logged in
+    if current_user.is_authenticated:
+        current_app.logger.info('{} is already authenticated: redirecting to index'.format(current_user.email))
+        current_app.logger.info('End function login() [VIEW]')
+        return redirect(url_for('main.index'))
+
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data.lower()).first()
+        user = User.query.filter_by(email=(form.email.data).lower()).first()
+
+        if user and user.login_attempts >= 2:
+            # Too many invalid attempts
+            current_app.logger.info('{} has been locked out'.format(user.email))
+            flash('You have too many invalid login attempts. You must reset your password.',
+                  category='error')
+            current_app.logger.info('End function login() [VIEW]')
+            return redirect(url_for('auth.password_reset_request'))
+
         if user is not None and user.verify_password(form.password.data):
-            login_user(user, form.remember_me.data)
-            flash('You have been logged in.')
+            # Credentials successfully submitted
+            login_user(user)
+            user.login_attempts = 0
+            # db.session.add(user)
+            # db.session.commit()
+            put_obj(user)
+            current_app.logger.info('{} successfully logged in'.format(current_user.email))
+            flash('You have been logged in')
+            return redirect(url_for('main.index'))
+
+            # Check to ensure password isn't outdated
+            if (datetime.today() - current_user.password_list.last_changed).days > 90:
+                # If user's password has expired (not update in 90 days)
+                current_app.logger.info('{}\'s password hasn\'t been updated in 90 days: account invalidated.'
+                                        .format(current_user.email))
+                current_user.validated = False
+                db.session.add(current_user)
+                db.session.commit()
+                flash('You haven\'t changed your password in 90 days. You must re-validate your account',
+                      category='error')
+                current_app.logger.info('End function login() [VIEW]')
+                return redirect(url_for('auth.change_password'))
+
+            if (datetime.today() - current_user.password_list.last_changed).days > 75:
+                # If user's password is about to expire (not updated in 75 days)
+                days_to_expire = (datetime.today() - current_user.password_list.last_changed).days
+                flash('Your password will expire in {} days.'.format(days_to_expire), category='warning')
+            current_app.logger.error('{} is already logged in. Redirecting to main.index'.format(current_user.email))
+            current_app.logger.info('End function login() [VIEW]')
             return redirect(request.args.get('next') or url_for('main.index'))
-        flash('Invalid username or password.')
-    return render_template('auth/login.html', form=form)
+
+        if user:
+            current_app.logger.info('{} failed to log in: Invalid username or password'.format(user.email))
+            user.login_attempts += 1
+            # db.session.add(user)
+            # db.session.commit()
+            put_obj(user)
+        flash('Invalid username or password', category='error')
+    current_app.logger.info('End function login() [VIEW]')
+    return render_template('auth/login.html', form=form, reset_url=url_for('auth.password_reset_request'))
 
 
 @auth.route('/logout')
@@ -87,7 +156,7 @@ def register():
     current_app.logger.info('Start function register() [VIEW]')
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(password=form.password.data, first_name=form.first_name.data, last_name=form.first_name.data,
+        user = User(password=form.password.data, first_name=form.first_name.data, last_name=form.last_name.data,
                     email=form.email.data, phone=form.phone.data)
         put_obj(user)
         token = user.generate_confirmation_token()

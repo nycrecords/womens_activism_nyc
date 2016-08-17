@@ -1,13 +1,15 @@
 """
 Models for women's activism nyc db
 """
-
-from . import db, login_manager
+import re
+from app import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from flask import current_app
+from flask import current_app, session
 from flask_login import UserMixin, AnonymousUserMixin
 from datetime import datetime
+
+from .utils import InvalidResetToken
 
 
 class Permission:
@@ -175,12 +177,15 @@ class User(UserMixin, db.Model):
     confirmed = db.Column(db.Boolean, default=False)
     site = db.Column(db.String(50), nullable=True)
     is_subscribed = db.Column(db.Boolean, default=False)
+    login_attempts = db.Column(db.Integer, default=0)
+    old_passwords = db.Column(db.Integer, db.ForeignKey('passwords.id'))
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         if self.role is None:
             if self.email == current_app.config['WOMENS_ADMIN']:
                 self.role = Role.query.filter_by(permissions=0xff).first()
+                self.confirmed = True
             else:
                 self.role = Role.query.filter_by(default=True).first()
 
@@ -214,17 +219,29 @@ class User(UserMixin, db.Model):
 
     def generate_reset_token(self, expiration=3600):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        session['reset_token'] = {'token': s, 'valid': True}
         return s.dumps({'reset': self.id})
 
     def reset_password(self, token, new_password):
-        s = Serializer(current_app.config['SECRET_KEY'])
-        try:
-            data = s.loads(token)
-        except:
+        # s = Serializer(current_app.config['SECRET_KEY'])
+        # try:
+        #     data = s.loads(token)
+        # except:
+        #     return False
+        # if data.get('reset') != self.id:
+        #     return False
+        # self.password = new_password
+        # db.session.add(self)
+        # return True
+        # checks if the new password is at least 8 characters with at least 1 UPPERCASE AND 1 NUMBER
+        if not re.match(r'^(?=.*?\d)(?=.*?[A-Z])(?=.*?[a-z])[A-Za-z\d]{8,128}$', new_password):
             return False
-        if data.get('reset') != self.id:
-            return False
+        # If the password has been changed within the last second, the token is invalid.
+        if (datetime.now() - self.password_list.last_changed).seconds < 1:
+            current_app.logger.error('User {} tried to re-use a token.'.format(self.email))
+            raise InvalidResetToken
         self.password = new_password
+        self.password_list.update(self.password_hash)
         db.session.add(self)
         return True
 
@@ -237,6 +254,26 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.first_name
+
+
+class Password(db.Model):
+    __tablename__ = 'passwords'
+    id = db.Column(db.Integer, primary_key=True)
+    p1 = db.Column(db.String(128))
+    p2 = db.Column(db.String(128))
+    p3 = db.Column(db.String(128))
+    p4 = db.Column(db.String(128))
+    p5 = db.Column(db.String(128))
+    last_changed = db.Column(db.DateTime)
+    users = db.relationship('User', backref='password_list', lazy='dynamic')
+
+    def update(self, password_hash):
+        self.p5 = self.p4
+        self.p4 = self.p3
+        self.p3 = self.p2
+        self.p2 = self.p1
+        self.p1 = password_hash
+        self.last_changed = datetime.now()
 
 
 class StoryEdit(db.Model):

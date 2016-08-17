@@ -17,6 +17,11 @@
                         </div>
 {#                    TODO: add in poster first and poster last if entered     #}
                         <div class="story-name"> <b>{{ story['activist_last'] }},{{ story['activist_first'] }}</b> </div>
+                        {% if story['image_link'] %}
+                            <div class="media_link">
+                                <img src="{{ story['image_link'] }}">
+                            </div>
+                        {% endif %}
                         <div class="story-content">
                                 {{ story['content'] | safe }}
                         </div> <br>

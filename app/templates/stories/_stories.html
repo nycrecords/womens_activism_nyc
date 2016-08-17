@@ -19,6 +19,11 @@
                         <div class="story-about">
                             <b>{{ story['activist_last'] }},{{ story['activist_first'] }}</b>
                         </div>
+                        {% if story['image_link'] %}
+                            <div class="image_link">
+                                <img src="{{ story['image_link'] }}">
+                            </div>
+                        {% endif %}
                         <div class="story-content">
                             {{ story['content'] | safe }}
                         </div> <br>

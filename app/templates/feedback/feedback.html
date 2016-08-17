@@ -6,7 +6,10 @@
 {% block content %}
     {{ super() }}
     <div class="page-header">
-    <h1>Feedback Form</h1>
+        <h1>Feedback Form</h1>
     </div>
 {{ wtf.quick_form(form) }}
+    {% block footer %}
+        {% include "_footer.html" %}
+    {% endblock %}
 {% endblock %}

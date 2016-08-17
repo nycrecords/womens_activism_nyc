@@ -78,16 +78,14 @@ def catalog():
         posts = Post.query.all()
         return render_template('catalog.html', tags=tags, posts=posts, tag_list=tag_list)
     else:
+        clauses = or_(*[PostTag.tag_id == Tag.query.filter_by(name=tag).first().id for tag in tag_list])  # creates filter for query in following line
+        post_tags = PostTag.query.filter(clauses).all()  # queries the PostTag table to find all with above clauses
         posts = []
+        for post_tag in post_tags:  # loops through all post_tags found and appends the related post to the posts list
+            posts.append(Post.query.filter_by(id=post_tag.post_id).first())
         unique_posts = []
-        for tag in tag_list:
-            tag_id = Tag.query.filter_by(name=tag).first().id
-            post_tags = PostTag.query.filter_by(tag_id=tag_id).all()
-            for post_tag in post_tags:
-                post = Post.query.filter_by(id=post_tag.post_id).first()
-                posts.append(post)
-        posts_dict = {i:posts.count(i) for i in posts}
-        for key, value in posts_dict.items():
+        posts_dict = {i: posts.count(i) for i in posts}  # creates a dictionary showing the count that a post shows up for posts list
+        for key, value in posts_dict.items():  # loops through dictionary and appends only the posts that show up the same number of times as the number of tags chosen
             if posts_dict[key] >= len(tag_list):
                 unique_posts.append(key)
         return render_template('catalog.html', tags=tags, posts=unique_posts, tag_list=tag_list)

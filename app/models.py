@@ -102,6 +102,9 @@ class Story(db.Model):
     is_edited = db.Column(db.Boolean, nullable=False)
     is_visible = db.Column(db.Boolean, nullable=False)
     version = db.Column(db.Integer, default=1)
+    image_link = db.Column(db.Text)
+    video_link = db.Column(db.Text)
+    media_link = db.Column(db.Text)
 
     def __repr__(self):
         return '<Story %r>' % self.activist_first

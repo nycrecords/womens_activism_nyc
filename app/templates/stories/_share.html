@@ -1,5 +1,6 @@
 {% import "_macros.html" as macros %}
 
+{% block content %}
 <center>
 
 <div id="page-body">
@@ -17,7 +18,7 @@
             </div>
 
             <div class="lead">She Lived<br>
-                <h5>If still living, enter "today".</h5>
+                <h5>If still living, enter "Today".</h5>
                 <div class="control-group">
                     <input class="input_birth" name="input_birth" title="Activist Start Date" maxlength="4" placeholder="1960"
                            value="{{ activist_start_date or '' }}" required> -
@@ -60,7 +61,10 @@
                 <h5>Upload your favorite photo or video of your<br>
                 female activist to help tell your story. [Optional]</h5>
                 <div class="control-group">
-                    <button type="button" class="btn btn-secondary">Add Media</button>
+{#                    <button type="button" class="btn btn-secondary" onclick="">Add Media</button>#}
+{#                    <button id="popup" onclick="div_show()">Add Media</button>#}
+                    <input class="media_link" name="media_link" title="media_link"
+                           value="{{ media_link or '' }}">
                 </div>
             </div>
         </div>
@@ -91,3 +95,11 @@
 </div>
 
 </center>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>function div_show() {
+alert("hskadfjhkd");
+}</script>
+{% endblock %}

@@ -63,6 +63,7 @@ def shareastory(data=None):
         author_first_name = data['author_first_name']
         author_last_name = data['author_last_name']
         author_email = data['author_email']
+        media_link = data['media_link']
 
         if activist_first_name == '':  # user has not submitted activist first name
             flash("Please enter a first name for women's activist.")
@@ -70,49 +71,49 @@ def shareastory(data=None):
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email)
+                                   author_email=author_email, media_link=media_link)
         elif activist_last_name == '':  # user has not submitted activist last name
             flash("Please enter a last name for women's activist.")
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email)
+                                   author_email=author_email, media_link=media_link)
         elif activist_start_date == '':  # user has not submitted activist start date
             flash("Please enter a year of birth for women's activist.")
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email)
+                                   author_email=author_email, media_link=media_link)
         elif activist_end_date == '':  # user has not submitted activist end date
             flash("Please enter a year of death for women's activist.")
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email)
+                                   author_email=author_email, media_link=media_link)
         elif len(activist_end_date) == 5 and activist_end_date != 'Today':  # user submitted invalid activist end date
             flash("Please enter a valid year of death for women's activist.")
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email)
+                                   author_email=author_email, media_link=media_link)
         elif len(request.form.getlist('input_tags')) == 0:  # user submitted no tags
             flash('Please choose at least one tag.')
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email)
+                                   author_email=author_email, media_link=media_link)
         elif content == '':  # user has not submitted content
             flash('Please enter a story.')
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email)
+                                   author_email=author_email, media_link=media_link)
         elif recaptcha.verify() == False:  # user has not passed the recaptcha verification
             flash("Please complete reCAPTCHA.")
             return render_template('stories/share.html', tags=tags)
@@ -125,11 +126,11 @@ def shareastory(data=None):
 
                 story = Story(activist_start=activist_start_date, activist_end=activist_end_date,
                               activist_first=activist_first_name, activist_last=activist_last_name, content=content,
-                              activist_url=activist_link, poster_id=user.id, is_edited=False, is_visible=True)
+                              activist_url=activist_link, poster_id=user.id, is_edited=False, is_visible=True, media_link=media_link)
             else:  # user only entered the basic/required information
                 story = Story(activist_start=activist_start_date, activist_end=activist_end_date,
                               activist_first=activist_first_name, activist_last=activist_last_name, content=content,
-                              activist_url=activist_link, is_edited=False, is_visible=True)
+                              activist_url=activist_link, is_edited=False, is_visible=True, media_link=media_link)
 
             put_obj(story)
 

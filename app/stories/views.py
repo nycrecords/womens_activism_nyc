@@ -209,9 +209,9 @@ def edit(id):
         name = Tag.query.filter_by(id=story_tag.tag_id).first().name
         tags.append(name)
     """
-    story is a dictionary that incorporates information from the single story and tags
+    single_story is a dictionary that incorporates information from the single story and tags
     """
-    story = {
+    single_story = {
         'id': story.id,
         'activist_first': story.activist_first,
         'activist_last': story.activist_last,
@@ -258,7 +258,10 @@ def edit(id):
         story.edit_time = new_edit_time
 
         put_obj(story)
+
         tag_list = request.form.getlist('input_tags')
+        new_tags = tag_list
+        old_tags = single_story['tags']
         for tag in tag_list:
             if tag not in story['tags']:
                 story_tag = StoryTag(story_id=story.id, tag_id=Tag.query.filter_by(name=tag).first().id)
@@ -271,7 +274,8 @@ def edit(id):
         flash('The story has been edited.')
 
         send_email(to=current_app.config['WOMENS_ADMIN'], subject='Edit Made on a Story',
-                   template='mail/email_edit.html', story_edit=story_edit, story=story)
+                   template='mail/email_edit.html', story_edit=story_edit, story=story,
+                   old_tags=old_tags, new_tags=new_tags)
         return redirect(url_for('stories.all_stories'))
     return render_template('stories/edit_story.html', story=story, tags=all_tags, story_tags=tags)
 
@@ -308,7 +312,7 @@ def delete(id):
         flash('The story has been deleted.')
 
         send_email(to=current_app.config['WOMENS_ADMIN'], subject='Delete Made on a Story',
-                   template='mail/email_delete.html',story_edit=story_edit, story=story)
+                   template='mail/email_delete.html', story_edit=story_edit, story=story)
         return redirect(url_for('stories.all_stories'))
     return render_template('stories/delete_story.html', story=story)
 

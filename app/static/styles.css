@@ -86,6 +86,11 @@
     -ms-transform: matrix(0.99959204631372, 0, 0, 1.0018460443303, 0, 0);
 }
 
+.story_image_icon {
+    border-radius: 50%;
+    opacity: 0.8;
+}
+
 #hashtag {
     font-size: 36px;
     font-family: "Open Sans";
@@ -153,4 +158,33 @@
     padding-left: 12%;
     padding-top: 2%;
     padding-bottom: 2%;
+}
+
+.featured_story_image {
+    border-radius: 50%;
+}
+
+.featured_story_quote {
+    font-size: 42px;
+    font-family: "Open Sans";
+    color: rgba(255, 255, 255, 0.749);
+    font-style: italic;
+    line-height: 1.286;
+    text-align: left;
+
+}
+
+.featured_story_name {
+    font-size: 35px;
+    font-family: "Open Sans";
+    color: rgb(255, 255, 255);
+    line-height: 0.686;
+    text-align: center;
+    -moz-transform: matrix(1.00037757314301, 0, 0, 1, 0, 0);
+    -webkit-transform: matrix(1.00037757314301, 0, 0, 1, 0, 0);
+    -ms-transform: matrix(1.00037757314301, 0, 0, 1, 0, 0);
+}
+
+.featured_story {
+    background-color: rgb(89, 49, 95);
 }

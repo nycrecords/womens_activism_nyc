@@ -269,6 +269,9 @@ def edit(id):
                 delete_story_tag = StoryTag.query.filter_by(story_id=story.id, tag_id=old_tag).first()
                 delete_obj(delete_story_tag)
         flash('The story has been edited.')
+
+        send_email(to=current_app.config['WOMENS_ADMIN'], subject='Edit Made on a Story',
+                   template='mail/email_edit.html', story_edit=story_edit, story=story)
         return redirect(url_for('stories.all_stories'))
     return render_template('stories/edit_story.html', story=story, tags=all_tags, story_tags=tags)
 
@@ -303,6 +306,9 @@ def delete(id):
         put_obj(story)
 
         flash('The story has been deleted.')
+
+        send_email(to=current_app.config['WOMENS_ADMIN'], subject='Delete Made on a Story',
+                   template='mail/email_delete.html',story_edit=story_edit, story=story)
         return redirect(url_for('stories.all_stories'))
     return render_template('stories/delete_story.html', story=story)
 

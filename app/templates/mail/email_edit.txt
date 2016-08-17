@@ -1,0 +1,33 @@
+Notice [Women's Activism NYC]: Edit Made on a Story!
+
+    Before the Edit:
+        Story About: {{ story_edit['activist_last'] }} , {{ story_edit['activist_first'] }}
+        She Lived: {{ story_edit['activist_start'] }} to {{ story_edit['activist_end'] }}
+        {% if story_edit['activist_url'] %}
+            Activist Url: {{ story_edit['activist_url'] }}
+        {% endif %}
+        Content: {{ story_edit['content'] }}
+
+    After the Edit:
+        Story About: {{ story['activist_last'] }} , {{ story['activist_first'] }}
+        She Lived: {{ story['activist_start'] }} to {{ story['activist_end'] }}
+        {% if story['activist_url'] %}
+            Activist Url: {{ story['activist_url'] }}
+        {% endif %}
+        Content: {{ story['content'] }}
+
+    Version Information:
+        Edit made by: {{ story_edit['user_id'] }}
+        Story Creation time: {{ story['creation_time'] }}
+        Story Edit time: {{ story['edit_time'] }}
+        Previous Story Version: {{ story_edit['version'] }}
+        Current Story Version: {{ story['version'] }}
+
+To view the post please <a href="{{ url_for('stories.stories', id=story.id, _external=True) }}">click here</a>.
+Alternatively, you can paste the following link in your browser's address bar:
+{{ url_for('stories.stories', id=story.id, _external=True) }}
+
+
+Sincerely,
+Women's Activism NYC
+Note: replies to this email address are not monitored.

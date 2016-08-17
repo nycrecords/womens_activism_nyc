@@ -13,6 +13,7 @@ Notice [Women's Activism NYC]: Delete Made on a Story!
 
     Version Information:
         Delete made by: { user_last }} , {{ user_first }}
+        Reason given: {{ story_edit.reason }}
         Story Creation time: {{ story.creation_time }}
         Story Edit time: {{ story.edit_time }}
         Previous Story Version: {{ story_edit.version }}

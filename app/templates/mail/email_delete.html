@@ -9,7 +9,7 @@
     <p>Notice [Women's Activism NYC]: <b>Delete Made on a Story</b>!</p>
 
     <p>
-        Before the Edit:
+        Before the Edit:<br>
             Story About: {{ story_edit.activist_last }} , {{ story_edit.activist_first }}<br>
             She Lived: {{ story_edit.activist_start }} to {{ story_edit.activist_end }}<br>
             {% if story_edit.activist_url %}
@@ -21,8 +21,8 @@
 
 
     <p>
-        Version Information:
-            Delete made by: {{ story_edit.user_id }}<br>
+        Version Information:<br>
+            Delete made by: {{ user_last }} , {{ user_first }}<br>
             Story Creation time: {{ story.creation_time }}<br>
             Story Edit time: {{ story.edit_time }}<br>
             Previous Story Version: {{ story_edit.version }}<br>

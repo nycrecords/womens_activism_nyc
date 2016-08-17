@@ -227,9 +227,11 @@ def edit(id):
 
     if request.method == 'POST':
         data = request.form.copy()
-        user = current_user.id
+        user_id = current_user.id
+        user_first = User.query.filter_by(id=user_id).first().first_name
+        user_last = User.query.filter_by(id=user_id).first().last_name
 
-        story_edit = StoryEdit(story_id=story.id, user_id=user, creation_time=story.creation_time,
+        story_edit = StoryEdit(story_id=story.id, user_id=user_id, creation_time=story.creation_time,
                                edit_time=datetime.utcnow(), type='Edit', activist_first=story.activist_first,
                                activist_last=story.activist_last, activist_start=story.activist_start,
                                activist_end=story.activist_end, activist_url=story.activist_url,
@@ -275,7 +277,7 @@ def edit(id):
 
         send_email(to=current_app.config['WOMENS_ADMIN'], subject='Edit Made on a Story',
                    template='mail/email_edit', story_edit=story_edit, story=story,
-                   old_tags=old_tags, new_tags=new_tags)
+                   old_tags=old_tags, new_tags=new_tags, user_first=user_first, user_last=user_last)
         return redirect(url_for('stories.all_stories'))
     return render_template('stories/edit_story.html', story=story, tags=all_tags, story_tags=tags)
 
@@ -293,9 +295,11 @@ def delete(id):
     story = Story.query.get_or_404(id)
     if request.method == 'POST':
         data = request.form.copy()
-        user = current_user.id
+        user_id = current_user.id
+        user_first = User.query.filter_by(id=user_id).first().first_name
+        user_last = User.query.filter_by(id=user_id).first().last_name
 
-        story_edit = StoryEdit(story_id=story.id, user_id=user, creation_time=story.creation_time,
+        story_edit = StoryEdit(story_id=story.id, user_id=user_id, creation_time=story.creation_time,
                                edit_time=datetime.utcnow(), type='Delete', activist_first=story.activist_first,
                                activist_last=story.activist_last, activist_start=story.activist_start,
                                activist_end=story.activist_end, activist_url=story.activist_url,
@@ -312,7 +316,8 @@ def delete(id):
         flash('The story has been deleted.')
 
         send_email(to=current_app.config['WOMENS_ADMIN'], subject='Delete Made on a Story',
-                   template='mail/email_delete', story_edit=story_edit, story=story)
+                   template='mail/email_delete', story_edit=story_edit, story=story, user_first=user_first,
+                   user_last=user_last)
         return redirect(url_for('stories.all_stories'))
     return render_template('stories/delete_story.html', story=story)
 

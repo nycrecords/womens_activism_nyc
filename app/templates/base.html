@@ -4,9 +4,9 @@
 
 {% block head %}
 {{ super() }}
-<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-<link rel="stylesheet" href="{{ url_for('static', filename='nyc_gov/styles.css') }}" type="text/css"/>
+<link type="image/x-icon" rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+<link type="image/x-icon" rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='nyc_gov/styles.css') }}" />
 <script src='https://www.google.com/recaptcha/api.js'></script>
 {% endblock %}
 
@@ -30,7 +30,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container-fluid">
 
     {% block page_content %}
     {% endblock %}
@@ -44,7 +44,8 @@
 {% block scripts %}
 {{ super() }}
 {{ moment.include_moment() }}
-<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='bootstrap_womens_activism.css') }}" />
 <script>
     var myElements = document.querySelectorAll(".remove-videodetector");
     for (var i = 0; i < myElements.length; i++) {

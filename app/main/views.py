@@ -111,4 +111,4 @@ def index(data=None):
             flash('Post submitted!')
             print(page_posts)
             return redirect(url_for('.index'))
-    return render_template('index.html', posts=page_posts, pagination=pagination, tags=all_tags)
+    return render_template('index.html', posts=page_posts, pagination=pagination, tags=all_tags, visible_stories=0, missing_stories=20000)

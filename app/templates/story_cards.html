@@ -1,0 +1,18 @@
+<span class="spacer">&nbsp;</span>
+{% for row in stories %}
+<div class="row">
+    {% for story in row %}
+    {% include 'story_card.html' %}
+    {% endfor %}
+</div>
+{% endfor %}
+<span class="spacer">&nbsp;</span>
+<div class="row">
+    <div class="col-sm-pull-4">
+        <a href="#">
+            <button class="center-block view_all_stories">
+                View All Stories
+            </button>
+        </a>
+    </div>
+</div>

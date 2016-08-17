@@ -241,7 +241,7 @@ def edit(id):
         new_activist_last = data['input_last']
         new_activist_start = data['input_start']
         new_activist_end = data['input_end']
-        new_activist_url = data['input_link']
+        new_activist_url = data['input_url']
         new_content = data['editor1']
         new_is_edited = True
         new_version = story.version + 1
@@ -263,10 +263,10 @@ def edit(id):
         new_tags = tag_list
         old_tags = single_story['tags']
         for tag in tag_list:
-            if tag not in story['tags']:
+            if tag not in single_story['tags']:
                 story_tag = StoryTag(story_id=story.id, tag_id=Tag.query.filter_by(name=tag).first().id)
                 put_obj(story_tag)
-        for tag in story['tags']:
+        for tag in single_story['tags']:
             if tag not in tag_list:
                 old_tag = Tag.query.filter_by(name=tag).first().id
                 delete_story_tag = StoryTag.query.filter_by(story_id=story.id, tag_id=old_tag).first()
@@ -274,7 +274,7 @@ def edit(id):
         flash('The story has been edited.')
 
         send_email(to=current_app.config['WOMENS_ADMIN'], subject='Edit Made on a Story',
-                   template='mail/email_edit.html', story_edit=story_edit, story=story,
+                   template='mail/email_edit', story_edit=story_edit, story=story,
                    old_tags=old_tags, new_tags=new_tags)
         return redirect(url_for('stories.all_stories'))
     return render_template('stories/edit_story.html', story=story, tags=all_tags, story_tags=tags)
@@ -312,7 +312,7 @@ def delete(id):
         flash('The story has been deleted.')
 
         send_email(to=current_app.config['WOMENS_ADMIN'], subject='Delete Made on a Story',
-                   template='mail/email_delete.html', story_edit=story_edit, story=story)
+                   template='mail/email_delete', story_edit=story_edit, story=story)
         return redirect(url_for('stories.all_stories'))
     return render_template('stories/delete_story.html', story=story)
 

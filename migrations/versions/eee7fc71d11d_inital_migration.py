@@ -1,14 +1,14 @@
-"""added password table
+"""inital migration
 
-Revision ID: 36cb11abc3cf
-Revises: facfc681da91
-Create Date: 2016-08-17 10:36:49.314006
+Revision ID: eee7fc71d11d
+Revises: None
+Create Date: 2016-08-17 12:49:23.882766
 
 """
 
 # revision identifiers, used by Alembic.
-revision = '36cb11abc3cf'
-down_revision = 'facfc681da91'
+revision = 'eee7fc71d11d'
+down_revision = None
 
 from alembic import op
 import sqlalchemy as sa

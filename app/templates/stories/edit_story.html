@@ -16,16 +16,23 @@
                 </div>
             </div>
 
-            <div class="lead">
-                <h2>Editing Story For:</h2>
+            <div class="lead">Women
+                <h2>Editing Story About:</h2>
                 <div class="control-group">
                     <input class="input_first" name="input_first" value ="{{ story['activist_first'] }}" maxlength="140" required>
                     <input class="input_last" name="input_last" value ="{{ story['activist_last'] }}" maxlength="140" required>
                 </div>
             </div>
 
-            <div class="lead">
-                <h2>Content</h2>
+            <div class="lead">Years Active
+                <h2>She lived:</h2>
+                <div class="control-group">
+                    <input class="input_start" name="input_start" value ="{{ story['activist_start'] }}" maxlength="4" required>
+                    <input class="input_end" name="input_end" value ="{{ story['activist_end'] }}" maxlength="5" required>
+                </div>
+            </div>
+
+            <div class="lead">Content
                 <div class="control-group">
                     <textarea id="editor1" name="editor1" required>{{ story['content'] }}</textarea>
                 </div>
@@ -42,6 +49,12 @@
                         {% endif %}
                     {% endfor %}
                     </select>
+                </div>
+            </div>
+
+            <div class="lead">Additional link for more information [Optional]
+                <div class="control-group">
+                    <textarea id="input_url" name="input_url">{{ story['activist_url'] }}</textarea>
                 </div>
             </div>
 

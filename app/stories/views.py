@@ -201,12 +201,16 @@ def edit(id):
     All post history that cannot be seen by user lives in PostEdit table
     """
     story = Story.query.get_or_404(id)
+    all_tags = Tag.query.all()
 
     story_tags = StoryTag.query.filter_by(story_id=story.id).all()
     tags = []
     for story_tag in story_tags:
         name = Tag.query.filter_by(id=story_tag.tag_id).first().name
         tags.append(name)
+    """
+    story is a dictionary that incorporates information from the single story and tags
+    """
     story = {
         'id': story.id,
         'activist_first': story.activist_first,
@@ -221,28 +225,38 @@ def edit(id):
         'tags': tags
     }
 
-    all_tags = Tag.query.all()
-
     if request.method == 'POST':
         data = request.form.copy()
         user = current_user.id
 
-        # TODO: be able to edit activist name and years active
-        # add in user id later, writing the old post history into PostEdit table
         story_edit = StoryEdit(story_id=story.id, user_id=user, creation_time=story.creation_time,
-                             edit_time=datetime.utcnow(),
-                             type='Edit', content=story.content, reason=data['input_reason'],
-                             version=story.version)
+                               edit_time=datetime.utcnow(), type='Edit', activist_first=story.activist_first,
+                               activist_last=story.activist_last, activist_start=story.activist_start,
+                               activist_end=story.activist_end, activist_url=story.activist_url,
+                               poster_id=story.poster_id, content=story.content,
+                               reason=data['input_reason'], version=story.version)
         put_obj(story_edit)
 
+        new_activist_first = data['input_first']
+        new_activist_last = data['input_last']
+        new_activist_start = data['input_start']
+        new_activist_end = data['input_end']
+        new_activist_url = data['input_link']
         new_content = data['editor1']
         new_is_edited = True
         new_version = story.version + 1
         new_edit_time = datetime.utcnow()
+
+        story.activist_first = new_activist_first
+        story.activist_last = new_activist_last
+        story.activist_start = new_activist_start
+        story.activist_end = new_activist_end
+        story.activist_url = new_activist_url
         story.content = new_content
         story.is_edited = new_is_edited
         story.version = new_version
         story.edit_time = new_edit_time
+
         put_obj(story)
         tag_list = request.form.getlist('input_tags')
         for tag in tag_list:
@@ -303,9 +317,7 @@ def stories(id):
     """
     single_story = Story.query.get_or_404(id)
     """
-    page_stories is a list of dictionary containing attributes of stories
-    page_stories is used because tags cannot be accessed through stories
-    tags is accessed only by looping through the StoryTag table
+    story is a dictionary that incorporates information from the single story and tags
     """
     story_tags = StoryTag.query.filter_by(story_id=single_story.id).all()
     tags = []

@@ -129,3 +129,30 @@ class PasswordResetForm(Form):
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first() is None:
             raise ValidationError('Unknown email address.')
+
+    def validate_password(self, password_field):
+        """
+        Used to verify that password meets security criteria.
+
+        :param password_field: password field
+        :return: A validation message if password is not secure.
+        """
+        if len(password_field.data) < 8:
+            raise ValidationError('Your password must be 8 or more characters')
+
+        has_num = False
+        has_capital = False
+        for i in password_field.data:
+            if i.isdigit():
+                has_num = True
+            if i.isupper():
+                has_capital = True
+
+        if not (has_num or has_capital):
+            raise ValidationError('Passwords must contain at least one number and one capital letter')
+
+        if not has_num:
+            raise ValidationError('Password must contain at least one number')
+
+        if not has_capital:
+            raise ValidationError('Password must contain at least one capital letter')

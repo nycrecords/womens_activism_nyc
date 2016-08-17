@@ -223,6 +223,7 @@ class User(UserMixin, db.Model):
         #session['reset_token'] = {'token': s, 'valid': True}
         return s.dumps({'reset': self.id})
 
+    # need to fix password reset taking it out for now
     def reset_password(self, token, new_password):
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
@@ -232,11 +233,13 @@ class User(UserMixin, db.Model):
         if data.get('reset') != self.id:
             return False
         self.password = new_password
+        self.password_list.update(self.password_hash)
         db.session.add(self)
         return True
-        # checks if the new password is at least 8 characters with at least 1 UPPERCASE AND 1 NUMBER
-        # if not re.match(r'^(?=.*?\d)(?=.*?[A-Z])(?=.*?[a-z])[A-Za-z\d]{8,128}$', new_password):
-        #     return False
+
+        # # checks if the new password is at least 8 characters with at least 1 UPPERCASE AND 1 NUMBER
+        # # if not re.match(r'^(?=.*?\d)(?=.*?[A-Z])(?=.*?[a-z])[A-Za-z\d]{8,128}$', new_password):
+        # #     return False
         # # If the password has been changed within the last second, the token is invalid.
         # if (datetime.now() - self.password_list.last_changed).seconds < 1:
         #     current_app.logger.error('User {} tried to re-use a token.'.format(self.email))

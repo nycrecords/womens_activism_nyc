@@ -104,7 +104,6 @@ class Story(db.Model):
     version = db.Column(db.Integer, default=1)
     image_link = db.Column(db.Text)
     video_link = db.Column(db.Text)
-    media_link = db.Column(db.Text)
 
     def __repr__(self):
         return '<Story %r>' % self.activist_first
@@ -311,6 +310,9 @@ class StoryEdit(db.Model):
     content = db.Column(db.Text, nullable=False)
     reason = db.Column(db.Text, nullable=False)
     version = db.Column(db.Integer, default=1)
+    image_link = db.Column(db.Text)
+    video_link = db.Column(db.Text)
+
 
     def __repr__(self):
         return '<Edit %r>' % self.id

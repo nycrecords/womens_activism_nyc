@@ -8,6 +8,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app, session
 from flask_login import UserMixin, AnonymousUserMixin
 from datetime import datetime
+from app.utils import archive_tags
 
 from .utils import InvalidResetToken
 
@@ -131,10 +132,20 @@ class Tag(db.Model):
 
     __tablename__ = "tags"
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(32), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
+
+    @staticmethod
+    def populate_tags():
+        for tag in archive_tags:
+            tag_obj = Tag(name=tag)
+            db.session.add(tag_obj)
+            db.session.commit()
 
     def __repr__(self):
         return '<Tag %r>' % self.name
+
+
+
 
 
 class StoryTag(db.Model):

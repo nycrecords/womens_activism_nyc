@@ -1,6 +1,5 @@
 {% import "_macros.html" as macros %}
 
-{% block content %}
 <center>
 
 <div id="page-body">
@@ -18,7 +17,7 @@
             </div>
 
             <div class="lead">She Lived<br>
-                <h5>If still living, enter "Today".</h5>
+                <h5>If still living, enter "today".</h5>
                 <div class="control-group">
                     <input class="input_birth" name="input_birth" title="Activist Start Date" maxlength="4" placeholder="1960"
                            value="{{ activist_start_date or '' }}" required> -
@@ -61,25 +60,24 @@
                 <h5>Upload your favorite photo or video of your<br>
                 female activist to help tell your story. [Optional]</h5>
                 <div class="control-group">
-{#                    <button type="button" class="btn btn-secondary" onclick="">Add Media</button>#}
-{#                    <button id="popup" onclick="div_show()">Add Media</button>#}
-                    <input class="media_link" name="media_link" title="media_link"
-                           value="{{ media_link or '' }}">
+{#                    <button type="button" class="btn btn-secondary">Add Media</button>#}
+                    <input class="media_link" name="media_link" title="Media Link"
+                          value="{{ media_link or '' }}" placeholder="youtube.com">
                 </div>
             </div>
         </div>
 
-        <div class="sharestory1">
+        <div class="sharestory3">
             <div class="lead">Tell Us About Yourself<br>
                 <h5>If you would like to share your name, enter below.<br>
                 Your email address will not be made public. [Optional]</h5>
                 <div class="control-group">
                     <input class="author_first_name" name="author_first_name" title="Author First Name" maxlength="140"
-                           value="{{ author_first_name or '' }}" placeholder="Mary" required>
+                           value="{{ author_first_name or '' }}" placeholder="Mary">
                     <input class="author_last_name" name="author_last_name" title="Author Last Name" maxlength="140"
-                           value="{{ author_last_name or '' }}" placeholder="Smith" required> <br>
+                           value="{{ author_last_name or '' }}" placeholder="Smith"> <br>
                     <input class="author_email" name="author_email" title="Author Email" maxlength="140"
-                           value="{{ author_email or '' }}" placeholder="msmith@gmail.com" required>
+                           value="{{ author_email or '' }}" placeholder="msmith@gmail.com">
                 </div>
             </div>
         </div>
@@ -95,11 +93,3 @@
 </div>
 
 </center>
-
-{% endblock %}
-
-{% block scripts %}
-    <script>function div_show() {
-alert("hskadfjhkd");
-}</script>
-{% endblock %}

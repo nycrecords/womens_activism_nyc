@@ -19,6 +19,11 @@
                         <div class="story-about">
                             <b>{{ story['activist_last'] }},{{ story['activist_first'] }}</b>
                         </div>
+                        {% if story['media_link'] %}
+                            <div class="media_link">
+                                <img src="{{ story['media_link'] }}">
+                            </div>
+                        {% endif %}
                         <div class="story-content">
                             {{ story['content'] | safe }}
                         </div> <br>
@@ -88,7 +93,7 @@
                                 <img src="../../static/linkedin_icon.png" alt="LinkedIn" width="32" height="32" />
                             </a>
                             <!-- Email -->
-                            <a href="mailto:?subject=[Women's Activism NYC] {{ story['activist_first'] }}{{ story['activist_last'] }}&body={{ story['content'] }}" target="_blank">
+                            <a href="mailto:?subject=[Women's Activism NYC] {{ story['activist_first'] }}{{ story['activist_last'] }}&body={{ story['content'] | safe }}" target="_blank">
                                 <img src="../../static/email_icon.png" alt="Email" width="32" height="32" />
                             </a>
                         </div>

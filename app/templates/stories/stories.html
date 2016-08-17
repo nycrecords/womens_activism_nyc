@@ -17,6 +17,11 @@
                         </div>
 {#                    TODO: add in poster first and poster last if entered     #}
                         <div class="story-name"> <b>{{ story['activist_last'] }},{{ story['activist_first'] }}</b> </div>
+                        {% if story['media_link'] %}
+                            <div class="media_link">
+                                <img src="{{ story['media_link'] }}">
+                            </div>
+                        {% endif %}
                         <div class="story-content">
                                 {{ story['content'] | safe }}
                         </div> <br>
@@ -90,5 +95,9 @@
             <h2>This story has been deleted by a moderator.</h2>
             {% endif %}
     </ul>
+
+    {% block footer %}
+        {% include "_footer.html" %}
+    {% endblock %}
 
 {% endblock %}

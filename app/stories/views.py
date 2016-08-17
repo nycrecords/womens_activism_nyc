@@ -181,7 +181,8 @@ def all_stories():
             'content': story.content,
             'is_visible': story.is_visible,
             'is_edited': story.is_edited,
-            'tags': tags
+            'tags': tags,
+            'media_link': story.media_link
         }
         page_stories.append(story)
 
@@ -351,6 +352,7 @@ def stories(id):
         'content': single_story.content,
         'is_visible': single_story.is_visible,
         'is_edited': single_story.is_edited,
-        'tags': tags
+        'tags': tags,
+        'media_link': single_story.media_link
     }
     return render_template('stories/stories.html', story=story)

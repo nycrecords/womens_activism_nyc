@@ -79,7 +79,8 @@
                             <img src="../static/linkedin_icon.png" alt="LinkedIn" width="32" height="32" />
                         </a>
                         <!-- Email -->
-                        <a href="mailto:?subject=[Women's Activism NYC] {{ story['activist_first'] }}{{ story['activist_last'] }}&body={{ story['content'] | safe }}" target="_blank">
+                        <a href="mailto:?subject=[Women's Activism NYC] Spread the word!
+                        &body= Check out this post about {{ story['activist_last'] }},{{ story['activist_first'] }} on this page: {{ url_for('stories.stories', id=story['id'], _external=True) }}" target="_blank">
                             <img src="../static/email_icon.png" alt="Email" width="32" height="32" />
                         </a>
                     </div>

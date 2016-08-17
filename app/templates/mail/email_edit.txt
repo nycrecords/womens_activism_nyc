@@ -8,7 +8,7 @@ Notice [Women's Activism NYC]: Edit Made on a Story!
             Activist Url: {{ story_edit.activist_url }}
         {% endif %}
         Tags: {{ old_tags }}
-        Content: {{ story_edit.content }}
+        Content: {{ story_edit.content | safe }}
 
 
     After the Edit:
@@ -18,11 +18,11 @@ Notice [Women's Activism NYC]: Edit Made on a Story!
             Activist Url: {{ story.activist_url }}
         {% endif %}
         Tags: {{ new_tags }}
-        Content: {{ story.content }}
+        Content: {{ story.content | safe }}
 
 
     Version Information:
-        Edit made by: {{ story_edit.user_id }}
+        Edit made by: {{ user_last }} , {{ user_first }}
         Story Creation time: {{ story.creation_time }}
         Story Edit time: {{ story.edit_time }}
         Previous Story Version: {{ story_edit.version }}

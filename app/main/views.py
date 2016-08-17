@@ -23,6 +23,7 @@ from app.models import User, Post, Tag, PostTag
 from app.main import main
 from app import recaptcha
 from sqlalchemy.sql import and_, or_
+import ast
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -95,21 +96,29 @@ def catalog():
 @main.route('/_get_tags', methods=['GET', 'POST'])
 def get_tags():
     tags = Tag.query.all()
-    tag_list = request.get_data().decode("utf-8")
+    tag_list = request.get_data().decode('utf-8')
+    tag_list = ast.literal_eval(tag_list)
     if len(tag_list) == 0:
         posts = Post.query.all()
         return render_template('catalog.html', tags=tags, posts=posts, tag_list=tag_list)
     else:
+        print(tag_list)
+        print(len(tag_list))
         clauses = or_(*[PostTag.tag_id == Tag.query.filter_by(name=tag).first().id for tag in
                         tag_list])  # creates filter for query in following line
+        print(clauses)
         post_tags = PostTag.query.filter(clauses).all()  # queries the PostTag table to find all with above clauses
         posts = []
+        print(post_tags)
         for post_tag in post_tags:  # loops through all post_tags found and appends the related post to the posts list
             posts.append(Post.query.filter_by(id=post_tag.post_id).first())
+        print(posts)
         unique_posts = []
         posts_dict = {i: posts.count(i) for i in
                       posts}  # creates a dictionary showing the count that a post shows up for posts list
+        print(posts_dict)
         for key, value in posts_dict.items():  # loops through dictionary and appends only the posts that show up the same number of times as the number of tags chosen
             if posts_dict[key] >= len(tag_list):
                 unique_posts.append(key)
+        print(unique_posts)
         return render_template('catalog.html', tags=tags, posts=unique_posts, tag_list=tag_list)

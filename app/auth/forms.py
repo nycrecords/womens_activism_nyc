@@ -5,6 +5,7 @@ WTForms: used to create web forms for Users
 WTForms.validators: used to validate the fields in the WTForms
 app.models: import User table from models.py
 """
+from flask import current_app
 from flask_wtf import Form
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, ValidationError
 from wtforms.validators import DataRequired, Length, Email, EqualTo
@@ -37,14 +38,26 @@ class RegistrationForm(Form):
     password2 = PasswordField('Confirm password', validators=[DataRequired()])
     submit = SubmitField('Register')
 
-    def validate_email(self, field):
+    def validate_email(self, email_field):
         """
         function used to check if the email the user is using is already registered in the database
 
-        :param field: the email field from the RegistrationForm
+        :param email_field: the email field from the RegistrationForm
         :return: A validation message if the email is already registered in the database
         """
-        if User.query.filter_by(email=field.data).first():
+
+        user = User.query.filter_by(email=email_field.data).first()
+        if user:
+            if user.email:
+                current_app.logger.error('{} tried to register user with email {} but user already exists.'.format(
+                    user.email, email_field.data))
+            else:
+                current_app.logger.error('Anonymous user tried to register user with email {} but user already exists.'.
+                                     format(email_field.data))
+            raise ValidationError('An account with this email address already exists')
+
+
+        if User.query.filter_by(email=email_field.data).first():
             raise ValidationError('Email already registered.')
 
     def validate_password(self, password_field):

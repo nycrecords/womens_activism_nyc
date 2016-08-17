@@ -1,13 +1,32 @@
 """
-modules used for post/views.py
-flask: framework used for project
-app: used to get db so we can perform SQLalchemy operations
-app.models: used to get the Post and Comment table to view Posts and Comments
-            used to get the PostEdit table to write post history to it
-app.posts: used to get the posts blueprint for routes
-app.posts.forms: used to get the CommentForm to create Comments
-app.db_helpers: used as utility functions for SQLalchemy operations
-flask_login: used login_required so that only
+Modules needed for stories/views.py
+flask:
+    used render_template to load templates
+    used redirect to redirect to specific url
+    used url_for to designate the specific url
+    used current_app for config data variables
+    used flash to send messages to the user
+    used request to query the db or html for information
+app.models:
+    used Story table to call in the information pertaining to a specific story
+    used User table to associate information about user_id to specific post edit or delete
+    used StoryTag table to call in information that associated posts with their attached tags
+    used Tag table to call in all the tags to populate drop down menu during story creation
+    used StoryEdit table to write old story history and metadata for audit purposes
+app.stories:
+    used to import the stories blueprint where routes are identified from
+app.db_helpers:
+    used put_obj(obj) to add and commit sessions for Story
+    used delete_obj(obj) to delete tags associated with a Story in the edit route
+flask_login:
+    used login_required to limit edit and delete routes so that only verified users can see them
+    used current_user to grab information about user_id so that it can be associated with a story edit or delete
+datetime:
+    used datetime to keep timestamps of when edits and deletes to stories were made
+app:
+    used recaptcha for verification that the story was not shared by a bot
+app.send_email:
+    send_email() function defined in app/send_email.py used to send email to recipient, formats subject title and email content
 """
 from flask import render_template, request, current_app, flash, redirect, url_for
 from app.models import Story, User, StoryTag, Tag, StoryEdit
@@ -16,11 +35,20 @@ from app.db_helpers import put_obj, delete_obj
 from flask_login import login_required, current_user
 from datetime import datetime
 from app import recaptcha
+from app.send_email import send_email
 
 
 @stories.route('/shareastory', methods=['GET', 'POST'])
 def shareastory(data=None):
-    # TODO: rename this route and put it into stories/views.py
+    """
+    route where user is prompted to enter information about the woman that inspires them
+        Required fields are activist first and last name, activist start and end date, tag, recaptcha
+        Optional fields, located in the html _share.html are activist_link, activist_media, and information about the
+            poster themselves
+    :param data: initialized as none because we want the html text fields to be blank/have placeholders
+    :return: renders template where user can share their story "post" flashes success message if completed
+     renders template with information retained in session if user has not completed a required field
+    """
     tags = Tag.query.all()
 
     if data or request.method == 'POST':  # user pressed submit button
@@ -91,13 +119,14 @@ def shareastory(data=None):
         else:  # user has successfully submitted
 
             if len(author_first_name) > 0 or len(author_last_name) > 0 or len(author_email) > 0:
+                # user entered information about themselves
                 user = User(first_name=author_first_name, last_name=author_last_name, email=author_email)
                 put_obj(user)
 
                 story = Story(activist_start=activist_start_date, activist_end=activist_end_date,
                               activist_first=activist_first_name, activist_last=activist_last_name, content=content,
                               activist_url=activist_link, poster_id=user.id, is_edited=False, is_visible=True)
-            else:
+            else:  # user only entered the basic/required information
                 story = Story(activist_start=activist_start_date, activist_end=activist_end_date,
                               activist_first=activist_first_name, activist_last=activist_last_name, content=content,
                               activist_url=activist_link, is_edited=False, is_visible=True)
@@ -116,11 +145,11 @@ def shareastory(data=None):
 
 @stories.route('/stories', methods=['GET', 'POST'])
 def all_stories():
-    # TODO: Render the correct template - archive.html instead of postTab.html
     """
-    Route for seperate post tab that shows all stories in the db.
+    Route that displays all the stories stored in the db (visible)
     Displays all stories in a paginated fashion.
-    :return: renders 'postTab.html', passes in post_feed as all stories in Post table (ordered by creation_time)
+    :return: renders 'storiesTab.html', passes in page_stories which is list of story dictionary with information
+        pertaining to each story (ordered by creation_time)
     """
     page = request.args.get('page', 1, type=int)
     pagination = Story.query.order_by(Story.creation_time.desc()).paginate(
@@ -130,10 +159,10 @@ def all_stories():
 
     page_stories = []
     """
-    page_posts is a list of dictionary containing attributes of stories
-    page_posts is used because tags cannot be accessed through stories
+    page_stories is a list of dictionary containing attributes of stories
+    page_stories is used because tags cannot be accessed through stories
+    tags is accessed only by looping through the StoryTag table
     """
-
     for story in stories_feed:
         story_tags = StoryTag.query.filter_by(story_id=story.id).all()
         tags = []
@@ -142,16 +171,20 @@ def all_stories():
             tags.append(name)
         story = {
             'id': story.id,
-            'title': story.title,
-            'content': story.content,
-            'time': story.creation_time,
+            'activist_first': story.activist_first,
+            'activist_last': story.activist_last,
+            'activist_start': story.activist_start,
+            'activist_end': story.activist_end,
+            'creation_time': story.creation_time,
             'edit_time': story.edit_time,
+            'content': story.content,
             'is_visible': story.is_visible,
             'is_edited': story.is_edited,
             'tags': tags
         }
         page_stories.append(story)
-    return render_template('stories/storiesTab.html', stories=page_stories, pagination=pagination)
+
+    return render_template('stories/storiesTab.html', stories=page_stories, paganation=pagination)
 
 
 @stories.route('/stories/edit/<int:id>', methods=['GET', 'POST'])
@@ -176,10 +209,13 @@ def edit(id):
         tags.append(name)
     story = {
         'id': story.id,
-        'title': story.title,
-        'content': story.content,
-        'time': story.creation_time,
+        'activist_first': story.activist_first,
+        'activist_last': story.activist_last,
+        'activist_start': story.activist_start,
+        'activist_end': story.activist_end,
+        'creation_time': story.creation_time,
         'edit_time': story.edit_time,
+        'content': story.content,
         'is_visible': story.is_visible,
         'is_edited': story.is_edited,
         'tags': tags
@@ -226,23 +262,24 @@ def edit(id):
 @stories.route('/stories/delete/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete(id):
-    # TODO: change post attributes to reflect new models.py
     """
-    :param(id) Query the db with id for the Post to display information in it
+    Takes a story and makes it not visible - "deleted" status
+    Story lives on in Story table but is_visible = False and will not show up on feeds
+    The Edit is also in StoryEdit table for auditing purposes (reason, who deleted, etc)
+    :param(id) Query the db with id for the Story to display information in the delete_story.html
     :return redirect to stories page with feed of all stories
-    Takes a post and makes it not visible - "deleted" status
-    Post lives on in Post table but is_visible = False and will not show up on feeds
-    Admins can still see the "deleted" post(s)
     """
     story = Story.query.get_or_404(id)
     if request.method == 'POST':
         data = request.form.copy()
         user = current_user.id
 
-        # TODO: be able to edit activist name and years active
-        story_edit = StoryEdit(story_id=story.id, user_id=user, creation_time=story.creation_time, edit_time=datetime.utcnow(),
-                             type='Delete',
-                             content=story.content, reason=data['input_reason'], version=story.version)
+        story_edit = StoryEdit(story_id=story.id, user_id=user, creation_time=story.creation_time,
+                               edit_time=datetime.utcnow(), type='Delete', activist_first=story.activist_first,
+                               activist_last=story.activist_last, activist_start=story.activist_start,
+                               activist_end=story.activist_end, activist_url=story.activist_url,
+                               poster_id=story.poster_id, content=story.content,
+                               reason=data['input_reason'], version=story.version)
         put_obj(story_edit)
 
         new_edit_time = datetime.utcnow()
@@ -258,17 +295,17 @@ def delete(id):
 
 @stories.route('/stories/<int:id>', methods=['GET', 'POST'])
 def stories(id):
-    # TODO: change post attributes to reflect new models.py
     """
-    Route used to show a post on its own single page
-    :param id: Unique identifier for post (post_id).
-    Views a single post on its own page
-    :return: renders 'post.html', passes in post information
+    Route used to show a story on its own single page
+    :param id: Unique identifier for story (story_id).
+    Views a single story on its own page
+    :return: renders 'stories.html', passes in post information
     """
     single_story = Story.query.get_or_404(id)
     """
-        page_posts is a list of dictionary containing attributes of stories
-        page_posts is used because tags cannot be accessed through stories
+    page_stories is a list of dictionary containing attributes of stories
+    page_stories is used because tags cannot be accessed through stories
+    tags is accessed only by looping through the StoryTag table
     """
     story_tags = StoryTag.query.filter_by(story_id=single_story.id).all()
     tags = []
@@ -277,10 +314,13 @@ def stories(id):
         tags.append(name)
     story = {
         'id': single_story.id,
-        'title': single_story.title,
-        'content': single_story.content,
-        'time': single_story.creation_time,
+        'activist_first': single_story.activist_first,
+        'activist_last': single_story.activist_last,
+        'activist_start': single_story.activist_start,
+        'activist_end': single_story.activist_end,
+        'creation_time': single_story.creation_time,
         'edit_time': single_story.edit_time,
+        'content': single_story.content,
         'is_visible': single_story.is_visible,
         'is_edited': single_story.is_edited,
         'tags': tags

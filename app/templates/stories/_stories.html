@@ -8,86 +8,87 @@
 </head>
 
 <body>
-{#didnt finish changing might not even need#}
-    <ul class="posts">
+    <ul class="stories">
         {% for story in stories %}
             {% if story['is_visible'] %}
-                <li class="post">
-                    <div class="post-content">
-                        <div class="post-date">
-                            {{ moment(post['time']).fromNow() }}
+                <li class="story">
+                    <div class="story-content">
+                        <div class="story-date">
+                            {{ moment(story['creation_time']).fromNow() }}
                         </div>
-                        <div class="post-title"> <b>{{ post['title'] }}</b> </div>
-                        <div class="post-content">
-                            {{ post['content'] | safe }}
+                        <div class="story-about">
+                            <b>{{ story['activist_last'] }},{{ story['activist_first'] }}</b>
+                        </div>
+                        <div class="story-content">
+                            {{ story['content'] | safe }}
                         </div> <br>
-                        {% for tag in post['tags'] %}
+                        {% for tag in story['tags'] %}
                             <span class="label label-primary">{{ tag }}</span>
                         {% endfor %}
                     </div>
 
-            <div class="post-footer1">
-                <a href="{{ url_for('stories.stories', id=post['id']) }}">
-                    <span class="label label-primary">View Post</span>
+            <div class="story-footer1">
+                <a href="{{ url_for('stories.stories', id=story['id']) }}">
+                    <span class="label label-primary">View Story</span>
                 </a>
             </div>
             <br>
 
                     {% if current_user.is_administrator() %}
-                        <div class="post-edit">
-                            <a href="{{ url_for('stories.edit', id=post['id']) }}">
-                                <span class="label label-primary">Edit Post</span>
+                        <div class="story-edit">
+                            <a href="{{ url_for('stories.edit', id=story['id']) }}">
+                                <span class="label label-primary">Edit Story</span>
                             </a>
                         </div>
                         <br>
 
-                        <div class="post-delete">
-                            <a href="{{ url_for('stories.delete', id=post['id']) }}">
-                                <span class="label label-primary">Delete Post</span>
+                        <div class="story-delete">
+                            <a href="{{ url_for('stories.delete', id=story['id']) }}">
+                                <span class="label label-primary">Delete Story</span>
                             </a>
                         </div>
                         <br>
                     {% endif %}
 
-                    {% if post['is_edited'] %}
-                        <div class="post-status">
-                            <p3>Edited: {{ moment(post['time']).fromNow() }}</p3>
+                    {% if story['is_edited'] %}
+                        <div class="story-status">
+                            <p3>Edited: {{ moment(story['edit_time']).fromNow() }}</p3>
                         </div>
                         <br>
                     {% endif %}
 
                     <p1>
-                        Something wrong with this post? Tell us!
+                        Something wrong with this story? Tell us!
                     </p1>
-                    <div class="post-flag">
-                        <a href="{{ url_for('flags.flag_post', id=post['id']) }}">
-                            <span class="label label-primary">Flag</span>
+                    <div class="story-flag">
+                        <a href="{{ url_for('flags.flag_story', id=story['id']) }}">
+                            <span class="label label-primary">Flag Story</span>
                         </a>
                     </div>
                     <br>
 
                     <p2>
-                        Like this post? Share it with friends!
+                        Like this story? Share it with friends!
                     </p2>
                         <div id="share-buttons">
                             <!-- Facebook -->
-                            <a href="http://www.facebook.com/sharer.php?u={{ url_for('stories.stories', id=post['id'], _external=True) }}" target="_blank">
+                            <a href="http://www.facebook.com/sharer.php?u={{ url_for('stories.stories', id=story['id'], _external=True) }}" target="_blank">
                                 <img src="../../static/facebook_icon.png" alt="Facebook" width="32" height="32" />
                             </a>
                             <!-- Tumblr-->
-                            <a href="http://www.tumblr.com/share/link?url={{ url_for('stories.stories', id=post['id'], _external=True) }}&name={{ post['title'] }}&description=WomensActivismNYC" target="_blank">
+                            <a href="http://www.tumblr.com/share/link?url={{ url_for('stories.stories', id=story['id'], _external=True) }}&name={{ story['activist_first'] }}{{ story['activist_last'] }}&description=WomensActivismNYC" target="_blank">
                                 <img src="../../static/tumblr_icon.png" alt="Tumblr" width="32" height="32" />
                             </a>
                             <!-- Twitter -->
-                            <a href="https://twitter.com/share?url={{ url_for('stories.stories', id=post['id'], _external=True) }}&text={{ post['title'] }}&hashtags=WomensActivismNYC" target="_blank">
+                            <a href="https://twitter.com/share?url={{ url_for('stories.stories', id=story['id'], _external=True) }}&text={{ story['activist_first'] }}{{ story['activist_last'] }}&hashtags=WomensActivismNYC" target="_blank">
                                 <img src="../../static/twitter_icon.png" alt="Twitter" width="32" height="32" />
                             </a>
                             <!-- LinkedIn -->
-                            <a href="http://www.linkedin.com/shareArticle?url={{ url_for('stories.stories', id=post['id'], _external=True) }}&title={{ post['title'] }}" target="_blank">
+                            <a href="http://www.linkedin.com/shareArticle?url={{ url_for('stories.stories', id=story['id'], _external=True) }}&title={{ story['activist_first'] }}{{ story['activist_last'] }}" target="_blank">
                                 <img src="../../static/linkedin_icon.png" alt="LinkedIn" width="32" height="32" />
                             </a>
                             <!-- Email -->
-                            <a href="mailto:?subject=[Women's Activism NYC] {{ post['title'] }}&body={{ post['content'] | safe }}" target="_blank">
+                            <a href="mailto:?subject=[Women's Activism NYC] {{ story['activist_first'] }}{{ story['activist_last'] }}&body={{ story['content'] | safe }}" target="_blank">
                                 <img src="../../static/email_icon.png" alt="Email" width="32" height="32" />
                             </a>
                         </div>

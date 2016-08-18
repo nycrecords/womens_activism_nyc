@@ -22,6 +22,11 @@
                                 <img src="{{ story['image_link'] }}">
                             </div>
                         {% endif %}
+                        {% if story['video_link'] %}
+                            <div class="video_link">
+                                <iframe width="560" height="315" src="{{ story['video_link'] }}"></iframe>
+                            </div>
+                        {% endif %}
                         <div class="story-content">
                                 {{ story['content'] | safe }}
                         </div> <br>

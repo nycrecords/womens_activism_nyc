@@ -9,10 +9,15 @@
     {{ super() }}
 
     {% block share %}
-        {% include "_share.html" %}
+        {% include "stories/_share.html" %}
+    {% endblock %}
+
+    {% block footer %}
+        {% include "_footer.html" %}
     {% endblock %}
 
 {% endblock %}
+
 
 {% block scripts %}
 {{ super() }}

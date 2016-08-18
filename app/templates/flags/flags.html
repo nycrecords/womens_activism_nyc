@@ -3,14 +3,20 @@
 
 {% block title %}Women's Activism NYC{% endblock %}
 
-{% block page_content %}
+{% block content %}
+    {{ super() }}
 <body>
     <div class="page-header">
-        <h1>Flagging: "{{post_title}}"</h1>
+        <h1>Flagging Story About: "{{activist_last}},{{ activist_first }}"</h1>
     </div>
+
+    {{ wtf.quick_form(form) }}
+    {% block footer %}
+        {% include "_footer.html" %}
+    {% endblock %}
 
 </body>
 
-{{ wtf.quick_form(form) }}
+
 
 {% endblock %}

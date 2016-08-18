@@ -3,15 +3,16 @@
 
 {% block title %}Women's Activism NYC{% endblock %}
 
-{% block page_content %}
-    <div class="posts-header">
-    <h2>All Posts</h2>
+{% block content %}
+    {{ super() }}
+    <div class="stories-header">
+    <h2>All Stories</h2>
     </div>
 
-{% include '_posts.html' %}
+{% include 'stories/_stories.html' %}
 {% if pagination %}
 <div class="pagination">
-    {{ macros.pagination_widget(pagination, 'posts.all_posts') }}
+    {{ macros.pagination_widget(pagination, 'stories.all_stories') }}
 </div>
 {% endif %}
 {% endblock %}

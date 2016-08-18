@@ -17,7 +17,7 @@
             </div>
 
             <div class="lead">She Lived<br>
-                <h5>If still living, enter "today".</h5>
+                <h5>If still living, enter "Today".</h5>
                 <div class="control-group">
                     <input class="input_birth" name="input_birth" title="Activist Start Date" maxlength="4" placeholder="1960"
                            value="{{ activist_start_date or '' }}" required> -
@@ -53,7 +53,7 @@
 
             <div class="lead">Add a Link<br>
                 <h5>Enter a URL to allow others to learn<br>
-                more about your female activist online.</h5>
+                more about your female activist online. [Optional]</h5>
                 <div class="control-group">
                    <input class="input_url_link" name="input_url_link" title="Activist Link" maxlength="140"
                           value="{{ activist_link or '' }}" placeholder="msmith@gmail.com">
@@ -62,24 +62,32 @@
 
             <div class="lead">Add Media<br>
                 <h5>Upload your favorite photo or video of your<br>
-                female activist to help tell your story.</h5>
+                female activist to help tell your story. [Optional]</h5>
+
                 <div class="control-group">
-                    <button type="button" class="btn btn-secondary">Add Media</button>
+                    <button type="button" class="upload_image">Upload Image</button>
+                    <button type="button" class="upload_video">Upload Video</button>
                 </div>
+                <h5 class="image_link" style="display:none;">Enter an image URL</h5>
+                <input id=image_link class="image_link" name="image_link" title="Image Link"
+                          value="{{ image_link or '' }}" style="display:none;">
+                <h5 class="video_link" style="display:none;">Enter a YouTube or Vimeo URL</h5>
+                <input id=video_link class="video_link" name="video_link" title="Video Link"
+                          value="{{ video_link or '' }}" style="display:none;">
             </div>
         </div>
 
-        <div class="sharestory1">
+        <div class="sharestory3">
             <div class="lead">Tell Us About Yourself<br>
                 <h5>If you would like to share your name, enter below.<br>
-                Your email address will not be made public.</h5>
+                Your email address will not be made public. [Optional]</h5>
                 <div class="control-group">
                     <input class="author_first_name" name="author_first_name" title="Author First Name" maxlength="140"
-                           value="{{ author_first_name or '' }}" placeholder="Mary" required>
+                           value="{{ author_first_name or '' }}" placeholder="Mary">
                     <input class="author_last_name" name="author_last_name" title="Author Last Name" maxlength="140"
-                           value="{{ author_last_name or '' }}" placeholder="Smith" required> <br>
+                           value="{{ author_last_name or '' }}" placeholder="Smith"> <br>
                     <input class="author_email" name="author_email" title="Author Email" maxlength="140"
-                           value="{{ author_email or '' }}" placeholder="msmith@gmail.com" required>
+                           value="{{ author_email or '' }}" placeholder="msmith@gmail.com">
                 </div>
             </div>
         </div>
@@ -95,3 +103,21 @@
 </div>
 
 </center>
+
+{% block scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $(".upload_image").click(function(){
+        $(".image_link").show();
+        $(".video_link").hide();
+        $(".video_link").val('');
+    });
+    $(".upload_video").click(function(){
+        $(".video_link").show();
+        $(".image_link").hide();
+        $(".image_link").val('');
+    });
+});
+</script>
+{% endblock %}

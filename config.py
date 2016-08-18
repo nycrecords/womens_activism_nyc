@@ -1,10 +1,10 @@
 import os
 
-
 class Config:
 
     # SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     # SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+    # SQLALCHEMY_TRACK_MODIFICATIONS = True
     # MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'localhost'
     # MAIL_PORT = os.environ.get('MAIL_PORT') or 2500
     # MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') or False
@@ -15,7 +15,7 @@ class Config:
     # WOMENS_ADMIN = 'womensactivismnyc@gmail.com'
     # RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAPTCHA_PUBLIC_KEY')
     # RECAPTCHA_PRIVATE_KEY = os.environ.get('RECAPTCHA_PRIVATE_KEY')
-    # POSTS_PER_PAGE = 10
+    # STORIES_PER_PAGE = 10
     # COMMENTS_PER_PAGE = 10
     # RECAPTCHA_ENABLED = True
     # RECAPTCHA_SITE_KEY = os.environ.get('RECAPTCHA_SITE_KEY')
@@ -35,7 +35,7 @@ class Config:
     MAIL_SUBJECT_PREFIX = '[Womens Activism NYC]'
     MAIL_SENDER = 'Womens Activism NYC Admin <womensactivismnyc@gmail.com>'
     WOMENS_ADMIN = 'womensactivismnyc@gmail.com'
-    POSTS_PER_PAGE = 10
+    STORIES_PER_PAGE = 10
 
     RECAPTCHA_PUBLIC_KEY = '6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH'
     RECAPTCHA_PRIVATE_KEY = '6LetUSYTAAAAAN1pLPLyyIFUh6rEemXczfMFT4um'
@@ -43,6 +43,8 @@ class Config:
     RECAPTCHA_ENABLED = True
     RECAPTCHA_SITE_KEY = "6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"
     RECAPTCHA_SECRET_KEY = "6LetUSYTAAAAAN1pLPLyyIFUh6rEemXczfMFT4um"
+
+
 
     @staticmethod
     def init_app(app):

@@ -17,8 +17,9 @@ app.main:
 app:
     used recaptcha for verification purposes - prevent bot spam
 """
-from flask import render_template, request, current_app
-from app.models import Post, Tag, PostTag
+from flask import render_template, redirect, url_for, flash, request, current_app
+from app.db_helpers import put_obj
+from app.models import User, Story, Tag, StoryTag
 from app.main import main
 from sqlalchemy.sql import or_
 import ast
@@ -26,38 +27,38 @@ import ast
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
-    visible_posts = len(Post.query.filter_by(is_visible=True).all())
+    visible_stories = len(Story.query.filter_by(is_visible=True).all())
 
     page = request.args.get('page', 1, type=int)
-    pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
-        page, per_page=current_app.config['POSTS_PER_PAGE'],
+    pagination = Story.query.order_by(Story.creation_time.desc()).paginate(
+        page, per_page=current_app.config['STORIES_PER_PAGE'],
         error_out=True)
-    posts = pagination.items
+    stories = pagination.items
 
-    page_posts = []
+    page_stories = []
 
-    for post in posts:
-        post_tags = PostTag.query.filter_by(post_id=post.id).all()
+    for story in stories:
+        story_tags = StoryTag.query.filter_by(story_id=story.id).all()
         tags = []
-        for post_tag in post_tags:
-            name = Tag.query.filter_by(id=post_tag.tag_id).first().name
+        for story_tag in story_tags:
+            name = Tag.query.filter_by(id=story_tag.tag_id).first().name
             tags.append(name)
         story = {
-            'id': post.id,
-            'activist_first': post.activist_first,
-            'activist_last': post.activist_last,
-            'activist_start': post.activist_start,
-            'activist_end': post.activist_end,
-            'creation_time': post.creation_time,
-            'edit_time': post.edit_time,
-            'content': post.content,
-            'is_visible': post.is_visible,
-            'is_edited': post.is_edited,
+            'id': story.id,
+            'activist_first': story.activist_first,
+            'activist_last': story.activist_last,
+            'activist_start': story.activist_start,
+            'activist_end': story.activist_end,
+            'creation_time': story.creation_time,
+            'edit_time': story.edit_time,
+            'content': story.content,
+            'is_visible': story.is_visible,
+            'is_edited': story.is_edited,
             'tags': tags
         }
-        page_posts.append(story)
+        page_stories.append(story)
 
-    return render_template('new_index.html', posts=page_posts, pagination=pagination, visible_posts=visible_posts)
+    return render_template('new_index.html', stories=page_stories, pagination=pagination, visible_stories=visible_stories)
 
 
 @main.route('/about', methods=['GET', 'POST'])

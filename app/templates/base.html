@@ -13,9 +13,9 @@
         <nav class="navbartest">
             <a href="{{ url_for('main.index') }}">
                 <center>
-                    <img alt="hi" src="http://static1.squarespace.com/static/5522b4f7e4b03b1d22454063/t/55c25077e4b05790ba7984fe/1467822650263/?format=1500w"
-                         height="60" width="100">
-                </center>
+                    <img alt="holder" src="../static/womens_activism_nyc_logo.png"
+                         height="50" width="40">
+                    </center>
             </a>
         </nav>
     {% endblock %}
@@ -25,14 +25,28 @@
         <div class="container">
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('posts.shareastory') }}">SHARE A STORY</a></li>
+                    <li><a href="{{ url_for('stories.shareastory') }}">SHARE A STORY</a></li>
                     <li><a href="{{ url_for('main.about') }}">ABOUT</a></li>
                     <li><a href="{{ url_for('main.catalog') }}">CATALOG</a></li>
+                    <li><a href="{{ url_for('stories.all_stories') }}">ALL STORIES</a></li>
                     <li><a>VIDEOS</a></li>
                     <li><a href="{{ url_for('feedback.feedback') }}">CONTACT</a></li>
                     <li><a>GIVE</a></li>
+
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    {% if current_user.is_authenticated %}
+                     <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">ACCOUNT <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('tags.tags') }}">Tags</a></li>
+                        <li><a href="{{ url_for('auth.change_password') }}">Change Password</a></li>
+                        <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+                    </ul>
+                    </li>
+                    {% else %}
+                    <li><a href="{{ url_for('auth.login') }}">LOG IN</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

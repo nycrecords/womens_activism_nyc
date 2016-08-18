@@ -17,3 +17,6 @@ class EditTagForm(Form):
     current = StringField('Please enter an existing tag:', validators=[Optional()])
     edit = StringField('Please enter a new tag:', validators=[Optional()])
     submit = SubmitField('Submit')
+
+
+#  TODO: DOCSTRINGS

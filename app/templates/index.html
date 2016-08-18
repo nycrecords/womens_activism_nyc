@@ -11,6 +11,11 @@
 <span class="spacer">&nbsp;</span>
 {% include 'give.html' %}
 <span class="spacer">&nbsp;</span>
+{% if featured_story %}
 {% include 'featured_story.html' %}
+{% endif %}
+{% if then_and_now %}
+{% include 'then_and_now.html' %}
+{% endif %}
 
 {% endblock %}

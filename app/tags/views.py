@@ -1,9 +1,13 @@
 from flask import render_template, redirect, url_for, flash
-from .. import db
-from ..models import Tag
-from .forms import AddTagForm, RemoveTagForm, EditTagForm
-from . import tags
+from app import db
+from app.models import Tag, StoryTag
+from app.tags.forms import AddTagForm, RemoveTagForm, EditTagForm
+from app.tags import tags
 from flask_login import login_required
+from app.db_helpers import put_obj
+
+
+#  TODO: DOCSTRINGS
 
 
 @tags.route('/tags', methods=['GET', 'POST'])
@@ -28,8 +32,7 @@ def tags():
                 return render_template('tags/tags.html', addform=addform, removeform=removeform, editform=editform, tags=tags)
             else:
                 add_tag = Tag(name=add)
-                db.session.add(add_tag)
-                db.session.commit()
+                put_obj(add_tag)
                 flash('New tag had been added.')
             return redirect(url_for('.tags', addform=addform, removeform=removeform, editform=editform, tags=tags))
     if removeform.validate_on_submit():
@@ -39,9 +42,11 @@ def tags():
                 flash("Tag doesn't exist.")
                 return render_template('tags/tags.html', addform=addform, removeform=removeform, editform=editform, tags=tags)
             else:
+                story_tags = StoryTag.query.filter_by(tag_id=Tag.query.filter_by(name=delete).first().id).all()
+                for post_tag in story_tags:
+                    delete_obj(post_tag)
                 delete_tag = Tag.query.filter_by(name=delete).first()
-                db.session.delete(delete_tag)
-                db.session.commit()
+                delete_obj(delete_tag)
                 flash('The tag has been deleted.')
             return redirect(url_for('.tags'))
     if editform.validate_on_submit():

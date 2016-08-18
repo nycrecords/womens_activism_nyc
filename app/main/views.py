@@ -17,98 +17,61 @@ app.main:
 app:
     used recaptcha for verification purposes - prevent bot spam
 """
-from flask import render_template, redirect, url_for, flash, request, current_app
-from app.db_helpers import put_obj
-from app.models import Post, Tag, PostTag
+from flask import render_template, request, current_app
+
 from app.main import main
-from app import recaptcha
+from app.models import Story, Tag, StoryTag
 
 
 @main.route('/', methods=['GET', 'POST'])
-def index(data=None):
-    """
-    query the database for a feed of most recent posts
-    query the database for the list of possible tags - passed into drop down selectfield in html
-    :param data: initialized as none because we want a blank form to appear when user first loads page
-    :return: renders template that displays a ckeditor where user can start writing their post.
-        Second half of the page is a feed of most recent posts
-    """
+# TODO: Delete this route, we don't need it anymore - any changes made by simon needs to be implemented into index.html
+def index():
+    visible_stories = len(Story.query.filter_by(is_visible=True).all())
 
     page = request.args.get('page', 1, type=int)
-    pagination = Post.query.order_by(Post.creation_time.desc()).paginate(
-        page, per_page=current_app.config['POSTS_PER_PAGE'],
+    pagination = Story.query.order_by(Story.creation_time.desc()).paginate(
+        page, per_page=current_app.config['STORIES_PER_PAGE'],
         error_out=True)
+    stories = pagination.items[:7]
 
-    posts = pagination.items
-    all_tags = Tag.query.all()
+    page_stories = []
 
-    page_posts = []
-    """
-    page_posts is a list of lists containing attributes of posts
-    page_posts is used because tags cannot be accessed through posts
-    the indexes of page_posts are as follows:
-    0 = id
-    1 = title
-    2 = content
-    3 = just_now
-    4 = time
-    5 = comment_count
-    6 = edit_time
-    7 = is_visible
-    8 = is_edited
-    9 = tags
-    """
-    for post in posts:
-        id = post.id
-        title = post.title
-        content = post.content
-        just_now = post.just_now()
-        time = post.creation_time
-        comment_count = post.comments.count()
-        edit_time = post.edit_time
-        is_visible = post.is_visible
-        is_edited = post.is_edited
-
-        post_tags = PostTag.query.filter_by(post_id=post.id).all()
+    for story in stories:
+        story_tags = StoryTag.query.filter_by(story_id=story.id).all()
         tags = []
-        for post_tag in post_tags:
-            name = Tag.query.filter_by(id=post_tag.tag_id).first().name
-            tags.append([post_tag.tag_id, name])
-        page_posts.append([id, title, content, just_now, time, comment_count, edit_time, is_visible, is_edited, tags])
+        for story_tag in story_tags:
+            name = Tag.query.filter_by(id=story_tag.tag_id).first().name
+            tags.append(name)
+        story = {
+            'id': story.id,
+            'activist_first': story.activist_first,
+            'activist_last': story.activist_last,
+            'activist_start': story.activist_start,
+            'activist_end': story.activist_end,
+            'creation_time': story.creation_time,
+            'edit_time': story.edit_time,
+            'content': story.content,
+            'is_visible': story.is_visible,
+            'is_edited': story.is_edited,
+            'tags': tags
+        }
+        page_stories.append(story)
 
-    if data or request.method == 'POST':  # user presses the submit button
-        data = request.form.copy()
-        if data['input_title'] == '':  # user has not entered a title
-            if data['editor1'] == '':  # user has not entered any information into both fields
-                return render_template('index.html', posts=page_posts, post_title=data['input_title'],
-                                       post_content=data['editor1'], pagination=pagination, tags=all_tags)
-            else:
-                flash('Please enter a title.')
-                return render_template('index.html', posts=page_posts, post_title=data['input_title'],
-                                       post_content=data['editor1'], pagination=pagination, tags=all_tags)
-        elif data['editor1'] == '':  # user has not entered a description/content
-            flash('Please enter content.')
-            return render_template('index.html', posts=page_posts, post_title=data['input_title'],
-                                   post_content=data['editor1'], pagination=pagination, tags=all_tags)
-        elif len(request.form.getlist('input_tags')) == 0:
-            flash('Please choose at least one tag.')
-            return render_template('index.html', posts=page_posts, pagination=pagination, tags=all_tags)
-        elif recaptcha.verify() == False:  # user has not passed the recaptcha verification
-            flash("Please complete reCAPTCHA")
-            return render_template('index.html', posts=page_posts, post_title=data['input_title'],
-                                   post_content=data['editor1'], pagination=pagination, tags=all_tags)
-        else:  # successful submission of the post
-            title = data['input_title']
-            content = data['editor1']
+    missing_stories = 20000 - visible_stories
 
-            post = Post(title=title, content=content, is_edited=False, is_visible=True)
-            put_obj(post)
+    return render_template('index.html', stories=page_stories, pagination=pagination,
+                           visible_stories=visible_stories, missing_stories=missing_stories)
 
-            tag_list = request.form.getlist('input_tags')
-            for tag in tag_list:
-                post_tag = PostTag(post_id=post.id, tag_id=Tag.query.filter_by(name=tag).first().id)
-                put_obj(post_tag)
-            flash('Post submitted!')
-            print(page_posts)
-            return redirect(url_for('.index'))
-    return render_template('index.html', posts=page_posts, pagination=pagination, tags=all_tags, visible_stories=0, missing_stories=20000)
+
+@main.route('/about', methods=['GET', 'POST'])
+def about():
+    # TODO: rename this route
+    return render_template('about.html')
+
+
+@main.route('/catalog', methods=['GET', 'POST'])
+def catalog():
+    # TODO: rename this route and put it into stories/views.py
+    # TODO: edit catalog.html to have the contents of postTab.html and then delete postTab.html
+    tags = Tag.query.all()
+    return render_template('catalog.html', tags=tags)

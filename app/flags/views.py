@@ -9,9 +9,8 @@ flask:
 app.db_helpers:
     used to add and commit sessions for Flags with the put_obj() function
 app.models:
-    used Flags table to add a row of data every time user successfully submitted flag
-    used Post table to call in the information pertaining to a specific post
-    used Comment table to call in the information pertaining to a specific comment
+    used Flag table to add a row of data every time user successfully submitted flag
+    used Story table to call in the information pertaining to a specific story
 app.send_email:
     send_email() function defined in app/send_email.py used to send email to recipient, formats subject title and email content
 app.flags:
@@ -21,76 +20,40 @@ app.flags.forms:
 """
 from flask import render_template, redirect, url_for, current_app, flash
 from app.db_helpers import put_obj
-from app.models import Flag, Post, Comment
+from app.models import Flag, Story
 from app.send_email import send_email
 from app.flags import flags
 from app.flags.forms import FlagsForm
 
 
-@flags.route('/flag/posts/<int:id>', methods=['GET', 'POST'])
-def flag_post(id):
+@flags.route('/flag/stories/<int:id>', methods=['GET', 'POST'])
+def flag_story(id):
     """
-    Function flag_post will allow user to provide a reason and description of why they think a post shouldn't be there
+    Function flag_story will allow user to provide a type and reason of why they think a post shouldn't be there
     The view function will then commit the information of the flag to the database
     An email will be sent to the email account of WOMENS_ADMIN detailing the information user provided
-    User also cannot submit the form if reason for flagging "Other" is selected along with a description of less than
+    User also cannot submit the form if type for flagging "Other" is selected along with a reason length of less than
         50 characters
-    :param id: identifies the post that is currently being flagged
+    :param id: identifies the story that is currently being flagged
     :return: template that renders a form where user will provide their reasoning and issues with the post
     redirects user back to main page when completed
     """
-    post = Post.query.get_or_404(id)
-    post_title = post.title
+    story = Story.query.get_or_404(id)
+    activist_first = story.activist_first
+    activist_last = story.activist_last
     form = FlagsForm()
     if form.validate_on_submit():
-        if (form.flag_reason.data == "Other") and (len(form.flag_description.data) < 50):
-            flash('Reason "Other" requires a description of 50 or more characters.')
+        if (form.flag_type.data == "Other") and (len(form.flag_reason.data) < 50):
+            flash('Type "Other" requires a description of 50 or more characters.')
             flash('Please resubmit your flag ticket.')
-            return render_template('flags/flags.html', form=form, post_title=post_title)
+            return render_template('flags/flags.html', form=form,
+                                   activist_first=activist_first, activist_last=activist_last)
         else:
             flash('Thank you for your input, a moderator has been notified.')
-            flag_post = Flag(post_id=post.id,
-                             type=form.flag_reason.data,
-                             reason=form.flag_description.data)
-            put_obj(flag_post)
-            send_email(to=current_app.config['WOMENS_ADMIN'], subject='Flagged Post', template='mail/email_flags',
-                       post_title=post_title, post=post, reason=flag_post.type, description=flag_post.reason)
+            flag_story = Flag(story_id=story.id, type=form.flag_type.data, reason=form.flag_reason.data)
+            put_obj(flag_story)
+            send_email(to=current_app.config['WOMENS_ADMIN'], subject='Flagged Story', template='mail/email_flags',
+                       activist_first=activist_first, activist_last=activist_last,
+                       type=flag_story.type, reason=flag_story.reason, story=story)
             return redirect(url_for('main.index'))
-    return render_template('flags/flags.html', form=form, post_title=post_title)
-
-
-@flags.route('/flag/posts/<int:id>/comments/<int:id2>', methods=['GET', 'POST'])
-def flag_comment(id, id2):
-    """
-        Function flag_comment will allow user to provide a reason and description of why they think a comment on a post shouldn't be there
-        The view function will then commit the information of the flag to the database
-        An email will be sent to the email account of WOMENS_ADMIN detailing the information user provided
-        User also cannot submit the form if reason for flagging "Other" is selected along with a description of less than
-            50 characters
-        :param id: identifies the post that is currently being flagged
-        :return: template that renders a form where user will provide their reasoning and issues with the comment of a post
-        redirects user back to main page when completed
-        """
-    post = Post.query.get_or_404(id)
-    comment = Comment.query.get_or_404(id2)
-    post_title = post.title
-    comment_content = comment.content
-    form = FlagsForm()
-    if form.validate_on_submit():
-        if (form.flag_reason.data == "Other") and (len(form.flag_description.data) < 50):
-            flash('Reason "Other" requires a description of 50 or more characters.')
-            flash('Please resubmit your flag ticket.')
-            return render_template('flags/flags.html',
-                                   form=form, post_title=post_title, comment_content=comment_content)
-        else:
-            flash('Thank you for your input, a moderator has been notified.')
-            flag_comment = Flag(post_id=post.id,
-                                comment_id=comment.id,
-                                type=form.flag_reason.data,
-                                reason=form.flag_description.data)
-            put_obj(flag_comment)
-            send_email(to=current_app.config['WOMENS_ADMIN'], subject='Flagged Comment', template='mail/email_flags',
-                       post_title=post_title, post=post, comment_content=comment.content,
-                       reason=flag_comment.type, description=flag_comment.reason)
-            return redirect(url_for('posts.posts', id=post.id, _external=True))
-    return render_template('flags/flags.html', form=form, post_title=post_title, comment_content=comment_content)
+    return render_template('flags/flags.html', form=form, activist_first=activist_first, activist_last=activist_last)

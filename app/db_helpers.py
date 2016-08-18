@@ -18,3 +18,16 @@ def put_obj(obj):
         return True
     return False
 
+
+def delete_obj(obj):
+    """
+    delete and commit the object to the database. Return true if successful.
+    """
+    if obj:
+        db.session.delete(obj)
+        db.session.commit()
+        current_app.logger.info("\n\nDeleted object to database: %s" % obj)
+        return True
+    return False
+
+

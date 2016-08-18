@@ -188,3 +188,11 @@
 .featured_story {
     background-color: rgb(89, 49, 95);
 }
+
+.initiative {
+    font-size: 26px;
+    font-family: "Open Sans";
+    color: rgb(52, 41, 79);
+    line-height: 0.923;
+    text-align: center;
+}

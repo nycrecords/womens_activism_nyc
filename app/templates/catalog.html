@@ -36,9 +36,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
 <script type="text/javascript">
 function get_tags(tag_name) {
-    var tag_list = [];
-    var tag_button = document.getElementsByName(tag_name)[0];
-    var all_filters = document.getElementsByClassName("active");
+    var tag_list = [];  // initialize list of tags to pass to view function
+    var tag_button = document.getElementsByName(tag_name)[0];  // get html of button clicked
+    var all_filters = document.getElementsByClassName("active");  // get NodeList of active buttons
     if (tag_button.getAttribute("aria-pressed") == "false") {
         tag_list.push(tag_button.name);
     }

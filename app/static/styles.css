@@ -1,3 +1,10 @@
+.container-fluid {
+    margin-right: 0;
+    margin-left: 0;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
 .header_logo {
     margin-top: 20px;
     width: 183px;
@@ -190,9 +197,130 @@
 }
 
 .initiative {
+    margin-top: 40px;
+    margin-bottom: 40px;
     font-size: 26px;
     font-family: "Open Sans";
     color: rgb(52, 41, 79);
     line-height: 0.923;
     text-align: center;
+}
+
+.initiative a {
+    font-weight: bold;
+    color: rgb(52, 41, 79);
+}
+
+.copyright {
+    padding-top: 50px;
+    padding-bottom: 25px;
+    background-color: rgb(242, 242, 242);
+    font-size: 13px;
+    font-family: "Open Sans";
+    color: rgb(52, 41, 79);
+    line-height: 1.846;
+    text-align: center;
+}
+
+.copyright a {
+    font-weight: bold;
+    color: rgb(52, 41, 79);
+}
+
+.activist_information {
+    background-color: rgb(103, 60, 116);
+    padding-bottom: 5%;
+}
+
+.share_title {
+    padding-top: 5%;
+    font-size: 50px;
+    font-family: "Open Sans";
+    font-weight: lighter;
+    color: rgb(255, 255, 255);
+    line-height: 0.599;
+    text-align: center;
+    -moz-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
+    -webkit-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
+    -ms-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
+}
+
+.share_title h5 {
+    padding-top: 2%;
+    font-size: 22px;
+    font-family: "Open Sans";
+    font-weight: lighter;
+    color: rgb(255, 255, 255);
+    line-height: 1.455;
+    text-align: center;
+    padding-bottom: 2%;
+}
+
+.activist_info_field {
+    border-bottom-color: rgb(255, 255, 255);
+    background-color: rgb(103, 60, 116);
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    font-size: 36px;
+    font-family: "Open Sans";
+    color: rgb(163, 115, 170);
+    line-height: 0.836;
+    text-align: center;
+    -moz-transform: matrix(1.00002611619043, 0, 0, 1.00299250579803, 0, 0);
+    -webkit-transform: matrix(1.00002611619043, 0, 0, 1.00299250579803, 0, 0);
+    -ms-transform: matrix(1.00002611619043, 0, 0, 1.00299250579803, 0, 0);
+    background: transparent;
+}
+
+.required {
+    font-size: 22px;
+    font-family: "Open Sans";
+    color: rgb(152, 129, 155);
+    font-style: italic;
+    line-height: 1.368;
+    text-align: center;
+    -moz-transform: matrix(1.00002611619043, 0, 0, 1.00299250579803, 0, 0);
+    -webkit-transform: matrix(1.00002611619043, 0, 0, 1.00299250579803, 0, 0);
+    -ms-transform: matrix(1.00002611619043, 0, 0, 1.00299250579803, 0, 0);
+}
+
+.activist_story {
+    background-color: rgb(89, 49, 95);
+}
+
+.activist_story_input textarea {
+    -moz-transform: matrix(1.00002611619043, 0, 0, 1.00299250579803, 0, 0);
+    -ms-transform: matrix(1.00002611619043, 0, 0, 1.00299250579803, 0, 0);
+    -webkit-transform: matrix(1.00002611619043, 0, 0, 1.00299250579803, 0, 0);
+    background-color: rgb(89, 49, 95);
+    border-bottom-color: rgb(255, 255, 255);
+    border-left: none;
+    border-right: none;
+    border-top-color: rgb(255, 255, 255);
+    color: rgb(254, 254, 254);
+    font-family: "Open Sans";
+    font-size: 20px;
+    font-size: inherit;
+    font-weight: lighter;
+    line-height: 28px;
+    width: 100%;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box; /* Firefox, other Gecko */
+    box-sizing: border-box; /* Opera/IE 8+ */
+    padding: 5px;
+}
+
+.add_media_button {
+    border-width: 1.5px;
+    border-color: rgb(255, 255, 255);
+    border-style: solid;
+    font-size: 20px;
+    font-family: "Open Sans";
+    color: rgb(255, 255, 255);
+    line-height: 1.2;
+    text-align: center;
+    -moz-transform: matrix(1.30013198713885, 0, 0, 1.30264863171749, 0, 0);
+    -webkit-transform: matrix(1.30013198713885, 0, 0, 1.30264863171749, 0, 0);
+    -ms-transform: matrix(1.30013198713885, 0, 0, 1.30264863171749, 0, 0);
 }

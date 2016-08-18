@@ -38,7 +38,7 @@ from app import recaptcha
 from app.send_email import send_email
 
 
-@stories.route('/shareastory', methods=['GET', 'POST'])
+@stories.route('/share', methods=['GET', 'POST'])
 def shareastory(data=None):
     """
     route where user is prompted to enter information about the woman that inspires them

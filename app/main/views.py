@@ -69,8 +69,8 @@ def about():
 @main.route('/catalog', methods=['GET', 'POST'])
 def catalog():
     tags = Tag.query.all()
-    posts = Post.query.all()
-    return render_template('catalog.html', tags=tags, posts=posts)
+    stories = Story.query.all()
+    return render_template('catalog.html', tags=tags, stories=stories)
 
 
 @main.route('/_get_tags', methods=['GET', 'POST'])
@@ -78,20 +78,20 @@ def get_tags():
     tag_list = request.get_data().decode('utf-8')
     tag_list = ast.literal_eval(tag_list)
     if len(tag_list) == 0:
-        posts = Post.query.all()
-        return render_template('_filtered_posts.html', posts=posts)
+        stories = Story.query.all()
+        return render_template('_filtered_stories.html', stories=stories)
     else:
-        clauses = or_(*[PostTag.tag_id == Tag.query.filter_by(name=tag).first().id for tag in
+        clauses = or_(*[StoryTag.tag_id == Tag.query.filter_by(name=tag).first().id for tag in
                         tag_list])  # creates filter for query in following line
-        post_tags = PostTag.query.filter(clauses).all()  # queries the PostTag table to find all with above clauses
-        posts = []
-        for post_tag in post_tags:  # loops through all post_tags found and appends the related post to the posts list
-            posts.append(Post.query.filter_by(id=post_tag.post_id).first())
-        unique_posts = []
-        posts_dict = {i: posts.count(i) for i in
-                      posts}  # creates a dictionary showing the count that a post shows up for posts list
-        for key, value in posts_dict.items():  # loops through dictionary and appends only the posts that show up
+        story_tags = StoryTag.query.filter(clauses).all()  # queries the PostTag table to find all with above clauses
+        stories = []
+        for story_tag in story_tags:  # loops through all post_tags found and appends the related post to the posts list
+            stories.append(Story.query.filter_by(id=story_tag.post_id).first())
+        unique_stories = []
+        stories_dict = {i: stories.count(i) for i in
+                      stories}  # creates a dictionary showing the count that a post shows up for posts list
+        for key, value in stories_dict.items():  # loops through dictionary and appends only the posts that show up
                                                 # the same number of times as the number of tags chosen
-            if posts_dict[key] >= len(tag_list):
-                unique_posts.append(key)
-        return render_template('_filtered_posts.html', posts=unique_posts)
+            if stories_dict[key] >= len(tag_list):
+                unique_stories.append(key)
+        return render_template('_filtered_stories.html', stories=unique_stories)

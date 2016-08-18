@@ -1,0 +1,7 @@
+<div id="filtered-stories">
+    {% for story in stories %}
+        {{ story.activist_first }} {{ story.activist_last }} <br>
+        {{ story.id }} <br>
+        {{ story.content }} <br> <br>
+    {% endfor %}
+</div>

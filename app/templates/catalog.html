@@ -49,14 +49,14 @@ function get_tags(tag_name) {
         var index = tag_list.indexOf(tag_button.name);  // find index of tag name in tag list
         tag_list.splice(index, 1);  // remove tag name of button from tag list
     }
-    $.ajax({  // ajax request sending list of tags to _get_tags function, returns html of _filtered_posts.html
+    $.ajax({  // ajax request sending list of tags to _get_tags function, returns html of _filtered_stories.html
         type: "POST",
         url: '/_get_tags',
         dataType: 'html',
         data: JSON.stringify(tag_list),
         success: function (response) {
-            var filtered_posts = $('#filtered-posts');
-            filtered_posts.html(response);
+            var filtered_stories = $('#filtered-stories');
+            filtered_stories.html(response);
         },
         error: function (error) {
             console.log(error);

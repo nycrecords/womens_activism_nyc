@@ -31,11 +31,11 @@
 {#    </form>#}
 
     <br>
-<div id="filtered-posts">
-    {% for post in posts %}
-        {{ post.activist_first }} {{ post.activist_last }} <br>
-        {{ post.id }} <br>
-        {{ post.content }} <br> <br>
+<div id="filtered-stories">
+    {% for story in stories %}
+        {{ story.activist_first }} {{ story.activist_last }} <br>
+        {{ story.id }} <br>
+        {{ story.content }} <br> <br>
     {% endfor %}
 </div>
 </center>

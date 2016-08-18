@@ -1,11 +1,18 @@
 <span class="spacer">&nbsp;</span>
-{% for row in stories %}
-<div class="row">
-    {% for story in row %}
-    {% include 'story_card.html' %}
+<div class="col-sm-8 col-sm-push-2">
+    {% for row in stories %}
+        {% set counter = 0 %}
+        <div class="row">
+            {% for story in row %}
+                {% include 'story_card.html' %}
+                {% set counter = counter + 1 %}
+            {% endfor %}
+        </div>
     {% endfor %}
 </div>
-{% endfor %}
+<div class="row">
+    <p>&nbsp;</p>
+</div>
 <span class="spacer">&nbsp;</span>
 <div class="row">
     <div class="col-sm-pull-4">

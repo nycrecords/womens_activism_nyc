@@ -173,8 +173,7 @@
     border-width: 1.5px;
     border-color: rgb(217, 217, 217);
     border-style: solid;
-    position: absolute;
-    margin: 10px;
+    padding: 10px;
 }
 
 .view_all_stories {

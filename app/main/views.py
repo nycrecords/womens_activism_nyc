@@ -36,13 +36,14 @@ def index():
 
     page_stories = []
 
+
     for story in stories:
         story_tags = StoryTag.query.filter_by(story_id=story.id).all()
         tags = []
         for story_tag in story_tags:
             name = Tag.query.filter_by(id=story_tag.tag_id).first().name
             tags.append(name)
-        story = {
+        current_story = {
             'id': story.id,
             'activist_first': story.activist_first,
             'activist_last': story.activist_last,
@@ -50,16 +51,37 @@ def index():
             'activist_end': story.activist_end,
             'creation_time': story.creation_time,
             'edit_time': story.edit_time,
-            'content': story.content,
             'is_visible': story.is_visible,
             'is_edited': story.is_edited,
             'tags': tags
         }
-        page_stories.append(story)
+        if story.image_link is not None:
+            current_story['content'] = story.content[:50]
+            current_story['image_link'] = story.image_link
+        else:
+            current_story['content'] = story.content[:150]
+        page_stories.append(current_story)
 
     missing_stories = 20000 - visible_stories
 
-    return render_template('index.html', stories=page_stories, pagination=pagination,
+    first_four = []
+    last_four = []
+    for i in range(0, 7):
+        try:
+            if i <= 3:
+                first_four.append(page_stories[i])
+            else:
+                last_four.append(page_stories[i])
+        except IndexError:
+            break
+
+    stories = []
+    stories.append(first_four)
+    stories.append(last_four)
+
+
+
+    return render_template('index.html', stories=stories, pagination=pagination,
                            visible_stories=visible_stories, missing_stories=missing_stories)
 
 

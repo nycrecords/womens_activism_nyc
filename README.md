@@ -8,6 +8,7 @@ By learning the stories of these courageous women we hope to inspire New Yorkers
 
 # Development Team
 * Joel Castillo
+* Brandon Tang
 * Simon Gong
 * Kailong Liao
 * Jonathan Yu

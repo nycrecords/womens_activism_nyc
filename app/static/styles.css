@@ -386,3 +386,28 @@
     -webkit-transform: matrix(1.30013198713885, 0, 0, 1.30264863171749, 0, 0);
     -ms-transform: matrix(1.30013198713885, 0, 0, 1.30264863171749, 0, 0);
 }
+
+.sharestory3 {
+    padding-top: 5%;
+    font-size: 50px;
+    background-color: #673c74;
+    font-family: "Open Sans";
+    font-weight: lighter;
+    color: rgb(255, 255, 255);
+    line-height: 0.599;
+    text-align: center;
+    -moz-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
+    -webkit-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
+    -ms-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
+}
+
+.sharestory3 h5 {
+    padding-top: 2%;
+    font-size: 22px;
+    font-family: "Open Sans";
+    font-weight: lighter;
+    color: rgb(255, 255, 255);
+    line-height: 1.455;
+    text-align: center;
+    padding-bottom: 2%;
+}

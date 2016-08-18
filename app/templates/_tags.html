@@ -1,14 +1,41 @@
 <center>
-
-    <div class="lead">I'm Looking For Women Known For<br>
-        <h5>You may choose more than one category to narrow your search.</h5>
-        <div class="control-group">
-            <select class="selectpicker" data-width="fit" name="input_tags" multiple required>
+{#    <form name="input" class="form-horizontal" id="submitPost" method="post">#}
+        <div class="lead">I'm Looking For Women Known For<br>
+            <h5>You may choose more than one category to narrow your search.</h5>
+            <div class="tag-filters">
+{#                <select class="selectpicker" data-width="fit" name="input_tags" multiple required>#}
+{#                    {% for tag in tags %}#}
+{#                        {% if tag.name in tag_list %}#}
+{#                            <option selected value="{{ tag.name }}"><a href="javascript:void();" id="tag">{{ tag.name }}</a></option>#}
+{#                        {% else %}#}
+{#                            <option value="{{ tag.name }}"><a href="javascript:void();" id="tag">{{ tag.name }}</a></option>#}
+{#                        {% endif %}#}
+{#                    {% endfor %}#}
+{#                </select>#}
                 {% for tag in tags %}
-                    <option value="{{ tag.name }}">{{ tag.name }}</option>
+                    {% if tag.name in tag_list %}
+                        <button onclick="get_tags('{{ tag.name }}')" type="button" value="{{ tag.name }}" class="btn btn-primary active" data-toggle="button"
+                                name="{{ tag.name }}" aria-pressed="true" autocomplete="off" >{{ tag.name }}</button>
+                    {% else %}
+                        <button onclick="get_tags('{{ tag.name }}')" type="button" value="{{ tag.name }}" class="btn btn-primary" data-toggle="button"
+                                name="{{ tag.name }}" aria-pressed="false" autocomplete="off" >{{ tag.name }}</button>
+                    {% endif %}
                 {% endfor %}
-            </select>
+            </div>
         </div>
-    </div>
+{#        <div id="requestButton" class="control-group">#}
+{#            <div>#}
+{#                <button type="submit" title="filter_stories" class="btn btn-primary">Filter</button>#}
+{#            </div>#}
+{#        </div>#}
+{#    </form>#}
 
+    <br>
+<div id="filtered-posts">
+    {% for post in posts %}
+        {{ post.activist_first }} {{ post.activist_last }} <br>
+        {{ post.id }} <br>
+        {{ post.content }} <br> <br>
+    {% endfor %}
+</div>
 </center>

@@ -21,44 +21,11 @@ from flask import render_template, redirect, url_for, flash, request, current_ap
 from app.db_helpers import put_obj
 from app.models import User, Story, Tag, StoryTag
 from app.main import main
-from app import recaptcha
+from sqlalchemy.sql import or_
+import ast
 
 
-# @main.route('/simon', methods=['GET', 'POST'])
-# # TODO: Delete this route, we don't need it anymore - any changes made by simon needs to be implemented into index.html
-# def simonindex(data=None):
-#     page = request.args.get('page', 1, type=int)
-#     pagination = Story.query.order_by(Story.creation_time.desc()).paginate(
-#         page, per_page=current_app.config['POSTS_PER_PAGE'],
-#         error_out=True)
-#     stories = pagination.items
-#
-#     page_posts = []
-#
-#     for post in stories:
-#         post_tags = PostTag.query.filter_by(post_id=post.id).all()
-#         tags = []
-#         for post_tag in post_tags:
-#             name = Tag.query.filter_by(id=post_tag.tag_id).first().name
-#             tags.append(name)
-#         story = {
-#             'id': post.id,
-#             'activist_first': post.activist_first,
-#             'activist_last': post.activist_last,
-#             'activist_start': post.activist_start,
-#             'activist_end': post.activist_end,
-#             'creation_time': post.creation_time,
-#             'edit_time': post.edit_time,
-#             'content': post.content,
-#             'is_visible': post.is_visible,
-#             'is_edited': post.is_edited,
-#             'tags': tags
-#         }
-#         page_posts.append(story)
-#
-#     return render_template('new_index.html', stories=page_posts, pagination=pagination)
 @main.route('/', methods=['GET', 'POST'])
-# TODO: Delete this route, we don't need it anymore - any changes made by simon needs to be implemented into index.html
 def index():
     visible_stories = len(Story.query.filter_by(is_visible=True).all())
 
@@ -96,13 +63,35 @@ def index():
 
 @main.route('/about', methods=['GET', 'POST'])
 def about():
-    # TODO: rename this route
     return render_template('about.html')
 
 
 @main.route('/catalog', methods=['GET', 'POST'])
 def catalog():
-    # TODO: rename this route and put it into stories/views.py
-    # TODO: edit catalog.html to have the contents of postTab.html and then delete postTab.html
     tags = Tag.query.all()
-    return render_template('catalog.html', tags=tags)
+    stories = Story.query.all()
+    return render_template('catalog.html', tags=tags, stories=stories)
+
+
+@main.route('/_get_tags', methods=['GET', 'POST'])
+def get_tags():
+    tag_list = request.get_data().decode('utf-8')
+    tag_list = ast.literal_eval(tag_list)
+    if len(tag_list) == 0:
+        stories = Story.query.all()
+        return render_template('_filtered_stories.html', stories=stories)
+    else:
+        clauses = or_(*[StoryTag.tag_id == Tag.query.filter_by(name=tag).first().id for tag in
+                        tag_list])  # creates filter for query in following line
+        story_tags = StoryTag.query.filter(clauses).all()  # queries the PostTag table to find all with above clauses
+        stories = []
+        for story_tag in story_tags:  # loops through all post_tags found and appends the related post to the posts list
+            stories.append(Story.query.filter_by(id=story_tag.post_id).first())
+        unique_stories = []
+        stories_dict = {i: stories.count(i) for i in
+                      stories}  # creates a dictionary showing the count that a post shows up for posts list
+        for key, value in stories_dict.items():  # loops through dictionary and appends only the posts that show up
+                                                # the same number of times as the number of tags chosen
+            if stories_dict[key] >= len(tag_list):
+                unique_stories.append(key)
+        return render_template('_filtered_stories.html', stories=unique_stories)

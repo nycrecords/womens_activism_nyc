@@ -260,7 +260,8 @@ def edit(id):
                                activist_last=story.activist_last, activist_start=story.activist_start,
                                activist_end=story.activist_end, activist_url=story.activist_url,
                                poster_id=story.poster_id, content=story.content,
-                               reason=data['input_reason'], version=story.version)
+                               reason=data['input_reason'], version=story.version,
+                               image_link=story.image_link, video_link=story.video_link)
         put_obj(story_edit)
 
         new_activist_first = data['input_first']
@@ -272,6 +273,8 @@ def edit(id):
         new_is_edited = True
         new_version = story.version + 1
         new_edit_time = datetime.utcnow()
+        new_image_link = data['image_link']
+        new_video_link = data['video_link']
 
         story.activist_first = new_activist_first
         story.activist_last = new_activist_last
@@ -282,6 +285,18 @@ def edit(id):
         story.is_edited = new_is_edited
         story.version = new_version
         story.edit_time = new_edit_time
+        story.image_link = new_image_link
+        story.video_link = new_video_link
+
+        if "youtube" in story.video_link:  # if the link is a youtube link convert it to an embed
+            split = story.video_link.split("=", 1)
+            new_embed = "https://www.youtube.com/embed/{}".format(split[1])
+            story.video_link = new_embed
+
+        elif "vimeo" in story.video_link:  # if the link is a vimeo link conver it to an embed
+            split = story.video_link.split("vimeo.com/", 1)
+            new_embed = "https://player.vimeo.com/video/{}".format(split[1])
+            story.video_link = new_embed
 
         put_obj(story)
 

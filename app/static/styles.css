@@ -459,6 +459,6 @@
     -ms-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
 }
 
-/*#lead {*/
-/*color: #F7F7F7;*/
-/*}*/
+.lead {
+color: #FFFFFF;
+}

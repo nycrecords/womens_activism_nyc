@@ -18,10 +18,12 @@
 {% endblock %}
 {% block logo %}
 <div class="row">
-    <div class="span4"></div>
-    <div class="span4"><img class="center-block header_logo"
-                            src="{{ url_for('static', filename='img/womens_activism_nyc_logo.png') }}"/></div>
-    <div class="span4"></div>
+        <a href="{{ url_for('main.index') }}">
+            <div class="span4"></div>
+            <div class="span4"><img class="center-block header_logo"
+                                    src="{{ url_for('static', filename='img/womens_activism_nyc_logo.png') }}"/></div>
+            <div class="span4"></div>
+        </a>
 </div>
 {% endblock %}
 

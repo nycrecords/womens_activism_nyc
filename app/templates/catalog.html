@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='index.css') }}"/>
+
+{% block title %}Womens Activism NYC{% endblock %}
+
+{% block content %}
+    {% block tags %}
+        {% include "_tags.html" %}
+    {% endblock %}
+
+    {% block join_the_conversation %}
+        {% include "_join_the_conversation.html" %}
+    {% endblock %}
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-*.min.js"></script>
+{% endblock %}

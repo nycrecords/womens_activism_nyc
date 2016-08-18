@@ -115,6 +115,14 @@ def shareastory(data=None):
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
                                    author_email=author_email, image_link=image_link, video_link=video_link)
+        elif video_link != '' and "youtube" not in video_link and "youtu.be" not in video_link and "vimeo" not in video_link:
+            flash("Invalid video link. Please check your video link")
+            return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
+                                   activist_last_name=activist_last_name, activist_start_date=activist_start_date,
+                                   activist_end_date=activist_end_date, content=content, activist_link=activist_link,
+                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_email=author_email, image_link=image_link)
+
         elif recaptcha.verify() == False:  # user has not passed the recaptcha verification
             flash("Please complete reCAPTCHA.")
             return render_template('stories/share.html', tags=tags)
@@ -136,6 +144,14 @@ def shareastory(data=None):
 
             if "youtube" in video_link: # if the link is a youtube link convert it to an embed
                 split = video_link.split("=",1)
+                video_link = "https://www.youtube.com/embed/{}".format(split[1])
+                story = Story(activist_start=activist_start_date, activist_end=activist_end_date,
+                              activist_first=activist_first_name, activist_last=activist_last_name, content=content,
+                              activist_url=activist_link, is_edited=False, is_visible=True,
+                              image_link=image_link, video_link=video_link, creation_time=datetime.utcnow())
+
+            if "youtu.be" in video_link: # if the link is a youtube link convert it to an embed
+                split = video_link.split("youtu.be/",1)
                 video_link = "https://www.youtube.com/embed/{}".format(split[1])
                 story = Story(activist_start=activist_start_date, activist_end=activist_end_date,
                               activist_first=activist_first_name, activist_last=activist_last_name, content=content,
@@ -290,6 +306,11 @@ def edit(id):
 
         if "youtube" in story.video_link:  # if the link is a youtube link convert it to an embed
             split = story.video_link.split("=", 1)
+            new_embed = "https://www.youtube.com/embed/{}".format(split[1])
+            story.video_link = new_embed
+
+        elif "youtu.be" in story.video_link:  # if the link is a youtube link convert it to an embed
+            split = story.video_link.split("youtu.be/", 1)
             new_embed = "https://www.youtube.com/embed/{}".format(split[1])
             story.video_link = new_embed
 

@@ -107,10 +107,12 @@ $(document).ready(function(){
     $(".upload_image").click(function(){
         $(".image_link").show();
         $(".video_link").hide();
+        $(".video_link").val('');
     });
     $(".upload_video").click(function(){
         $(".video_link").show();
         $(".image_link").hide();
+        $(".image_link").val('');
     });
 });
 </script>

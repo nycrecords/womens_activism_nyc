@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+
 {% block page_content %}
 <form name="input" class="form-horizontal" id="submitPost" method="post">
     <div class="activist_information">
@@ -115,10 +116,9 @@
                        value="{{ author_last_name or '' }}" placeholder="Smith"> <br>
                 <input class="author_email" name="author_email" title="Author Email" maxlength="140"
                        value="{{ author_email or '' }}" placeholder="msmith@gmail.com">
-            </div>
-        </div>
-    </div>
-
+                <br>
+                <br>
+                <center>
     <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"></div>
     <br>
 
@@ -127,7 +127,13 @@
             <button type="submit" title="submit_post" class="btn btn-primary">Share</button>
         </div>
     </div>
+            </center>
+            </div>
+        </div>
+    </div>
+
 </form>
+
 {% endblock %}
 
 {% block scripts %}

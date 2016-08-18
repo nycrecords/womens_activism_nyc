@@ -66,7 +66,7 @@
             </div>
         </div>
 
-
+<center>
         <div class="share_title">Add a Link<br>
             <h5>Enter a URL to allow others to learn<br>
                 more about your female activist online.</h5>
@@ -81,28 +81,22 @@
             </div>
         </div>
 
-        <div class="share_title">Add Media<br>
-            <h5>Upload your favorite photo or video of your<br>
-                female activist to help tell your story. [Optional]</h5>
-
-            <div class="row">
-                <div class="control-group col-sm-6 col-sm-push-3">
-                    <div class="col-sm-3 add_media_button col-sm-push-2">
-                        <a href="#" type="button" class="upload_image">Upload Image</a>
-                    </div>
-                    <div class="col-sm-2">&nbsp;</div>
-                    <div class="col-sm-3 add_media_button ">
-                        <a href="#" type="button" class="upload_video ">Upload Video</a>
-                    </div>
+                <div class="lead">Add Media<br>
+                <h3>Upload your favorite photo or video of your<br>
+                female activist to help tell your story. [Optional]</h3>
+                <div class="control-group">
+                    <button type="button" class="upload_image">Upload Image</button>
+                    <button type="button" class="upload_video">Upload Video</button>
                 </div>
+                <h5 class="image_link" style="display:none;">Enter an image URL</h5>
+                <input id=image_link class="image_link" name="image_link" title="Image Link"
+                          value="{{ image_link or '' }}" style="display:none;">
+                <h5 class="video_link" style="display:none;">Enter a YouTube or Vimeo URL</h5>
+                <input id=video_link class="video_link" name="video_link" title="Video Link"
+                          value="{{ video_link or '' }}" style="display:none;">
             </div>
-            <h5 class="image_link" style="display:none;">Enter an image URL</h5>
-            <input id=image_link class="image_link" name="image_link" title="Image Link"
-                   value="{{ image_link or '' }}" style="display:none;">
-            <h5 class="video_link" style="display:none;">Enter a YouTube or Vimeo URL</h5>
-            <input id=video_link class="video_link" name="video_link" title="Video Link"
-                   value="{{ video_link or '' }}" style="display:none;">
-        </div>
+</center>
+
     </div>
 
     <div class="sharestory3">
@@ -124,7 +118,11 @@
 
     <div id="requestButton" class="control-group">
         <div>
-            <button type="submit" title="submit_post" class="btn btn-primary">Share</button>
+            <button type="submit" title="submit_post" class="btn btn-primary" class="center-block" id="hero_action_button">
+                Share
+            </button>
+
+
         </div>
     </div>
             </center>

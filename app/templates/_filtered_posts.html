@@ -1,0 +1,7 @@
+<div id="filtered-posts">
+    {% for post in posts %}
+        {{ post.activist_first }} {{ post.activist_last }} <br>
+        {{ post.id }} <br>
+        {{ post.content }} <br> <br>
+    {% endfor %}
+</div>

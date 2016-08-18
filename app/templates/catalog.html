@@ -37,23 +37,26 @@
 <script type="text/javascript">
 function get_tags(tag_name) {
     var tag_list = [];
+    var tag_button = document.getElementsByName(tag_name)[0];
     var all_filters = document.getElementsByClassName("active");
-    console.log('All Filters');
-    console.log(all_filters);
+    if (tag_button.getAttribute("aria-pressed") == "false") {
+        tag_list.push(tag_button.name);
+    }
     for (var i = 0; i < all_filters.length; i++) {
-        console.log(all_filters[i].value);
-{#        tag_list[all_filters[i].value] = all_filters[i].value;#}
         tag_list.push(all_filters[i].value);
     }
-    console.log('tag_list');
-    console.log(tag_list);
+    if (tag_button.getAttribute("aria-pressed") == "true") {
+        var index = tag_list.indexOf(tag_button.name);
+        tag_list.splice(index, 1);
+    }
     $.ajax({
         type: "POST",
         url: '/_get_tags',
-        dataType: 'json',
+        dataType: 'html',
         data: JSON.stringify(tag_list),
-        success: function (data) {
-            console.log(data);
+        success: function (response) {
+            var filtered_posts = $('#filtered-posts');
+            filtered_posts.html(response);
         },
         error: function (error) {
             console.log(error);

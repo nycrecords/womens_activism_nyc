@@ -2,7 +2,7 @@
 {#    <form name="input" class="form-horizontal" id="submitPost" method="post">#}
         <div class="lead">I'm Looking For Women Known For<br>
             <h5>You may choose more than one category to narrow your search.</h5>
-            <div class="control-group">
+            <div class="tag-filters">
 {#                <select class="selectpicker" data-width="fit" name="input_tags" multiple required>#}
 {#                    {% for tag in tags %}#}
 {#                        {% if tag.name in tag_list %}#}
@@ -31,11 +31,11 @@
 {#    </form>#}
 
     <br>
-
+<div id="filtered-posts">
     {% for post in posts %}
         {{ post.activist_first }} {{ post.activist_last }} <br>
         {{ post.id }} <br>
         {{ post.content }} <br> <br>
     {% endfor %}
-
+</div>
 </center>

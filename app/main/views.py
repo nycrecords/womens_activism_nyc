@@ -101,7 +101,7 @@ def get_tags():
     tag_list = ast.literal_eval(tag_list)
     if len(tag_list) == 0:
         posts = Post.query.all()
-        return render_template('catalog.html', tags=tags, posts=posts, tag_list=tag_list)
+        return render_template('_filtered_posts.html', posts=posts)
     else:
         print(tag_list)
         print(len(tag_list))
@@ -122,4 +122,4 @@ def get_tags():
             if posts_dict[key] >= len(tag_list):
                 unique_posts.append(key)
         print(unique_posts)
-        return render_template('catalog.html', tags=tags, posts=unique_posts, tag_list=tag_list)
+        return render_template('_filtered_posts.html', posts=unique_posts)

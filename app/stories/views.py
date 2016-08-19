@@ -177,7 +177,7 @@ def shareastory(data=None):
                 put_obj(story_tag)
 
             flash('Story submitted!')
-            return redirect(url_for('main.index'))
+            return redirect(url_for('stories.shareastory'))
     return render_template('stories/share.html', tags=tags)
 
 

@@ -3,60 +3,39 @@
 {% block title %}Women's Activism NYC{% endblock %}
 
 {% block head %}
-    {{ super() }}
-    <script src='https://www.google.com/recaptcha/api.js'></script>
+{{ super() }}
+<link type="image/x-icon" rel="shortcut icon" href="{{ url_for('static', filename='womens_activism_nyc_logo.png') }}"/>
+<link type="image/x-icon" rel="icon" href="{{ url_for('static', filename='womens_activism_nyc_logo.png') }}"/>
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='nyc_gov/styles.css') }}"/>
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='bootstrap_womens_activism.css') }}" />
+<script src='https://www.google.com/recaptcha/api.js'></script>
 {% endblock %}
 
 {% block navbar %}
+{% block nyc_gov_header %}
+{% include '_nyc_gov_header.html' %}
+{% endblock %}
+{% block logo %}
+<div class="row">
+        <a href="{{ url_for('main.index') }}">
+            <div class="span4"></div>
+            <div class="span4"><img class="center-block header_logo"
+                                    src="{{ url_for('static', filename='img/womens_activism_nyc_logo.png') }}"/></div>
+            <div class="span4"></div>
+        </a>
+</div>
+{% endblock %}
 
-    {% block header_icon %}
-        <nav class="navbartest">
-            <a href="{{ url_for('main.index') }}">
-                <center>
-                    <img alt="holder" src="../static/womens_activism_nyc_logo.png"
-                         height="50" width="40">
-                    </center>
-            </a>
-        </nav>
-    {% endblock %}
-
-    {% block header_navbar %}
-    <div class="navbar navbar-default" role="navigation">
-        <div class="container">
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('stories.shareastory') }}">SHARE A STORY</a></li>
-                    <li><a href="{{ url_for('main.about') }}">ABOUT</a></li>
-                    <li><a href="{{ url_for('main.catalog') }}">CATALOG</a></li>
-                    <li><a href="{{ url_for('stories.all_stories') }}">ALL STORIES</a></li>
-                    <li><a>VIDEOS</a></li>
-                    <li><a href="{{ url_for('feedback.feedback') }}">CONTACT</a></li>
-                    <li><a>GIVE</a></li>
-
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    {% if current_user.is_authenticated %}
-                     <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">ACCOUNT <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ url_for('tags.tags') }}">Tags</a></li>
-                        <li><a href="{{ url_for('auth.change_password') }}">Change Password</a></li>
-                        <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
-                    </ul>
-                    </li>
-                    {% else %}
-                    <li><a href="{{ url_for('auth.login') }}">LOG IN</a></li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-    </div>
-    {% endblock %}
-
+{% block navigation %}
+{% include 'navbar.html' %}
+{% endblock %}
 
 {% endblock %}
 
 {% block content %}
+
+
     <div class="container">
         {% for message in get_flashed_messages() %}
             <div class="alert alert-warning">
@@ -73,10 +52,37 @@
 
 {% endblock %}
 
-
+{% block footer %}
+<div class="row">
+    <div class="initiative">
+        WomensActivism.NYC is a project of the <a href="http://nyc.gov/records">NYC Department of Records and
+        Information Services</a>
+    </div>
+</div>
+<div class="row copyright">
+    <p>
+        <a href="https://twitter.com/WomensActivism"><img
+            src="{{ url_for('static', filename='img/twitter_icon.png') }}"/></a>&nbsp;&nbsp;
+        <a href="https://instagram.com/womensactivism.nyc"><img
+                src="{{ url_for('static', filename='img/instagram_icon.png') }}"/></a>&nbsp;&nbsp;
+        <a href="https://facebook.com/womensactivism.nyc"><img
+                src="{{ url_for('static', filename='img/facebook_icon.png') }}"/></a>&nbsp;&nbsp;
+    </p>
+    <p>Copyright &copy; 2016- Design By <a href="http://bureaublank.com">Bureau Blank</a></p>
+</div>
+{% include '_nyc_gov_footer.html' %}
+{% endblock %}
+{% endblock %}
 
 {% block scripts %}
-    {{ super() }}
-    {{ moment.include_moment() }}
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+{{ super() }}
+{{ moment.include_moment() }}
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='bootstrap_womens_activism.css') }}"/>
+<script>
+    var myElements = document.querySelectorAll(".remove-videodetector");
+    for (var i = 0; i < myElements.length; i++) {
+        myElements[i].style.display = 'none';
+    }
+</script>
 {% endblock %}

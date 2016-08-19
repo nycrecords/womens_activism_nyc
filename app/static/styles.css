@@ -1,62 +1,66 @@
-@font-face {
+body{
     font-family: "Open Sans";
-    src: url("/static/fonts/OpenSans-Regular.ttf") format("ttf");
 }
 
 @font-face {
     font-family: "Open Sans";
-    src: url("/static/fonts/OpenSans-Bold.ttf") format("ttf");
+    src: url("../static/fonts/OpenSans.otf") format("otf");
+}
+
+@font-face {
+    font-family: "Open Sans";
+    src: url("../static/fonts/OpenSans-Bold.otf") format("otf");
     font-weight: bold;
 }
 
 @font-face {
     font-family: "Open Sans";
-    src: url("/static/fonts/OpenSans-Italic.ttf") format("ttf");
+    src: url("../static/fonts/OpenSans-Italic.otf") format("otf");
     font-style: italic;
 }
 
 @font-face {
     font-family: "Open Sans";
-    src: url("/static/fonts/OpenSans-ExtraBold.ttf") format("ttf");
-    font-weight: bolder;
+    src: url("../static/fonts/OpenSans-ExtraBold.otf") format("otf");
+    font-weight: 900;
 }
 
 @font-face {
     font-family: "Open Sans";
-    src: url("/static/fonts/OpenSans-Light.ttf") format("ttf");
-    font-weight: lighter
+    src: url("../static/fonts/OpenSans-Light.otf") format("otf");
+    font-weight: 300;
 }
 
 @font-face {
     font-family: "Open Sans";
-    src: url("/static/fonts/OpenSans-BoldItalic.ttf") format("ttf");
+    src: url("../static/fonts/OpenSans-BoldItalic.otf") format("otf");
     font-weight: bold;
     font-style: italic;
 }
 
 @font-face {
     font-family: "Open Sans";
-    src: url("/static/fonts/OpenSans-ExtraBoldItalic.ttf") format("ttf");
-    font-weight: bolder;
+    src: url("../static/fonts/OpenSans-ExtraBoldItalic.otf") format("otf");
+    font-weight: 900;
     font-style: italic;
 }
 
 @font-face {
     font-family: "Open Sans";
-    src: url("/static/fonts/OpenSans-LightItalic.ttf") format("ttf");
-    font-weight: lighter;
+    src: url("../static/fonts/OpenSansLight-Italic.otf") format("otf");
+    font-weight: 300;
     font-style: italic;
 }
 
 @font-face {
     font-family: "Open Sans";
-    src: url("/static/fonts/OpenSans-Semibold.ttf") format("ttf");
+    src: url("../static/fonts/OpenSans-Semibold.otf") format("otf");
     font-weight: 600;
 }
 
 @font-face {
     font-family: "Open Sans";
-    src: url("/static/fonts/OpenSans-SemiboldItalic.ttf") format("ttf");
+    src: url("../static/fonts/OpenSans-SemiboldItalic.otf") format("otf");
     font-weight: 600;
     font-style: italic;
 }
@@ -84,7 +88,7 @@
 }
 
 .hero_image {
-    background: url('/static/img/womens_activism_hero_image.png') no-repeat center center;
+    background: url('../static/img/womens_activism_hero_image.png') no-repeat center center;
     height: 100%;
     overflow: hidden;
     color: #FFFFFF;

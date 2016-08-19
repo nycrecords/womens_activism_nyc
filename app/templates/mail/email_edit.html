@@ -6,50 +6,50 @@
 </head>
 <body>
 
-    <p>Notice [Women's Activism NYC]: <b>Edit Made on a Story</b>!</p>
+<p>Notice [Women's Activism NYC]: <b>Edit Made on a Story</b>!</p>
 
-    <p>
-        Before the Edit:<br>
-            Story About: {{ story_edit.activist_last }} , {{ story_edit.activist_first }}<br>
-            She Lived: {{ story_edit.activist_start }} to {{ story_edit.activist_end }}<br>
-            {% if story_edit.activist_url %}
-                Activist Url: {{ story_edit.activist_url }}<br>
-            {% endif %}
-            Tags: {{ old_tags }}<br>
-            Content: {{ story_edit.content | safe }}
-    </p>
+<p>
+    Before the Edit:<br>
+        Story About: {{ story_edit.activist_last }} , {{ story_edit.activist_first }}<br>
+        She Lived: {{ story_edit.activist_start }} to {{ story_edit.activist_end }}<br>
+        {% if story_edit.activist_url %}
+            Activist Url: {{ story_edit.activist_url }}<br>
+        {% endif %}
+        Tags: {{ old_tags }}<br>
+        Content: {{ story_edit.content | safe }}
+</p>
 
-    <p>
-        After the Edit:<br>
-            Story About: {{ story.activist_last }} , {{ story.activist_first }}<br>
-            She Lived: {{ story.activist_start }} to {{ story.activist_end }}<br>
-            {% if story.activist_url %}
-                Activist Url: {{ story.activist_url }}<br>
-            {% endif %}
-            Tags: {{ new_tags }}<br>
-            Content: {{ story.content | safe }}
-    </p>
+<p>
+    After the Edit:<br>
+        Story About: {{ story.activist_last }} , {{ story.activist_first }}<br>
+        She Lived: {{ story.activist_start }} to {{ story.activist_end }}<br>
+        {% if story.activist_url %}
+            Activist Url: {{ story.activist_url }}<br>
+        {% endif %}
+        Tags: {{ new_tags }}<br>
+        Content: {{ story.content | safe }}
+</p>
 
-    <p>
-        Version Information:<br>
-            Edit made by: {{ user_last }} , {{ user_first }}<br>
-            Reason given: {{ story_edit.reason }}<br>
-            Story Creation time: {{ story.creation_time }}<br>
-            Story Edit time: {{ story.edit_time }}<br>
-            Previous Story Version: {{ story_edit.version }}<br>
-            Current Story Version: {{ story.version }}
-    </p>
+<p>
+    Version Information:<br>
+    Edit made by: {{ user_last }} , {{ user_first }}<br>
+    Reason given: {{ story_edit.reason }}<br>
+    Story Creation time: {{ story.creation_time }}<br>
+    Story Edit time: {{ story.edit_time }}<br>
+    Previous Story Version: {{ story_edit.version }}<br>
+    Current Story Version: {{ story.version }}
+</p>
 
-    <p>To view the post please <a href="{{ url_for('stories.stories', id=story.id, _external=True) }}">click here</a>.<br>
+<p>To view the post please <a href="{{ url_for('stories.stories', id=story.id, _external=True) }}">click here</a>.<br>
     Alternatively, you can paste the following link in your browser's address bar:<br>
     {{ url_for('stories.stories', id=story.id, _external=True) }}
-    </p>
+</p>
 
-    <p>
+<p>
     Sincerely,<br>
     Women's Activism NYC<br>
     <small>Note: replies to this email address are not monitored.</small>
-    </p>
+</p>
 
 </body>
 </html>

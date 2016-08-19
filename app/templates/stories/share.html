@@ -1,42 +1,42 @@
 {% extends "base.html" %}
 
 {% block page_content %}
-    {{ super() }}
-<form name="input" class="form-horizontal" id="submitPost" method="post">
-    <div class="activist_information">
-        <div class="share_title">Who Inspires You?<br>
-            <h5>Share you story about an empowering female<br>
-                whose activism has inspired you.</h5>
-            <div class="row">
-                <div class="control-group col-sm-push-4 col-sm-5">
-                    <input class="activist_info_field col-sm-4" name="activist_first_name" title="Activist First Name"
-                           value="{{ activist_first_name or '' }}" maxlength="140" placeholder="Mary" required>
-                    <input class="activist_info_field col-sm-4 col-sm-push-1" name="activist_last_name"
-                           title="Activist Last Name"
-                           value="{{ activist_last_name or '' }}" maxlength="140" placeholder="Smith" required>
+    <form name="input" class="form-horizontal" id="submitPost" method="post">
+        <div class="activist_information">
+            <div class="share_title">Who Inspires You?<br>
+                <h5>Share you story about an empowering female<br>
+                    whose activism has inspired you.</h5>
+                <div class="row">
+                    <div class="control-group col-sm-push-4 col-sm-5">
+                        <input class="activist_info_field col-sm-4" name="activist_first_name"
+                               title="Activist First Name"
+                               value="{{ activist_first_name or '' }}" maxlength="140" placeholder="Mary" required>
+                        <input class="activist_info_field col-sm-4 col-sm-push-1" name="activist_last_name"
+                               title="Activist Last Name"
+                               value="{{ activist_last_name or '' }}" maxlength="140" placeholder="Smith" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <span class="required">required</span>
                 </div>
             </div>
-            <div class="row">
-                <span class="required">required</span>
-            </div>
-        </div>
-        <div class="share_title">She Lived<br>
-            <h5>If still living, enter "Today".</h5>
-            <div class="row">
-                <div class="control-group col-sm-push-4 col-sm-5">
-                    <input class="activist_info_field col-sm-4" name="input_birth" title="Activist Start Date"
-                           maxlength="4"
-                           placeholder="1960"
-                           value="{{ activist_start_date or '' }}" required>
-                    <div class="col-sm-1"><span>-</span></div>
-                    <input class="activist_info_field col-sm-4" name="input_death" title="Activist End Date"
-                           maxlength="5"
-                           placeholder="Today"
-                           value="{{ activist_end_date or '' }}" required>
+            <div class="share_title">She Lived<br>
+                <h5>If still living, enter "Today".</h5>
+                <div class="row">
+                    <div class="control-group col-sm-push-4 col-sm-5">
+                        <input class="activist_info_field col-sm-4" name="input_birth" title="Activist Start Date"
+                               maxlength="4"
+                               placeholder="1960"
+                               value="{{ activist_start_date or '' }}" required>
+                        <div class="col-sm-1"><span>-</span></div>
+                        <input class="activist_info_field col-sm-4" name="input_death" title="Activist End Date"
+                               maxlength="5"
+                               placeholder="Today"
+                               value="{{ activist_end_date or '' }}" required>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
     <div class="activist_story">
@@ -57,8 +57,8 @@
                 <textarea width="100%" class="activist_story_input col-sm-12" id="editor1" name="editor1"
                           maxlength="1500" placeholder="My mother was ..." rows="10"
                           required>{{ content or '' }}</textarea>
+                    </div>
                 </div>
-            </div>
 
             <div class="row">
                 <span id="chars" class="required">0 / 1500 used</span>
@@ -140,7 +140,7 @@
         </div>
     </div>
 
-</form>
+    </form>
 
 {% endblock %}
 
@@ -164,7 +164,7 @@
         });
     });
 </script>
-    <script> $('textarea').keyup(function() { 
+    <script> $('textarea').keydown(function() { 
         var length = $(this).val().length; 
         $('#chars').text(length+" / 1500 used"); });
     </script>

@@ -6,24 +6,25 @@
 </head>
 <body>
 
-    <p>Notice [Women's Activism NYC]: <b>Flagged Story</b>!</p>
+<p>Notice [Women's Activism NYC]: <b>Flagged Story</b>!</p>
 
-    <p>
+<p>
     Story About: {{ activist_first }} {{ activist_last }}<br>
     Flag Type: {{ type }}<br>
     Flag Reason: {{ reason }}<br>
-    </p>
+</p>
 
-    <p>To view the post please <a href="{{ url_for('stories.stories', id=story.id, _external=True) }}">click here</a>.<br>
+<p>
+    To view the post please <a href="{{ url_for('stories.stories', id=story.id, _external=True) }}">click here</a>.<br>
     Alternatively, you can paste the following link in your browser's address bar:<br>
     {{ url_for('stories.stories', id=story.id, _external=True) }}
-    </p>
+</p>
 
-    <p>
+<p>
     Sincerely,<br>
     Women's Activism NYC<br>
     <small>Note: replies to this email address are not monitored.</small>
-    </p>
+</p>
 
 </body>
 </html>

@@ -2,7 +2,7 @@
 {% block title %}Women's Activism NYC - Edit Story{% endblock %}
 
 
-{% block content %}
+{% block page_content %}
     {% if current_user.is_administrator() %}
 
     <div class="page-header">
@@ -53,25 +53,59 @@
                 </div>
             </div>
 
+            <br>
+
+            <h5>Note: A story can have either an image or video, not both.</h5>
             <div class="lead"> Image Link
                 <div>
                     <input id=image_link class="image_link" name="image_link" title="Image Link"
-                          value="{{ story['image_link'] }}">
+                          value="{{ story['image_link'] or '' }}">
                 </div>
-
             </div>
 
             <div class="lead"> Video Link
                 <div>
                     <input id=video_link class="video_link" name="video_link" title="Video Link"
-                          value="{{ story['video_link'] }}">
+                          value="{{ story['video_link'] or '' }}">
                 </div>
-
             </div>
+
+{#            <div class="control-group">#}
+{#                    <button type="button" class="upload_image">Upload Image</button>#}
+{#                    <button type="button" class="upload_video">Upload Video</button>#}
+{#            </div>#}
+{##}
+{#            {% if story.image_link %}#}
+{##}
+{#                <h5 class="image_link">Enter an image URL</h5>#}
+{#                <input id=image_link class="image_link" name="image_link" title="Image Link"#}
+{#                          value="{{ story.image_link or '' }}">#}
+{#                <h5 class="video_link" style="display:none;">Enter a YouTube or Vimeo URL</h5>#}
+{#                <input id=video_link class="video_link" name="video_link" title="Video Link"#}
+{#                          value="{{ video_link or '' }}" style="display:none;">#}
+{##}
+{#            {% elif story.video_link %}#}
+{##}
+{#                <h5 class="image_link" style="display:none;">Enter an image URL</h5>#}
+{#                <input id=image_link class="image_link" name="image_link" title="Image Link"#}
+{#                          value="{{ image_link or '' }}" style="display:none;">#}
+{#                <h5 class="video_link">Enter a YouTube or Vimeo URL</h5>#}
+{#                <input id=video_link class="video_link" name="video_link" title="Video Link"#}
+{#                          value="{{ story.video_link or '' }}">#}
+{#            {% else %}#}
+{#                <h5 class="image_link" style="display:none;">Enter an image URL</h5>#}
+{#                <input id=image_link class="image_link" name="image_link" title="Image Link"#}
+{#                          value="{{ image_link or '' }}" style="display:none;">#}
+{#                <h5 class="video_link" style="display:none;">Enter a YouTube or Vimeo URL</h5>#}
+{#                <input id=video_link class="video_link" name="video_link" title="Video Link"#}
+{#                          value="{{ video_link or '' }}" style="display:none;">#}
+{#                {% endif %}#}
 
             <div class="lead">Additional link for more information [Optional]
                 <div class="control-group">
-                    <textarea id="input_url" name="input_url">{{ story['activist_url'] }}</textarea>
+{#                    <textarea id="input_url" name="input_url">{{ story['activist_url'] }}</textarea>#}
+                    <input id="input_url" class="input_url" name="input_url"
+                          value="{{ story['activist_url'] }}">
                 </div>
             </div>
 

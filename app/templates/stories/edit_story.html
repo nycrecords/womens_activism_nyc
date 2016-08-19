@@ -56,7 +56,7 @@
             <div class="lead"> Image Link
                 <div>
                     <input id=image_link class="image_link" name="image_link" title="Image Link"
-                          value="{{ story['image_link'] }}">
+                          value="{{ story['image_link'] or '' }}">
                 </div>
 
             </div>
@@ -64,7 +64,7 @@
             <div class="lead"> Video Link
                 <div>
                     <input id=video_link class="video_link" name="video_link" title="Video Link"
-                          value="{{ story['video_link'] }}">
+                          value="{{ story['video_link'] or '' }}">
                 </div>
 
             </div>

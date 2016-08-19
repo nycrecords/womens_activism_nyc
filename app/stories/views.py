@@ -63,7 +63,7 @@ def shareastory(data=None):
         author_first_name = data['author_first_name']
         author_last_name = data['author_last_name']
         author_email = data['author_email']
-        image_link = data['image_link'],
+        image_link = data['image_link']
         video_link = data['video_link']
 
         if activist_first_name == '':  # user has not submitted activist first name
@@ -122,7 +122,6 @@ def shareastory(data=None):
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
                                    author_email=author_email, image_link=image_link)
-
         elif recaptcha.verify() == False:  # user has not passed the recaptcha verification
             flash("Please complete reCAPTCHA.")
             return render_template('stories/share.html', tags=tags)
@@ -142,29 +141,33 @@ def shareastory(data=None):
                               activist_url=activist_link, is_edited=False, is_visible=True,
                               image_link=image_link, video_link=video_link, creation_time=datetime.utcnow())
 
-            if "youtube" in video_link: # if the link is a youtube link convert it to an embed
-                split = video_link.split("=",1)
-                video_link = "https://www.youtube.com/embed/{}".format(split[1])
-                story = Story(activist_start=activist_start_date, activist_end=activist_end_date,
-                              activist_first=activist_first_name, activist_last=activist_last_name, content=content,
-                              activist_url=activist_link, is_edited=False, is_visible=True,
-                              image_link=image_link, video_link=video_link, creation_time=datetime.utcnow())
+            if "youtube.com/embed/" in video_link: # if the link is a youtube embed leave it the way it is
+                story.video_link = video_link
 
-            if "youtu.be" in video_link: # if the link is a youtube link convert it to an embed
+            elif "youtube.com/watch?v=" in video_link: # if the link is a youtube link convert it to an embed
+                split = video_link.split("watch?v=",1)
+                video_link = "https://www.youtube.com/embed/{}".format(split[1])
+                story.video_link = video_link
+
+            elif "youtu.be/" in video_link: # if the link is a short youtube link convert it to an embed
                 split = video_link.split("youtu.be/",1)
                 video_link = "https://www.youtube.com/embed/{}".format(split[1])
-                story = Story(activist_start=activist_start_date, activist_end=activist_end_date,
-                              activist_first=activist_first_name, activist_last=activist_last_name, content=content,
-                              activist_url=activist_link, is_edited=False, is_visible=True,
-                              image_link=image_link, video_link=video_link, creation_time=datetime.utcnow())
+                story.video_link = video_link
 
             elif "vimeo" in video_link: # if the link is a vimeo link conver it to an embed
                 split = video_link.split("vimeo.com/",1)
                 video_link = "https://player.vimeo.com/video/{}".format(split[1])
-                story = Story(activist_start=activist_start_date, activist_end=activist_end_date,
-                              activist_first=activist_first_name, activist_last=activist_last_name, content=content,
-                              activist_url=activist_link, is_edited=False, is_visible=True,
-                              image_link=image_link, video_link=video_link, creation_time=datetime.utcnow())
+                story.video_link = video_link
+
+            if image_link == '':  # if image_link is blank set it to None
+                print("image null")
+                image_link = None
+                story.image_link = image_link
+
+            if video_link == '':  # if video_link is blank set it to None
+                print("video null")
+                video_link = None
+                story.video_link = video_link
 
             put_obj(story)
 
@@ -304,12 +307,15 @@ def edit(id):
         story.image_link = new_image_link
         story.video_link = new_video_link
 
-        if "youtube" in story.video_link:  # if the link is a youtube link convert it to an embed
-            split = story.video_link.split("=", 1)
+        if "youtube.com/embed/" in story.video_link:  # if the link is already an embed link leave it the way it is
+            pass
+
+        elif "youtube.com/watch?v=" in story.video_link:  # if the link is a youtube link convert it to an embed
+            split = story.video_link.split("watch?v=", 1)
             new_embed = "https://www.youtube.com/embed/{}".format(split[1])
             story.video_link = new_embed
 
-        elif "youtu.be" in story.video_link:  # if the link is a youtube link convert it to an embed
+        elif "youtu.be" in story.video_link:  # if the link is a short youtube link convert it to an embed
             split = story.video_link.split("youtu.be/", 1)
             new_embed = "https://www.youtube.com/embed/{}".format(split[1])
             story.video_link = new_embed
@@ -318,6 +324,12 @@ def edit(id):
             split = story.video_link.split("vimeo.com/", 1)
             new_embed = "https://player.vimeo.com/video/{}".format(split[1])
             story.video_link = new_embed
+
+        if story.image_link == '':  # if image_link is blank set it to None
+            story.image_link = None
+
+        if story.video_link == '':  # if video_link is blank set it to None
+            story.video_link = None
 
         put_obj(story)
 

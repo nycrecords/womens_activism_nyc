@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 
-
 {% block page_content %}
     {{ super() }}
 <form name="input" class="form-horizontal" id="submitPost" method="post">
@@ -46,13 +45,11 @@
             <div class="control-group">
                 <select class="selectpicker" data-width="fit" name="input_tags" multiple required>
                     {% for tag in tags %}
-                    <option value="{{ tag.name }}">{{ tag.name }}</option>
+                    <option style="z-index: 1;" value="{{ tag.name }}">{{ tag.name }}</option>
                     {% endfor %}
                 </select>
-            </div>
-        </div>
-
-        <div class="share_title">Share Her Story<br>
+            </div> <br> <br> <br>
+            Share Her Story<br>
             <h5>Share a few words about how your female activist<br>
                 has inspired you and others.</h5>
             <div class="row">
@@ -66,8 +63,6 @@
                 <span class="required">0 / 1500 used</span>
             </div>
         </div>
-
-<center>
 
         <div class="share_title">Add a Link<br>
             <h5>Enter a URL to allow others to learn<br>
@@ -83,51 +78,63 @@
             </div>
         </div>
 
-                <div class="lead">Add Media<br>
-                <h3>Upload your favorite photo or video of your<br>
-                female activist to help tell your story. [Optional]</h3>
+        <div class="share_title">Add Media<br>
+            <h5>Upload your favorite photo or video of your<br>
+                female activist to help tell your story. [Optional]</h5>
+            <div class="row">
                 <div class="control-group">
-                    <button type="button" class="upload_image">Upload Image</button>
-                    <button type="button" class="upload_video">Upload Video</button>
+                    <button type="button" class="upload_image">
+                        <h5>Upload Image</h5>
+                    </button>
+                    <button type="button" class="upload_video">
+                        <h5>Upload Video</h5>
+                    </button>
                 </div>
-                <h5 class="image_link" style="display:none;">Enter an image URL</h5>
-                <input id=image_link class="image_link" name="image_link" title="Image Link"
+                <div class="control-group">
+                    <h5 class="image_link" style="display:none;">Enter an image URL below</h5>
+                    <input id=image_link class="image_link" name="image_link" title="Image Link"
                           value="{{ image_link or '' }}" style="display:none;">
-                <h5 class="video_link" style="display:none;">Enter a YouTube or Vimeo URL</h5>
-                <input id=video_link class="video_link" name="video_link" title="Video Link"
+                    <h5 class="video_link" style="display:none;">Enter a YouTube or Vimeo URL below</h5>
+                    <input id=video_link class="video_link" name="video_link" title="Video Link"
                           value="{{ video_link or '' }}" style="display:none;">
+                </div>
             </div>
-</center>
-
-    </div>
-
-    <div class="sharestory3">
-        <div class="lead">Tell Us About Yourself<br>
-            <h5>If you would like to share your name, enter below.<br>
-                Your email address will not be made public. [Optional]</h5>
-            <div class="control-group">
-                <input class="author_first_name" name="author_first_name" title="Author First Name" maxlength="140"
-                       value="{{ author_first_name or '' }}" placeholder="Mary">
-                <input class="author_last_name" name="author_last_name" title="Author Last Name" maxlength="140"
-                       value="{{ author_last_name or '' }}" placeholder="Smith"> <br>
-                <input class="author_email" name="author_email" title="Author Email" maxlength="140"
-                       value="{{ author_email or '' }}" placeholder="msmith@gmail.com">
-                <br>
-                <br>
-                <center>
-    <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"></div>
-    <br>
-
-    <div id="requestButton" class="control-group">
-        <div>
-            <button type="submit" title="submit_post" class="btn btn-primary" class="center-block" id="hero_action_button">
-                Share
-            </button>
-
-
+            <div class="row">
+                <span class="required">optional</span>
+            </div>
         </div>
     </div>
-            </center>
+
+
+    <div class="activist_information">
+        <div class="share_title">Tell Us About Yourself<br>
+            <h5>If you would like to share your name, enter below.<br>
+                Your email address will not be made public. [Optional]</h5>
+            <div class="row">
+                <div class="control-group col-sm-push-4 col-sm-5">
+                    <input class="activist_info_field col-sm-4" name="author_first_name" title="Author First Name" maxlength="140"
+                       value="{{ author_first_name or '' }}" placeholder="Mary">
+                    <input class="activist_info_field col-sm-4 col-sm-push-1" name="author_last_name" title="Author Last Name" maxlength="140"
+                       value="{{ author_last_name or '' }}" placeholder="Smith">
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group col-sm-push-4 col-sm-11">
+                    <input class="activist_info_field col-sm-4" name="author_email" title="Author Email" maxlength="140"
+                       value="{{ author_email or '' }}" placeholder="msmith@gmail.com" style="padding-top: 1em;">
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group">
+                    <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH" style="margin: 1em auto; width: 6em;"></div>
+                </div>
+            </div>
+            <div id="requestButton" class="control-group">
+                <div>
+                    <button type="submit" title="submit_post" class="btn btn-primary" class="center-block" id="hero_action_button">
+                        Share
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -137,7 +144,11 @@
 {% endblock %}
 
 {% block scripts %}
+    {{ super() }}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/css/bootstrap-select.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/js/i18n/defaults-*.min.js"></script>
 <script>
     $(document).ready(function () {
         $(".upload_image").click(function () {

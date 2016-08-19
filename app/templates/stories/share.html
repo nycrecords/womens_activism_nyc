@@ -54,13 +54,14 @@
                 has inspired you and others.</h5>
             <div class="row">
                 <div class="control-group col-sm-8 col-sm-push-2">
-                <textarea width="100%" class="activist_story_input col-sm-12" id="editor1" name="editor1" placeholder="My mother was ..." rows="20"
+                <textarea width="100%" class="activist_story_input col-sm-12" id="editor1" name="editor1"
+                          maxlength="1500" placeholder="My mother was ..." rows="10"
                           required>{{ content or '' }}</textarea>
                 </div>
             </div>
 
             <div class="row">
-                <span class="required">0 / 1500 used</span>
+                <span id="chars" class="required">0 / 1500 used</span>
             </div>
         </div>
 
@@ -163,4 +164,8 @@
         });
     });
 </script>
+    <script> $('textarea').keyup(function() { 
+        var length = $(this).val().length; 
+        $('#chars').text(length+" / 1500 used"); });
+    </script>
 {% endblock %}

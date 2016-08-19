@@ -43,7 +43,7 @@
         <div class="share_title">What is She Known For?<br>
             <h5>Choose one or more categories.</h5>
             <div class="control-group">
-                <select class="selectpicker" data-width="fit" name="input_tags" multiple required>
+                <select class="selectpicker" data-width="15%" name="input_tags" multiple required>
                     {% for tag in tags %}
                     <option style="z-index: 1;" value="{{ tag.name }}">{{ tag.name }}</option>
                     {% endfor %}
@@ -83,21 +83,21 @@
             <h5>Upload your favorite photo or video of your<br>
                 female activist to help tell your story. [Optional]</h5>
             <div class="row">
-                <div class="control-group">
-                    <button type="button" class="upload_image">
-                        <h5>Upload Image</h5>
+                <div class="control-group" style="max-width: 6em; margin: auto auto 1.5em;">
+                    <button type="button" class="upload_image" id="media_action_button_image">
+                        Upload Image
                     </button>
-                    <button type="button" class="upload_video">
-                        <h5>Upload Video</h5>
+                    <button type="button" class="upload_video" id="media_action_button_video">
+                        Upload Video
                     </button>
                 </div>
                 <div class="control-group">
-                    <h5 class="image_link" style="display:none;">Enter an image URL below</h5>
+                    <h5 class="image_link" style="display: none;">Enter an image URL below</h5>
                     <input id=image_link class="image_link" name="image_link" title="Image Link"
-                          value="{{ image_link or '' }}" style="display:none;">
-                    <h5 class="video_link" style="display:none;">Enter a YouTube or Vimeo URL below</h5>
+                          value="{{ image_link or '' }}" style="display: none;">
+                    <h5 class="video_link" style="display: none;">Enter a YouTube or Vimeo URL below</h5>
                     <input id=video_link class="video_link" name="video_link" title="Video Link"
-                          value="{{ video_link or '' }}" style="display:none;">
+                          value="{{ video_link or '' }}" style="display: none;">
                 </div>
             </div>
             <div class="row">
@@ -132,7 +132,7 @@
             </div>
             <div id="requestButton" class="control-group">
                 <div>
-                    <button type="submit" title="submit_post" class="btn btn-primary" class="center-block" id="hero_action_button">
+                    <button type="submit" title="submit_post" class="btn btn-primary" id="hero_action_button">
                         Share
                     </button>
                 </div>

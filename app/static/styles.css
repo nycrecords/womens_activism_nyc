@@ -128,6 +128,44 @@
     -ms-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
 }
 
+#media_action_button_image {
+    float: left;
+    position: relative;
+    border-width: 1.5px;
+    border-color: rgb(255, 255, 255);
+    border-style: solid;
+    width: 110px;
+    height: 62px;
+    background: transparent;
+    font-size: 15.385px;
+    font-family: "Open Sans";
+    color: rgb(255, 255, 255);
+    line-height: 1.2;
+    text-align: center;
+    -moz-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
+    -webkit-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
+    -ms-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
+}
+
+#media_action_button_video {
+    float: right;
+    position: relative;
+    border-width: 1.5px;
+    border-color: rgb(255, 255, 255);
+    border-style: solid;
+    width: 110px;
+    height: 62px;
+    background: transparent;
+    font-size: 15.385px;
+    font-family: "Open Sans";
+    color: rgb(255, 255, 255);
+    line-height: 1.2;
+    text-align: center;
+    -moz-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
+    -webkit-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
+    -ms-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
+}
+
 .story_counter {
     margin-top: 30px;
     font-family: "Open Sans";

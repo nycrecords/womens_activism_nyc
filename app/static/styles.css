@@ -1,6 +1,10 @@
+body{
+    font-family: ; "Open Sans";
+}
+
 @font-face {
     font-family: "Open Sans";
-    src: url("/static/fonts/OpenSans-Regular.ttf") format("ttf");
+    src: url("../static/fonts/OpenSans-Regular.otf") format("otf");
 }
 
 @font-face {

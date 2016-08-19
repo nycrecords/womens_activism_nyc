@@ -307,6 +307,10 @@ def edit(id):
         story.image_link = new_image_link
         story.video_link = new_video_link
 
+        if new_image_link != '' and new_video_link != '': # if both image and video is filled out flash a message
+            flash("You have both an Image link and Video link. Please only fill out one.")
+            return render_template('stories/edit_story.html', tags=all_tags, story_tags=single_story['tags'], story=story)
+
         if "youtube.com/embed/" in story.video_link:  # if the link is already an embed link leave it the way it is
             pass
 

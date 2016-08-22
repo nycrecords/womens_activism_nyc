@@ -27,12 +27,12 @@
                         <input class="activist_info_field col-sm-4" name="input_birth" title="Activist Start Date"
                                maxlength="4"
                                placeholder="1960"
-                               value="{{ activist_start_date or '' }}" required>
+                               value="{{ activist_start_date or '' }}">
                         <div class="col-sm-1"><span>-</span></div>
                         <input class="activist_info_field col-sm-4" name="input_death" title="Activist End Date"
                                maxlength="5"
                                placeholder="Today"
-                               value="{{ activist_end_date or '' }}" required>
+                               value="{{ activist_end_date or '' }}">
                     </div>
                 </div>
             </div>
@@ -119,11 +119,11 @@
                        value="{{ author_email or '' }}" placeholder="msmith@gmail.com" style="padding-top: 1em;">
                 </div>
             </div>
-            <div class="row">
-                <div class="control-group">
-                    <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH" style="margin: 1em auto; width: 6em;"></div>
-                </div>
-            </div>
+{#            <div class="row">#}
+{#                <div class="control-group">#}
+{#                    <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH" style="margin: 1em auto; width: 6em;"></div>#}
+{#                </div>#}
+{#            </div>#} <br><br>
             <div id="requestButton" class="control-group">
                 <div>
                     <button type="submit" title="submit_post" class="btn btn-primary" id="hero_action_button">

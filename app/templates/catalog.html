@@ -2,11 +2,9 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "_macros.html" as macros %}
 
-<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='index.css') }}"/>
+{% block title %}Women's Activism NYC{% endblock %}
 
-{% block title %}Womens Activism NYC{% endblock %}
-
-{% block content %}
+{% block page_content %}
     {% block tags %}
         {% include "_tags.html" %}
     {% endblock %}
@@ -68,8 +66,4 @@ function get_tags(tag_name) {
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-*.min.js"></script>
-
-        <div id="footer">
-{% include '_nyc_gov_footer.html' %}
-    </div>
 {% endblock %}

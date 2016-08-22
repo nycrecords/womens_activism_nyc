@@ -456,3 +456,35 @@ body{
 .lead {
     color: #FFFFFF;
 }
+
+.feedback_form {
+    margin-top: 30px;
+    font-family: "Open Sans";
+}
+
+#feedback_title {
+    font-size: 50px;
+    font-family: "Open Sans";
+    font-weight: lighter;
+    color: rgb(52, 41, 79);
+    line-height: 0.6;
+    text-align: center;
+    -moz-transform: matrix(0.99959204631372, 0, 0, 1.0018460443303, 0, 0);
+    -webkit-transform: matrix(0.99959204631372, 0, 0, 1.0018460443303, 0, 0);
+    -ms-transform: matrix(0.99959204631372, 0, 0, 1.0018460443303, 0, 0);
+}
+
+.feedback_form .row form .form-group {
+    margin: auto;
+    width: 60%;
+}
+
+.feedback_form .row form .form-group .g-recaptcha div {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.feedback_form .row form #submit {
+    margin: 1em auto 0;
+    display: block;
+}

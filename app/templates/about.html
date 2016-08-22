@@ -4,24 +4,20 @@
 
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='index.css') }}"/>
 
-{% block title %}Womens Activism NYC{% endblock %}
+{% block title %}Women's Activism NYC{% endblock %}
 
-{% block content %}
+{% block page_content %}
+
     {% block hear_our_story %}
         {% include "_hear_our_story.html" %}
-    {% endblock %}
-
-    {% block steering_committee %}
-        {% include "_steering_committee.html" %}
     {% endblock %}
 
     {% block empowerment_partners %}
         {% include "_empowerment_partners.html" %}
     {% endblock %}
 
-
-<div id="footer">
-{% include '_nyc_gov_footer.html' %}
-    </div>
+    {% block steering_committee %}
+        {% include "_steering_committee.html" %}
+    {% endblock %}
 
 {% endblock %}

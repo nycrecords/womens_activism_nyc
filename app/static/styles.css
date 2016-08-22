@@ -479,33 +479,140 @@ body{
 }
 
 .empowerment_partners {
-    margin: auto;
+    margin-left: 5%;
     width: 100%;
-    padding-top: 5%;
-    font-size: 50px;
+    padding-top: 3%;
+    font-size: 25px;
     font-family: "Open Sans";
     font-weight: lighter;
     color: rgb(255, 255, 255);
     line-height: 0.599;
-    text-align: center;
+    text-align:left;
     -moz-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
     -webkit-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
     -ms-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
 }
 
-.empowerment_partners {
+
+.three_empowerment_partners {
+    margin-left: 5%;
+
+}
+
+
+.three_empowerment_partners {
+    text-align: center;
+    color: white;
     -webkit-column-count: 3; /* Chrome, Safari, Opera */
     -moz-column-count: 3; /* Firefox */
     column-count: 3;
-    width: 100%;
 }
 
-.empowerment_partners_left {
-    color: white;
-    float: left;
+
+
+.empowerment_partners {
+    -webkit-column-count: 2; /* Chrome, Safari, Opera */
+    -moz-column-count: 2; /* Firefox */
+    column-count: 2;
+    /*width: 100%;*/
 }
 
-.empowerment_partners_right {
-    color: white;
-    float: right;
+.first_image {
+
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
 }
+
+.second_image {
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+}
+
+.third_image {
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+}
+
+#person_one_button {
+    text-align: center;
+    margin-left: 15%;
+    border-width: 1.5px;
+    border-color: rgb(255, 255, 255);
+    border-style: solid;
+    width: 200px;
+    height: 62px;
+    background: transparent;
+    font-size: 15.385px;
+    font-family: "Open Sans";
+    color: rgb(255, 255, 255);
+    line-height: 1.2;
+    text-align: center;
+    -moz-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
+    -webkit-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
+    -ms-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
+}
+
+#person_two_button {
+    text-align: center;
+    border-width: 1.5px;
+    border-color: rgb(255, 255, 255);
+    border-style: solid;
+    width: 200px;
+    height: 62px;
+    background: transparent;
+    font-size: 15.385px;
+    font-family: "Open Sans";
+    color: rgb(255, 255, 255);
+    line-height: 1.2;
+    text-align: center;
+    -moz-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
+    -webkit-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
+    -ms-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
+}
+
+#person_three_button {
+    text-align: center;
+    border-width: 1.5px;
+    border-color: rgb(255, 255, 255);
+    border-style: solid;
+    width: 200px;
+    height: 62px;
+    background: transparent;
+    font-size: 15.385px;
+    font-family: "Open Sans";
+    color: rgb(255, 255, 255);
+    line-height: 1.2;
+    text-align: center;
+    -moz-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
+    -webkit-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
+    -ms-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
+}
+
+.steering_committee {
+    text-align: left;
+    color: black;
+    -webkit-column-count: 4; /* Chrome, Safari, Opera */
+    -moz-column-count: 4; /* Firefox */
+    column-count: 4;
+}
+
+.people {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+}
+
+
+
+/*.empowerment_partners_left {*/
+    /*color: white;*/
+    /*float: left;*/
+/*}*/
+
+/*.empowerment_partners_right {*/
+    /*color: white;*/
+    /*float: right;*/
+/*}*/

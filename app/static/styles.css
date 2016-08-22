@@ -259,6 +259,17 @@
     text-align: center;
 }
 
+.copyright_mini{
+    padding-top: 5px;
+    padding-bottom: 1px;
+    background-color: rgb(242, 242, 242);
+    font-size: 10px;
+    font-family: "Open Sans Regular";
+    color: rgb(52, 41, 79);
+    line-height: 1;
+    text-align: center;
+}
+
 .copyright a {
     font-weight: bold;
     color: rgb(52, 41, 79);

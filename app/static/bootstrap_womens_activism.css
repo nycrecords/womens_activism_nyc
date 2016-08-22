@@ -148,7 +148,7 @@ textarea {
     border-right: none;
     border-top-color: rgb(255, 255, 255);
     color: rgb(163, 115, 170);
-    font-family: "Open Sans";
+    font-family: "Open Sans Regular";
     font-size: 24px;
     font-size: inherit;
     font-weight: lighter;
@@ -1411,7 +1411,7 @@ html {
 }
 
 body {
-    font-family: Open Sans;
+    font-family: "Open Sans Regular";
     font-size: 16px;
     line-height: 1.42857143;
     color: #333333;
@@ -7288,7 +7288,7 @@ button.close {
     position: absolute;
     z-index: 1070;
     display: block;
-    font-family: Open Sans;
+    font-family: "Open Sans Regular";
     font-style: normal;
     font-weight: normal;
     letter-spacing: normal;
@@ -7422,7 +7422,7 @@ button.close {
     display: none;
     max-width: 276px;
     padding: 1px;
-    font-family: Open Sans;
+    font-family: "Open Sans Regular";
     font-style: normal;
     font-weight: normal;
     letter-spacing: normal;

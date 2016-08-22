@@ -1,18 +1,18 @@
 <a style="display:block" href="{{ url_for('stories.stories', id=story['id']) }}">
-    <div class="col-sm-3 card" style="height: 31rem;">
+    <div class="col-sm-3 card" id="card-size">
         <div class="col-sm-12">
-            <div class="row" style="text-align: center; font-weight: bold;">
+            <div class="row" id="card-header">
             <span class="card-header">{{ story['activist_first'] }}&nbsp;{{ story['activist_last'] }}</span>
             </div> <br>
             {% if story['image_link'] %}
-                <div class="row" style="text-align: center;">
+                <div class="row" id="card-summary">
                     <span class="card-summary">{{ story['content'][:50] }}...</span>
                 </div> <br>
-                <div class="row" style="text-align: center;">
+                <div class="row" id="card-image">
                     <img class="card-image" src="{{ story['image_link'] }}">
                 </div> <br>
             {% else %}
-                <div class="row">
+                <div class="row" id="card-summary">
                     <span class="card-summary">{{ story['content'][:150] }}...</span>
                 </div>
             {% endif %}

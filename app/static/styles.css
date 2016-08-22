@@ -167,6 +167,25 @@
     height: 150px;
 }
 
+#card-size{
+    height: 31rem;
+}
+
+#card-header {
+    text-align: center;
+    font-weight: bold;
+    color: #59315f;
+}
+
+#card-summary {
+    text-align: center;
+    color: #59315f;
+}
+
+#card-image {
+    text-align: center;
+}
+
 .view_all_stories {
     font-size: 15.385px;
     font-family: "Open Sans Regular";

@@ -4,8 +4,16 @@
 {% block title %}Women's Activism NYC{% endblock %}
 
 {% block page_content %}
-    <div class="page-header">
-        <h1>Feedback Form</h1>
+    <div class="feedback_form">
+        <div class="row">
+            <p align="center">
+                <span id="feedback_title">Feedback Form</span>
+            </p>
+        </div>
+        <div class="row">
+            <p align="center">
+                <span id="feedback_fields">{{ wtf.quick_form(form) }}</span>
+            </p>
+        </div>
     </div>
-    {{ wtf.quick_form(form) }}
 {% endblock %}

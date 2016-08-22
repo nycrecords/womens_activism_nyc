@@ -29,9 +29,11 @@
             whose activism has inspired you.</h5>
         <div id="requestButton" class="control-group">
             <div>
-                <button title="share_your_story" class="btn btn-primary" id="hero_action_button">
-                    Share Your Story
-                </button>
+                <a href="{{ url_for('stories.shareastory') }}">
+                    <button title="share_your_story" class="btn btn-primary" id="hero_action_button">
+                        Share Your Story
+                    </button>
+                </a>
             </div>
         </div>
     </div>

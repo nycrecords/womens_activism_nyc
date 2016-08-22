@@ -218,6 +218,22 @@ body{
     padding: 10px;
 }
 
+.card {
+    border-width: 1.5px;
+    border-color: rgb(217, 217, 217);
+    border-style: solid;
+    padding: 10px;
+}
+
+.card-image {
+    text-align: center;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+}
+
 .view_all_stories {
     font-size: 15.385px;
     font-family: "Open Sans";

@@ -53,7 +53,7 @@
                 <h5>Share a few words about how your female activist<br>
                     has inspired you and others.</h5>
                 <div class="container">
-                    <textarea style="width: 60%;" class="activist_story_input" id="editor1" name="editor1"
+                    <textarea class="activist_story_input" id="editor1" name="editor1"
                               maxlength="1500" placeholder="My mother was ..." rows="10"
                               required>{{ content or '' }}</textarea>
                 </div>
@@ -69,7 +69,7 @@
             <div class="row">
                 <div class="control-group">
                     <input class="activist_info_field" name="input_url_link" title="Activist Link" maxlength="140"
-                           value="{{ activist_link or '' }}" placeholder="www.example.com" style="display: inline-block;">
+                           value="{{ activist_link or '' }}" placeholder="www.example.com">
                 </div>
             </div>
             <div class="row">

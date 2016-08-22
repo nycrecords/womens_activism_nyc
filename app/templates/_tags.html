@@ -1,8 +1,43 @@
-<center>
+<div class="activist_story">
+    <div class="share_title">I'm Looking For Women Known For<br>
+        <h5>You may choose more than one category to narrow your search.</h5>
+        <div class="control-group">
+            {% for tag in tags %}
+                {% if tag.name in tag_list %}
+                    <button onclick="get_tags('{{ tag.name }}')" type="button" value="{{ tag.name }}" class="btn btn-primary active" data-toggle="button"
+                            name="{{ tag.name }}" aria-pressed="true" autocomplete="off" >{{ tag.name }}</button>
+                {% else %}
+                    <button onclick="get_tags('{{ tag.name }}')" type="button" value="{{ tag.name }}" class="btn btn-primary" data-toggle="button"
+                            name="{{ tag.name }}" aria-pressed="false" autocomplete="off" >{{ tag.name }}</button>
+                {% endif %}
+            {% endfor %}
+        </div> <br> <br>
+    </div>
+</div>
+
+<div id="filtered-stories" style="text-align: center; margin-top: 2em;">
+    {% for story in stories %}
+        {{ story.activist_first }} {{ story.activist_last }} <br>
+        {{ story.id }} <br>
+        {{ story.content }} <br> <br>
+    {% endfor %}
+</div>
+
+<div class="who_inspires_you">
+    <div class="share_title">Who Inspires You?<br>
+        <h5>Share your story about an empowering female<br>
+            whose activism has inspired you.</h5>
+        <div id="requestButton" class="control-group">
+            <div>
+                <button title="share_your_story" class="btn btn-primary" id="hero_action_button">
+                    Share Your Story
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {#    <form name="input" class="form-horizontal" id="submitPost" method="post">#}
-        <div class="lead">I'm Looking For Women Known For<br>
-            <h5>You may choose more than one category to narrow your search.</h5>
-            <div class="tag-filters">
 {#                <select class="selectpicker" data-width="fit" name="input_tags" multiple required>#}
 {#                    {% for tag in tags %}#}
 {#                        {% if tag.name in tag_list %}#}
@@ -12,30 +47,9 @@
 {#                        {% endif %}#}
 {#                    {% endfor %}#}
 {#                </select>#}
-                {% for tag in tags %}
-                    {% if tag.name in tag_list %}
-                        <button onclick="get_tags('{{ tag.name }}')" type="button" value="{{ tag.name }}" class="btn btn-primary active" data-toggle="button"
-                                name="{{ tag.name }}" aria-pressed="true" autocomplete="off" >{{ tag.name }}</button>
-                    {% else %}
-                        <button onclick="get_tags('{{ tag.name }}')" type="button" value="{{ tag.name }}" class="btn btn-primary" data-toggle="button"
-                                name="{{ tag.name }}" aria-pressed="false" autocomplete="off" >{{ tag.name }}</button>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </div>
 {#        <div id="requestButton" class="control-group">#}
 {#            <div>#}
 {#                <button type="submit" title="filter_stories" class="btn btn-primary">Filter</button>#}
 {#            </div>#}
 {#        </div>#}
 {#    </form>#}
-
-    <br>
-<div id="filtered-stories">
-    {% for story in stories %}
-        {{ story.activist_first }} {{ story.activist_last }} <br>
-        {{ story.id }} <br>
-        {{ story.content }} <br> <br>
-    {% endfor %}
-</div>
-</center>

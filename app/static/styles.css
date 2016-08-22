@@ -472,3 +472,40 @@ body{
     margin: 1em auto 0;
     display: block;
 }
+
+.who_inspires_you {
+    background-color: rgb(103, 60, 116);
+    padding-bottom: 5%;
+}
+
+.empowerment_partners {
+    margin: auto;
+    width: 100%;
+    padding-top: 5%;
+    font-size: 50px;
+    font-family: "Open Sans";
+    font-weight: lighter;
+    color: rgb(255, 255, 255);
+    line-height: 0.599;
+    text-align: center;
+    -moz-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
+    -webkit-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
+    -ms-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
+}
+
+.empowerment_partners {
+    -webkit-column-count: 3; /* Chrome, Safari, Opera */
+    -moz-column-count: 3; /* Firefox */
+    column-count: 3;
+    width: 100%;
+}
+
+.empowerment_partners_left {
+    color: white;
+    float: left;
+}
+
+.empowerment_partners_right {
+    color: white;
+    float: right;
+}

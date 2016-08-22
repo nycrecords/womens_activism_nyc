@@ -5,9 +5,15 @@
 
 {% block page_content %}
     <body>
-    <div class="page-header">
-        <h1>Flagging Story About: "{{ activist_first }}   {{ activist_last }}"</h1>
+    <div class="feedback_form">
+        <div class="row">
+            <h1>Flagging Story About: "{{ activist_first }} {{ activist_last }}"</h1>
+        </div>
+        <div class="row">
+            <p>
+                <span id="feedback_fields">{{ wtf.quick_form(form) }}</span>
+            </p>
+        </div>
     </div>
-    {{ wtf.quick_form(form) }}
     </body>
 {% endblock %}

@@ -89,9 +89,9 @@ body{
 
 .hero_image {
     background: url('../static/img/womens_activism_hero_image.png') no-repeat center center;
-    height: 100%;
     overflow: hidden;
     color: #FFFFFF;
+    padding-bottom: 3em;
 }
 
 #hero_header {

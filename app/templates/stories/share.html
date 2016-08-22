@@ -48,20 +48,18 @@
                     <option value="{{ tag.name }}">{{ tag.name }}</option>
                     {% endfor %}
                 </select>
-            </div> <br> <br> <br>
-            Share Her Story<br>
-            <h5>Share a few words about how your female activist<br>
-                has inspired you and others.</h5>
-            <div class="row">
-                <div class="control-group col-sm-8 col-sm-push-2">
-                <textarea width="100%" class="activist_story_input col-sm-12" id="editor1" name="editor1"
-                          maxlength="1500" placeholder="My mother was ..." rows="10"
-                          required>{{ content or '' }}</textarea>
-                    </div>
+            </div>
+            <div class="share_title">Share Her Story<br>
+                <h5>Share a few words about how your female activist<br>
+                    has inspired you and others.</h5>
+                <div class="container">
+                    <textarea class="activist_story_input" id="editor1" name="editor1"
+                              maxlength="1500" placeholder="My mother was ..." rows="10"
+                              required>{{ content or '' }}</textarea>
                 </div>
-
-            <div class="row">
-                <span id="chars" class="required">0 / 1500 used</span>
+                <div class="row">
+                    <span id="chars" class="required">0 / 1500 used</span>
+                </div>
             </div>
         </div>
 
@@ -116,12 +114,8 @@
                     <input class="activist_info_field col-sm-4" name="author_first_name" title="Author First Name" maxlength="140"
                        value="{{ author_first_name or '' }}" placeholder="Mary">
                     <input class="activist_info_field col-sm-4 col-sm-push-1" name="author_last_name" title="Author Last Name" maxlength="140"
-                       value="{{ author_last_name or '' }}" placeholder="Smith">
-                </div>
-            </div>
-            <div class="row">
-                <div class="control-group col-sm-push-4 col-sm-11">
-                    <input class="activist_info_field col-sm-4" name="author_email" title="Author Email" maxlength="140"
+                       value="{{ author_last_name or '' }}" placeholder="Smith"> <br>
+                    <input class="activist_info_field col-sm-9" name="author_email" title="Author Email" maxlength="140"
                        value="{{ author_email or '' }}" placeholder="msmith@gmail.com" style="padding-top: 1em;">
                 </div>
             </div>

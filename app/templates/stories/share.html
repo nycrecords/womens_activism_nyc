@@ -169,18 +169,18 @@
 </script>
 <script type="text/javascript">
     function category_button_click(tag_name) {
-        var category_button = document.getElementById(tag_name);
-        if (category_button.getAttribute("aria-pressed") == "false") {
+        var category_button = document.getElementById(tag_name);  // get button being pressed
+        if (category_button.getAttribute("aria-pressed") == "false") {  // check if the button was previously not active
             $('<input>').attr({
                 type: 'hidden',
                 value: tag_name,
                 name: "category_button",
                 id: "category_button_" + tag_name
-            }).appendTo('form');
+            }).appendTo('form');  // add a hidden input field with value of the tag pressed
         }
-        if (category_button.getAttribute("aria-pressed") == "true") {
-            var hidden_category_button = document.getElementById("category_button_" + tag_name);
-            hidden_category_button.remove();
+        if (category_button.getAttribute("aria-pressed") == "true") {  // check if button was previously active
+            var hidden_category_button = document.getElementById("category_button_" + tag_name);  // get hidden input field that was created
+            hidden_category_button.remove();  // remove hidden input field
         }
     }
 </script>

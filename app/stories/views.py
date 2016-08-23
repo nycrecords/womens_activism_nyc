@@ -134,8 +134,8 @@ def shareastory(data=None):
         else:  # user has successfully submitted
             if len(author_first_name) > 0 or len(author_last_name) > 0 or len(author_email) > 0:
                 # user entered information about themselves
-                user = User(first_name=author_first_name, last_name=author_last_name, email=author_email)
-                put_obj(user)
+                user = User(first_name=author_first_name, last_name=author_last_name, email=author_email)  # creates user
+                put_obj(user)  # adds user into database
 
                 story = Story(activist_start=activist_start_date, activist_end=activist_end_date,
                               activist_first=activist_first_name, activist_last=activist_last_name, content=content,
@@ -160,7 +160,7 @@ def shareastory(data=None):
                 video_link = "https://www.youtube.com/embed/{}".format(split[1])
                 story.video_link = video_link
 
-            elif "vimeo" in video_link:  # if the link is a vimeo link conver it to an embed
+            elif "vimeo" in video_link:  # if the link is a vimeo link convert it to an embed
                 split = video_link.split("vimeo.com/",1)
                 video_link = "https://player.vimeo.com/video/{}".format(split[1])
                 story.video_link = video_link
@@ -175,11 +175,11 @@ def shareastory(data=None):
                 video_link = None
                 story.video_link = video_link
 
-            put_obj(story)
+            put_obj(story)  # adds story into the database
 
-            for tag in tag_list:
-                story_tag = StoryTag(story_id=story.id, tag_id=Tag.query.filter_by(name=tag).first().id)
-                put_obj(story_tag)
+            for tag in tag_list:  # loops through all tags chosen
+                story_tag = StoryTag(story_id=story.id, tag_id=Tag.query.filter_by(name=tag).first().id)  # creates StoryTag relation
+                put_obj(story_tag)  # adds storytag into database
 
             flash('Story submitted!')
             return redirect(url_for('stories.shareastory'))

@@ -98,6 +98,11 @@ def about():
     return render_template('about.html')
 
 
+@main.route('/guidelines', methods=['GET', 'POST'])
+def guidelines():
+    return render_template('guidelines.html')
+
+
 @main.route('/catalog', methods=['GET', 'POST'])
 def catalog():
     tags = Tag.query.all()

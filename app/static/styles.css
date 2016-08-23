@@ -167,7 +167,7 @@
     height: 150px;
 }
 
-#card-size{
+#card-size {
     height: 31rem;
 }
 
@@ -294,7 +294,7 @@
     text-align: center;
 }
 
-.copyright_mini{
+.copyright_mini {
     padding-top: 5px;
     padding-bottom: 1px;
     background-color: rgb(242, 242, 242);
@@ -405,6 +405,8 @@
 
 .activist_story {
     background-color: rgb(89, 49, 95);
+    text-align: left;
+    color: white;
 }
 
 .activist_story_input textarea {
@@ -444,10 +446,10 @@
 }
 
 #footer {
-   bottom: 0;
-   width: 100%;
-   height: 60px;   /* Height of the footer */
-   background: #6cf;
+    bottom: 0;
+    width: 100%;
+    height: 60px; /* Height of the footer */
+    background: #6cf;
 }
 
 .lead {
@@ -492,26 +494,28 @@
 }
 
 .empowerment_partners {
-    margin-left: 5%;
-    width: 100%;
-    padding-top: 3%;
+    background-color: rgb(89, 49, 95);
+
+}
+
+.empowerment_partners_link {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
     font-size: 25px;
     font-family: "Open Sans";
     font-weight: lighter;
     color: rgb(255, 255, 255);
     line-height: 0.599;
-    text-align:left;
+    text-align: left;
     -moz-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
     -webkit-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
     -ms-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
 }
 
-
 .three_empowerment_partners {
     margin-left: 5%;
 
 }
-
 
 .three_empowerment_partners {
     text-align: center;
@@ -519,15 +523,6 @@
     -webkit-column-count: 3; /* Chrome, Safari, Opera */
     -moz-column-count: 3; /* Firefox */
     column-count: 3;
-}
-
-
-
-.empowerment_partners {
-    -webkit-column-count: 2; /* Chrome, Safari, Opera */
-    -moz-column-count: 2; /* Firefox */
-    column-count: 2;
-    /*width: 100%;*/
 }
 
 .get_involved_button {
@@ -568,14 +563,16 @@
     text-align: center;
 }
 
+.page {
 
+}
 
 /*.empowerment_partners_left {*/
-    /*color: white;*/
-    /*float: left;*/
+/*color: white;*/
+/*float: left;*/
 /*}*/
 
 /*.empowerment_partners_right {*/
-    /*color: white;*/
-    /*float: right;*/
+/*color: white;*/
+/*float: right;*/
 /*}*/

@@ -39,8 +39,8 @@ from app.send_email import send_email
 import requests
 
 
-@stories.route('/shareastory', methods=['GET', 'POST'])
-def shareastory(data=None):
+@stories.route('/share', methods=['GET', 'POST'])
+def share(data=None):
     """
     route where user is prompted to enter information about the woman that inspires them
         Required fields are activist first and last name, activist start and end date, tag, recaptcha
@@ -182,7 +182,7 @@ def shareastory(data=None):
                 put_obj(story_tag)  # adds storytag into database
 
             flash('Story submitted!')
-            return redirect(url_for('stories.shareastory'))
+            return redirect(url_for('stories.share'))
     return render_template('stories/share.html', tags=tags)
 
 

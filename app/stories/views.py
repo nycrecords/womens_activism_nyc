@@ -28,7 +28,7 @@ app:
 app.send_email:
     send_email() function defined in app/send_email.py used to send email to recipient, formats subject title and email content
 """
-from flask import render_template, request, current_app, flash, redirect, url_for
+from flask import render_template, request, current_app, flash, redirect, url_for, request
 from app.models import Story, User, StoryTag, Tag, StoryEdit
 from app.stories import stories
 from app.db_helpers import put_obj, delete_obj
@@ -36,6 +36,7 @@ from flask_login import login_required, current_user
 from datetime import datetime
 from app import recaptcha
 from app.send_email import send_email
+import requests
 
 
 @stories.route('/shareastory', methods=['GET', 'POST'])
@@ -65,6 +66,7 @@ def shareastory(data=None):
         author_email = data['author_email']
         image_link = data['image_link']
         video_link = data['video_link']
+        tag_list = data.getlist('category_button')
 
         if activist_first_name == '':  # user has not submitted activist first name
             flash("Please enter a first name for women's activist.")
@@ -101,7 +103,7 @@ def shareastory(data=None):
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
                                    author_email=author_email, image_link=image_link, video_link=video_link)
-        elif len(request.form.getlist('input_tags')) == 0:  # user submitted no tags
+        elif len(tag_list) == 0:  # user submitted no tags
             flash('Please choose at least one tag.')
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
@@ -145,20 +147,20 @@ def shareastory(data=None):
                               activist_url=activist_link, is_edited=False, is_visible=True,
                               image_link=image_link, video_link=video_link, creation_time=datetime.utcnow())
 
-            if "youtube.com/embed/" in video_link: # if the link is a youtube embed leave it the way it is
+            if "youtube.com/embed/" in video_link:  # if the link is a youtube embed leave it the way it is
                 story.video_link = video_link
 
-            elif "youtube.com/watch?v=" in video_link: # if the link is a youtube link convert it to an embed
+            elif "youtube.com/watch?v=" in video_link:  # if the link is a youtube link convert it to an embed
                 split = video_link.split("watch?v=",1)
                 video_link = "https://www.youtube.com/embed/{}".format(split[1])
                 story.video_link = video_link
 
-            elif "youtu.be/" in video_link: # if the link is a short youtube link convert it to an embed
+            elif "youtu.be/" in video_link:  # if the link is a short youtube link convert it to an embed
                 split = video_link.split("youtu.be/",1)
                 video_link = "https://www.youtube.com/embed/{}".format(split[1])
                 story.video_link = video_link
 
-            elif "vimeo" in video_link: # if the link is a vimeo link conver it to an embed
+            elif "vimeo" in video_link:  # if the link is a vimeo link conver it to an embed
                 split = video_link.split("vimeo.com/",1)
                 video_link = "https://player.vimeo.com/video/{}".format(split[1])
                 story.video_link = video_link
@@ -175,7 +177,6 @@ def shareastory(data=None):
 
             put_obj(story)
 
-            tag_list = request.form.getlist('input_tags')
             for tag in tag_list:
                 story_tag = StoryTag(story_id=story.id, tag_id=Tag.query.filter_by(name=tag).first().id)
                 put_obj(story_tag)

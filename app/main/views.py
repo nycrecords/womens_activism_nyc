@@ -27,11 +27,10 @@ from app import recaptcha
 
 
 @main.route('/', methods=['GET', 'POST'])
-def index(data=None):
+def index():
     """
     query the database for a feed of most recent posts
     query the database for the list of possible tags - passed into drop down selectfield in html
-    :param data: initialized as none because we want a blank form to appear when user first loads page
     :return: renders template that displays a ckeditor where user can start writing their post.
         Second half of the page is a feed of most recent posts
     """
@@ -44,7 +43,6 @@ def index(data=None):
     stories = pagination.items[:8]
 
     page_stories = []
-
 
     for story in stories:
         story_tags = StoryTag.query.filter_by(story_id=story.id).all()
@@ -101,6 +99,11 @@ def about():
 def catalog():
     tags = Tag.query.all()
     stories = Story.query.all()
+    # page = request.args.get('page', 1, type=int)
+    # pagination = Story.query.order_by(Story.creation_time.desc()).paginate(
+    #     page, per_page=current_app.config['STORIES_PER_PAGE'],
+    #     error_out=True)
+    # stories = pagination.items
     return render_template('catalog.html', tags=tags, stories=stories)
 
 

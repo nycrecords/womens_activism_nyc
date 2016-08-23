@@ -1,3 +1,5 @@
+{% import "_macros.html" as macros %}
+
 <div class="activist_story">
     <div class="share_title">I'm Looking For Women Known For<br>
         <h5>You may choose more than one category to narrow your search.</h5>
@@ -21,7 +23,10 @@
         {{ story.id }} <br>
         {{ story.content }} <br> <br>
     {% endfor %}
+{#    <center>{{ macros.pagination_widget(pagination, 'main.catalog') }}</center>#}
 </div>
+
+<br>
 
 <div class="who_inspires_you">
     <div class="share_title">Who Inspires You?<br>

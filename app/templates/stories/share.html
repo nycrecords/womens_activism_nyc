@@ -48,6 +48,10 @@
                     <option value="{{ tag.name }}">{{ tag.name }}</option>
                     {% endfor %}
                 </select>
+                {% for tag in tags %}
+                    <button type="button" value="{{ tag.name }}" class="btn btn-primary" data-toggle="button"
+                            name="{{ tag.name }}" aria-pressed="false" autocomplete="off" >{{ tag.name }}</button>
+                {% endfor %}
             </div>
             <div class="share_title">Share Her Story<br>
                 <h5>Share a few words about how your female activist<br>

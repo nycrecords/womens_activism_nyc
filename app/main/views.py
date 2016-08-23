@@ -94,7 +94,6 @@ def index(data=None):
 
 @main.route('/about', methods=['GET', 'POST'])
 def about():
-    # TODO: rename this route
     return render_template('about.html')
 
 
@@ -106,51 +105,29 @@ def guidelines():
 @main.route('/catalog', methods=['GET', 'POST'])
 def catalog():
     tags = Tag.query.all()
-
     stories = Story.query.all()
-
     return render_template('catalog.html', tags=tags, stories=stories)
 
 
 @main.route('/_get_tags', methods=['GET', 'POST'])
 def get_tags():
     tag_list = request.get_data().decode('utf-8')
-
     tag_list = ast.literal_eval(tag_list)
-
     if len(tag_list) == 0:
-
         stories = Story.query.all()
-
         return render_template('_filtered_stories.html', stories=stories)
-
     else:
-
         clauses = or_(*[StoryTag.tag_id == Tag.query.filter_by(name=tag).first().id for tag in
-
                         tag_list])  # creates filter for query in following line
-
         story_tags = StoryTag.query.filter(clauses).all()  # queries the StoryTag table to find all with above clauses
-
         stories = []
-
         for story_tag in story_tags:  # loops through all story_tags found and appends the related story to the stories list
-
             stories.append(Story.query.filter_by(id=story_tag.story_id).first())
-
         unique_stories = []
-
         stories_dict = {i: stories.count(i) for i in
-
                         stories}  # creates a dictionary showing the count that a story shows up for stories list
-
         for key, value in stories_dict.items():  # loops through dictionary and appends only the stories that show up
-
             # the same number of times as the number of tags chosen
-
             if stories_dict[key] >= len(tag_list):
                 unique_stories.append(key)
-
         return render_template('_filtered_stories.html', stories=unique_stories)
-
-

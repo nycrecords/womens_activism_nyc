@@ -331,6 +331,7 @@ body{
     color: rgb(52, 41, 79);
 }
 
+/*first color*/
 .activist_information {
     background-color: rgb(103, 60, 116);
     padding-bottom: 5%;
@@ -517,64 +518,9 @@ body{
     /*width: 100%;*/
 }
 
-.first_image {
-
-    border-radius: 50%;
-    width: 300px;
-    height: 300px;
-}
-
-.second_image {
-    border-radius: 50%;
-    width: 300px;
-    height: 300px;
-}
-
-.third_image {
-    border-radius: 50%;
-    width: 300px;
-    height: 300px;
-}
-
-#person_one_button {
+.get_involved_button {
     text-align: center;
     margin-left: 15%;
-    border-width: 1.5px;
-    border-color: rgb(255, 255, 255);
-    border-style: solid;
-    width: 200px;
-    height: 62px;
-    background: transparent;
-    font-size: 15.385px;
-    font-family: "Open Sans";
-    color: rgb(255, 255, 255);
-    line-height: 1.2;
-    text-align: center;
-    -moz-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
-    -webkit-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
-    -ms-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
-}
-
-#person_two_button {
-    text-align: center;
-    border-width: 1.5px;
-    border-color: rgb(255, 255, 255);
-    border-style: solid;
-    width: 200px;
-    height: 62px;
-    background: transparent;
-    font-size: 15.385px;
-    font-family: "Open Sans";
-    color: rgb(255, 255, 255);
-    line-height: 1.2;
-    text-align: center;
-    -moz-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
-    -webkit-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
-    -ms-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
-}
-
-#person_three_button {
-    text-align: center;
     border-width: 1.5px;
     border-color: rgb(255, 255, 255);
     border-style: solid;
@@ -603,6 +549,11 @@ body{
     border-radius: 50%;
     width: 150px;
     height: 150px;
+}
+
+.featured_empowerment_partner {
+    padding-bottom: 5%;
+    text-align: center;
 }
 
 

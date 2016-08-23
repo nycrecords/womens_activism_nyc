@@ -65,7 +65,6 @@ def shareastory(data=None):
         author_email = data['author_email']
         image_link = data['image_link']
         video_link = data['video_link']
-        print(request.form.get('Abolitionist'))
 
         if activist_first_name == '':  # user has not submitted activist first name
             flash("Please enter a first name for women's activist.")

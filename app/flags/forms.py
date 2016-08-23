@@ -28,5 +28,5 @@ class FlagsForm(Form):
     """
     flag_type = SelectField('Please choose a flag type:', choices=flag_choices)
     flag_reason = TextAreaField('Please provide a reason:', validators=[Length(0, 500)])
-    recaptcha = RecaptchaField()
+    # recaptcha = RecaptchaField()
     submit = SubmitField('Submit')

@@ -41,7 +41,7 @@ def index(data=None):
     pagination = Story.query.order_by(Story.creation_time.desc()).paginate(
         page, per_page=current_app.config['STORIES_PER_PAGE'],
         error_out=True)
-    stories = pagination.items[:7]
+    stories = pagination.items[:8]
 
     page_stories = []
 
@@ -75,7 +75,7 @@ def index(data=None):
 
     first_four = []
     last_four = []
-    for i in range(0, 7):
+    for i in range(0, 8):
         try:
             if i <= 3:
                 first_four.append(page_stories[i])
@@ -87,8 +87,6 @@ def index(data=None):
     stories = []
     stories.append(first_four)
     stories.append(last_four)
-
-
 
     return render_template('index.html', stories=stories, pagination=pagination,
                            visible_stories=visible_stories, missing_stories=missing_stories)
@@ -149,3 +147,5 @@ def get_tags():
                 unique_stories.append(key)
 
         return render_template('_filtered_stories.html', stories=unique_stories)
+
+

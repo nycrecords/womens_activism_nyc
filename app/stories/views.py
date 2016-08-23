@@ -28,15 +28,16 @@ app:
 app.send_email:
     send_email() function defined in app/send_email.py used to send email to recipient, formats subject title and email content
 """
-from flask import render_template, request, current_app, flash, redirect, url_for, request
-from app.models import Story, User, StoryTag, Tag, StoryEdit
-from app.stories import stories
-from app.db_helpers import put_obj, delete_obj
-from flask_login import login_required, current_user
 from datetime import datetime
-from app import recaptcha
-from app.send_email import send_email
+
 import requests
+from flask import render_template, current_app, flash, redirect, url_for, request
+from flask_login import login_required, current_user
+
+from app.db_helpers import put_obj, delete_obj
+from app.models import Story, User, StoryTag, Tag, StoryEdit
+from app.send_email import send_email
+from app.stories import stories
 
 
 @stories.route('/share', methods=['GET', 'POST'])
@@ -75,6 +76,9 @@ def share(data=None):
         image_link = data['image_link']
         video_link = data['video_link']
         tag_list = data.getlist('category_button')
+
+        valid_video = requests.get(video_link)
+        valid_image = requests.get(image_link)
 
         if activist_first_name == '':  # user has not submitted activist first name
             flash("Please enter a first name for women's activist.")
@@ -125,8 +129,15 @@ def share(data=None):
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
                                    author_email=author_email, image_link=image_link, video_link=video_link)
-        elif video_link != '' and "youtube" not in video_link and "youtu.be" not in video_link and "vimeo" not in video_link:
+        elif video_link != '' and valid_video.status_code != 200 or "youtube" not in video_link and "youtu.be" not in video_link and "vimeo" not in video_link:
             flash("Invalid video link. Please check your video link")
+            return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
+                                   activist_last_name=activist_last_name, activist_start_date=activist_start_date,
+                                   activist_end_date=activist_end_date, content=content, activist_link=activist_link,
+                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_email=author_email, image_link=image_link)
+        elif image_link != '' and valid_image.status_code != 200:
+            flash("Invalid image link. Please check your image")
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
@@ -142,7 +153,8 @@ def share(data=None):
         else:  # user has successfully submitted
             if len(author_first_name) > 0 or len(author_last_name) > 0 or len(author_email) > 0:
                 # user entered information about themselves
-                user = User(first_name=author_first_name, last_name=author_last_name, email=author_email)  # creates user
+                user = User(first_name=author_first_name, last_name=author_last_name,
+                            email=author_email)  # creates user
                 put_obj(user)  # adds user into database
 
                 story = Story(activist_start=activist_start_date, activist_end=activist_end_date,
@@ -159,17 +171,17 @@ def share(data=None):
                 story.video_link = video_link
 
             elif "youtube.com/watch?v=" in video_link:  # if the link is a youtube link convert it to an embed
-                split = video_link.split("watch?v=",1)
+                split = video_link.split("watch?v=", 1)
                 video_link = "https://www.youtube.com/embed/{}".format(split[1])
                 story.video_link = video_link
 
             elif "youtu.be/" in video_link:  # if the link is a short youtube link convert it to an embed
-                split = video_link.split("youtu.be/",1)
+                split = video_link.split("youtu.be/", 1)
                 video_link = "https://www.youtube.com/embed/{}".format(split[1])
                 story.video_link = video_link
 
             elif "vimeo" in video_link:  # if the link is a vimeo link convert it to an embed
-                split = video_link.split("vimeo.com/",1)
+                split = video_link.split("vimeo.com/", 1)
                 video_link = "https://player.vimeo.com/video/{}".format(split[1])
                 story.video_link = video_link
 
@@ -186,7 +198,8 @@ def share(data=None):
             put_obj(story)  # adds story into the database
 
             for tag in tag_list:  # loops through all tags chosen
-                story_tag = StoryTag(story_id=story.id, tag_id=Tag.query.filter_by(name=tag).first().id)  # creates StoryTag relation
+                story_tag = StoryTag(story_id=story.id,
+                                     tag_id=Tag.query.filter_by(name=tag).first().id)  # creates StoryTag relation
                 put_obj(story_tag)  # adds storytag into database
 
             flash('Story submitted!')
@@ -320,9 +333,10 @@ def edit(id):
         story.image_link = new_image_link
         story.video_link = new_video_link
 
-        if new_image_link != '' and new_video_link != '': # if both image and video is filled out flash a message
+        if new_image_link != '' and new_video_link != '':  # if both image and video is filled out flash a message
             flash("You have both an Image link and Video link. Please only fill out one.")
-            return render_template('stories/edit_story.html', tags=all_tags, story_tags=single_story['tags'], story=story)
+            return render_template('stories/edit_story.html', tags=all_tags, story_tags=single_story['tags'],
+                                   story=story)
 
         if "youtube.com/embed/" in story.video_link:  # if the link is already an embed link leave it the way it is
             pass

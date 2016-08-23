@@ -111,41 +111,51 @@
 
 {% block page_content %}
     {% if story['is_visible'] %}
-        <div class="row"></div>
-        <div style="text-align: center"><br>
-            <h1>{{ story['activist_first'] }}&nbsp;{{ story['activist_last'] }}</h1>
-
+        <div class="row">
+            <div style="text-align: center"><br>
+                <h1>{{ story['activist_first'] }}&nbsp;{{ story['activist_last'] }}</h1>
+            </div>
         </div>
+
         {% if story['activist_start'] and story['activist_end'] %}
-            <div style="text-align: center">
-                <p>{{ story['activist_start'] }} - {{ story['activist_end'] }}</p>
+            <div class="row">
+                <div style="text-align: center">
+                    <p>{{ story['activist_start'] }} - {{ story['activist_end'] }}</p>
+                </div>
             </div>
         {% else %}
-            <div style="text-align: center">
-                <p>{{ story['creation_time'] }}</p>
+            <div class="row">
+                <div style="text-align: center">
+                    <p>{{ story['creation_time'] }}</p>
+                </div>
             </div>
         {% endif %}
 
         {% if poster %}
-            <div style="text-align: center">
-                <p>By {{ poster.first_name }} | {{ story['creation_time'] }}</p>
-            </div> <br>
+            <div class="row">
+                <div style="text-align: center">
+                    <p>By {{ poster.first_name }} | {{ story['creation_time'] }}</p>
+                </div> <br>
+            </div>
         {% else %}
-            <div style="text-align: center">
-                <p>{{ story['creation_time'] }}</p>
-            </div> <br>
+            <div class="row">
+                <div style="text-align: center">
+                    <p>{{ story['creation_time'] }}</p>
+                </div> <br> <br>
+            </div>
         {% endif %}
 
         {% if story['image_link'] %}
-            <div id="card-image">
-                <img src="{{ story['image_link'] }}">
-            </div> <br>
+            <div class="row" id="card-image">
+                    <img class="large_card_image" src="{{ story['image_link'] }}">
+            </div> <br> <br>
+
         {% endif %}
 
         {% if story['video_link'] %}
-            <div class="card_image" style="text-align: center">
-                <iframe width="560" height="315" src="{{ story['video_link'] }}"></iframe>
-            </div> <br>
+            <div class="row" id="card-video">
+                    <iframe class="large_card_video" src="{{ story['video_link'] }}"></iframe>
+            </div> <br> <br>
         {% endif %}
 
         <div class="row">
@@ -156,8 +166,59 @@
                     </div>
                 </div>
             </div>
+        </div> <br> <br>
+
+        <div class="row">
+            <h4 style="text-align: center">Share This Story</h4>
         </div>
 
+
+        <div id="share-buttons" style="text-align: center">
+                    <!-- Twitter -->
+                    <a href="https://twitter.com/share?url={{ url_for('stories.stories', id=story['id'], _external=True) }}&text=
+                            {{ story['activist_first'] }}{{ story['activist_last'] }}&hashtags=WomensActivismNYC"
+                       target="_blank">
+                        <img src="../static/img/twitter_icon.png" alt="Twitter"/>
+                    </a>
+                    <!-- Facebook -->
+                    <a href="http://www.facebook.com/sharer.php?u={{ url_for('stories.stories', id=story['id'], _external=True) }}"
+                       target="_blank">
+                        <img src="../static/img/facebook_icon.png" alt="Facebook"/>
+                    </a>
+                    <!-- Linkedin -->
+                    <a href="http://www.linkedin.com/shareArticle?url={{ url_for('stories.stories', id=story['id'], _external=True) }}&title=
+                            {{ story['activist_first'] }}{{ story['activist_last'] }}" target="_blank">
+                        <img src="../static/img/linkedin_icon.png" alt="LinkedIn"/>
+                    </a>
+                    <!-- Tumblr-->
+                    <a href="http://www.tumblr.com/share/link?url={{ url_for('stories.stories', id=story['id'], _external=True) }}&name=
+                            {{ story['activist_first'] }}{{ story['activist_last'] }}&description=WomensActivismNYC"
+                       target="_blank">
+                        <img src="../static/img/tumblr_icon.png" alt="Tumblr" width="32" height="32"/>
+                    </a>
+                    <!-- Email -->
+                    <a href="mailto:?subject=[Women's Activism NYC] Spread the word!
+                        &body= Check out this post about {{ story['activist_last'] }},{{ story['activist_first'] }} on this page: {{ url_for('stories.stories', id=story['id'], _external=True) }}"
+                       target="_blank">
+                        <img src="../static/img/email_icon.png" alt="Email" width="32" height="32"/>
+                    </a>
+                </div> <br> <br>
+
+{#    <div class="emailing">#}
+{#    <h1>#}
+{#        We'd Love Your Feedback#}
+{#    </h1>#}
+{#    <h3>#}
+{#        Share your thoughts on this story with us. <br>#}
+{#        Your comments will not be made public. <br>#}
+{#        <br>#}
+{#    </h3>#}
+{#    <a href="{{ url_for('feedback.feedback') }}">#}
+{#            <button class="center-block" id="hero_action_button">#}
+{#                Email Us#}
+{#            </button>#}
+{#        </a>#}
+{#    </div>#}
 
 
 

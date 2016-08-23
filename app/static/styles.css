@@ -154,6 +154,19 @@
     padding: 5%;
 }
 
+.large_card_image {
+    text-align: center;
+    opacity: 0.8;
+    border-radius: 50%;
+    width: 25%;
+    height: 25%;
+}
+
+.large_card_video {
+    width: 560px;
+    height: 315px;
+}
+
 .card {
     border-width: 1.5px;
     border-color: rgb(217, 217, 217);
@@ -186,6 +199,10 @@
 }
 
 #card-image {
+    text-align: center;
+}
+
+#card-video {
     text-align: center;
 }
 
@@ -523,4 +540,9 @@
 .empowerment_partners_right {
     color: white;
     float: right;
+}
+
+.emailing{
+   background-color: rgb(103, 60, 116);
+    padding-bottom: 5%;
 }

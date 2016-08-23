@@ -543,6 +543,31 @@
 }
 
 .emailing{
-   background-color: rgb(103, 60, 116);
+    text-align: center;
+    background-color: rgb(103, 60, 116);
     padding-bottom: 5%;
+    color: white;
+}
+
+.story_flag{
+    text-align:center;
+}
+
+.flag_button{
+    font-size: 20px;
+    font-family: "Open Sans Regular";
+    color: rgb(89, 49, 95);
+    line-height: 0.682;
+    text-align: center;
+    -moz-transform: matrix(0.68219722969798, 0, 0, 0.68189027887868, 0, 0);
+    -webkit-transform: matrix(0.68219722969798, 0, 0, 0.68189027887868, 0, 0);
+    -ms-transform: matrix(0.68219722969798, 0, 0, 0.68189027887868, 0, 0);
+    border-width: 1.5px;
+    border-color: rgb(89, 49, 95);
+    border-style: solid;
+    background: transparent;
+    padding-right: 1%;
+    padding-left: 1%;
+    padding-top: 1%;
+    padding-bottom: 1%;
 }

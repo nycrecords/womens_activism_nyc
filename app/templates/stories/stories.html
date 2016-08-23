@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% import "_macros.html" as macros %}
 
 {% block title %}Women's Activism NYC{% endblock %}
 
@@ -160,7 +159,18 @@
                     </div>
                 </div>
             </div>
-        </div> <br> <br>
+        </div> <br>
+
+        <div class="row">
+            <h4 class="row story_flag">Something wrong with this story? Tell us!</h4>
+            <div class="row">
+                <a href="{{ url_for('flags.flag_story', id=story['id']) }}">
+                <button class="center-block flag_button">
+                    Flag
+                </button>
+                </a>
+            </div>
+        </div> <br>
 
         <div class="row">
             <h4 style="text-align: center">Share This Story</h4>
@@ -178,34 +188,36 @@
                        target="_blank">
                         <img src="../static/img/facebook_icon.png" alt="Facebook"/>
                     </a>
-                    <!-- Linkedin -->
-                    <a href="http://www.linkedin.com/shareArticle?url={{ url_for('stories.stories', id=story['id'], _external=True) }}&title=
-                            {{ story['activist_first'] }}{{ story['activist_last'] }}" target="_blank">
-                        <img src="../static/img/linked_in_icon.png" alt="LinkedIn" width="25" height="25"/>
-                    </a>
-                    <!-- Tumblr-->
-                    <a href="http://www.tumblr.com/share/link?url={{ url_for('stories.stories', id=story['id'], _external=True) }}&name=
-                            {{ story['activist_first'] }}{{ story['activist_last'] }}&description=WomensActivismNYC"
-                       target="_blank">
-                        <img src="../static/img/tumblr_icon.png" alt="Tumblr" width="25" height="25"/>
-                    </a>
-                    <!-- Email -->
-                    <a href="mailto:?subject=[Women's Activism NYC] Spread the word!
-                        &body= Check out this post about {{ story['activist_last'] }},{{ story['activist_first'] }} on this page: {{ url_for('stories.stories', id=story['id'], _external=True) }}"
-                       target="_blank">
-                        <img src="../static/img/mail_icon.png" alt="Email"/>
-                    </a>
+{#                    <!-- Linkedin -->#}
+{#                    <a href="http://www.linkedin.com/shareArticle?url={{ url_for('stories.stories', id=story['id'], _external=True) }}&title=#}
+{#                            {{ story['activist_first'] }}{{ story['activist_last'] }}" target="_blank">#}
+{#                        <img src="../static/img/linked_in_icon.png" alt="LinkedIn" width="25" height="25"/>#}
+{#                    </a>#}
+{#                    <!-- Tumblr-->#}
+{#                    <a href="http://www.tumblr.com/share/link?url={{ url_for('stories.stories', id=story['id'], _external=True) }}&name=#}
+{#                            {{ story['activist_first'] }}{{ story['activist_last'] }}&description=WomensActivismNYC"#}
+{#                       target="_blank">#}
+{#                        <img src="../static/img/tumblr_icon.png" alt="Tumblr" width="25" height="25"/>#}
+{#                    </a>#}
+{#                    <!-- Email -->#}
+{#                    <a href="mailto:?subject=[Women's Activism NYC] Spread the word!#}
+{#                        &body= Check out this post about {{ story['activist_last'] }},{{ story['activist_first'] }} on this page: {{ url_for('stories.stories', id=story['id'], _external=True) }}"#}
+{#                       target="_blank">#}
+{#                        <img src="../static/img/mail_icon.png" alt="Email"/>#}
+{#                    </a>#}
         </div> <br> <br>
 
-    <div class="emailing">
+    <div class="emailing row"> <br> <br>
+
     <h1>
         We'd Love Your Feedback
-    </h1>
-    <h3>
+    </h1> <br>
+    <h5>
         Share your thoughts on this story with us. <br>
         Your comments will not be made public. <br>
         <br>
-    </h3>
+    </h5> <br>
+
     <a href="{{ url_for('feedback.feedback') }}">
             <button class="center-block" id="hero_action_button">
                 Email Us
@@ -216,4 +228,5 @@
     {% else %}
         <h1>This story has been deleted by a moderator.</h1>
     {% endif %}
+
 {% endblock %}

@@ -188,19 +188,19 @@
                     <!-- Linkedin -->
                     <a href="http://www.linkedin.com/shareArticle?url={{ url_for('stories.stories', id=story['id'], _external=True) }}&title=
                             {{ story['activist_first'] }}{{ story['activist_last'] }}" target="_blank">
-                        <img src="../static/img/linkedin_icon.png" alt="LinkedIn"/>
+                        <img src="../static/img/linked_in_icon.png" alt="LinkedIn" width="25" height="25"/>
                     </a>
                     <!-- Tumblr-->
                     <a href="http://www.tumblr.com/share/link?url={{ url_for('stories.stories', id=story['id'], _external=True) }}&name=
                             {{ story['activist_first'] }}{{ story['activist_last'] }}&description=WomensActivismNYC"
                        target="_blank">
-                        <img src="../static/img/tumblr_icon.png" alt="Tumblr" width="32" height="32"/>
+                        <img src="../static/img/tumblr_icon.png" alt="Tumblr" width="25" height="25"/>
                     </a>
                     <!-- Email -->
                     <a href="mailto:?subject=[Women's Activism NYC] Spread the word!
                         &body= Check out this post about {{ story['activist_last'] }},{{ story['activist_first'] }} on this page: {{ url_for('stories.stories', id=story['id'], _external=True) }}"
                        target="_blank">
-                        <img src="../static/img/email_icon.png" alt="Email" width="32" height="32"/>
+                        <img src="../static/img/mail_icon.png" alt="Email"/>
                     </a>
                 </div> <br> <br>
 

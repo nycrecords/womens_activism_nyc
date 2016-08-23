@@ -432,6 +432,10 @@ def stories(id):
         'is_edited': single_story.is_edited,
         'tags': tags,
         'image_link': single_story.image_link,
-        'video_link': single_story.video_link
+        'video_link': single_story.video_link,
     }
-    return render_template('stories/stories.html', story=story)
+
+    if single_story.poster_id:
+        poster = User.query.filter_by(single_story.poster_id).first()
+
+    return render_template('stories/stories.html', story=story, poster=poster)

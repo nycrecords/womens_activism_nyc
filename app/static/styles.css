@@ -134,6 +134,8 @@
 .story_image_icon {
     border-radius: 50%;
     opacity: 0.8;
+    width: 150px;
+    height: 150px;
 }
 
 #hashtag {
@@ -158,14 +160,14 @@
     padding: 10px;
 }
 
-.card-image {
-    text-align: center;
-    background-repeat: no-repeat;
-    background-position: 50%;
-    border-radius: 50%;
-    width: 150px;
-    height: 150px;
-}
+/*.card-image {*/
+    /*text-align: center;*/
+    /*background-repeat: no-repeat;*/
+    /*background-position: 50%;*/
+    /*border-radius: 50%;*/
+    /*width: 150px;*/
+    /*height: 150px;*/
+/*}*/
 
 #card-size{
     height: 31rem;

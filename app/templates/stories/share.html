@@ -43,11 +43,15 @@
         <div class="share_title">What is She Known For?<br>
             <h5>Choose one or more categories.</h5>
             <div class="control-group">
-                <select class="selectpicker" data-width="15%" name="input_tags" multiple required>
-                    {% for tag in tags %}
-                    <option value="{{ tag.name }}">{{ tag.name }}</option>
-                    {% endfor %}
-                </select>
+{#                <select class="selectpicker" data-width="15%" name="input_tags" multiple required>#}
+{#                    {% for tag in tags %}#}
+{#                    <option value="{{ tag.name }}">{{ tag.name }}</option>#}
+{#                    {% endfor %}#}
+{#                </select>#}
+                {% for tag in tags %}
+                    <button onclick="category_button_click('{{ tag.name }}')" type="button" value="{{ tag.name }}" id="{{ tag.name }}" class="btn btn-primary" data-toggle="button"
+                            name="{{ tag.name }}" data-button="{{ tag.name }}" aria-pressed="false" autocomplete="off" >{{ tag.name }}</button>
+                {% endfor %}
             </div>
             <div class="share_title">Share Her Story<br>
                 <h5>Share a few words about how your female activist<br>
@@ -127,7 +131,7 @@
             <div id="requestButton" class="control-group">
                 <div>
                     <button type="submit" title="submit_post" class="btn btn-primary" id="hero_action_button">
-                        Share
+                        Submit
                     </button>
                 </div>
             </div>
@@ -158,8 +162,26 @@
         });
     });
 </script>
-    <script> $('textarea').keydown(function() { 
-        var length = $(this).val().length; 
-        $('#chars').text(length+" / 1500 used"); });
-    </script>
+<script>
+     $('textarea').keydown(function() { 
+    var length = $(this).val().length; 
+    $('#chars').text(length+" / 1500 used"); });
+</script>
+<script type="text/javascript">
+    function category_button_click(tag_name) {
+        var category_button = document.getElementById(tag_name);  // get button being pressed
+        if (category_button.getAttribute("aria-pressed") == "false") {  // check if the button was previously not active
+            $('<input>').attr({
+                type: 'hidden',
+                value: tag_name,
+                name: "category_button",
+                id: "category_button_" + tag_name
+            }).appendTo('form');  // add a hidden input field with value of the tag pressed
+        }
+        if (category_button.getAttribute("aria-pressed") == "true") {  // check if button was previously active
+            var hidden_category_button = document.getElementById("category_button_" + tag_name);  // get hidden input field that was created
+            hidden_category_button.remove();  // remove hidden input field
+        }
+    }
+</script>
 {% endblock %}

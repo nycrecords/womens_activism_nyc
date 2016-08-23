@@ -4,14 +4,18 @@
     <div class="share_title">I'm Looking For Women Known For<br>
         <h5>You may choose more than one category to narrow your search.</h5>
         <div class="control-group">
-            {% for tag in tags %}
-                {% if tag.name in tag_list %}
-                    <button onclick="get_tags('{{ tag.name }}')" type="button" value="{{ tag.name }}" class="btn btn-primary active" data-toggle="button"
-                            name="{{ tag.name }}" aria-pressed="true" autocomplete="off" >{{ tag.name }}</button>
-                {% else %}
-                    <button onclick="get_tags('{{ tag.name }}')" type="button" value="{{ tag.name }}" class="btn btn-primary" data-toggle="button"
-                            name="{{ tag.name }}" aria-pressed="false" autocomplete="off" >{{ tag.name }}</button>
-                {% endif %}
+            {% for list in tags %}
+                <div class="row">
+                {% for tag in list %}
+                    {% if tag.name in tag_list %}
+                        <button onclick="get_tags('{{ tag.name }}')" type="button" value="{{ tag.name }}" class="btn btn-primary active" data-toggle="button"
+                                name="{{ tag.name }}" aria-pressed="true" autocomplete="off" >{{ tag.name }}</button>
+                    {% else %}
+                        <button onclick="get_tags('{{ tag.name }}')" type="button" value="{{ tag.name }}" class="btn btn-primary" data-toggle="button"
+                                name="{{ tag.name }}" aria-pressed="false" autocomplete="off" >{{ tag.name }}</button>
+                    {% endif %}
+                {% endfor %}
+                </div>
             {% endfor %}
         </div> <br> <br>
     </div>

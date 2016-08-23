@@ -102,8 +102,16 @@ def guidelines():
 
 @main.route('/catalog', methods=['GET', 'POST'])
 def catalog():
-    tags = Tag.query.all()
     stories = Story.query.all()
+    tags = []
+    for i in range(0, len(Tag.query.all()) - 1, 5):
+        l = []
+        for j in range(i, i + 5):
+            try:
+                l.append(Tag.query.all()[j])
+            except IndexError:
+                break
+        tags.append(l)
     # page = request.args.get('page', 1, type=int)
     # pagination = Story.query.order_by(Story.creation_time.desc()).paginate(
     #     page, per_page=current_app.config['STORIES_PER_PAGE'],

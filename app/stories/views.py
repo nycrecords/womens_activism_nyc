@@ -50,7 +50,15 @@ def share(data=None):
     :return: renders template where user can share their story "post" flashes success message if completed
      renders template with information retained in session if user has not completed a required field
     """
-    tags = Tag.query.all()
+    tags = []
+    for i in range(0, len(Tag.query.all()) - 1, 5):
+        l = []
+        for j in range(i, i + 5):
+            try:
+                l.append(Tag.query.all()[j])
+            except IndexError:
+                break
+        tags.append(l)
 
     if data or request.method == 'POST':  # user pressed submit button
         data = request.form.copy()

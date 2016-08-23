@@ -131,14 +131,19 @@
 {#    </div>#}
 
     {% if story['is_visible'] %}
-        <div> <br>
+        <div style="text-align: center"> <br>
             <h1>{{ story['activist_first'] }}&nbsp;{{ story['activist_last'] }}</h1>
 
         </div>
         {% if poster %}
-            <div>
-                {{ story['creation_time'] }}</p>
+            <div style="text-align: center">
+                <p>By {{ poster.first_name }} | {{ story['creation_time'] }}</p>
             </div>
+        {% else %}
+            <div style="text-align: center">
+                <p>{{ story['creation_time'] }}</p>
+            </div>
+        {% endif %}
 
 
 

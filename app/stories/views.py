@@ -436,6 +436,8 @@ def stories(id):
     }
 
     if single_story.poster_id:
-        poster = User.query.filter_by(single_story.poster_id).first()
+        poster = User.query.filter_by(id=single_story.poster_id).first()
+    else:
+        poster = None
 
     return render_template('stories/stories.html', story=story, poster=poster)

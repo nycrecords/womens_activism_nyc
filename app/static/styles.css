@@ -570,6 +570,8 @@
     -webkit-column-count: 4; /* Chrome, Safari, Opera */
     -moz-column-count: 4; /* Firefox */
     column-count: 4;
+.story_flag{
+    text-align:center;
 }
 
 .people {
@@ -596,17 +598,6 @@
 /*color: white;*/
 /*float: right;*/
 /*}*/
-
-.emailing{
-    text-align: center;
-    background-color: rgb(103, 60, 116);
-    padding-bottom: 5%;
-    color: white;
-}
-
-.story_flag{
-    text-align:center;
-}
 
 .flag_button{
     font-size: 20px;

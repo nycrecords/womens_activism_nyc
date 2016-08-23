@@ -127,13 +127,13 @@
         {% if poster %}
             <div class="row">
                 <div style="text-align: center">
-                    <p>By {{ poster.first_name }} | {{ story['creation_time'] }}</p>
+                    <p>By {{ poster.first_name }} | {{ story['creation_time'].strftime('%B %d, %Y') }}</p>
                 </div> <br>
             </div>
         {% else %}
             <div class="row">
                 <div style="text-align: center">
-                    <p>{{ story['creation_time'] }}</p>
+                    <p>{{ story['creation_time'].strftime('%B %d, %Y') }}</p>
                 </div> <br> <br>
             </div>
         {% endif %}
@@ -208,7 +208,6 @@
         </div> <br> <br>
 
     <div class="emailing row"> <br> <br>
-
     <h1>
         We'd Love Your Feedback
     </h1> <br>

@@ -123,12 +123,6 @@
                     <p>{{ story['activist_start'] }} - {{ story['activist_end'] }}</p>
                 </div>
             </div>
-        {% else %}
-            <div class="row">
-                <div style="text-align: center">
-                    <p>{{ story['creation_time'] }}</p>
-                </div>
-            </div>
         {% endif %}
 
         {% if poster %}
@@ -145,21 +139,21 @@
             </div>
         {% endif %}
 
-        {% if story['image_link'] %}
-            <div class="row" id="card-image">
-                    <img class="large_card_image" src="{{ story['image_link'] }}">
-            </div> <br> <br>
-
-        {% endif %}
-
-        {% if story['video_link'] %}
-            <div class="row" id="card-video">
-                    <iframe class="large_card_video" src="{{ story['video_link'] }}"></iframe>
-            </div> <br> <br>
-        {% endif %}
-
         <div class="row">
             <div class="col-sm-8 col-sm-push-2 large_card" style="text-align: center">
+                {% if story['image_link'] %}
+                    <div class="row" id="card-image">
+                        <img src="{{ story['image_link'] }}">
+{#                        <img class="large_card_image" src="{{ story['image_link'] }}">#}
+                    </div> <br> <br>
+                {% endif %}
+
+                {% if story['video_link'] %}
+                    <div class="row" id="card-video">
+                        <iframe class="large_card_video" src="{{ story['video_link'] }}"></iframe>
+                    </div> <br> <br>
+                {% endif %}
+
                 <div class="col-sm-12" style="text-align: center">
                     <div class="story-content" style="text-align: center">
                         {{ story['content'] | safe }}
@@ -171,7 +165,6 @@
         <div class="row">
             <h4 style="text-align: center">Share This Story</h4>
         </div>
-
 
         <div id="share-buttons" style="text-align: center">
                     <!-- Twitter -->
@@ -202,26 +195,23 @@
                        target="_blank">
                         <img src="../static/img/mail_icon.png" alt="Email"/>
                     </a>
-                </div> <br> <br>
+        </div> <br> <br>
 
-{#    <div class="emailing">#}
-{#    <h1>#}
-{#        We'd Love Your Feedback#}
-{#    </h1>#}
-{#    <h3>#}
-{#        Share your thoughts on this story with us. <br>#}
-{#        Your comments will not be made public. <br>#}
-{#        <br>#}
-{#    </h3>#}
-{#    <a href="{{ url_for('feedback.feedback') }}">#}
-{#            <button class="center-block" id="hero_action_button">#}
-{#                Email Us#}
-{#            </button>#}
-{#        </a>#}
-{#    </div>#}
-
-
-
+    <div class="emailing">
+    <h1>
+        We'd Love Your Feedback
+    </h1>
+    <h3>
+        Share your thoughts on this story with us. <br>
+        Your comments will not be made public. <br>
+        <br>
+    </h3>
+    <a href="{{ url_for('feedback.feedback') }}">
+            <button class="center-block" id="hero_action_button">
+                Email Us
+            </button>
+        </a>
+    </div>
 
     {% else %}
         <h1>This story has been deleted by a moderator.</h1>

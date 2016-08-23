@@ -110,34 +110,14 @@
 {#{% endblock %}#}
 
 {% block page_content %}
-{#    <div class="col-sm-3 card" id="card-size">#}
-{#        <div class="col-sm-12">#}
-{#            <div class="row" id="card-header">#}
-{#            <span class="card-header">{{ story['activist_first'] }}&nbsp;{{ story['activist_last'] }}</span>#}
-{#            </div> <br>#}
-{#            {% if story['image_link'] %}#}
-{#                <div class="row" id="card-summary">#}
-{#                    <span class="card-summary">{{ story['content'][:50] }}...</span>#}
-{#                </div> <br>#}
-{#                <div class="row" id="card-image">#}
-{#                    <img class="story_image_icon" src="{{ story['image_link'] }}">#}
-{#                </div> <br>#}
-{#            {% else %}#}
-{#                <div class="row" id="card-summary">#}
-{#                    <span class="card-summary">{{ story['content'][:150] }}...</span>#}
-{#                </div>#}
-{#            {% endif %}#}
-{#        </div>#}
-{#    </div>#}
-
     {% if story['is_visible'] %}
         <div style="text-align: center"> <br>
             <h1>{{ story['activist_first'] }}&nbsp;{{ story['activist_last'] }}</h1>
 
         </div>
-        {% if poster %}
+        {% if story['activist_start'] and story['activist_end'] %}
             <div style="text-align: center">
-                <p>By {{ poster.first_name }} | {{ story['creation_time'] }}</p>
+                <p>{{ story['activist_start'] }} - {{ story['activist_end'] }}</p>
             </div>
         {% else %}
             <div style="text-align: center">
@@ -145,10 +125,61 @@
             </div>
         {% endif %}
 
+        {% if poster %}
+            <div style="text-align: center">
+                <p>By {{ poster.first_name }} | {{ story['creation_time'] }}</p>
+            </div> <br>
+        {% else %}
+            <div style="text-align: center">
+                <p>{{ story['creation_time'] }}</p>
+            </div> <br>
+        {% endif %}
+
+        {% if story['image_link'] %}
+            <div id="card-image">
+                <img src="{{ story['image_link'] }}">
+            </div> <br>
+        {% endif %}
+
+        {% if story['video_link'] %}
+            <div class="card_image" style="text-align: center">
+                <iframe width="560" height="315" src="{{ story['video_link'] }}"></iframe>
+            </div> <br>
+        {% endif %}
+
+{#        <div class="story-content" style="text-align: center">#}
+{#            {{ story['content'] | safe }}#}
+{#        </div>#}
+
+        </div>
+        <div class="col-sm-9 card" style="text-align: center">
+            <div class="col-sm-12" style="text-align: center">
+                <div class="story-content" style="text-align: center">
+            {{ story['content'] | safe }}
+                </div>
+            </div>
+        </div> <br>
 
 
+{#        <div class="row" style="text-align: center">#}
+{##}
+{#  <div class="col-sm-6">#}
+{#    <div class="card card-block">#}
+{#      <h3 class="card-title">Special title treatment</h3>#}
+{#      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>#}
+{#      <a href="#" class="btn btn-primary">Go somewhere</a>#}
+{#    </div>#}
+{#  </div>#}
+{#</div> <br>#}
 
 
+{#        <div class="card">#}
+{#  <div class="card-block">#}
+{#    <h4 class="card-title">Card title</h4>#}
+{#    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>#}
+{#    <a href="#" class="btn btn-primary">Go somewhere</a>#}
+{#  </div>#}
+{#</div>#}
 
 
     {% else %}

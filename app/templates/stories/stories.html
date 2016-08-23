@@ -14,7 +14,7 @@
 {#                    <div class="story-date">#}
 {#                        {{ moment(story['creation_time']).fromNow() }}#}
 {#                    </div>#}
-                    {#                    TODO: add in poster first and poster last if entered     #}
+{#                    TODO: add in poster first and poster last if entered     #}
 {#                    <div class="story-name"><b>{{ story['activist_last'] }},{{ story['activist_first'] }}</b></div>#}
 {#                    {% if story['image_link'] %}#}
 {#                        <div class="media_link">#}
@@ -111,7 +111,8 @@
 
 {% block page_content %}
     {% if story['is_visible'] %}
-        <div style="text-align: center"> <br>
+        <div class="row"></div>
+        <div style="text-align: center"><br>
             <h1>{{ story['activist_first'] }}&nbsp;{{ story['activist_last'] }}</h1>
 
         </div>
@@ -147,39 +148,18 @@
             </div> <br>
         {% endif %}
 
-{#        <div class="story-content" style="text-align: center">#}
-{#            {{ story['content'] | safe }}#}
-{#        </div>#}
-
-
-        <div class="col-sm-9 card" style="text-align: center">
-            <div class="col-sm-12" style="text-align: center">
-                <div class="story-content" style="text-align: center">
-            {{ story['content'] | safe }}
+        <div class="row">
+            <div class="col-sm-8 col-sm-push-2 large_card" style="text-align: center">
+                <div class="col-sm-12" style="text-align: center">
+                    <div class="story-content" style="text-align: center">
+                        {{ story['content'] | safe }}
+                    </div>
                 </div>
             </div>
-        </div> <br>
+        </div>
 
 
-{#        <div class="row" style="text-align: center">#}
-{##}
-{#  <div class="col-sm-6">#}
-{#    <div class="card card-block">#}
-{#      <h3 class="card-title">Special title treatment</h3>#}
-{#      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>#}
-{#      <a href="#" class="btn btn-primary">Go somewhere</a>#}
-{#    </div>#}
-{#  </div>#}
-{#</div> <br>#}
 
-
-{#        <div class="card">#}
-{#  <div class="card-block">#}
-{#    <h4 class="card-title">Card title</h4>#}
-{#    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>#}
-{#    <a href="#" class="btn btn-primary">Go somewhere</a>#}
-{#  </div>#}
-{#</div>#}
 
 
     {% else %}

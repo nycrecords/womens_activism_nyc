@@ -36,15 +36,15 @@ def feedback():
     redirects user back to same page with empty boxes when completed
     """
     form = FeedbackForm()
-    if form.validate_on_submit():
-        title = form.subject.data
-        email = form.email.data
-        reason = form.reason.data
-        feedback = Feedback(title=title, email=email, reason=reason)
-        put_obj(feedback)
-        send_email(to=current_app.config['WOMENS_ADMIN'], subject='New Feedback',
-                   template='mail/new_feedback', feedback=feedback)
-        flash('Thank you for your feedback!')
-        return redirect(url_for('feedback.feedback'))
+    # if form.validate_on_submit():
+    #     title = form.subject.data
+    #     email = form.email.data
+    #     reason = form.reason.data
+    #     feedback = Feedback(title=title, email=email, reason=reason)
+    #     put_obj(feedback)
+    #     send_email(to=current_app.config['WOMENS_ADMIN'], subject='New Feedback',
+    #                template='mail/new_feedback', feedback=feedback)
+    #     flash('Thank you for your feedback!')
+    #     return redirect(url_for('feedback.feedback'))
     return render_template('feedback/feedback.html', form=form)
 

@@ -175,12 +175,12 @@
 }
 
 /*.card-image {*/
-    /*text-align: center;*/
-    /*background-repeat: no-repeat;*/
-    /*background-position: 50%;*/
-    /*border-radius: 50%;*/
-    /*width: 150px;*/
-    /*height: 150px;*/
+/*text-align: center;*/
+/*background-repeat: no-repeat;*/
+/*background-position: 50%;*/
+/*border-radius: 50%;*/
+/*width: 150px;*/
+/*height: 150px;*/
 /*}*/
 
 #card-size {
@@ -497,7 +497,6 @@
     padding-bottom: 5%;
 }
 
-
 /*first color*/
 .activist_information {
     background-color: rgb(103, 60, 116);
@@ -507,20 +506,17 @@
 
 /*test around with this also*/
 .empowerment_partners {
-  font-size: 10px;
-  background-color: rgb(89, 49, 95);
-  font-family: "Open Sans";
-  color: rgb(255, 255, 255);
-  line-height: 2.333;
-  text-align: left;
-  -moz-transform: matrix( 1.00060121135403,0,0,1.00145332831479,0,0);
-  -webkit-transform: matrix( 1.00060121135403,0,0,1.00145332831479,0,0);
-  -ms-transform: matrix( 1.00060121135403,0,0,1.00145332831479,0,0);
+    font-size: 10px;
+    background-color: rgb(89, 49, 95);
+    font-family: "Open Sans";
+    color: rgb(255, 255, 255);
+    line-height: 2.333;
+    text-align: left;
+    -moz-transform: matrix(1.00060121135403, 0, 0, 1.00145332831479, 0, 0);
+    -webkit-transform: matrix(1.00060121135403, 0, 0, 1.00145332831479, 0, 0);
+    -ms-transform: matrix(1.00060121135403, 0, 0, 1.00145332831479, 0, 0);
 
 }
-
-
-
 
 .empowerment_partners_link {
     color: rgb(255, 255, 255);
@@ -535,7 +531,6 @@
     -webkit-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
     -ms-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
 }
-
 
 .empowerment_partners_link2 {
     border-width: 1.5px;
@@ -553,7 +548,6 @@
     -webkit-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
     -ms-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
 }
-
 
 .three_empowerment_partners {
     margin-left: 5%;
@@ -591,9 +585,9 @@
     text-align: center;
     color: black;
     font-family: "Open San Regular";
-    -moz-transform: matrix( 1.00060121135403,0,0,1.00145332831479,0,0);
-    -webkit-transform: matrix( 1.00060121135403,0,0,1.00145332831479,0,0);
-    -ms-transform: matrix( 1.00060121135403,0,0,1.00145332831479,0,0);
+    -moz-transform: matrix(1.00060121135403, 0, 0, 1.00145332831479, 0, 0);
+    -webkit-transform: matrix(1.00060121135403, 0, 0, 1.00145332831479, 0, 0);
+    -ms-transform: matrix(1.00060121135403, 0, 0, 1.00145332831479, 0, 0);
 }
 
 .email_action_button {
@@ -613,7 +607,7 @@
     -ms-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
 }
 
-.emailing{
+.emailing {
     text-align: center;
     background-color: rgb(103, 60, 116);
     padding-bottom: 5%;
@@ -638,11 +632,11 @@
     color: black;
 }
 
-.story_flag{
-    text-align:center;
+.story_flag {
+    text-align: center;
 }
 
-.flag_button{
+.flag_button {
     font-size: 20px;
     font-family: "Open Sans Regular";
     color: rgb(89, 49, 95);
@@ -663,6 +657,14 @@
 
 .empowerment_partners_button {
 
-
-
 }
+
+A {
+    text-decoration: none
+}
+
+#share-buttons img {
+    padding-right: 10px;
+    text-decoration: none;
+}
+

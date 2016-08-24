@@ -24,20 +24,16 @@
                 </div>
                 <div class="share_title">She Lived<br>
                     <div class="row" style="margin-top: 1em;">
-                        <div class="control-group">
-                            <div class="col-sm-push-4 col-sm-5">
-                                <input class="activist_info_field col-sm-4" name="input_birth" title="Activist Start Date"
-                                       maxlength="4"
-                                       placeholder="1960"
-                                       value="{{ activist_start_date or '' }}">
-                                <br>
-                                <span class="required">from</span>
-                            </div>
-{#                            <div class="col-sm-1"><span>-</span></div>#}
-{#                            <input class="activist_info_field col-sm-4" name="input_death" title="Activist End Date"#}
-{#                                   maxlength="5"#}
-{#                                   placeholder="Today"#}
-{#                                   value="{{ activist_end_date or '' }}">#}
+                        <div class="control-group col-sm-push-4 col-sm-5">
+                            <input class="activist_info_field col-sm-4" name="input_birth" title="Activist Start Date"
+                                   maxlength="4"
+                                   placeholder="1960"
+                                   value="{{ activist_start_date or '' }}">
+                            <div class="col-sm-1"><span>-</span></div>
+                            <input class="activist_info_field col-sm-4" name="input_death" title="Activist End Date"
+                                   maxlength="5"
+                                   placeholder="Today"
+                                   value="{{ activist_end_date or '' }}">
                         </div>
                     </div>
                     <div class="row">

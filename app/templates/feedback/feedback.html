@@ -1,17 +1,15 @@
 {% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}Women's Activism NYC{% endblock %}
 
 {% block page_content %}
-    <div class="feedback_form">
-        <div class="row">
-            <p align="center">
-                <span id="feedback_fields">We strive for accuracy and fairness.
-                    If you see something that doesn't look right, contact us!<br>
-                    Email us at tsweet@records.nyc.gov!
-                </span>
-            </p>
+    <div class="container-fluid">
+        <div class="contact_us">
+            <h3>
+                We strive for accuracy and fairness. If you see something that doesn't look right, contact us!<br><br>
+                Email us at:
+                <a href="mailto:tsweet@records.nyc.gov?Subject=[Women's Activisim NYC] Flag" target="_top">tsweet@records.nyc.gov!</a>
+            </h3>
         </div>
     </div>
 {% endblock %}

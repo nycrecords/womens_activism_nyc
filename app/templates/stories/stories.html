@@ -23,13 +23,15 @@
             <div class="row">
                 <div style="text-align: center">
                     <p>By {{ poster.first_name }} | {{ story['creation_time'].strftime('%B %d, %Y') }}</p>
-                </div> <br>
+                </div>
+                <br>
             </div>
         {% else %}
             <div class="row">
                 <div style="text-align: center">
                     <p>{{ story['creation_time'].strftime('%B %d, %Y') }}</p>
-                </div> <br> <br>
+                </div>
+                <br> <br>
             </div>
         {% endif %}
 
@@ -38,7 +40,7 @@
                 {% if story['image_link'] %}
                     <div class="row" id="card-image">
                         <img class="large_card_image" src="{{ story['image_link'] }}">
-{#                        <img class="large_card_image" src="{{ story['image_link'] }}">#}
+                        {#                        <img class="large_card_image" src="{{ story['image_link'] }}">#}
                     </div> <br> <br>
                 {% endif %}
 
@@ -57,13 +59,15 @@
         </div> <br>
 
         <div class="row">
-            <h4 class="row story_flag">Something wrong with this story? Tell us!</h4>
-            <div class="row">
-                <a href="{{ url_for('flags.flag_story', id=story['id']) }}">
-                <button class="center-block flag_button">
-                    Flag
-                </button>
-                </a>
+            <div class="container-fluid">
+                <div class="contact_us">
+                    <h4>
+                        We strive for accuracy and fairness. If you see something that doesn't look right, contact
+                        us!<br><br>
+                        Email us at:
+                        <a href="mailto:tsweet@records.nyc.gov?Subject=[Women's Activisim NYC] Flag" target="_top">tsweet@records.nyc.gov!</a>
+                    </h4>
+                </div>
             </div>
         </div> <br>
 
@@ -72,52 +76,36 @@
         </div>
 
         <div id="share-buttons" style="text-align: center">
-                    <!-- Twitter -->
-                    <a href="https://twitter.com/share?url={{ url_for('stories.stories', id=story['id'], _external=True) }}&text=
-                            {{ story['activist_first'] }}{{ story['activist_last'] }}&hashtags=WomensActivismNYC"
-                       target="_blank">
-                        <img src="../static/img/twitter_icon.png" alt="Twitter"/>
-                    </a>
-                    <!-- Facebook -->
-                    <a href="http://www.facebook.com/sharer.php?u={{ url_for('stories.stories', id=story['id'], _external=True) }}"
-                       target="_blank">
-                        <img src="../static/img/facebook_icon.png" alt="Facebook"/>
-                    </a>
-{#                    <!-- Linkedin -->#}
-{#                    <a href="http://www.linkedin.com/shareArticle?url={{ url_for('stories.stories', id=story['id'], _external=True) }}&title=#}
-{#                            {{ story['activist_first'] }}{{ story['activist_last'] }}" target="_blank">#}
-{#                        <img src="../static/img/linked_in_icon.png" alt="LinkedIn" width="25" height="25"/>#}
-{#                    </a>#}
-{#                    <!-- Tumblr-->#}
-{#                    <a href="http://www.tumblr.com/share/link?url={{ url_for('stories.stories', id=story['id'], _external=True) }}&name=#}
-{#                            {{ story['activist_first'] }}{{ story['activist_last'] }}&description=WomensActivismNYC"#}
-{#                       target="_blank">#}
-{#                        <img src="../static/img/tumblr_icon.png" alt="Tumblr" width="25" height="25"/>#}
-{#                    </a>#}
-{#                    <!-- Email -->#}
-{#                    <a href="mailto:?subject=[Women's Activism NYC] Spread the word!#}
-{#                        &body= Check out this post about {{ story['activist_last'] }},{{ story['activist_first'] }} on this page: {{ url_for('stories.stories', id=story['id'], _external=True) }}"#}
-{#                       target="_blank">#}
-{#                        <img src="../static/img/mail_icon.png" alt="Email"/>#}
-{#                    </a>#}
+            <!-- Twitter -->
+            <a href="https://twitter.com/share?url={{ url_for('stories.stories', id=story['id'], _external=True) }}&text=
+                    {{ story['activist_first'] }}{{ story['activist_last'] }}&hashtags=WomensActivismNYC"
+               target="_blank">
+                <img src="{{ url_for('static', filename='img/twitter_icon.png') }}" alt="Twitter"/>
+            </a>
+            <!-- Facebook -->
+            <a href="http://www.facebook.com/sharer.php?u={{ url_for('stories.stories', id=story['id'], _external=True) }}"
+               target="_blank">
+                <img src="{{ url_for('static', filename='img/facebook_icon.png') }}" alt="Facebook"/>
+            </a>
         </div> <br> <br>
 
-    <div class="emailing row"> <br> <br>
-    <h1>
-        We'd Love Your Feedback
-    </h1> <br>
-    <h5>
-        Share your thoughts on this story with us. <br>
-        Your comments will not be made public. <br>
-        <br>
-    </h5> <br>
 
-    <a href="{{ url_for('feedback.feedback') }}">
-            <button class="center-block email_action_button">
-                Email Us
-            </button>
-        </a>
-    </div>
+        <div class="emailing row"><br> <br>
+            <h1>
+                We'd Love Your Feedback
+            </h1> <br>
+            <h5>
+                Share your thoughts on this story with us. <br>
+                Your comments will not be made public. <br>
+                <br>
+            </h5> <br>
+
+            <a href="{{ url_for('feedback.feedback') }}">
+                <button class="center-block email_action_button">
+                    Email Us
+                </button>
+            </a>
+        </div>
 
     {% else %}
         <h1>This story has been deleted by a moderator.</h1>

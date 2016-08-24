@@ -338,7 +338,7 @@
     border-left: none;
     border-right: none;
     border-top: none;
-    font-size: 36px;
+    font-size: 30px;
     font-family: "Open Sans Regular";
     color: rgb(163, 115, 170);
     line-height: 0.836;
@@ -415,7 +415,7 @@
     font-size: 20px;
     font-size: inherit;
     font-weight: lighter;
-    line-height: 28px;
+    line-height: 20px;
     width: 100%;
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box; /* Firefox, other Gecko */

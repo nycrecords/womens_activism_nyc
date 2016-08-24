@@ -84,8 +84,12 @@ def share(data=None):
                 valid_video = False
         else:
             valid_video = True
+
         if image_link and image_link != '':
-            valid_image = requests.get(image_link)
+            if image_link[-3:].lower != 'jpg' or image_link[-3:].lower() != 'png' or image_link[-4:].lower() != 'jpeg':
+                valid_image = False
+            else:
+                valid_image = requests.get(image_link)
 
         if activist_first_name == '':  # user has not submitted activist first name
             flash("Please enter a first name for women's activist.")

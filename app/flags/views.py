@@ -23,7 +23,7 @@ from app.db_helpers import put_obj
 from app.models import Flag, Story
 from app.send_email import send_email
 from app.flags import flags
-from app.flags.forms import FlagsForm
+# from app.flags.forms import FlagsForm
 
 
 @flags.route('/flag/stories/<int:id>', methods=['GET', 'POST'])
@@ -39,21 +39,19 @@ def flag_story(id):
     redirects user back to main page when completed
     """
     story = Story.query.get_or_404(id)
-    activist_first = story.activist_first
-    activist_last = story.activist_last
-    form = FlagsForm()
-    if form.validate_on_submit():
-        if (form.flag_type.data == "Other") and (len(form.flag_reason.data) < 50):
-            flash('Type "Other" requires a description of 50 or more characters.')
-            flash('Please resubmit your flag ticket.')
-            return render_template('flags/flags.html', form=form,
-                                   activist_first=activist_first, activist_last=activist_last)
-        else:
-            flash('Thank you for your input, a moderator has been notified.')
-            flag_story = Flag(story_id=story.id, type=form.flag_type.data, reason=form.flag_reason.data)
-            put_obj(flag_story)
-            send_email(to=current_app.config['WOMENS_ADMIN'], subject='Flagged Story', template='mail/email_flags',
-                       activist_first=activist_first, activist_last=activist_last,
-                       type=flag_story.type, reason=flag_story.reason, story=story)
-            return redirect(url_for('main.index'))
-    return render_template('flags/flags.html', form=form, activist_first=activist_first, activist_last=activist_last)
+    # form = FlagsForm()
+    # if form.validate_on_submit():
+    #     if (form.flag_type.data == "Other") and (len(form.flag_reason.data) < 50):
+    #         flash('Type "Other" requires a description of 50 or more characters.')
+    #         flash('Please resubmit your flag ticket.')
+    #         return render_template('flags/flags.html', form=form,
+    #                                activist_first=activist_first, activist_last=activist_last)
+    #     else:
+    #         flash('Thank you for your input, a moderator has been notified.')
+    #         flag_story = Flag(story_id=story.id, type=form.flag_type.data, reason=form.flag_reason.data)
+    #         put_obj(flag_story)
+    #         send_email(to=current_app.config['WOMENS_ADMIN'], subject='Flagged Story', template='mail/email_flags',
+    #                    activist_first=activist_first, activist_last=activist_last,
+    #                    type=flag_story.type, reason=flag_story.reason, story=story)
+    #         return redirect(url_for('main.index'))
+    return render_template('flags/flags.html', story=story)

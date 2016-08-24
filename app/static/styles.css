@@ -324,6 +324,7 @@
 .activist_information {
     background-color: rgb(103, 60, 116);
     padding-bottom: 5%;
+
 }
 
 .share_title {
@@ -555,7 +556,7 @@
 }
 
 .steering_committee {
-    text-align: left;
+    text-align: center;
     color: black;
     font-family: "Open San Regular";
     -moz-transform: matrix( 1.00060121135403,0,0,1.00145332831479,0,0);
@@ -601,7 +602,7 @@
 }
 
 .empowerment_partners {
-  font-size: 18px;
+  font-size: 10px;
   font-family: "Open Sans";
   color: rgb(255, 255, 255);
   line-height: 2.333;

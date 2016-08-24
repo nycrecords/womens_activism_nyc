@@ -24,10 +24,11 @@
     background: url('../static/img/womens_activism_hero_image.png') no-repeat center center;
     overflow: hidden;
     color: #FFFFFF;
-    height: 100%;
+    background-color: rgb(89, 49, 95);
+    opacity: 0.91;
 }
 
-#hero_header {
+.hero_header {
     font-size: 50px;
     font-family: "Open Sans Regular";
     font-weight: lighter;

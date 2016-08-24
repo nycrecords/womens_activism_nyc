@@ -24,10 +24,11 @@
     background: url('../static/img/womens_activism_hero_image.png') no-repeat center center;
     overflow: hidden;
     color: #FFFFFF;
-    padding-bottom: 3%;
+    background-color: rgb(89, 49, 95);
+    opacity: 0.91;
 }
 
-#hero_header {
+.hero_header {
     font-size: 50px;
     font-family: "Open Sans Regular";
     font-weight: lighter;
@@ -39,7 +40,7 @@
     -ms-transform: matrix(1.00014568137167, 0, 0, 1.00203740901345, 0, 0);
 }
 
-#hero_message {
+.hero_message {
     font-size: 22px;
     font-family: "Open Sans Regular";
     font-weight: lighter;
@@ -48,7 +49,7 @@
     text-align: center;
 }
 
-#hero_action_button {
+.hero_action_button {
     border-width: 1.5px;
     border-color: rgb(255, 255, 255);
     border-style: solid;
@@ -106,6 +107,7 @@
 .story_counter {
     margin-top: 30px;
     font-family: "Open Sans Regular";
+    line-height: 2.0;
 }
 
 #num_stories {
@@ -167,6 +169,25 @@
     height: 150px;
 }
 
+#card-size {
+    height: 31rem;
+}
+
+#card-header {
+    text-align: center;
+    font-weight: bold;
+    color: #59315f;
+}
+
+#card-summary {
+    text-align: center;
+    color: #59315f;
+}
+
+#card-image {
+    text-align: center;
+}
+
 .view_all_stories {
     font-size: 15.385px;
     font-family: "Open Sans Regular";
@@ -204,7 +225,7 @@
 .give_button {
     font-size: 44px;
     font-family: "Open Sans Regular";
-    color: rgb(89, 49, 95);
+    color: rgb(255, 255, 255);
     line-height: 0.682;
     text-align: center;
     -moz-transform: matrix(0.68219722969798, 0, 0, 0.68189027887868, 0, 0);
@@ -261,10 +282,11 @@
 
 .initiative a {
     font-weight: bold;
+    text-decoration: underline;
     color: rgb(52, 41, 79);
 }
 
-.copyright {
+.copyright_bureau_blank {
     padding-top: 50px;
     padding-bottom: 25px;
     background-color: rgb(242, 242, 242);
@@ -275,22 +297,12 @@
     text-align: center;
 }
 
-.copyright_mini {
-    padding-top: 5px;
-    padding-bottom: 1px;
-    background-color: rgb(242, 242, 242);
-    font-size: 10px;
-    font-family: "Open Sans Regular";
-    color: rgb(52, 41, 79);
-    line-height: 1;
-    text-align: center;
-}
-
-.copyright a {
+.copyright_bureau_blank a {
     font-weight: bold;
     color: rgb(52, 41, 79);
 }
 
+/*first color*/
 .activist_information {
     background-color: rgb(103, 60, 116);
     padding-bottom: 5%;
@@ -385,6 +397,8 @@
 
 .activist_story {
     background-color: rgb(89, 49, 95);
+    text-align: left;
+    color: white;
 }
 
 .activist_story_input textarea {
@@ -431,18 +445,12 @@
 }
 
 .lead {
-    color: black;
+    color: #FFFFFF;
 }
-
-.page-header {
-    text-align: center;
-}
-
 
 .feedback_form {
     margin-top: 30px;
     font-family: "Open Sans Regular";
-    text-align: center;
 }
 
 #feedback_title {
@@ -478,33 +486,85 @@
 }
 
 .empowerment_partners {
-    margin: auto;
-    width: 100%;
-    padding-top: 5%;
-    font-size: 50px;
+    background-color: rgb(89, 49, 95);
+
+}
+
+.empowerment_partners_link {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    font-size: 25px;
     font-family: "Open Sans";
     font-weight: lighter;
     color: rgb(255, 255, 255);
     line-height: 0.599;
-    text-align: center;
+    text-align: left;
     -moz-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
     -webkit-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
     -ms-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
 }
 
-.empowerment_partners {
+.three_empowerment_partners {
+    margin-left: 5%;
+
+}
+
+.three_empowerment_partners {
+    text-align: center;
+    color: white;
     -webkit-column-count: 3; /* Chrome, Safari, Opera */
     -moz-column-count: 3; /* Firefox */
     column-count: 3;
-    width: 100%;
 }
 
-.empowerment_partners_left {
-    color: white;
-    float: left;
+.get_involved_button {
+    text-align: center;
+    margin-left: 15%;
+    border-width: 1.5px;
+    border-color: rgb(255, 255, 255);
+    border-style: solid;
+    width: 200px;
+    height: 62px;
+    background: transparent;
+    font-size: 15.385px;
+    font-family: "Open Sans";
+    color: rgb(255, 255, 255);
+    line-height: 1.2;
+    text-align: center;
+    -moz-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
+    -webkit-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
+    -ms-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
 }
 
-.empowerment_partners_right {
-    color: white;
-    float: right;
+.steering_committee {
+    text-align: left;
+    color: black;
+    -webkit-column-count: 4; /* Chrome, Safari, Opera */
+    -moz-column-count: 4; /* Firefox */
+    column-count: 4;
 }
+
+.people {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+}
+
+.featured_empowerment_partner {
+    padding-bottom: 5%;
+    text-align: center;
+}
+
+.page {
+
+}
+
+/*.empowerment_partners_left {*/
+/*color: white;*/
+/*float: left;*/
+/*}*/
+
+/*.empowerment_partners_right {*/
+/*color: white;*/
+/*float: right;*/
+/*}*/

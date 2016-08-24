@@ -183,7 +183,7 @@
         });
     </script>
     <script>
-        $('textarea').keydown(function () {
+        $('textarea').keyup(function () {
             var length = $(this).val().length;
             $('#chars').text(length + " / 1500 used");
         });

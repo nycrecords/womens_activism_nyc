@@ -1,11 +1,12 @@
 <span class="spacer">&nbsp;</span>
 <div class="col-sm-8 col-sm-push-2">
+    {% if stories|length == 0 %}
+        No results found.
+    {% endif %}
     {% for row in stories %}
-        {% set counter = 0 %}
         <div class="row">
             {% for story in row %}
                 {% include 'story_card.html' %}
-                {% set counter = counter + 1 %}
             {% endfor %}
         </div>
     {% endfor %}

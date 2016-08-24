@@ -28,18 +28,20 @@ app:
 app.send_email:
     send_email() function defined in app/send_email.py used to send email to recipient, formats subject title and email content
 """
-from flask import render_template, request, current_app, flash, redirect, url_for
-from app.models import Story, User, StoryTag, Tag, StoryEdit
-from app.stories import stories
-from app.db_helpers import put_obj, delete_obj
-from flask_login import login_required, current_user
 from datetime import datetime
-from app import recaptcha
+
+import requests
+from flask import render_template, current_app, flash, redirect, url_for, request
+from flask_login import login_required, current_user
+
+from app.db_helpers import put_obj, delete_obj
+from app.models import Story, User, StoryTag, Tag, StoryEdit
 from app.send_email import send_email
+from app.stories import stories
 
 
-@stories.route('/shareastory', methods=['GET', 'POST'])
-def shareastory(data=None):
+@stories.route('/share', methods=['GET', 'POST'])
+def share(data=None):
     """
     route where user is prompted to enter information about the woman that inspires them
         Required fields are activist first and last name, activist start and end date, tag, recaptcha
@@ -49,7 +51,15 @@ def shareastory(data=None):
     :return: renders template where user can share their story "post" flashes success message if completed
      renders template with information retained in session if user has not completed a required field
     """
-    tags = Tag.query.all()
+    tags = []
+    for i in range(0, len(Tag.query.all()), 5):
+        l = []
+        for j in range(i, i + 5):
+            try:
+                l.append(Tag.query.all()[j])
+            except IndexError:
+                break
+        tags.append(l)
 
     if data or request.method == 'POST':  # user pressed submit button
         data = request.form.copy()
@@ -65,6 +75,17 @@ def shareastory(data=None):
         author_email = data['author_email']
         image_link = data['image_link']
         video_link = data['video_link']
+        tag_list = data.getlist('category_button')
+
+        if video_link and video_link != '':
+            valid_video = requests.get(video_link)
+            valid_video = (valid_video.status_code == 200)
+            if "youtube" not in video_link and "youtu.be" not in video_link and "vimeo" not in video_link:
+                valid_video = False
+        else:
+            valid_video = True
+        if image_link and image_link != '':
+            valid_image = requests.get(image_link)
 
         if activist_first_name == '':  # user has not submitted activist first name
             flash("Please enter a first name for women's activist.")
@@ -101,7 +122,7 @@ def shareastory(data=None):
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
                                    author_email=author_email, image_link=image_link, video_link=video_link)
-        elif len(request.form.getlist('input_tags')) == 0:  # user submitted no tags
+        elif len(tag_list) == 0:  # user submitted no tags
             flash('Please choose at least one tag.')
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
@@ -115,8 +136,15 @@ def shareastory(data=None):
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
                                    author_email=author_email, image_link=image_link, video_link=video_link)
-        elif video_link != '' and "youtube" not in video_link and "youtu.be" not in video_link and "vimeo" not in video_link:
+        elif not valid_video:
             flash("Invalid video link. Please check your video link")
+            return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
+                                   activist_last_name=activist_last_name, activist_start_date=activist_start_date,
+                                   activist_end_date=activist_end_date, content=content, activist_link=activist_link,
+                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_email=author_email, image_link=image_link)
+        elif image_link != '' and valid_image.status_code != 200:
+            flash("Invalid image link. Please check your image")
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
@@ -132,8 +160,9 @@ def shareastory(data=None):
         else:  # user has successfully submitted
             if len(author_first_name) > 0 or len(author_last_name) > 0 or len(author_email) > 0:
                 # user entered information about themselves
-                user = User(first_name=author_first_name, last_name=author_last_name, email=author_email)
-                put_obj(user)
+                user = User(first_name=author_first_name, last_name=author_last_name,
+                            email=author_email)  # creates user
+                put_obj(user)  # adds user into database
 
                 story = Story(activist_start=activist_start_date, activist_end=activist_end_date,
                               activist_first=activist_first_name, activist_last=activist_last_name, content=content,
@@ -145,21 +174,21 @@ def shareastory(data=None):
                               activist_url=activist_link, is_edited=False, is_visible=True,
                               image_link=image_link, video_link=video_link, creation_time=datetime.utcnow())
 
-            if "youtube.com/embed/" in video_link: # if the link is a youtube embed leave it the way it is
+            if "youtube.com/embed/" in video_link:  # if the link is a youtube embed leave it the way it is
                 story.video_link = video_link
 
-            elif "youtube.com/watch?v=" in video_link: # if the link is a youtube link convert it to an embed
-                split = video_link.split("watch?v=",1)
+            elif "youtube.com/watch?v=" in video_link:  # if the link is a youtube link convert it to an embed
+                split = video_link.split("watch?v=", 1)
                 video_link = "https://www.youtube.com/embed/{}".format(split[1])
                 story.video_link = video_link
 
-            elif "youtu.be/" in video_link: # if the link is a short youtube link convert it to an embed
-                split = video_link.split("youtu.be/",1)
+            elif "youtu.be/" in video_link:  # if the link is a short youtube link convert it to an embed
+                split = video_link.split("youtu.be/", 1)
                 video_link = "https://www.youtube.com/embed/{}".format(split[1])
                 story.video_link = video_link
 
-            elif "vimeo" in video_link: # if the link is a vimeo link conver it to an embed
-                split = video_link.split("vimeo.com/",1)
+            elif "vimeo" in video_link:  # if the link is a vimeo link convert it to an embed
+                split = video_link.split("vimeo.com/", 1)
                 video_link = "https://player.vimeo.com/video/{}".format(split[1])
                 story.video_link = video_link
 
@@ -173,15 +202,15 @@ def shareastory(data=None):
                 video_link = None
                 story.video_link = video_link
 
-            put_obj(story)
+            put_obj(story)  # adds story into the database
 
-            tag_list = request.form.getlist('input_tags')
-            for tag in tag_list:
-                story_tag = StoryTag(story_id=story.id, tag_id=Tag.query.filter_by(name=tag).first().id)
-                put_obj(story_tag)
+            for tag in tag_list:  # loops through all tags chosen
+                story_tag = StoryTag(story_id=story.id,
+                                     tag_id=Tag.query.filter_by(name=tag).first().id)  # creates StoryTag relation
+                put_obj(story_tag)  # adds storytag into database
 
             flash('Story submitted!')
-            return redirect(url_for('stories.shareastory'))
+            return redirect(url_for('stories.share'))
     return render_template('stories/share.html', tags=tags)
 
 
@@ -311,9 +340,10 @@ def edit(id):
         story.image_link = new_image_link
         story.video_link = new_video_link
 
-        if new_image_link != '' and new_video_link != '': # if both image and video is filled out flash a message
+        if new_image_link != '' and new_video_link != '':  # if both image and video is filled out flash a message
             flash("You have both an Image link and Video link. Please only fill out one.")
-            return render_template('stories/edit_story.html', tags=all_tags, story_tags=single_story['tags'], story=story)
+            return render_template('stories/edit_story.html', tags=all_tags, story_tags=single_story['tags'],
+                                   story=story)
 
         if "youtube.com/embed/" in story.video_link:  # if the link is already an embed link leave it the way it is
             pass

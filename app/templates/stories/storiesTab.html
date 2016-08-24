@@ -1,21 +1,21 @@
-{% extends "base.html" %}
-{% import "_macros.html" as macros %}
-
-{% block title %}Women's Activism NYC{% endblock %}
-
-{% block page_content %}
-    <div class="stories-header">
-        <h2>All Stories</h2>
-    </div>
-
-    {% include 'stories/_stories.html' %}
-    {% if pagination %}
-        <div class="pagination">
-            {{ macros.pagination_widget(pagination, 'stories.all_stories') }}
-        </div>
-    {% endif %}
-{% endblock %}
-
-{% block scripts %}
-    {{ super() }}
-{% endblock %}
+{#{% extends "base.html" %}#}
+{#{% import "_macros.html" as macros %}#}
+{##}
+{#{% block title %}Women's Activism NYC{% endblock %}#}
+{##}
+{#{% block page_content %}#}
+{#    <div class="stories-header">#}
+{#        <h2>All Stories</h2>#}
+{#    </div>#}
+{##}
+{#    {% include 'stories/_stories.html' %}#}
+{#    {% if pagination %}#}
+{#        <div class="pagination">#}
+{#            {{ macros.pagination_widget(pagination, 'stories.all_stories') }}#}
+{#        </div>#}
+{#    {% endif %}#}
+{#{% endblock %}#}
+{##}
+{#{% block scripts %}#}
+{#    {{ super() }}#}
+{#{% endblock %}#}

@@ -156,10 +156,8 @@
 
 .large_card_image {
     text-align: center;
-    opacity: 0.8;
-    border-radius: 50%;
-    width: 25%;
-    height: 25%;
+    width: 30%;
+    height: 30%;
 }
 
 .large_card_video {

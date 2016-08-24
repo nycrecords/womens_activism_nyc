@@ -183,7 +183,7 @@
         });
     </script>
     <script>
-        $('textarea').keydown(function () {
+        $('textarea').keyup(function () {
             var length = $(this).val().length;
             $('#chars').text(length + " / 1500 used");
         });
@@ -192,6 +192,7 @@
         function category_button_click(tag_name) {
             var category_button = document.getElementById(tag_name);  // get button being pressed
             if (category_button.getAttribute("aria-pressed") == "false") {  // check if the button was previously not active
+                category_button.addClass('active');
                 $('<input>').attr({
                     type: 'hidden',
                     value: tag_name,
@@ -200,9 +201,15 @@
                 }).appendTo('form');  // add a hidden input field with value of the tag pressed
             }
             if (category_button.getAttribute("aria-pressed") == "true") {  // check if button was previously active
+                category_button.removeClass('active');
                 var hidden_category_button = document.getElementById("category_button_" + tag_name);  // get hidden input field that was created
                 hidden_category_button.remove();  // remove hidden input field
             }
         }
     </script>
+{#    <script type="text/javascript">#}
+{#        $('.btn').on('click', function() {#}
+{#            $(this).addClass('active');#}
+{#        })#}
+{#    </script>#}
 {% endblock %}

@@ -12,10 +12,10 @@
                         <div class="control-group col-sm-push-4 col-sm-5">
                             <input class="activist_info_field col-sm-4" name="activist_first_name"
                                    title="Activist First Name"
-                                   value="{{ activist_first_name or '' }}" maxlength="140" placeholder="Mary" required>
+                                   value="{{ activist_first_name or '' }}" maxlength="30" placeholder="Mary" required>
                             <input class="activist_info_field col-sm-4 col-sm-push-1" name="activist_last_name"
                                    title="Activist Last Name"
-                                   value="{{ activist_last_name or '' }}" maxlength="140" placeholder="Smith" required>
+                                   value="{{ activist_last_name or '' }}" maxlength="30" placeholder="Smith" required>
                         </div>
                     </div>
                     <div class="row">
@@ -46,6 +46,7 @@
                 <div class="share_title">What is She Known For?<br>
                     <h5>Choose one or more categories.</h5>
                     <div class="control-group">
+                    <div class="tag_buttons">
                     {% for list in tags %}
                         <div class="row">
                             {% for tag in list %}
@@ -57,6 +58,7 @@
                             {% endfor %}
                         </div>
                     {% endfor %}
+                    </div>
                     </div>
                     <div class="share_title">Share Her Story<br>
                         <h5>Share a few words about how your female activist<br>
@@ -77,9 +79,9 @@
                         more about your female activist online.</h5>
                     <div class="row">
                         <div class="control-group">
-                            <input class="activist_info_field" name="input_url_link" title="Activist Link"
+                            <input class="activist_info_field col-sm-push-4 col-sm-4" name="input_url_link" title="Activist Link"
                                    maxlength="140"
-                                   value="{{ activist_link or '' }}" placeholder="www.example.com">
+                                   value="{{ activist_link or '' }}" placeholder="www.activistwoman.com">
                         </div>
                     </div>
                     <div class="row">
@@ -142,7 +144,7 @@
                     <div class="row">
                         <div id="requestButton" class="control-group">
                             <div>
-                                <button type="submit" title="submit_post" class="btn btn-primary" id="hero_action_button">
+                                <button type="submit" title="submit_post" class="center-block hero_action_button">
                                     Submit
                                 </button>
                             </div>

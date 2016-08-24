@@ -84,8 +84,12 @@ def share(data=None):
                 valid_video = False
         else:
             valid_video = True
+
         if image_link and image_link != '':
-            valid_image = requests.get(image_link)
+            if image_link[-3:].lower != 'jpg' or image_link[-3:].lower() != 'png' or image_link[-4:].lower() != 'jpeg':
+                valid_image = False
+            else:
+                valid_image = requests.get(image_link)
 
         if activist_first_name == '':  # user has not submitted activist first name
             flash("Please enter a first name for women's activist.")
@@ -122,6 +126,13 @@ def share(data=None):
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
                                    author_email=author_email, image_link=image_link, video_link=video_link)
+        elif activist_end_date < activist_start_date:
+            flash("Please enter realistic years.")
+            return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
+                                   activist_last_name=activist_last_name, activist_start_date=activist_start_date,
+                                   activist_end_date=activist_end_date, content=content, activist_link=activist_link,
+                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_email=author_email, image_link=image_link, video_link=video_link)
         elif len(tag_list) == 0:  # user submitted no tags
             flash('Please choose at least one tag.')
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
@@ -143,7 +154,7 @@ def share(data=None):
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
                                    author_email=author_email, image_link=image_link)
-        elif image_link != '' and valid_image.status_code != 200:
+        elif not valid_image:
             flash("Invalid image link. Please check your image")
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
@@ -462,6 +473,12 @@ def stories(id):
         'is_edited': single_story.is_edited,
         'tags': tags,
         'image_link': single_story.image_link,
-        'video_link': single_story.video_link
+        'video_link': single_story.video_link,
     }
-    return render_template('stories/stories.html', story=story)
+
+    if single_story.poster_id:
+        poster = User.query.filter_by(id=single_story.poster_id).first()
+    else:
+        poster = None
+
+    return render_template('stories/stories.html', story=story, poster=poster)

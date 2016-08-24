@@ -23,6 +23,7 @@ from app.db_helpers import put_obj
 from app.models import Flag, Story
 from app.send_email import send_email
 from app.flags import flags
+from app.utils import flag_choices
 # from app.flags.forms import FlagsForm
 
 
@@ -54,4 +55,5 @@ def flag_story(id):
     #                    activist_first=activist_first, activist_last=activist_last,
     #                    type=flag_story.type, reason=flag_story.reason, story=story)
     #         return redirect(url_for('main.index'))
-    return render_template('flags/flags.html', story=story)
+    # return render_template('flags/flags.html', flag_types=flag_choices, story=story)
+    return render_template('404.html')

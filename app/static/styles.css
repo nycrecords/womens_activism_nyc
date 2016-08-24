@@ -326,12 +326,6 @@
     padding-bottom: 5%;
 }
 
-.flag_header {
-    text-align: center;
-    background-color: rgb(103, 60, 116);
-    padding-bottom: 5%;
-}
-
 
 .share_title {
     padding-top: 5%;
@@ -666,4 +660,8 @@
     padding-left: 1%;
     padding-top: 1%;
     padding-bottom: 1%;
+}
+
+.flag_type_button{
+    text-align: center;
 }

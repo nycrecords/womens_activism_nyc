@@ -101,7 +101,7 @@ def guidelines():
 def catalog():
     page_stories = []
 
-    for story in Story.query.all():
+    for story in Story.query.order_by('id desc').all():
         story_tags = StoryTag.query.filter_by(story_id=story.id).all()
         tags = []
         for story_tag in story_tags:
@@ -161,7 +161,7 @@ def get_tags():
     if len(tag_list) == 0:
         page_stories = []
 
-        for story in Story.query.all():
+        for story in Story.query.order_by('id desc').all():
             story_tags = StoryTag.query.filter_by(story_id=story.id).all()
             tags = []
             for story_tag in story_tags:
@@ -238,6 +238,8 @@ def get_tags():
             else:
                 current_story['content'] = story.content[:150]
             page_stories.append(current_story)
+
+        page_stories.reverse()
 
         stories = []
         for i in range(0, len(page_stories), 4):

@@ -18,10 +18,10 @@
             {% else %}
                 <div class="row" id="card-summary">
 {#                    <span class="card-summary">{{ story['content'][:250] }}...</span>#}
-                    {% if story['content']|length < 250 %}
-                        <span class="card-summary">{{ story['content'][:250] }}</span>
+                    {% if story['content']|length < 150 %}
+                        <span class="card-summary">{{ story['content'][:150] }}</span>
                     {% else %}
-                        <span class="card-summary">{{ story['content'][:250] }}...</span>
+                        <span class="card-summary">{{ story['content'][:150] }}...</span>
                     {% endif %}
                 </div>
             {% endif %}

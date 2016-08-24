@@ -171,7 +171,7 @@
     border-width: 1.5px;
     border-color: rgb(217, 217, 217);
     border-style: solid;
-    padding: 10px;
+    padding: 1%;
 }
 
 /*.card-image {*/
@@ -191,11 +191,13 @@
     text-align: center;
     font-weight: bold;
     color: #59315f;
+    word-wrap: break-word;
 }
 
 #card-summary {
     text-align: center;
     color: #59315f;
+    word-wrap: break-word;
 }
 
 #card-image {
@@ -502,14 +504,28 @@
 .activist_information {
     background-color: rgb(103, 60, 116);
     padding-bottom: 5%;
+    color: white;
+    font-family: "Open Sans Regular";
+    text-align: center;
 
+}
+
+.first_color{
+    font-size: 22px;
+    word-break: keep-all;
+}
+
+
+.empowerment_partner {
+    text-align: center;
+    font-family:"Open Sans Regular";
 }
 
 /*test around with this also*/
 .empowerment_partners {
   font-size: 10px;
   background-color: rgb(89, 49, 95);
-  font-family: "Open Sans";
+  font-family: "Open Sans Regular";
   color: rgb(255, 255, 255);
   line-height: 2.333;
   text-align: left;
@@ -536,23 +552,6 @@
     -ms-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
 }
 
-
-.empowerment_partners_link2 {
-    border-width: 1.5px;
-    border-color: rgb(255, 255, 255);
-    border-style: solid;
-    width: 229px;
-    height: 62px;
-    background: transparent;
-    font-size: 15.385px;
-    font-family: "Open Sans Regular";
-    color: rgb(255, 255, 255);
-    line-height: 1.2;
-    text-align: center;
-    -moz-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
-    -webkit-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
-    -ms-transform: matrix(1.30032139215009, 0, 0, 1.30264863171749, 0, 0);
-}
 
 
 .three_empowerment_partners {
@@ -590,7 +589,7 @@
 .steering_committee {
     text-align: center;
     color: black;
-    font-family: "Open San Regular";
+    font-family: "Open Sans Regular";
     -moz-transform: matrix( 1.00060121135403,0,0,1.00145332831479,0,0);
     -webkit-transform: matrix( 1.00060121135403,0,0,1.00145332831479,0,0);
     -ms-transform: matrix( 1.00060121135403,0,0,1.00145332831479,0,0);
@@ -661,8 +660,4 @@
     padding-bottom: 1%;
 }
 
-.empowerment_partners_button {
 
-
-
-}

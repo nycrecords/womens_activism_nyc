@@ -56,7 +56,7 @@ def share(data=None):
         l = []
         for j in range(i, i + 5):
             try:
-                l.append(Tag.query.all()[j])
+                l.append(Tag.query.order_by('name asc').all()[j])
             except IndexError:
                 break
         tags.append(l)

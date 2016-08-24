@@ -9,29 +9,23 @@ flag_choices = [('Inappropriate Content', 'Inappropriate Content'),
                 ('Wrong Information', 'Wrong Information'),
                 ('Other', 'Other')]
 
-archive_tags = ['Abolitionists',
-                'Africa',
-                'Antarctica',
+archive_tags = ['Abolition',
                 'Arts and Entertainment',
-                'Asia',
-                'Australia',
                 'Business and Entrepreneurship',
                 'Civil and Human Rights',
                 'Education',
                 'Environment',
-                'Europe',
                 'Government and Politics',
                 'Health',
                 'LGBTQ',
                 'Law',
-                'Literature',
+                'Literature and Journalism',
                 'Military',
-                'North America',
                 'Religion',
-                'Science, Technology, Engineering and Math (STEM)',
-                'South America',
+                'Science, Technology, Engineering, and Math (STEM)',
                 'Sports',
-                'Suffrage']
+                'Suffrage',
+                'Other']
 
 
 

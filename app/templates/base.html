@@ -33,7 +33,7 @@
 </div>
 {% endblock %}
 
-<div class="container">
+<div class="container-fluid">
     {% block navigation %}
 
     {% include 'navbar.html' %}
@@ -49,27 +49,30 @@
     {% endfor %}
     {% block page_content %}
     {% endblock %}
-</div>
 
-{% block footer %}
-<div class="row">
-    <div class="initiative">
-        WomensActivism.NYC is a project of the <a href="http://nyc.gov/records">NYC Department of Records and
-        Information Services</a>
+
+    {% block footer %}
+    <div class="row">
+        <div class="col-md-12 initiative">
+            WomensActivism.NYC is a project of the <a href="http://nyc.gov/records">NYC Department of Records and
+            Information Services</a>
+        </div>
     </div>
+    <div class="row">
+        <div class="col-md-12 copyright_bureau_blank">
+            <p>
+                <a href="https://twitter.com/WomensActivism"><img
+                        src="{{ url_for('static', filename='img/twitter_icon.png') }}"/></a>&nbsp;&nbsp;
+                <a href="https://instagram.com/womensactivism.nyc"><img
+                        src="{{ url_for('static', filename='img/instagram_icon.png') }}"/></a>&nbsp;&nbsp;
+                <a href="https://facebook.com/womensactivism.nyc"><img
+                        src="{{ url_for('static', filename='img/facebook_icon.png') }}"/></a>&nbsp;&nbsp;
+            </p>
+            <p>Copyright &copy; 2016- Design By <a href="http://bureaublank.com">Bureau Blank</a></p>
+        </div>
+    </div>
+    {% include '_nyc_gov_footer.html' %}
 </div>
-<div class="row copyright">
-    <p>
-        <a href="https://twitter.com/WomensActivism"><img
-                src="{{ url_for('static', filename='img/twitter_icon.png') }}"/></a>&nbsp;&nbsp;
-        <a href="https://instagram.com/womensactivism.nyc"><img
-                src="{{ url_for('static', filename='img/instagram_icon.png') }}"/></a>&nbsp;&nbsp;
-        <a href="https://facebook.com/womensactivism.nyc"><img
-                src="{{ url_for('static', filename='img/facebook_icon.png') }}"/></a>&nbsp;&nbsp;
-    </p>
-    <p>Copyright &copy; 2016- Design By <a href="http://bureaublank.com">Bureau Blank</a></p>
-</div>
-{% include '_nyc_gov_footer.html' %}
 {% endblock %}
 {% endblock %}
 

@@ -1,11 +1,4 @@
 <div id="filtered-stories">
-    {% for story in stories %}
-        {{ story.activist_first }} {{ story.activist_last }} <br>
-        {{ story.id }} <br>
-        {{ story.content }} <br> <br>
-    {% endfor %}
-    {% if stories|length == 0 %}
-        No results found.
-    {% endif %}
+    {% include 'story_cards.html' %}
 {#    <center>{{ macros.pagination_widget(pagination, 'main.catalog') }}</center>#}
 </div>

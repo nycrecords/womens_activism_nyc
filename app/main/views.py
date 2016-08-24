@@ -71,20 +71,15 @@ def index():
 
     missing_stories = 20000 - visible_stories
 
-    first_four = []
-    last_four = []
-    for i in range(0, 8):
-        try:
-            if i <= 3:
-                first_four.append(page_stories[i])
-            else:
-                last_four.append(page_stories[i])
-        except IndexError:
-            break
-
     stories = []
-    stories.append(first_four)
-    stories.append(last_four)
+    for i in range(0, 8, 4):
+        l = []
+        for j in range(i, i + 4):
+            try:
+                l.append(page_stories[j])
+            except IndexError:
+                break
+        stories.append(l)
 
     return render_template('index.html', stories=stories, pagination=pagination,
                            visible_stories=visible_stories, missing_stories=missing_stories)
@@ -102,8 +97,53 @@ def guidelines():
 
 @main.route('/catalog', methods=['GET', 'POST'])
 def catalog():
-    tags = Tag.query.all()
-    stories = Story.query.all()
+    page_stories = []
+
+    for story in Story.query.all():
+        story_tags = StoryTag.query.filter_by(story_id=story.id).all()
+        tags = []
+        for story_tag in story_tags:
+            name = Tag.query.filter_by(id=story_tag.tag_id).first().name
+            tags.append(name)
+        current_story = {
+            'id': story.id,
+            'activist_first': story.activist_first,
+            'activist_last': story.activist_last,
+            'activist_start': story.activist_start,
+            'activist_end': story.activist_end,
+            'creation_time': story.creation_time,
+            'edit_time': story.edit_time,
+            'is_visible': story.is_visible,
+            'is_edited': story.is_edited,
+            'tags': tags
+        }
+        if story.image_link is not None:
+            current_story['content'] = story.content[:50]
+            current_story['image_link'] = story.image_link
+        else:
+            current_story['content'] = story.content[:150]
+        page_stories.append(current_story)
+
+    stories = []
+    for i in range(0, len(Story.query.all()) - 1, 4):
+        l = []
+        for j in range(i, i + 4):
+            try:
+                l.append(page_stories[j])
+            except IndexError:
+                break
+        stories.append(l)
+
+    tags = []
+    for i in range(0, len(Tag.query.all()) - 1, 5):
+        l = []
+        for j in range(i, i + 5):
+            try:
+                l.append(Tag.query.all()[j])
+            except IndexError:
+                break
+        tags.append(l)
+
     # page = request.args.get('page', 1, type=int)
     # pagination = Story.query.order_by(Story.creation_time.desc()).paginate(
     #     page, per_page=current_app.config['STORIES_PER_PAGE'],
@@ -117,7 +157,43 @@ def get_tags():
     tag_list = request.get_data().decode('utf-8')
     tag_list = ast.literal_eval(tag_list)
     if len(tag_list) == 0:
-        stories = Story.query.all()
+        page_stories = []
+
+        for story in Story.query.all():
+            story_tags = StoryTag.query.filter_by(story_id=story.id).all()
+            tags = []
+            for story_tag in story_tags:
+                name = Tag.query.filter_by(id=story_tag.tag_id).first().name
+                tags.append(name)
+            current_story = {
+                'id': story.id,
+                'activist_first': story.activist_first,
+                'activist_last': story.activist_last,
+                'activist_start': story.activist_start,
+                'activist_end': story.activist_end,
+                'creation_time': story.creation_time,
+                'edit_time': story.edit_time,
+                'is_visible': story.is_visible,
+                'is_edited': story.is_edited,
+                'tags': tags
+            }
+            if story.image_link is not None:
+                current_story['content'] = story.content[:50]
+                current_story['image_link'] = story.image_link
+            else:
+                current_story['content'] = story.content[:150]
+            page_stories.append(current_story)
+
+        stories = []
+        for i in range(0, len(Story.query.all()) - 1, 4):
+            l = []
+            for j in range(i, i + 4):
+                try:
+                    l.append(page_stories[j])
+                except IndexError:
+                    break
+            stories.append(l)
+
         return render_template('_filtered_stories.html', stories=stories)
     else:
         clauses = or_(*[StoryTag.tag_id == Tag.query.filter_by(name=tag).first().id for tag in
@@ -133,4 +209,42 @@ def get_tags():
             # the same number of times as the number of tags chosen
             if stories_dict[key] >= len(tag_list):
                 unique_stories.append(key)
-        return render_template('_filtered_stories.html', stories=unique_stories)
+
+        page_stories = []
+
+        for story in unique_stories:
+            story_tags = StoryTag.query.filter_by(story_id=story.id).all()
+            tags = []
+            for story_tag in story_tags:
+                name = Tag.query.filter_by(id=story_tag.tag_id).first().name
+                tags.append(name)
+            current_story = {
+                'id': story.id,
+                'activist_first': story.activist_first,
+                'activist_last': story.activist_last,
+                'activist_start': story.activist_start,
+                'activist_end': story.activist_end,
+                'creation_time': story.creation_time,
+                'edit_time': story.edit_time,
+                'is_visible': story.is_visible,
+                'is_edited': story.is_edited,
+                'tags': tags
+            }
+            if story.image_link is not None:
+                current_story['content'] = story.content[:50]
+                current_story['image_link'] = story.image_link
+            else:
+                current_story['content'] = story.content[:150]
+            page_stories.append(current_story)
+
+        stories = []
+        for i in range(0, len(page_stories) - 1, 4):
+            l = []
+            for j in range(i, i + 4):
+                try:
+                    l.append(page_stories[j])
+                except IndexError:
+                    break
+            stories.append(l)
+
+        return render_template('_filtered_stories.html', stories=stories)

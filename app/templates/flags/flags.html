@@ -1,13 +1,112 @@
 {% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}Women's Activism NYC{% endblock %}
 
 {% block page_content %}
-    <body>
-    <div class="page-header">
-        <h1>Flagging Story About: "{{ activist_first }}   {{ activist_last }}"</h1>
+    <div class="container-fluid">
+    <div class="activist_information">
+        <div class="share_title">Story About: {{ story['activist_first'] }} {{ story['activist_last'] }}<br><br>
+            <h4>She Lived {{ story['activist_start'] }} {{ story['activist_end'] }}</h4>
+            <h5>Tell us what was wrong </h5>
+        </div>
     </div>
-    {{ wtf.quick_form(form) }}
-    </body>
+
+    <div class="activist_information flag_type_button">
+        <div class="share_title">
+            <h5>Please choose one of the following flag types</h5>
+            <h3>
+                <select>
+                    <option value=""></option>
+                    {% for flag_type in flag_types %}
+                        <option value="{{ flag_type }}">{{ flag_type }}</option>
+                    {% endfor %}
+                </select>
+            </h3>
+        </div>
+    </div>
+
+    <div class="activist_information">
+        <div class="share_title">Flag Reason<br>
+            <h5>Please include a brief description</h5>
+            <div class="container">
+                    <textarea class="activist_story_input" id="editor1" name="editor1"
+                              maxlength="1500" placeholder="Your reason here..." rows="10"
+                              required>{{ content or '' }}</textarea>
+            </div>
+            <div class="row">
+                <span id="chars" class="required">0 / 1500 used</span>
+            </div>
+        </div> <br>
+
+        <div class="row">
+            <div id="requestButton" class="control-group">
+                <div>
+                    <button type="submit" title="submit_post" class="center-block hero_action_button">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/js/bootstrap-select.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/js/i18n/defaults-*.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".upload_image").click(function () {
+                $(".image_link").show();
+                $(".video_link").hide();
+                $(".video_link").val('');
+            });
+            $(".upload_video").click(function () {
+                $(".video_link").show();
+                $(".image_link").hide();
+                $(".image_link").val('');
+            });
+        });
+    </script>
+    <script>
+        $('textarea').keydown(function () {
+            var length = $(this).val().length;
+            $('#chars').text(length + " / 1500 used");
+        });
+    </script>
+    <script type="text/javascript">
+        function category_button_click(tag_name) {
+            var category_button = document.getElementById(tag_name);  // get button being pressed
+            if (category_button.getAttribute("aria-pressed") == "false") {  // check if the button was previously not active
+                $('<input>').attr({
+                    type: 'hidden',
+                    value: tag_name,
+                    name: "category_button",
+                    id: "category_button_" + tag_name
+                }).appendTo('form');  // add a hidden input field with value of the tag pressed
+            }
+            if (category_button.getAttribute("aria-pressed") == "true") {  // check if button was previously active
+                var hidden_category_button = document.getElementById("category_button_" + tag_name);  // get hidden input field that was created
+                hidden_category_button.remove();  // remove hidden input field
+            }
+        }
+    </script>
+{% endblock %}
+
+{#{% block scripts %}#}
+{#<!-- Latest compiled and minified CSS -->#}
+{#<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/css/bootstrap-select.min.css">#}
+{##}
+{#<!-- Latest compiled and minified JavaScript -->#}
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/js/bootstrap-select.min.js"></script>#}
+{##}
+{#<!-- (Optional) Latest compiled and minified JavaScript translation files -->#}
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/js/i18n/defaults-*.min.js"></script>#}
+{#{% endblock %}#}
+
+

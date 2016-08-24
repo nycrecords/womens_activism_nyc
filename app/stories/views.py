@@ -52,7 +52,7 @@ def share(data=None):
      renders template with information retained in session if user has not completed a required field
     """
     tags = []
-    for i in range(0, len(Tag.query.all()) - 1, 5):
+    for i in range(0, len(Tag.query.all()), 5):
         l = []
         for j in range(i, i + 5):
             try:
@@ -77,8 +77,15 @@ def share(data=None):
         video_link = data['video_link']
         tag_list = data.getlist('category_button')
 
-        valid_video = requests.get(video_link)
-        valid_image = requests.get(image_link)
+        if video_link and video_link != '':
+            valid_video = requests.get(video_link)
+            valid_video = (valid_video.status_code == 200)
+            if "youtube" not in video_link and "youtu.be" not in video_link and "vimeo" not in video_link:
+                valid_video = False
+        else:
+            valid_video = True
+        if image_link and image_link != '':
+            valid_image = requests.get(image_link)
 
         if activist_first_name == '':  # user has not submitted activist first name
             flash("Please enter a first name for women's activist.")
@@ -129,7 +136,7 @@ def share(data=None):
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
                                    author_email=author_email, image_link=image_link, video_link=video_link)
-        elif video_link != '' and valid_video.status_code != 200 or "youtube" not in video_link and "youtu.be" not in video_link and "vimeo" not in video_link:
+        elif not valid_video:
             flash("Invalid video link. Please check your video link")
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,

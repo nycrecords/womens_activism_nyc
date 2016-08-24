@@ -125,7 +125,7 @@ def catalog():
         page_stories.append(current_story)
 
     stories = []
-    for i in range(0, len(Story.query.all()) - 1, 4):
+    for i in range(0, len(Story.query.all()), 4):
         l = []
         for j in range(i, i + 4):
             try:
@@ -135,7 +135,7 @@ def catalog():
         stories.append(l)
 
     tags = []
-    for i in range(0, len(Tag.query.all()) - 1, 5):
+    for i in range(0, len(Tag.query.all()), 5):
         l = []
         for j in range(i, i + 5):
             try:
@@ -185,7 +185,7 @@ def get_tags():
             page_stories.append(current_story)
 
         stories = []
-        for i in range(0, len(Story.query.all()) - 1, 4):
+        for i in range(0, len(Story.query.all()), 4):
             l = []
             for j in range(i, i + 4):
                 try:
@@ -238,7 +238,7 @@ def get_tags():
             page_stories.append(current_story)
 
         stories = []
-        for i in range(0, len(page_stories) - 1, 4):
+        for i in range(0, len(page_stories), 4):
             l = []
             for j in range(i, i + 4):
                 try:

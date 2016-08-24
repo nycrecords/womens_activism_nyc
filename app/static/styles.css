@@ -617,7 +617,7 @@
     color: black;
 }
 
-.row button {
+.tag_buttons .row .btn {
     border-width: 1px;
     border-color: rgb(255, 255, 255);
     background-color: rgb(89, 49, 95);
@@ -629,7 +629,7 @@
     z-index: 144;
 }
 
-.row button:hover {
+.tag_buttons .row .btn:hover {
     border-radius: 20px;
     background-color: rgb(154, 86, 175);
     left: 291px;

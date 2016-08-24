@@ -1,6 +1,8 @@
 alembic==0.8.6
 antiorm==1.2.1
 BareNecessities==0.2.8
+beautifulsoup4==4.5.0
+bleach==1.4.3
 blinker==1.4
 click==6.6
 config==0.3.9
@@ -13,10 +15,11 @@ Flask-Login==0.3.1
 Flask-Mail==0.9.1
 Flask-Migrate==1.8.1
 Flask-Moment==0.5.1
+Flask-PageDown==0.1.4
+Flask-ReCaptcha==0.4.2
 Flask-Script==2.0.5
 Flask-SQLAlchemy==2.1
 Flask-WTF==0.12
-Flask-Recaptcha==0.4.2
 ForgeryPy==0.1
 get==0.0.11
 gunicorn==19.6.0
@@ -31,7 +34,7 @@ ordereddict==1.1
 post==0.0.8
 psycopg2==2.6.2
 public==0.0.34
-python-env==1.0.0
+python-dotenv==0.5.1
 python-editor==1.0.1
 query-string==0.0.8
 records==0.4.3
@@ -42,4 +45,5 @@ tablib==0.11.2
 virtualenv==15.0.2
 visitor==0.1.3
 Werkzeug==0.11.10
+wheel==0.24.0
 WTForms==2.1

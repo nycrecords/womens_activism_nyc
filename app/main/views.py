@@ -63,10 +63,12 @@ def index():
             'tags': tags
         }
         if story.image_link is not None:
-            current_story['content'] = story.content[:50]
+            current_story['content'] = story.content[:25]
             current_story['image_link'] = story.image_link
         else:
-            current_story['content'] = story.content[:250]
+            current_story['content'] = story.content[:50]
+
+        current_story['content'] = current_story['content'] + '...'
         page_stories.append(current_story)
 
     missing_stories = 20000 - visible_stories

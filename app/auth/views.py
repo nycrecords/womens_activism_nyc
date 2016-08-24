@@ -45,7 +45,8 @@ def unconfirmed():
     """
     if current_user.is_anonymous or current_user.confirmed:
         return redirect(url_for('main.index'))
-    return render_template('auth/unconfirmed.html')
+    # return render_template('auth/unconfirmed.html')
+    return render_template('404.html')
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -116,7 +117,8 @@ def login():
             put_obj(user)
         flash('Invalid username or password', category='error')
     current_app.logger.info('End function login() [VIEW]')
-    return render_template('auth/login.html', form=form, reset_url=url_for('auth.password_reset_request'))
+    # return render_template('auth/login.html', form=form, reset_url=url_for('auth.password_reset_request'))
+    return render_template('404.html')
 
 
 @auth.route('/logout')
@@ -153,7 +155,8 @@ def register():
         current_app.logger.info('End function register() [VIEW]')
         return redirect(url_for('auth.login'))
     current_app.logger.info('End function register() [VIEW]')
-    return render_template('auth/register.html', form=form)
+    # return render_template('auth/register.html', form=form)
+    return render_template('404.html')
 
 
 @auth.route('/confirm/<token>')
@@ -236,7 +239,8 @@ def change_password():
             return redirect(url_for('main.index'))
 
     current_app.logger.info('End function logout() [VIEW]')
-    return render_template("auth/change_password.html", form=form)
+    # return render_template("auth/change_password.html", form=form)
+    return render_template('404.html')
 
 
 @auth.route('/reset', methods=['GET', 'POST'])
@@ -277,7 +281,8 @@ def password_reset_request():
         current_app.logger.info('End function password_reset_request() [VIEW]')
         return redirect(url_for('auth.login'))
     current_app.logger.info('End function password_reset_request() [VIEW]')
-    return render_template('auth/reset_password.html', form=form)
+    # return render_template('auth/reset_password.html', form=form)
+    return render_template('404.html')
 
 
 
@@ -302,5 +307,6 @@ def password_reset(token):
             return redirect(url_for('auth.login'))
         else:
             return redirect(url_for('main.index'))
-    return render_template('auth/reset_password.html', form=form)
+    # return render_template('auth/reset_password.html', form=form)
+    return render_template('404.html')
 

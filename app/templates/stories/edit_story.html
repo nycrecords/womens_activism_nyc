@@ -1,11 +1,9 @@
 {% extends "base.html" %}
 {% block title %}Women's Activism NYC - Edit Story{% endblock %}
 
-
 {% block page_content %}
     {% if current_user.is_administrator() %}
-
-        <div class="page-header">
+        <div class="page-header" align="center">
             <h1>Edit Story</h1>
 
             <div id="page-body">
@@ -127,7 +125,6 @@
     {% else %}
         <h1>You must be an Administrator to view this page</h1>
     {% endif %}
-
 {% endblock %}
 
 {% block scripts %}

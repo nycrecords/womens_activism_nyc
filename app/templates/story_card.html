@@ -6,14 +6,23 @@
             </div> <br>
             {% if story['image_link'] %}
                 <div class="row" id="card-summary">
-                    <span class="card-summary">{{ story['content'][:50] }}...</span>
+                    {% if story['content']|length < 50 %}
+                        <span class="card-summary">{{ story['content'][:50] }}</span>
+                    {% else %}
+                        <span class="card-summary">{{ story['content'][:50] }}...</span>
+                    {% endif %}
                 </div> <br>
                 <div class="row" id="card-image">
                     <img class="story_image_icon" src="{{ story['image_link'] }}">
                 </div> <br>
             {% else %}
                 <div class="row" id="card-summary">
-                    <span class="card-summary">{{ story['content'][:150] }}...</span>
+{#                    <span class="card-summary">{{ story['content'][:250] }}...</span>#}
+                    {% if story['content']|length < 150 %}
+                        <span class="card-summary">{{ story['content'][:150] }}</span>
+                    {% else %}
+                        <span class="card-summary">{{ story['content'][:150] }}...</span>
+                    {% endif %}
                 </div>
             {% endif %}
         </div>

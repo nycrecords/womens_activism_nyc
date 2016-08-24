@@ -40,6 +40,7 @@ from app.send_email import send_email
 from app.stories import stories
 
 
+@stories.route('/shareastory', methods=['GET', 'POST'])
 @stories.route('/share', methods=['GET', 'POST'])
 def share(data=None):
     """

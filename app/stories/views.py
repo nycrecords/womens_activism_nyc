@@ -87,11 +87,8 @@ def share(data=None):
             valid_video = True
 
         if image_link and image_link != '':
-            if (image_link[-3:].lower() == 'jpg') or (image_link[-3:].lower() == 'png') or (image_link[-4:].lower() == 'jpeg'):
-                valid_image = requests.get(image_link)
-                valid_image = (valid_image.status_code == 200)
-            else:
-                valid_image = False
+            valid_image = requests.get(image_link)
+            valid_image = (valid_image.status_code == 200) and ('image' in valid_image.headers['content-type'])
         else:
             valid_image = True
 

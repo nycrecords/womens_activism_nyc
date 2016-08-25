@@ -531,7 +531,7 @@
 .empowerment_partner {
     text-align: center;
     font-family: "Open Sans Regular";
-
+    border-radius:50%;
 
 }
 
@@ -643,9 +643,11 @@
 
 .people {
     border-radius: 50%;
-    width: 150px;
-    height: 150px;
+    width: 9rem;
+    height: 9rem;
 }
+
+.
 
 .featured_empowerment_partner {
     padding-bottom: 5%;

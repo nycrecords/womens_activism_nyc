@@ -29,11 +29,11 @@
                         <div class="row">
                             <div class="control-group col-sm-push-4 col-sm-5">
                                 <input class="activist_info_field col-sm-4" name="activist_first_name"
-                                       title="Activist First Name"
+                                       title="Activist First Name" id="activist_first_name"
                                        value="{{ activist_first_name or '' }}" maxlength="30" placeholder="Mary"
                                        required>
                                 <input class="activist_info_field col-sm-4 col-sm-push-1" name="activist_last_name"
-                                       title="Activist Last Name"
+                                       title="Activist Last Name" id="activist_last_name"
                                        value="{{ activist_last_name or '' }}" maxlength="30" placeholder="Smith"
                                        required>
                             </div>
@@ -149,10 +149,10 @@
                         <div class="row">
                             <div class="control-group col-sm-push-4 col-sm-5">
                                 <input class="activist_info_field col-sm-4" name="author_first_name"
-                                       title="Author First Name" maxlength="140"
+                                       title="Author First Name" maxlength="140" id="author_first_name"
                                        value="{{ author_first_name or '' }}" placeholder="Mary">
                                 <input class="activist_info_field col-sm-4 col-sm-push-1" name="author_last_name"
-                                       title="Author Last Name" maxlength="140"
+                                       title="Author Last Name" maxlength="140" id="author_last_name"
                                        value="{{ author_last_name or '' }}" placeholder="Smith"> <br>
                                 <input class="activist_info_field col-sm-9" name="author_email" title="Author Email"
                                        maxlength="140"
@@ -231,9 +231,44 @@
             }
         }
     </script>
-    {#    <script type="text/javascript">#}
-    {#        $('.btn').on('click', function() {#}
-    {#            $(this).addClass('active');#}
-    {#        })#}
-    {#    </script>#}
+    <script type="text/javascript">
+    $(document).ready(function() {  // capitalizes first letter of inputs involving activist name and author name
+        $('#activist_first_name').on('keydown', function(event) {
+            if (this.selectionStart == 0 && event.keyCode >= 65 && event.keyCode <= 90 && !(event.shiftKey) && !(event.ctrlKey) && !(event.metaKey) && !(event.altKey)) {
+               var $t = $(this);
+               event.preventDefault();
+               var char = String.fromCharCode(event.keyCode);
+               $t.val(char + $t.val().slice(this.selectionEnd));
+               this.setSelectionRange(1,1);
+            }
+        });
+        $('#activist_last_name').on('keydown', function(event) {
+            if (this.selectionStart == 0 && event.keyCode >= 65 && event.keyCode <= 90 && !(event.shiftKey) && !(event.ctrlKey) && !(event.metaKey) && !(event.altKey)) {
+               var $t = $(this);
+               event.preventDefault();
+               var char = String.fromCharCode(event.keyCode);
+               $t.val(char + $t.val().slice(this.selectionEnd));
+               this.setSelectionRange(1,1);
+            }
+        });
+        $('#author_first_name').on('keydown', function(event) {
+            if (this.selectionStart == 0 && event.keyCode >= 65 && event.keyCode <= 90 && !(event.shiftKey) && !(event.ctrlKey) && !(event.metaKey) && !(event.altKey)) {
+               var $t = $(this);
+               event.preventDefault();
+               var char = String.fromCharCode(event.keyCode);
+               $t.val(char + $t.val().slice(this.selectionEnd));
+               this.setSelectionRange(1,1);
+            }
+        });
+        $('#author_last_name').on('keydown', function(event) {
+            if (this.selectionStart == 0 && event.keyCode >= 65 && event.keyCode <= 90 && !(event.shiftKey) && !(event.ctrlKey) && !(event.metaKey) && !(event.altKey)) {
+               var $t = $(this);
+               event.preventDefault();
+               var char = String.fromCharCode(event.keyCode);
+               $t.val(char + $t.val().slice(this.selectionEnd));
+               this.setSelectionRange(1,1);
+            }
+        });
+    });
+    </script>
 {% endblock %}

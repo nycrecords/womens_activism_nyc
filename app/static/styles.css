@@ -569,7 +569,7 @@
     font-family: "Open Sans Regular";
     font-weight: lighter;
     color: rgb(255, 255, 255);
-    line-height: 0.599;
+    line-height: 2;
     text-align: left;
     -moz-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
     -webkit-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
@@ -647,7 +647,11 @@
     height: 9rem;
 }
 
-.
+.partners_image{
+    border-radius: 50%;
+    width: 15rem;
+    height: 15rem;
+}
 
 .featured_empowerment_partner {
     padding-bottom: 5%;

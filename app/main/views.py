@@ -52,6 +52,7 @@ def index():
             tags.append(name)
         current_story = {
             'id': story.id,
+            'content': story.content,
             'activist_first': story.activist_first,
             'activist_last': story.activist_last,
             'activist_start': story.activist_start,
@@ -63,10 +64,7 @@ def index():
             'tags': tags
         }
         if story.image_link is not None:
-            current_story['content'] = story.content[:25]
             current_story['image_link'] = story.image_link
-        else:
-            current_story['content'] = story.content[:50]
 
         page_stories.append(current_story)
 

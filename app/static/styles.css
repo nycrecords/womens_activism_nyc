@@ -528,6 +528,14 @@
     font-family:"Open Sans Regular";
 }
 
+.left {
+    padding-left: 2%;
+}
+
+.right {
+    padding-right: 2%;
+}
+
 /*test around with this also*/
 .empowerment_partners {
   font-size: 10px;

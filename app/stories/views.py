@@ -120,15 +120,24 @@ def share(data=None):
         #                            activist_end_date=activist_end_date, content=content, activist_link=activist_link,
         #                            author_first_name=author_first_name, author_last_name=author_last_name,
         #                            author_email=author_email, image_link=image_link, video_link=video_link)
-        elif len(activist_end_date) == 5 and activist_end_date != 'Today':  # user submitted invalid activist end date
-            flash("Please enter a valid year of death for women's activist.")
+        elif not (len(activist_start_date) == 4 and activist_start_date.isdigit()):
+            flash("Please enter a valid year of birth for women's activist.")
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
                                    author_email=author_email, image_link=image_link, video_link=video_link)
-        elif activist_end_date < activist_start_date:
-            flash("Please enter realistic years.")
+        elif not ((len(activist_end_date) == 4 and activist_end_date.isdigit()) or (activist_end_date == 'Today')):  # user submitted invalid activist end date
+            flash("Please enter a valid year of death for women's activist.")
+            print(activist_end_date)
+            print(activist_end_date != 'Today')
+            return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
+                                   activist_last_name=activist_last_name, activist_start_date=activist_start_date,
+                                   activist_end_date=activist_end_date, content=content, activist_link=activist_link,
+                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_email=author_email, image_link=image_link, video_link=video_link)
+        elif activist_end_date < activist_start_date:  # user submitted an incorrect year range
+            flash("Please enter a correct year range.")
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,

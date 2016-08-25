@@ -34,7 +34,7 @@
                                        value="{{ activist_start_date or '' }}">
                                 <div class="col-sm-1"><span>-</span></div>
                                 <input class="activist_info_field col-sm-4" name="input_death" title="Activist End Date"
-                                       maxlength="5"
+                                       maxlength="5" id="input_death"
                                        placeholder="Today"
                                        value="{{ activist_end_date or '' }}">
                             </div>
@@ -142,12 +142,12 @@
                                        style="padding-top: 1em;">
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="control-group">
-                                <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"
-                                     style="margin: 1em auto; width: 6em;"></div>
-                            </div>
-                        </div>
+{#                        <div class="row">#}
+{#                            <div class="control-group">#}
+{#                                <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"#}
+{#                                     style="margin: 1em auto; width: 6em;"></div>#}
+{#                            </div>#}
+{#                        </div>#}
                         <br>
                         <div class="row">
                             <div id="requestButton" class="control-group">
@@ -243,6 +243,15 @@
             }
         });
         $('#author_last_name').on('keydown', function(event) {
+            if (this.selectionStart == 0 && event.keyCode >= 65 && event.keyCode <= 90 && !(event.shiftKey) && !(event.ctrlKey) && !(event.metaKey) && !(event.altKey)) {
+               var $t = $(this);
+               event.preventDefault();
+               var char = String.fromCharCode(event.keyCode);
+               $t.val(char + $t.val().slice(this.selectionEnd));
+               this.setSelectionRange(1,1);
+            }
+        });
+        $('#input_death').on('keydown', function(event) {
             if (this.selectionStart == 0 && event.keyCode >= 65 && event.keyCode <= 90 && !(event.shiftKey) && !(event.ctrlKey) && !(event.metaKey) && !(event.altKey)) {
                var $t = $(this);
                event.preventDefault();

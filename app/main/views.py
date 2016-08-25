@@ -68,7 +68,6 @@ def index():
         else:
             current_story['content'] = story.content[:50]
 
-        current_story['content'] = current_story['content'] + '...'
         page_stories.append(current_story)
 
     missing_stories = 20000 - visible_stories

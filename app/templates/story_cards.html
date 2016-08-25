@@ -4,10 +4,12 @@
         No results found.
     {% endif %}
     {% for row in stories %}
+
         <div class="row">
             {% for story in row %}
                 {% include 'story_card.html' %}
             {% endfor %}
+
         </div>
     {% endfor %}
 </div>

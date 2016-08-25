@@ -37,7 +37,7 @@ def index():
     visible_stories = len(Story.query.filter_by(is_visible=True).all())
 
     page = request.args.get('page', 1, type=int)
-    pagination = Story.query.order_by(Story.creation_time.desc()).paginate(
+    pagination = Story.query.filter_by(is_visible=True).order_by(Story.creation_time.desc()).paginate(
         page, per_page=current_app.config['STORIES_PER_PAGE'],
         error_out=True)
     stories = pagination.items[:8]
@@ -102,29 +102,32 @@ def catalog():
     page_stories = []
 
     for story in Story.query.order_by('id desc').all():
-        story_tags = StoryTag.query.filter_by(story_id=story.id).all()
-        tags = []
-        for story_tag in story_tags:
-            name = Tag.query.filter_by(id=story_tag.tag_id).first().name
-            tags.append(name)
-        current_story = {
-            'id': story.id,
-            'activist_first': story.activist_first,
-            'activist_last': story.activist_last,
-            'activist_start': story.activist_start,
-            'activist_end': story.activist_end,
-            'creation_time': story.creation_time,
-            'edit_time': story.edit_time,
-            'is_visible': story.is_visible,
-            'is_edited': story.is_edited,
-            'tags': tags
-        }
-        if story.image_link is not None:
-            current_story['content'] = story.content[:50]
-            current_story['image_link'] = story.image_link
+        if story.is_visible == True:
+            story_tags = StoryTag.query.filter_by(story_id=story.id).all()
+            tags = []
+            for story_tag in story_tags:
+                name = Tag.query.filter_by(id=story_tag.tag_id).first().name
+                tags.append(name)
+            current_story = {
+                'id': story.id,
+                'activist_first': story.activist_first,
+                'activist_last': story.activist_last,
+                'activist_start': story.activist_start,
+                'activist_end': story.activist_end,
+                'creation_time': story.creation_time,
+                'edit_time': story.edit_time,
+                'is_visible': story.is_visible,
+                'is_edited': story.is_edited,
+                'tags': tags
+            }
+            if story.image_link is not None:
+                current_story['content'] = story.content[:50]
+                current_story['image_link'] = story.image_link
+            else:
+                current_story['content'] = story.content[:150]
+            page_stories.append(current_story)
         else:
-            current_story['content'] = story.content[:150]
-        page_stories.append(current_story)
+            continue
 
     stories = []
     for i in range(0, len(Story.query.all()), 4):

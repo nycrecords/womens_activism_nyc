@@ -140,7 +140,6 @@ def share(data=None):
                                        author_first_name=author_first_name, author_last_name=author_last_name,
                                        author_email=author_email, image_link=image_link, video_link=video_link)
         if (activist_end_date.isdigit() and activist_start_date.isdigit()):
-
             if ((int(activist_end_date) or 0) < int(activist_start_date or 0)) or (activist_end_date and not activist_start_date) or (activist_start_date and not activist_end_date):  # user submitted an incorrect year range
                 flash("Please enter a correct year range.")
                 return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
@@ -148,13 +147,7 @@ def share(data=None):
                                        activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                        author_first_name=author_first_name, author_last_name=author_last_name,
                                        author_email=author_email, image_link=image_link, video_link=video_link)
-            flash("Please enter a correct year range.")
-            return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
-                                   activist_last_name=activist_last_name, activist_start_date=activist_start_date,
-                                   activist_end_date=activist_end_date, content=content, activist_link=activist_link,
-                                   author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email, image_link=image_link, video_link=video_link)
-        elif len(tag_list) == 0:  # user submitted no tags
+        if len(tag_list) == 0:  # user submitted no tags
             flash('Please choose at least one tag.')
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,

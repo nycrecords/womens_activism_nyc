@@ -65,7 +65,7 @@
                         We strive for accuracy and fairness. If you see something that doesn't look right, contact
                         us!<br><br>
                         Email us at:
-                        <a href="mailto:womensactivism@records.nyc.gov?Subject=[Women's Activism NYC] Flag" target="_top">womensactivism@records.nyc.gov</a>
+                        <a href="mailto:womensactivism@records.nyc.gov?Subject=[Women's Activism NYC] Flag&body=Referenced Story: {{ url_for('stories.stories', id=story['id'], _external= True ) }}" target="_top">womensactivism@records.nyc.gov</a>
                     </h4>
                 </div>
             </div>
@@ -77,14 +77,11 @@
 
         <div id="share-buttons" style="text-align: center">
             <!-- Twitter -->
-            <a href="https://twitter.com/share?url={{ url_for('stories.stories', id=story['id'], _external=True) }}&text=
-                    {{ story['activist_first'] }}{{ story['activist_last'] }}&hashtags=WomensActivismNYC"
-               target="_blank">
+            <a href="https://twitter.com/share?url={{ url_for('stories.stories', id=story['id'], _external=True) }}&text=I just posted a story about a woman activist who inspires me – You should too! - Help WomensActivism.NYC collect&hashtags=20000By2020,WomensActivismNYC" target="_blank">
                 <img src="{{ url_for('static', filename='img/twitter_icon.png') }}" alt="Twitter"/>
             </a>
             <!-- Facebook -->
-            <a href="http://www.facebook.com/sharer.php?u={{ url_for('stories.stories', id=story['id'], _external=True) }}"
-               target="_blank">
+            <a href="http://www.facebook.com/sharer.php?u={{ url_for('stories.stories', id=story['id'], _external=True) }}&text=I just posted a story about a woman activist who inspires me – You should too! - Help WomensActivism.NYC collect #20000By2020" target="_blank">
                 <img src="{{ url_for('static', filename='img/facebook_icon.png') }}" alt="Facebook"/>
             </a>
         </div> <br> <br>

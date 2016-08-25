@@ -8,8 +8,7 @@
                     {% if just_submitted %}
                         <div class="share-buttons">
                             <p>Share what you submitted on your social media!</p>
-                            <!-- Twitter -->
-                            <a href="https://twitter.com/share?url={{ url_for('stories.stories', id=request.args.get('id'), _external=True) }}&text=I just posted a story about a woman activist who inspires me – You should too! - Help WomensActivism.NYC collect&hashtags=20000By2020,WomensActivismNYC"
+                            <a href="https://twitter.com/share?url={{ url_for('stories.stories', id=request.args.get('id'), _external=True) }}&text=I just posted a story about a woman activist who inspires me, you should too!&hashtags=20000By2020"
                                target="_blank">
                                 <img src="{{ url_for('static', filename='img/twitter_icon.png') }}" alt="Twitter"/>
                             </a>
@@ -232,43 +231,43 @@
         }
     </script>
     <script type="text/javascript">
-    $(document).ready(function() {  // capitalizes first letter of inputs involving activist name and author name
-        $('#activist_first_name').on('keydown', function(event) {
-            if (this.selectionStart == 0 && event.keyCode >= 65 && event.keyCode <= 90 && !(event.shiftKey) && !(event.ctrlKey) && !(event.metaKey) && !(event.altKey)) {
-               var $t = $(this);
-               event.preventDefault();
-               var char = String.fromCharCode(event.keyCode);
-               $t.val(char + $t.val().slice(this.selectionEnd));
-               this.setSelectionRange(1,1);
-            }
+        $(document).ready(function () {  // capitalizes first letter of inputs involving activist name and author name
+            $('#activist_first_name').on('keydown', function (event) {
+                if (this.selectionStart == 0 && event.keyCode >= 65 && event.keyCode <= 90 && !(event.shiftKey) && !(event.ctrlKey) && !(event.metaKey) && !(event.altKey)) {
+                    var $t = $(this);
+                    event.preventDefault();
+                    var char = String.fromCharCode(event.keyCode);
+                    $t.val(char + $t.val().slice(this.selectionEnd));
+                    this.setSelectionRange(1, 1);
+                }
+            });
+            $('#activist_last_name').on('keydown', function (event) {
+                if (this.selectionStart == 0 && event.keyCode >= 65 && event.keyCode <= 90 && !(event.shiftKey) && !(event.ctrlKey) && !(event.metaKey) && !(event.altKey)) {
+                    var $t = $(this);
+                    event.preventDefault();
+                    var char = String.fromCharCode(event.keyCode);
+                    $t.val(char + $t.val().slice(this.selectionEnd));
+                    this.setSelectionRange(1, 1);
+                }
+            });
+            $('#author_first_name').on('keydown', function (event) {
+                if (this.selectionStart == 0 && event.keyCode >= 65 && event.keyCode <= 90 && !(event.shiftKey) && !(event.ctrlKey) && !(event.metaKey) && !(event.altKey)) {
+                    var $t = $(this);
+                    event.preventDefault();
+                    var char = String.fromCharCode(event.keyCode);
+                    $t.val(char + $t.val().slice(this.selectionEnd));
+                    this.setSelectionRange(1, 1);
+                }
+            });
+            $('#author_last_name').on('keydown', function (event) {
+                if (this.selectionStart == 0 && event.keyCode >= 65 && event.keyCode <= 90 && !(event.shiftKey) && !(event.ctrlKey) && !(event.metaKey) && !(event.altKey)) {
+                    var $t = $(this);
+                    event.preventDefault();
+                    var char = String.fromCharCode(event.keyCode);
+                    $t.val(char + $t.val().slice(this.selectionEnd));
+                    this.setSelectionRange(1, 1);
+                }
+            });
         });
-        $('#activist_last_name').on('keydown', function(event) {
-            if (this.selectionStart == 0 && event.keyCode >= 65 && event.keyCode <= 90 && !(event.shiftKey) && !(event.ctrlKey) && !(event.metaKey) && !(event.altKey)) {
-               var $t = $(this);
-               event.preventDefault();
-               var char = String.fromCharCode(event.keyCode);
-               $t.val(char + $t.val().slice(this.selectionEnd));
-               this.setSelectionRange(1,1);
-            }
-        });
-        $('#author_first_name').on('keydown', function(event) {
-            if (this.selectionStart == 0 && event.keyCode >= 65 && event.keyCode <= 90 && !(event.shiftKey) && !(event.ctrlKey) && !(event.metaKey) && !(event.altKey)) {
-               var $t = $(this);
-               event.preventDefault();
-               var char = String.fromCharCode(event.keyCode);
-               $t.val(char + $t.val().slice(this.selectionEnd));
-               this.setSelectionRange(1,1);
-            }
-        });
-        $('#author_last_name').on('keydown', function(event) {
-            if (this.selectionStart == 0 && event.keyCode >= 65 && event.keyCode <= 90 && !(event.shiftKey) && !(event.ctrlKey) && !(event.metaKey) && !(event.altKey)) {
-               var $t = $(this);
-               event.preventDefault();
-               var char = String.fromCharCode(event.keyCode);
-               $t.val(char + $t.val().slice(this.selectionEnd));
-               this.setSelectionRange(1,1);
-            }
-        });
-    });
     </script>
 {% endblock %}

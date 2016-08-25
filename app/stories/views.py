@@ -214,15 +214,15 @@ def share(data=None):
                 video_link = None
                 story.video_link = video_link
 
-            put_obj(story)  # adds story into the database
+            story_id = put_obj(story)  # adds story into the database
 
             for tag in tag_list:  # loops through all tags chosen
                 story_tag = StoryTag(story_id=story.id,
                                      tag_id=Tag.query.filter_by(name=tag).first().id)  # creates StoryTag relation
                 put_obj(story_tag)  # adds storytag into database
 
-            flash('Story submitted!')
-            return redirect(url_for('stories.share'))
+            flash('Story submitted!', category='share_submitted_story')
+            return redirect(url_for('stories.share', id=story_id.id))
     return render_template('stories/share.html', tags=tags)
 
 

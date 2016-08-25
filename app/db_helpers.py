@@ -15,7 +15,7 @@ def put_obj(obj):
         db.session.add(obj)
         db.session.commit()
         current_app.logger.info("\n\nCommitted object to database: %s" % obj)
-        return True
+        return obj
     return False
 
 

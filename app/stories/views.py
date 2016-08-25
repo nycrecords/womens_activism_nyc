@@ -223,15 +223,15 @@ def share(data=None):
                 video_link = None
                 story.video_link = video_link
 
-            put_obj(story)  # adds story into the database
+            story_id = put_obj(story)  # adds story into the database
 
             for tag in tag_list:  # loops through all tags chosen
                 story_tag = StoryTag(story_id=story.id,
                                      tag_id=Tag.query.filter_by(name=tag).first().id)  # creates StoryTag relation
                 put_obj(story_tag)  # adds storytag into database
 
-            flash('Story submitted!')
-            return redirect(url_for('stories.share'))
+            flash('Story submitted!', category='share_submitted_story')
+            return redirect(url_for('stories.share', id=story_id.id))
     return render_template('stories/share.html', tags=tags)
 
 
@@ -465,30 +465,31 @@ def stories(id):
     """
     story is a dictionary that incorporates information from the single story and tags
     """
-    story_tags = StoryTag.query.filter_by(story_id=single_story.id).all()
-    tags = []
-    for story_tag in story_tags:
-        name = Tag.query.filter_by(id=story_tag.tag_id).first().name
-        tags.append(name)
-    story = {
-        'id': single_story.id,
-        'activist_first': single_story.activist_first,
-        'activist_last': single_story.activist_last,
-        'activist_start': single_story.activist_start,
-        'activist_end': single_story.activist_end,
-        'creation_time': single_story.creation_time,
-        'edit_time': single_story.edit_time,
-        'content': single_story.content,
-        'is_visible': single_story.is_visible,
-        'is_edited': single_story.is_edited,
-        'tags': tags,
-        'image_link': single_story.image_link,
-        'video_link': single_story.video_link,
-    }
-
-    if single_story.poster_id:
-        poster = User.query.filter_by(id=single_story.poster_id).first()
+    if single_story.is_visible == True:
+        story_tags = StoryTag.query.filter_by(story_id=single_story.id).all()
+        tags = []
+        for story_tag in story_tags:
+            name = Tag.query.filter_by(id=story_tag.tag_id).first().name
+            tags.append(name)
+        story = {
+            'id': single_story.id,
+            'activist_first': single_story.activist_first,
+            'activist_last': single_story.activist_last,
+            'activist_start': single_story.activist_start,
+            'activist_end': single_story.activist_end,
+            'creation_time': single_story.creation_time,
+            'edit_time': single_story.edit_time,
+            'content': single_story.content,
+            'is_visible': single_story.is_visible,
+            'is_edited': single_story.is_edited,
+            'tags': tags,
+            'image_link': single_story.image_link,
+            'video_link': single_story.video_link,
+        }
+        if single_story.poster_id:
+            poster = User.query.filter_by(id=single_story.poster_id).first()
+        else:
+            poster = None
+        return render_template('stories/stories.html', story=story, poster=poster)
     else:
-        poster = None
-
-    return render_template('stories/stories.html', story=story, poster=poster)
+        return render_template('404.html')

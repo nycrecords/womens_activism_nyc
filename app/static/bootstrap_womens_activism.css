@@ -3898,6 +3898,7 @@ fieldset[disabled] .btn-default.focus {
     border-radius: 20px;
     background-color: rgb(89, 49, 95);
     border-color: rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
 }
 
 .btn-primary:hover {

@@ -456,30 +456,31 @@ def stories(id):
     """
     story is a dictionary that incorporates information from the single story and tags
     """
-    story_tags = StoryTag.query.filter_by(story_id=single_story.id).all()
-    tags = []
-    for story_tag in story_tags:
-        name = Tag.query.filter_by(id=story_tag.tag_id).first().name
-        tags.append(name)
-    story = {
-        'id': single_story.id,
-        'activist_first': single_story.activist_first,
-        'activist_last': single_story.activist_last,
-        'activist_start': single_story.activist_start,
-        'activist_end': single_story.activist_end,
-        'creation_time': single_story.creation_time,
-        'edit_time': single_story.edit_time,
-        'content': single_story.content,
-        'is_visible': single_story.is_visible,
-        'is_edited': single_story.is_edited,
-        'tags': tags,
-        'image_link': single_story.image_link,
-        'video_link': single_story.video_link,
-    }
-
-    if single_story.poster_id:
-        poster = User.query.filter_by(id=single_story.poster_id).first()
+    if single_story.is_visible == True:
+        story_tags = StoryTag.query.filter_by(story_id=single_story.id).all()
+        tags = []
+        for story_tag in story_tags:
+            name = Tag.query.filter_by(id=story_tag.tag_id).first().name
+            tags.append(name)
+        story = {
+            'id': single_story.id,
+            'activist_first': single_story.activist_first,
+            'activist_last': single_story.activist_last,
+            'activist_start': single_story.activist_start,
+            'activist_end': single_story.activist_end,
+            'creation_time': single_story.creation_time,
+            'edit_time': single_story.edit_time,
+            'content': single_story.content,
+            'is_visible': single_story.is_visible,
+            'is_edited': single_story.is_edited,
+            'tags': tags,
+            'image_link': single_story.image_link,
+            'video_link': single_story.video_link,
+        }
+        if single_story.poster_id:
+            poster = User.query.filter_by(id=single_story.poster_id).first()
+        else:
+            poster = None
+        return render_template('stories/stories.html', story=story, poster=poster)
     else:
-        poster = None
-
-    return render_template('stories/stories.html', story=story, poster=poster)
+        return render_template('404.html')

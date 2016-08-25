@@ -465,6 +465,8 @@
 .feedback_form {
     margin-top: 30px;
     font-family: "Open Sans Regular";
+    font-size: 20px;
+    text-align: center;
 }
 
 #feedback_title {
@@ -511,7 +513,12 @@
 }
 
 .first_color{
-    font-size: 22px;
+    font-size: 20px;
+    word-break: keep-all;
+}
+
+.keep_words{
+    font-size:19px;
     word-break: keep-all;
 }
 

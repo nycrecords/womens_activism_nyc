@@ -143,11 +143,6 @@ class Tag(db.Model):
             db.session.add(tag_obj)
             db.session.commit()
 
-    @staticmethod
-    def purge_tags():
-        for i in Tag.query.all():
-            db.session.delete(i)
-
     def __repr__(self):
         return '<Tag %r>' % self.name
 

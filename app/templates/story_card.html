@@ -9,7 +9,6 @@
                     {% if story['content']|length < 30 %}
                         <span class="card-summary">{{ story['content'] }}</span>
                     {% else %}
-                        {{ story['content']|length }}
                         <span class="card-summary">{{ story['content'][:30] }}...</span>
                     {% endif %}
                 </div> <br>

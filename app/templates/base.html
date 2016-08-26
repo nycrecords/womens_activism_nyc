@@ -79,6 +79,7 @@
 {% block scripts %}
 {{ super() }}
 {{ moment.include_moment() }}
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='bootstrap_womens_activism.css') }}"/>
 <script>

@@ -10,7 +10,7 @@
 
                 <div class="row">
                     <div class="col-md-12  share_title">
-                         Who Inspires You?
+                        Who Inspires You?
                     </div>
                 </div>
 
@@ -22,25 +22,24 @@
                 </div>
 
 
-
                 <div class="row">
                     <div class="col-md-6 col-md-push-3">
 
-                            <div class="col-md-5 ">
-                                <input class="activist_info_field" name="activist_first_name"
-                                       title="Activist First Name"
-                                       value="{{ activist_first_name or '' }}" maxlength="30" placeholder="Mary"
-                                       required>
-                            </div>
+                        <div class="col-md-5 ">
+                            <input class="activist_info_field" name="activist_first_name"
+                                   title="Activist First Name"
+                                   value="{{ activist_first_name or '' }}" maxlength="30" placeholder="Mary"
+                                   required>
+                        </div>
                         <div class="col-xs-2"></div>
 
 
-                            <div class="col-md-5 ">
-                                <input class="activist_info_field" name="activist_last_name"
-                                       title="Activist Last Name"
-                                       value="{{ activist_last_name or '' }}" maxlength="30" placeholder="Smith"
-                                       required>
-                            </div>
+                        <div class="col-md-5 ">
+                            <input class="activist_info_field" name="activist_last_name"
+                                   title="Activist Last Name"
+                                   value="{{ activist_last_name or '' }}" maxlength="30" placeholder="Smith"
+                                   required>
+                        </div>
                         <div class="row"><span class="required">required</span></div>
 
                         <div class="col-md-12">&nbsp;</div>
@@ -49,57 +48,55 @@
 
                 <div class="row">
                     <div class="col-md-6 col-md-push-3">
-                    <div class="row">
-                        <div class="col-md-12  share_title">
-                            <h2> She lived </h2>
-                        </div>
-                     </div>
-                     <div class="row">
-                         <div class="col-md-12"><br></div>
-                     </div>
-
-                            <div class="col-md-5">
-                                <input class="activist_info_field" name="input_birth"
-                                       title="Activist Start Date"
-                                       maxlength="4"
-                                       placeholder="1960"
-                                       value="{{ activist_start_date or '' }}"><br /><span class="required">from</span>
+                        <div class="row">
+                            <div class="col-md-12  share_title">
+                                <h2> She lived </h2>
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><br></div>
+                        </div>
+
+                        <div class="col-md-5">
+                            <input class="activist_info_field" name="input_birth"
+                                   title="Activist Start Date"
+                                   maxlength="4"
+                                   placeholder="1960"
+                                   value="{{ activist_start_date or '' }}"><br/><span class="required">from</span>
+                        </div>
 
 
                         <div class="col-xs-2">&mdash;</div>
 
 
-                            <div class="col-md-5 ">
-                                <input class="activist_info_field" name="input_death" title="Activist End Date"
-                                       maxlength="5"
-                                       placeholder="Today"
-                                       value="{{ activist_end_date or '' }}"><br /><span class="required">to</span>
-                            </div>
+                        <div class="col-md-5 ">
+                            <input class="activist_info_field" name="input_death" title="Activist End Date"
+                                   maxlength="5"
+                                   placeholder="Today"
+                                   value="{{ activist_end_date or '' }}"><br/><span class="required">to</span>
                         </div>
+                    </div>
                     <div class="row">
+                        <div class="col-md-12 ">
+                            <h5> if still living, enter "Today" </h5>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="row activist_story">
+
+                <div class="row share_title">
                     <div class="col-md-12 ">
-                        <h5> if still living, enter "Today" </h5>
+                        What Is She Known For?
                     </div>
                 </div>
-
-                    </div>
-                </div>
-
-
-
-
-                            <div class="row activist_story">
-
-                                <div class="row share_title">
-                                <div class="col-md-12 ">
-                                    What Is She Known For?
-                                </div>
-                            </div>
-                                <div class="row share_title">
-                                <div class="col-md-12">
-                                    <h5> Choose one or more categories. </h5>
-                                    <div class="control-group">
+                <div class="row share_title">
+                    <div class="col-md-12">
+                        <h5> Choose one or more categories. </h5>
+                        <div class="control-group">
                             <div class="tag_buttons">
                                 {% for list in tags %}
                                     <div class="row">
@@ -115,114 +112,136 @@
                                 {% endfor %}
                             </div>
                         </div>
-                                </div>
-                            </div>
+                    </div>
+                </div>
 
-                                 <div class="row share_title">
-                                <div class="col-md-12 ">
-                                     Share Her Story
-                                    <h5> Share a few words about how your woman activist <br>
-                                         has inspired you and others
-                                    </h5>
-                                    <textarea class="activist_story_input" id="editor1" name="editor1" maxlength="1500" placeholder="Enter your story here" rows="10" required=""></textarea>
-                                </div>
-                            </div>
+                <div class="row share_title">
+                    <div class="col-md-12 ">
+                        Share Her Story
+                        <h5> Share a few words about how your woman activist <br>
+                            has inspired you and others
+                        </h5>
+                        <textarea class="activist_story_input" id="editor1" name="editor1"
+                                  placeholder="Enter your story here" rows="10" required=""></textarea>
+                    </div>
+                </div>
 
-                            <div class="row share_title">
-                                <div class="col-md-12 ">
-                                     Add A Link
-                                    <h5> Enter a URL to allow others to learn <br>
-                                        more about your woman activist online
+                <div class="row share_title">
+                    <div class="col-md-12 ">
+                        Add A Link
+                        <h5> Enter a URL to allow others to learn <br>
+                            more about your woman activist online
+                        </h5>
+                        <div class="control-group">
+                            <input class="activist_info_field col-sm-push-4 col-sm-4" name="input_url_link"
+                                   title="Activist Link"
+                                   maxlength="140"
+                                   value="{{ activist_link or '' }}" placeholder="www.activistwoman.com">
 
-                                    </h5>
-                                    <div class="control-group">
-                                <input class="activist_info_field col-sm-push-4 col-sm-4" name="input_url_link"
-                                       title="Activist Link"
-                                       maxlength="140"
-                                       value="{{ activist_link or '' }}" placeholder="www.activistwoman.com">
-                            </div>
                         </div>
 
-                                </div>
-
-                                <div class="row">
-                                    <span class="required">optional</span></div>
-
-
-                                <div class="row">
-                                <div class="col-md-12  share_title">
-                                            Add Media
-                                    <h5> Add your favorite photo or video of the <br>
-                                        woman activist to help tell her story.
-
-                                    </h5>
-                                    <div class="control-group" style="max-width: 6em; margin: auto auto 1.5em;">
-                                <button type="button" class="upload_image" id="media_action_button_image">
-                                    Add Image Link
-                                </button>
-                                <button type="button" class="upload_video" id="media_action_button_video">
-                                    Add Video Link
-                                </button>
-                            </div>
-                                </div>
-                                </div>
-
-
-
-                            </div>
-
-
-
-
-                <div class="row activist_information">
-                                <div class="row share_title">
-                                <div class="col-md-12 ">
-                                     Tell Us About Yourself
-                                </div>
-                                </div>
-
-
-                <div class="row activist_information">
+                    </div>
                     <div class="row">
+                        <span class="required">optional</span></div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-12  share_title">
+                        Add Media
+                        <h5> Add your favorite photo or video of the <br>
+                            woman activist to help tell her story.
+
+                        </h5>
+                        <div class="control-group" style="max-width: 6em; margin: auto auto 1.5em;">
+                            <button type="button" class="upload_image" id="media_action_button_image">
+                                Add Image Link
+                            </button>
+                            <button type="button" class="upload_video" id="media_action_button_video">
+                                Add Video Link
+                            </button>
+                        </div>
+                        <div class="row">
+                            <span class="required">optional</span></div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class="row activist_information">
+                <div class="row share_title">
+                    <div class="col-md-12 ">
+                        Tell Us About Yourself
+                    </div>
+                </div>
+
+
+                <div class="row">
                     <div class="col-md-12  share_title">
                         <h5> If you would like to share your name,enter below. <br>
-                             Your email address will not be made public</h5>
+                            Your email address will not be made public</h5>
                     </div>
                 </div>
+
+
+                <div class="row">
+                    <div class="col-md-2 col-md-push-4 ">
+                        <input class="activist_info_field" name="activist_first_name"
+                               title="Activist First Name"
+                               value="{{ activist_first_name or '' }}" maxlength="30" placeholder="Mary"
+                               required>
+                    </div>
+                    <div class="col-xs-2"></div>
+                    <div class="col-md-2 col-md-push-2 ">
+                        <input class="activist_info_field" name="activist_last_name"
+                               title="Activist Last Name"
+                               value="{{ activist_last_name or '' }}" maxlength="30" placeholder="Smith"
+                               required>
+                    </div>
                 </div>
 
-                    <div class="row">
-                    <div class="col-md-2 col-md-push-4 ">
-                                <input class="activist_info_field" name="activist_first_name"
-                                       title="Activist First Name"
-                                       value="{{ activist_first_name or '' }}" maxlength="30" placeholder="Mary"
-                                       required>
-                            </div>
-                        <div class="col-xs-2"></div>
+                <div class="row">
+                    <div class="col-md-4 col-md-push-4">
+                        <input class="activist_info_field" name="author_email" title="Author Email"
+                               maxlength="140"
+                               value="{{ author_email or '' }}" placeholder="msmith@gmail.com"
+                               style="padding-top: 1em;">
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col-md-4 col-md-push-4">
+                        <div class="control-group">
+                            <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"
+                                 style="margin: 2.5rem"></div>
+                        </div>
+                    </div>
+                </div>
 
-                            <div class="col-md-2 col-md-push-2 ">
-                                <input class="activist_info_field" name="activist_last_name"
-                                       title="Activist Last Name"
-                                       value="{{ activist_last_name or '' }}" maxlength="30" placeholder="Smith"
-                                       required>
+                <div class="row">
+                    <div class="col-md-12 ">
+                        <div id="requestButton" class="control-group">
+                            <div>
+                                <button type="submit" title="submit_post" class="center-block hero_action_button">
+                                    Submit
+                                </button>
                             </div>
                         </div>
-
-                            <div class="row">
-                            <div class="col-md-3 col-md-push-4">
-                        <input class="activist_info_field" name="author_email" title="Author Email"
-                                       maxlength="140"
-                                       value="{{ author_email or '' }}" placeholder="msmith@gmail.com"
-                                       style="padding-top: 1em;">
                     </div>
-                    </div>
-
-
-
-
-
                 </div>
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class style="text-align: center; margin-top: 2%">
+                            <a href="{{ url_for('main.guidelines') }}">Community Guidelines</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
         </form>

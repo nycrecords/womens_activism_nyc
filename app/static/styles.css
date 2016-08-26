@@ -324,6 +324,7 @@
 
 .share_title {
     padding-top: 5%;
+    line-height: 2px;
     font-size: 50px;
     font-family: "Open Sans Regular";
     font-weight: lighter;

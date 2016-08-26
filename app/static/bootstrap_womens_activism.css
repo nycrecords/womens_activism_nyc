@@ -153,6 +153,7 @@ textarea {
     font-size: inherit;
     font-weight: lighter;
     line-height: 28px;
+    width: calc(100% - 1.4rem);
 }
 
 button {

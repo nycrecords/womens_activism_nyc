@@ -724,6 +724,7 @@
 .contact_us {
     text-align: center;
     color: black;
+    word-wrap: break-word;
 }
 
 ::-webkit-input-placeholder {

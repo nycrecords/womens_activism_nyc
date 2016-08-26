@@ -747,11 +747,6 @@
     stroke-opacity: .8;
 }
 
-#our_story_body {
-    text-align: left;
-    float: left;
-}
-
 /* Media Queries */
 
 @media only screen and (max-width: 991px){

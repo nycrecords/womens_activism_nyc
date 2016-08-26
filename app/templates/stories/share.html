@@ -75,12 +75,21 @@
                                 {% for list in tags %}
                                     <div class="row">
                                         {% for tag in list %}
+                                            {% if tag.name in tag_list %}
+                                                <button onclick="category_button_click('{{ tag.name }}')" type="button"
+                                                    value="{{ tag.name }}" id="{{ tag.name }}" class="btn btn-primary active"
+                                                    data-toggle="button"
+                                                    name="{{ tag.name }}" data-button="{{ tag.name }}"
+                                                    aria-pressed="true"
+                                                    autocomplete="off">{{ tag.name }}</button>
+                                            {% else %}
                                             <button onclick="category_button_click('{{ tag.name }}')" type="button"
                                                     value="{{ tag.name }}" id="{{ tag.name }}" class="btn btn-primary"
                                                     data-toggle="button"
                                                     name="{{ tag.name }}" data-button="{{ tag.name }}"
                                                     aria-pressed="false"
                                                     autocomplete="off">{{ tag.name }}</button>
+                                            {% endif %}
                                         {% endfor %}
                                     </div>
                                 {% endfor %}
@@ -398,6 +407,19 @@
         $('textarea').keyup(function () {
             var length = $(this).val().length;
             $('#chars').text(length + " / 1500 used");
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var category_buttons = document.getElementsByClassName('btn btn-primary active');  // grabs all tag buttons selected previously
+            for (var i = 0; i < category_buttons.length; i++) {  // loops through list of previously selected tags
+                $('<input>').attr({
+                    type: 'hidden',
+                    value: category_buttons[i].value,
+                    name: "category_button",
+                    id: "category_button_" + category_buttons[i].value
+                }).appendTo('form');  // add a hidden input field with value of the tag pressed
+            }
         });
     </script>
     <script type="text/javascript">

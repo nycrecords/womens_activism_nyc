@@ -105,76 +105,76 @@ def share(data=None):
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
-                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_first_name=author_first_name, author_last_name=author_last_name, tag_list=tag_list,
                                    author_email=author_email, image_link=image_link, video_link=video_link, site_key=site_key)
         elif activist_last_name == '':  # user has not submitted activist last name
             flash("Please enter a last name for women's activist.")
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
-                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_first_name=author_first_name, author_last_name=author_last_name, tag_list=tag_list,
                                    author_email=author_email, image_link=image_link, video_link=video_link, site_key=site_key)
-        elif len(activist_start_date) > 0:
-            if not (len(activist_start_date) == 4 and activist_start_date.isdigit()):
+        elif len(activist_start_date) > 0:  # user has entered an activist start date
+            if not (len(activist_start_date) == 4 and activist_start_date.isdigit()):  # user did not submit a 4 digit year
                 flash("Please enter a valid year of birth.")
                 return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                        activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                        activist_end_date=activist_end_date, content=content,
                                        activist_link=activist_link,
-                                       author_first_name=author_first_name, author_last_name=author_last_name,
+                                       author_first_name=author_first_name, author_last_name=author_last_name, tag_list=tag_list,
                                        author_email=author_email, image_link=image_link, video_link=video_link, site_key=site_key)
-        if len(activist_end_date) > 0:
-            if not ((len(activist_end_date) == 4 and activist_end_date.isdigit()) or activist_end_date == 'Today'):
+        if len(activist_end_date) > 0:  # user has entered an activist end date
+            if not ((len(activist_end_date) == 4 and activist_end_date.isdigit()) or activist_end_date == 'Today'):  # user did not submit a 4 didigt year or 'Today'
                 flash("Please enter a valid year of death.")
                 return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                        activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                        activist_end_date=activist_end_date, content=content,
                                        activist_link=activist_link,
-                                       author_first_name=author_first_name, author_last_name=author_last_name,
+                                       author_first_name=author_first_name, author_last_name=author_last_name, tag_list=tag_list,
                                        author_email=author_email, image_link=image_link, video_link=video_link, site_key=site_key)
-        if (activist_end_date.isdigit() and activist_start_date.isdigit()):
+        if (activist_end_date.isdigit() and activist_start_date.isdigit()):  # user submitted valid years for activist_start_date and activist_end_date
             if ((int(activist_end_date) or 0) < int(activist_start_date or 0)) or (activist_end_date and not activist_start_date) or (activist_start_date and not activist_end_date):  # user submitted an incorrect year range
                 flash("Please enter a correct year range.")
                 return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                        activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                        activist_end_date=activist_end_date, content=content, activist_link=activist_link,
-                                       author_first_name=author_first_name, author_last_name=author_last_name,
+                                       author_first_name=author_first_name, author_last_name=author_last_name, tag_list=tag_list,
                                        author_email=author_email, image_link=image_link, video_link=video_link, site_key=site_key)
         if len(tag_list) == 0:  # user submitted no tags
             flash('Please choose at least one tag.')
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
-                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_first_name=author_first_name, author_last_name=author_last_name, tag_list=tag_list,
                                    author_email=author_email, image_link=image_link, video_link=video_link, site_key=site_key)
         elif content == '':  # user has not submitted content
             flash('Please enter a story.')
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
-                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_first_name=author_first_name, author_last_name=author_last_name, tag_list=tag_list,
                                    author_email=author_email, image_link=image_link, video_link=video_link, site_key=site_key)
         elif not valid_video:
             flash("Invalid video link. Please check your video link")
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
-                                   author_first_name=author_first_name, author_last_name=author_last_name,
+                                   author_first_name=author_first_name, author_last_name=author_last_name, tag_list=tag_list,
                                    author_email=author_email, image_link=image_link, site_key=site_key)
         elif not valid_image:
             flash("Invalid image link. Please check your image")
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
-                                   author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email, image_link=image_link, site_key=site_key)
+                                   author_first_name=author_first_name, author_last_name=author_last_name, tag_list=tag_list,
+                                   author_email=author_email, video_link=video_link, site_key=site_key)
         elif recaptcha.verify() is False:  # user has not passed the recaptcha verification
             flash("Please complete reCAPTCHA.")
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
-                                   author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email, image_link=image_link, site_key=site_key)
+                                   author_first_name=author_first_name, author_last_name=author_last_name, tag_list=tag_list,
+                                   author_email=author_email, image_link=image_link, video_link=video_link, site_key=site_key)
         else:  # user has successfully submitted
             if len(author_first_name) > 0 or len(author_last_name) > 0 or len(author_email) > 0:
                 # user entered information about themselves
@@ -317,7 +317,6 @@ def edit(id):
         'tags': tags,
         'image_link': story.image_link,
         'video_link': story.video_link
-
     }
 
     if request.method == 'POST':

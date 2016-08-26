@@ -111,6 +111,7 @@ def catalog():
                 'activist_last': story.activist_last,
                 'activist_start': story.activist_start,
                 'activist_end': story.activist_end,
+                'content': story.content,
                 'creation_time': story.creation_time,
                 'edit_time': story.edit_time,
                 'is_visible': story.is_visible,
@@ -118,10 +119,7 @@ def catalog():
                 'tags': tags
             }
             if story.image_link is not None:
-                current_story['content'] = story.content[:50]
                 current_story['image_link'] = story.image_link
-            else:
-                current_story['content'] = story.content[:150]
             page_stories.append(current_story)
         else:
             continue
@@ -173,6 +171,7 @@ def get_tags():
                 'activist_last': story.activist_last,
                 'activist_start': story.activist_start,
                 'activist_end': story.activist_end,
+                'content': story.content,
                 'creation_time': story.creation_time,
                 'edit_time': story.edit_time,
                 'is_visible': story.is_visible,
@@ -180,10 +179,7 @@ def get_tags():
                 'tags': tags
             }
             if story.image_link is not None:
-                current_story['content'] = story.content[:50]
                 current_story['image_link'] = story.image_link
-            else:
-                current_story['content'] = story.content[:150]
             page_stories.append(current_story)
 
         stories = []
@@ -226,6 +222,7 @@ def get_tags():
                 'activist_last': story.activist_last,
                 'activist_start': story.activist_start,
                 'activist_end': story.activist_end,
+                'content': story.content,
                 'creation_time': story.creation_time,
                 'edit_time': story.edit_time,
                 'is_visible': story.is_visible,
@@ -233,10 +230,7 @@ def get_tags():
                 'tags': tags
             }
             if story.image_link is not None:
-                current_story['content'] = story.content[:50]
                 current_story['image_link'] = story.image_link
-            else:
-                current_story['content'] = story.content[:150]
             page_stories.append(current_story)
 
         page_stories.reverse()

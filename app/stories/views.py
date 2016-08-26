@@ -451,7 +451,7 @@ def delete(id):
     return render_template('stories/delete_story.html', story=story)
 
 
-@stories.route('/stories/<int:id>', methods=['GET', 'POST'])
+@stories.route('/catalog/<int:id>', methods=['GET', 'POST'])
 def stories(id):
     """
     Route used to show a story on its own single page

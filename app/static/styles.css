@@ -110,6 +110,11 @@
     line-height: 2.0;
 }
 
+#our_story_body{
+    text-align: left;
+    float: left;
+}
+
 #num_stories {
     font-size: 50px;
     font-family: "Open Sans Regular";
@@ -344,11 +349,11 @@
 
 .share_title {
     padding-top: 5%;
-    font-size: 50px;
+    font-size: 45px;
     font-family: "Open Sans Regular";
     font-weight: lighter;
     color: rgb(255, 255, 255);
-    line-height: 0.599;
+    line-height: 1;
     text-align: center;
     -moz-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
     -webkit-transform: matrix(1.0000090694953, 0, 0, 0.99766268359034, 0, 0);
@@ -671,7 +676,8 @@
 }
 
 .partners_image{
-    border-radius: 50%;
+
+
     width: 15rem;
     height: 15rem;
 }
@@ -745,4 +751,24 @@
     float: left;
     margin-left: 5%;
     margin-right: 5%;
+}
+
+/* Media Queries */
+
+@media only screen and (max-width: 991px){
+    .hide-mobile{
+        display:none;
+    }
+    .show-mobile{
+        display:block;
+    }
+}
+
+@media only screen and (min-width: 992px){
+    .hide-mobile{
+        display:block;
+    }
+    .show-mobile{
+        display:none;
+    }
 }

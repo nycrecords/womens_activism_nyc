@@ -52,6 +52,8 @@ def share(data=None):
     :return: renders template where user can share their story "post" flashes success message if completed
      renders template with information retained in session if user has not completed a required field
     """
+    site_key = current_app.config['RECAPTCHA_SITE_KEY']
+
     tags = []
     for i in range(0, len(Tag.query.all()), 5):
         l = []
@@ -98,14 +100,14 @@ def share(data=None):
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email, image_link=image_link, video_link=video_link)
+                                   author_email=author_email, image_link=image_link, video_link=video_link, site_key=site_key)
         elif activist_last_name == '':  # user has not submitted activist last name
             flash("Please enter a last name for women's activist.")
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email, image_link=image_link, video_link=video_link)
+                                   author_email=author_email, image_link=image_link, video_link=video_link, site_key=site_key)
         # elif activist_start_date == '':  # user has not submitted activist start date
         #     flash("Please enter a year of birth for women's activist.")
         #     return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
@@ -129,7 +131,7 @@ def share(data=None):
                                        activist_end_date=activist_end_date, content=content,
                                        activist_link=activist_link,
                                        author_first_name=author_first_name, author_last_name=author_last_name,
-                                       author_email=author_email, image_link=image_link, video_link=video_link)
+                                       author_email=author_email, image_link=image_link, video_link=video_link, site_key=site_key)
         if len(activist_end_date) > 0:
             if not ((len(activist_end_date) == 4 and activist_end_date.isdigit()) or activist_end_date == 'Today'):
                 flash("Please enter a valid year of death.")
@@ -138,7 +140,7 @@ def share(data=None):
                                        activist_end_date=activist_end_date, content=content,
                                        activist_link=activist_link,
                                        author_first_name=author_first_name, author_last_name=author_last_name,
-                                       author_email=author_email, image_link=image_link, video_link=video_link)
+                                       author_email=author_email, image_link=image_link, video_link=video_link, site_key=site_key)
         if (activist_end_date.isdigit() and activist_start_date.isdigit()):
             if ((int(activist_end_date) or 0) < int(activist_start_date or 0)) or (activist_end_date and not activist_start_date) or (activist_start_date and not activist_end_date):  # user submitted an incorrect year range
                 flash("Please enter a correct year range.")
@@ -146,35 +148,35 @@ def share(data=None):
                                        activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                        activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                        author_first_name=author_first_name, author_last_name=author_last_name,
-                                       author_email=author_email, image_link=image_link, video_link=video_link)
+                                       author_email=author_email, image_link=image_link, video_link=video_link, site_key=site_key)
         if len(tag_list) == 0:  # user submitted no tags
             flash('Please choose at least one tag.')
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email, image_link=image_link, video_link=video_link)
+                                   author_email=author_email, image_link=image_link, video_link=video_link, site_key=site_key)
         elif content == '':  # user has not submitted content
             flash('Please enter a story.')
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email, image_link=image_link, video_link=video_link)
+                                   author_email=author_email, image_link=image_link, video_link=video_link, site_key=site_key)
         elif not valid_video:
             flash("Invalid video link. Please check your video link")
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email, image_link=image_link)
+                                   author_email=author_email, image_link=image_link, site_key=site_key)
         elif not valid_image:
             flash("Invalid image link. Please check your image")
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email, image_link=image_link)
+                                   author_email=author_email, image_link=image_link, site_key=site_key)
         # elif recaptcha.verify() == False:  # user has not passed the recaptcha verification
         #     flash("Please complete reCAPTCHA.")
         #     return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
@@ -235,8 +237,8 @@ def share(data=None):
                 put_obj(story_tag)  # adds storytag into database
 
             flash('Story submitted!', category='share_submitted_story')
-            return redirect(url_for('stories.share', id=story_id.id))
-    return render_template('stories/share.html', tags=tags)
+            return redirect(url_for('stories.share', id=story_id.id, site_key=site_key))
+    return render_template('stories/share.html', tags=tags, site_key=site_key)
 
 
 @stories.route('/stories', methods=['GET', 'POST'])

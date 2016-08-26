@@ -1,11 +1,11 @@
 <a style="display:block" href="{{ url_for('stories.stories', id=story['id']) }}">
-    <div class="col-sm-3 card" id="card-size">
+    <div class="col-sm-3 card col-height" id="card-size">
         <div class="col-sm-12" style="height:100%;">
             <div class="row" id="card-header">
             <span class="card-header">{{ story['activist_first'] }}&nbsp;{{ story['activist_last'] }}</span>
             </div> <br>
             {% if story['image_link'] %}
-                <div class="row" id="card-summary">
+                <div class="row card-summary">
                     {% if story['content']|length < 30 %}
                         <span class="card-summary">{{ story['content'] }}</span>
                     {% else %}
@@ -27,3 +27,28 @@
         </div>
     </div>
 </a>
+
+<div class="row">
+<div class="row-height">
+  <div class="col-xs-6 col-height">
+    <div class="inside">
+      <div class="content"><br><br><br><br><br><br><br></div>
+    </div>
+  </div>
+  <div class="col-xs-3 col-height col-top">
+    <div class="inside">
+      <div class="content"></div>
+    </div>
+  </div>
+  <div class="col-xs-2 col-height col-middle">
+    <div class="inside">
+      <div class="content"></div>
+    </div>
+  </div>
+  <div class="col-xs-1 col-height col-bottom">
+    <div class="inside">
+      <div class="content"></div>
+    </div>
+  </div>
+ </div>
+</div>

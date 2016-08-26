@@ -184,7 +184,8 @@
 /*}*/
 
 #card-size {
-    height: 31rem;
+    display:table-cell;
+    overflow:hidden;
 }
 
 #card-header {

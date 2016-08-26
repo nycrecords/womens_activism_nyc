@@ -33,11 +33,11 @@ from datetime import datetime
 import requests
 from flask import render_template, current_app, flash, redirect, url_for, request
 from flask_login import login_required, current_user
-from app import recaptcha
 from app.db_helpers import put_obj, delete_obj
 from app.models import Story, User, StoryTag, Tag, StoryEdit
 from app.send_email import send_email
 from app.stories import stories
+from app import recaptcha
 
 
 @stories.route('/shareastory', methods=['GET', 'POST'])
@@ -177,13 +177,13 @@ def share(data=None):
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name,
                                    author_email=author_email, image_link=image_link, site_key=site_key)
-        elif recaptcha.verify() == False:  # user has not passed the recaptcha verification
-            flash("Please complete reCAPTCHA.")
-            return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
-                                   activist_last_name=activist_last_name, activist_start_date=activist_start_date,
-                                   activist_end_date=activist_end_date, content=content, activist_link=activist_link,
-                                   author_first_name=author_first_name, author_last_name=author_last_name,
-                                   author_email=author_email, image_link=image_link, site_key=site_key)
+        # elif recaptcha.verify() == False:  # user has not passed the recaptcha verification
+        #     flash("Please complete reCAPTCHA.")
+        #     return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
+        #                            activist_last_name=activist_last_name, activist_start_date=activist_start_date,
+        #                            activist_end_date=activist_end_date, content=content, activist_link=activist_link,
+        #                            author_first_name=author_first_name, author_last_name=author_last_name,
+        #                            author_email=author_email, image_link=image_link, site_key=site_key)
         else:  # user has successfully submitted
             if len(author_first_name) > 0 or len(author_last_name) > 0 or len(author_email) > 0:
                 # user entered information about themselves
@@ -220,14 +220,15 @@ def share(data=None):
                 story.video_link = video_link
 
             if image_link == '':  # if image_link is blank set it to None
-                print("image null")
                 image_link = None
                 story.image_link = image_link
 
             if video_link == '':  # if video_link is blank set it to None
-                print("video null")
                 video_link = None
                 story.video_link = video_link
+
+            # if activist_link == '':
+            #     story.activist_url = None
 
             story_id = put_obj(story)  # adds story into the database
 
@@ -491,6 +492,7 @@ def stories(id):
             'tags': tags,
             'image_link': single_story.image_link,
             'video_link': single_story.video_link,
+            'activist_url': single_story.activist_url
         }
         if single_story.poster_id:
             poster = User.query.filter_by(id=single_story.poster_id).first()

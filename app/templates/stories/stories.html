@@ -52,7 +52,13 @@
                 <div class="col-sm-12" style="text-align: center">
                     <div class="story-content" style="text-align: center">
                         {{ story['content'] | safe }}
+                    </div> <br> <br> <br>
+                    {% if story['activist_url'] and story['activist_url'] | length > 0 %}
+                    <div class="row">
+                        <p>To learn more visit:</p>
+                        <a href="{{ story['activist_url'] }}" target="_blank">{{ story['activist_url'] }}</a>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div> <br>

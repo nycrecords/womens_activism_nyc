@@ -5,11 +5,11 @@
             <span class="card-header">{{ story['activist_first'] }}&nbsp;{{ story['activist_last'] }}</span>
             </div> <br>
             {% if story['image_link'] %}
-                <div class="row card-summary">
-                    {% if story['content']|length < 30 %}
+                <div class="row" id="card-summary">
+                    {% if story['content']|length < 50 %}
                         <span class="card-summary">{{ story['content'] }}</span>
                     {% else %}
-                        <span class="card-summary">{{ story['content'][:30] }}...</span>
+                        <span class="card-summary">{{ story['content'][:50] }}...</span>
                     {% endif %}
                 </div> <br>
                 <div class="row" id="card-image">
@@ -17,10 +17,10 @@
                 </div> <br>
             {% else %}
                 <div class="row" id="card-summary">
-                    {% if story['content']|length < 100 %}
+                    {% if story['content']|length < 150 %}
                         <span class="card-summary">{{ story['content'] }}</span>
                     {% else %}
-                        <span class="card-summary">{{ story['content'][:100] }}...</span>
+                        <span class="card-summary">{{ story['content'][:150] }}...</span>
                     {% endif %}
                 </div>
             {% endif %}

@@ -51,6 +51,7 @@
 
 .hero_action_button {
     border-width: 1.5px;
+
     border-color: rgb(255, 255, 255);
     border-style: solid;
     width: 229px;
@@ -422,6 +423,9 @@
     background: transparent;
 }
 
+#requestButton{
+    padding-top:10%;
+}
 
 .required {
     font-size: 22px;

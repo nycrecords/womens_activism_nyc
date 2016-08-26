@@ -80,17 +80,12 @@ def share(data=None):
         video_link = data['video_link']
         tag_list = data.getlist('category_button')
 
-        # if activist_link and activist_link != '':
-        #     valid_link = requests.get(activist_link)
-        #     valid_link = (valid_link.status_code == 200)
-        # else:
-        #     valid_link = True
-
         if video_link and video_link != '':
-            valid_video = requests.get(video_link)
-            valid_video = (valid_video.status_code == 200)
-            if "youtube" not in video_link and "youtu.be" not in video_link and "vimeo" not in video_link:
+            if "youtube.com" not in video_link and "youtu.be" not in video_link and "vimeo.com" not in video_link:
                 valid_video = False
+            else:
+                valid_video = requests.get(video_link)
+                valid_video = (valid_video.status_code == 200)
         else:
             valid_video = True
 
@@ -160,14 +155,14 @@ def share(data=None):
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name, tag_list=tag_list,
-                                   author_email=author_email, image_link=image_link, site_key=site_key)
+                                   author_email=author_email, site_key=site_key)
         elif not valid_image:
             flash("Invalid image link. Please check your image")
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name, tag_list=tag_list,
-                                   author_email=author_email, video_link=video_link, site_key=site_key)
+                                   author_email=author_email, site_key=site_key)
         elif recaptcha.verify() is False:  # user has not passed the recaptcha verification
             flash("Please complete reCAPTCHA.")
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,

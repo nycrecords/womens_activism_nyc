@@ -1,11 +1,11 @@
 <a style="display:block" href="{{ url_for('stories.stories', id=story['id']) }}">
-    <div class="col-sm-3 card" id="card-size">
+    <div class="col-sm-3 card col-height" id="card-size">
         <div class="col-sm-12">
             <div class="row" id="card-header">
             <span class="card-header">{{ story['activist_first'] }}&nbsp;{{ story['activist_last'] }}</span>
             </div> <br>
             {% if story['image_link'] %}
-                <div class="row" id="card-summary">
+                <div class="row card-summary">
                     {% if story['content']|length < 30 %}
                         <span class="card-summary">{{ story['content'] }}</span>
                     {% else %}

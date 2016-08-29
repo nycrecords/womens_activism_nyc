@@ -519,6 +519,7 @@
 .feedback_form .row form .form-group .g-recaptcha div {
     margin-left: auto;
     margin-right: auto;
+    padding-top: 10%;
 }
 
 .feedback_form .row form #submit {
@@ -555,8 +556,6 @@
     text-align: center;
     font-family: "Open Sans Regular";
     border-radius:50%;
-
-
 }
 
 .coloring{

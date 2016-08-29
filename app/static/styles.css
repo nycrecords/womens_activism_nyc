@@ -212,7 +212,7 @@
     word-wrap: break-word;
 }
 
-.card-summary {
+#card-summary {
     text-align: center;
     color: #59315f;
     word-wrap: break-word;

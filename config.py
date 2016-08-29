@@ -22,8 +22,8 @@ class Config:
     STORIES_PER_PAGE = 8
     COMMENTS_PER_PAGE = 10
     RECAPTCHA_ENABLED = True
-    RECAPTCHA_SITE_KEY = os.environ.get('RECAPTCHA_SITE_KEY')
-    RECAPTCHA_SECRET_KEY = os.environ.get('RECAPTCHA_SECRET_KEY')
+    # RECAPTCHA_SITE_KEY = os.environ.get('RECAPTCHA_SITE_KEY')
+    # RECAPTCHA_SECRET_KEY = os.environ.get('RECAPTCHA_SECRET_KEY')
 
     # TODO: change hard coding configs to use .env file instead
     # TODO: add in docstrings
@@ -40,9 +40,9 @@ class Config:
     # MAIL_SENDER = 'Womens Activism NYC Admin <womensactivismnyc@gmail.com>'
     # WOMENS_ADMIN = 'womensactivismnyc@gmail.com'
     # STORIES_PER_PAGE = 10
-    #
-    # RECAPTCHA_PUBLIC_KEY = '6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH'
-    # RECAPTCHA_PRIVATE_KEY = '6LetUSYTAAAAAN1pLPLyyIFUh6rEemXczfMFT4um'
+
+    RECAPTCHA_SITE_KEY = '6LexECYTAAAAAFaNYELFVlBX_ARf8_4QETX9SjYK'
+    RECAPTCHA_SECRET_KEY = '6LexECYTAAAAAEHJZpWG41ASelOpb4VCTAtbuwLr'
     #
     # RECAPTCHA_ENABLED = True
     # RECAPTCHA_SITE_KEY = "6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"

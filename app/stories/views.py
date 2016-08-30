@@ -228,8 +228,13 @@ def share(data=None):
 
             flash('Story submitted!', category='share_submitted_story')
 
-            send_email(to=current_app.config['WOMENS_ADMIN'], subject='New Story Submitted',
-                       template='mail/email_new_story', story=story, tags=tag_list)
+            to_list = [current_app.config['WOMENS_ADMIN']]
+            if author_email:
+                to_list.append(author_email)
+
+            for recipient in to_list:
+                send_email(to=recipient, subject='New Story Submitted', template='mail/email_new_story',
+                           story=story, tags=tag_list)
 
             return redirect(url_for('stories.share', id=story_id.id, site_key=site_key))
     return render_template('stories/share.html', tags=tags, site_key=site_key)

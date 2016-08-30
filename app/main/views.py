@@ -106,52 +106,59 @@ def catalog(data=None):
                 break
         tags.append(l)
 
-    # for story in Story.query.order_by('id desc').all():
-    #     if story.is_visible == True:
-    #         story_tags = StoryTag.query.filter_by(story_id=story.id).all()
-    #         tags = []
-    #         for story_tag in story_tags:
-    #             name = Tag.query.filter_by(id=story_tag.tag_id).first().name
-    #             tags.append(name)
-    #         current_story = {
-    #             'id': story.id,
-    #             'activist_first': story.activist_first,
-    #             'activist_last': story.activist_last,
-    #             'activist_start': story.activist_start,
-    #             'activist_end': story.activist_end,
-    #             'content': story.content,
-    #             'creation_time': story.creation_time,
-    #             'edit_time': story.edit_time,
-    #             'is_visible': story.is_visible,
-    #             'is_edited': story.is_edited,
-    #             'tags': tags
-    #         }
-    #         if story.image_link is not None:
-    #             current_story['image_link'] = story.image_link
-    #         page_stories.append(current_story)
-    #     else:
-    #         continue
-    #
-    # stories = []
-    # for i in range(0, len(Story.query.all()), 4):
-    #     l = []
-    #     for j in range(i, i + 4):
-    #         try:
-    #             l.append(page_stories[j])
-    #         except IndexError:
-    #             break
-    #     stories.append(l)
-
     stories = []
+
+    sort_options = ['A-Z First Name', 'Z-A First Name', 'A-Z Last Name', 'Z-A Last Name']
 
     if data or request.method == 'POST':
         data = request.form.copy()
-        print(data)
-        tag_list = data.getlist('category_button')
-        print(tag_list)
-        return render_template('catalog.html', tags=tags, stories=stories, tag_list=tag_list)
 
-    return render_template('catalog.html', tags=tags, stories=stories)
+        tag_list = data.getlist('category_button')
+        name_search = data['input_name_search']
+        previous_sort_option = data['sort_option']
+        print(tag_list, name_search, previous_sort_option)
+
+        return render_template('catalog.html', tags=tags, stories=stories, tag_list=tag_list, name_search=name_search,
+                               previous_sort_option=previous_sort_option, sort_options=sort_options)
+
+    return render_template('catalog.html', tags=tags, stories=stories, sort_options=sort_options)
+
+
+# for story in Story.query.order_by('id desc').all():
+#     if story.is_visible == True:
+#         story_tags = StoryTag.query.filter_by(story_id=story.id).all()
+#         tags = []
+#         for story_tag in story_tags:
+#             name = Tag.query.filter_by(id=story_tag.tag_id).first().name
+#             tags.append(name)
+#         current_story = {
+#             'id': story.id,
+#             'activist_first': story.activist_first,
+#             'activist_last': story.activist_last,
+#             'activist_start': story.activist_start,
+#             'activist_end': story.activist_end,
+#             'content': story.content,
+#             'creation_time': story.creation_time,
+#             'edit_time': story.edit_time,
+#             'is_visible': story.is_visible,
+#             'is_edited': story.is_edited,
+#             'tags': tags
+#         }
+#         if story.image_link is not None:
+#             current_story['image_link'] = story.image_link
+#         page_stories.append(current_story)
+#     else:
+#         continue
+#
+# stories = []
+# for i in range(0, len(Story.query.all()), 4):
+#     l = []
+#     for j in range(i, i + 4):
+#         try:
+#             l.append(page_stories[j])
+#         except IndexError:
+#             break
+#     stories.append(l)
 
 
 # @main.route('/catalog', methods=['GET', 'POST'])

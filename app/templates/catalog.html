@@ -45,14 +45,24 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var category_buttons = document.getElementsByClassName('btn btn-primary active');  // grabs all tag buttons selected previously
-            for (var i = 0; i < category_buttons.length; i++) {  // loops through list of previously selected tags
-                $('<input>').attr({
-                    type: 'hidden',
-                    value: category_buttons[i].value,
-                    name: "category_button",
-                    id: "category_button_" + category_buttons[i].value
-                }).appendTo('form');  // add a hidden input field with value of the tag pressed
+            var sort_options = ['A-Z First Name', 'Z-A First Name', 'A-Z Last Name', 'Z-A Last Name'];
+            var active_buttons = document.getElementsByClassName('btn btn-primary active');  // grabs all tag buttons selected previously
+            for (var i = 0; i < active_buttons.length; i++) {  // loops through list of previously selected tags
+                if (sort_options.indexOf(active_buttons[i].id) >= 0) {
+                    $('<input>').attr({
+                        type: 'hidden',
+                        value: active_buttons[i].value,
+                        name: "sort_option",
+                        id: "sort_option_" + active_buttons[i].value
+                    }).appendTo('form');  // add a hidden input field with value of the tag pressed
+                } else {
+                    $('<input>').attr({
+                        type: 'hidden',
+                        value: active_buttons[i].value,
+                        name: "category_button",
+                        id: "category_button_" + active_buttons[i].value
+                    }).appendTo('form');  // add a hidden input field with value of the tag pressed
+                }
             }
         });
     </script>
@@ -73,27 +83,27 @@
             }
         }
     </script>
-    <script type="text/javascript">
-        function sorting_option_click(sorting_option) {
-            var category_button = document.getElementById(sorting_option);  // get button being pressed
-            console.log(category_button);
-{#            if (category_button.hasClass("active")) {  // check if the button was previously not active#}
-{#                $('<input>').attr({#}
-{#                    type: 'hidden',#}
-{#                    value: sorting_option,#}
-{#                    name: "category_button",#}
-{#                    id: "category_button_" + sorting_option#}
-{#                }).appendTo('form');  // add a hidden input field with value of the tag pressed#}
-{#            }#}
-{#            if (category_button.hasClass("active")) {  // check if button was previously active#}
-{#                var hidden_category_button = document.getElementById("category_button_" + sorting_option);  // get hidden input field that was created#}
-{#                hidden_category_button.remove();  // remove hidden input field#}
-{#            }#}
-        }
-    </script>
     <script>
     $(".btn-group > .btn").click(function() {
-        $(this).addClass("active").siblings().removeClass("active");
+        if (this.getAttribute("class") != "btn btn-primary active") {
+            $(this).addClass("active").siblings().removeClass("active");
+            for (var i = 0; i < $(this).siblings().length; i++) {  // loops through list of other buttons in btn-group
+                var remove_sorting_option = document.getElementById("sort_option_" + $(this).siblings()[i].getAttribute("id"));
+                if (remove_sorting_option != null) {
+                    remove_sorting_option.remove();  // removes other active button hidden inputs
+                }
+            }
+            $('<input>').attr({
+                type: 'hidden',
+                value: this.getAttribute("id"),
+                name: "sort_option",
+                id: "sort_option_" + this.getAttribute("id")
+            }).appendTo('form');  // add a hidden input field with value of the tag pressed
+        } else {
+            $(this).removeClass("active");
+            var hidden_sorting_option = document.getElementById("sort_option_" + this.getAttribute("id"));  // get hidden input field that was created
+            hidden_sorting_option.remove();  // remove hidden input field
+        }
     });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>

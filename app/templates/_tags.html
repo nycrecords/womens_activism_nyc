@@ -35,7 +35,7 @@
                 <h5>You may enter a name to narrow your search.</h5>
                 <div class="control-group">
                     <div class="search_keyword">
-                        <input class="activist_info_field col-sm-push-3 col-sm-6" name="input_name_search" title="Name Search" maxlength="256" placeholder="Name">
+                        <input class="activist_info_field col-sm-push-3 col-sm-6" value="{{ name_search or '' }}" name="input_name_search" title="Name Search" maxlength="256" placeholder="Name">
                     </div>
                 </div>
             </div><br><br>
@@ -44,10 +44,13 @@
                 <div class="control-group">
                     <div class="alphabetical_sort">
                         <div class="btn-group">
-                            <button onclick="sorting_option_click('First Asc')" id="First Asc" type="button" class="btn btn-primary">A-Z First Name</button>
-                            <button onclick="sorting_option_click('First Asc')" id="First Desc" type="button" class="btn btn-primary">Z-A First Name</button>
-                            <button onclick="sorting_option_click('First Asc')" id="Last Asc" type="button" class="btn btn-primary">A-Z Last Name</button>
-                            <button onclick="sorting_option_click('First Asc')" id="Last Desc" type="button" class="btn btn-primary">Z-A Last Name</button>
+                            {% for option in sort_options %}
+                                {% if option == previous_sort_option %}
+                                    <button value="{{ option }}" id="{{ option }}" type="button" class="btn btn-primary active">{{ option }}</button>
+                                {% else %}
+                                    <button value="{{ option }}" id="{{ option }}" type="button" class="btn btn-primary">{{ option }}</button>
+                                {% endif %}
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

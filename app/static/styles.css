@@ -750,6 +750,7 @@
 
 /* Media Queries */
 
+/*Mobile Devices*/
 @media only screen and (max-width: 991px){
     .hide-mobile{
         display:none;
@@ -757,12 +758,23 @@
     .show-mobile{
         display:block;
     }
+    .tag_buttons{
+        width: 90%;
+        padding-left: 2rem;
+    }
 }
 
-@media only screen and (min-width: 992px){
-    .hide-mobile{
-        display:block;
+/*Non-Mobile Devices*/
+@media only screen and (min-width: 992px) {
+    .hide-mobile {
+        display: block;
     }
+
+    .tag_buttons{
+        width: 90%;
+        padding-left: 2rem;
+    }
+
     .show-mobile{
         display:none;
     }

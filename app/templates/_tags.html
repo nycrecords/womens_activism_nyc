@@ -44,13 +44,33 @@
                 <div class="control-group">
                     <div class="alphabetical_sort">
                         <div class="btn-group">
-                            {% for option in sort_options %}
-                                {% if option == previous_sort_option %}
-                                    <button value="{{ option }}" id="{{ option }}" type="button" class="btn btn-primary active">{{ option }}</button>
-                                {% else %}
-                                    <button value="{{ option }}" id="{{ option }}" type="button" class="btn btn-primary">{{ option }}</button>
-                                {% endif %}
-                            {% endfor %}
+{#                            {% for option in sort_options %}#}
+{#                                {% if option == previous_sort_option %}#}
+{#                                    <button value="{{ option }}" id="{{ option }}" type="button" class="btn btn-primary active">{{ option }}</button>#}
+{#                                {% else %}#}
+{#                                    <button value="{{ option }}" id="{{ option }}" type="button" class="btn btn-primary">{{ option }}</button>#}
+{#                                {% endif %}#}
+{#                            {% endfor %}#}
+                            {% if "A-Z First Name" == previous_sort_option %}
+                                <button value="activist_first asc" id="A-Z First Name" type="button" class="btn btn-primary active">A-Z First Name</button>
+                            {% else %}
+                                <button value="activist_first asc" id="A-Z First Name" type="button" class="btn btn-primary">A-Z First Name</button>
+                            {% endif %}
+                            {% if "Z-A First Name" == previous_sort_option %}
+                                <button value="activist_first desc" id="Z-A First Name" type="button" class="btn btn-primary active">Z-A First Name</button>
+                            {% else %}
+                                <button value="activist_first desc" id="Z-A First Name" type="button" class="btn btn-primary">Z-A First Name</button>
+                            {% endif %}
+                            {% if "A-Z Last Name" == previous_sort_option %}
+                                <button value="activist_last asc" id="A-Z Last Name" type="button" class="btn btn-primary active">A-Z Last Name</button>
+                            {% else %}
+                                <button value="activist_last asc" id="A-Z Last Name" type="button" class="btn btn-primary">A-Z Last Name</button>
+                            {% endif %}
+                            {% if "Z-A Last Name" == previous_sort_option %}
+                                <button value="activist_last desc" id="Z-A Last Name" type="button" class="btn btn-primary active">Z-A Last Name</button>
+                            {% else %}
+                                <button value="activist_last desc" id="Z-A Last Name" type="button" class="btn btn-primary">Z-A Last Name</button>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

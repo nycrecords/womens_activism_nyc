@@ -152,27 +152,27 @@ def share(data=None):
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name, tag_list=tag_list,
                                    author_email=author_email, image_link=image_link, video_link=video_link, site_key=site_key)
-        elif not valid_video:
+        elif not valid_video:  # user has not submitted a valid video link
             flash("Invalid video link. Please check your video link")
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name, tag_list=tag_list,
                                    author_email=author_email, site_key=site_key)
-        elif not valid_image:
+        elif not valid_image:  # user has not submitted a valid image link
             flash("Invalid image link. Please check your image")
             return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
                                    activist_last_name=activist_last_name, activist_start_date=activist_start_date,
                                    activist_end_date=activist_end_date, content=content, activist_link=activist_link,
                                    author_first_name=author_first_name, author_last_name=author_last_name, tag_list=tag_list,
                                    author_email=author_email, site_key=site_key)
-        # elif recaptcha.verify() is False:  # user has not passed the recaptcha verification
-        #     flash("Please complete reCAPTCHA.")
-        #     return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
-        #                            activist_last_name=activist_last_name, activist_start_date=activist_start_date,
-        #                            activist_end_date=activist_end_date, content=content, activist_link=activist_link,
-        #                            author_first_name=author_first_name, author_last_name=author_last_name, tag_list=tag_list,
-        #                            author_email=author_email, image_link=image_link, video_link=video_link, site_key=site_key)
+        elif recaptcha.verify() is False:  # user has not passed the recaptcha verification
+            flash("Please complete reCAPTCHA.")
+            return render_template('stories/share.html', tags=tags, activist_first_name=activist_first_name,
+                                   activist_last_name=activist_last_name, activist_start_date=activist_start_date,
+                                   activist_end_date=activist_end_date, content=content, activist_link=activist_link,
+                                   author_first_name=author_first_name, author_last_name=author_last_name, tag_list=tag_list,
+                                   author_email=author_email, image_link=image_link, video_link=video_link, site_key=site_key)
         else:  # user has successfully submitted
             if len(author_first_name) > 0 or len(author_last_name) > 0 or len(author_email) > 0:
                 # user entered information about themselves

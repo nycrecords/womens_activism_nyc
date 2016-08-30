@@ -43,6 +43,59 @@
             })
         }
     </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var category_buttons = document.getElementsByClassName('btn btn-primary active');  // grabs all tag buttons selected previously
+            for (var i = 0; i < category_buttons.length; i++) {  // loops through list of previously selected tags
+                $('<input>').attr({
+                    type: 'hidden',
+                    value: category_buttons[i].value,
+                    name: "category_button",
+                    id: "category_button_" + category_buttons[i].value
+                }).appendTo('form');  // add a hidden input field with value of the tag pressed
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        function category_button_click(tag_name) {
+            var category_button = document.getElementById(tag_name);  // get button being pressed
+            if (category_button.getAttribute("aria-pressed") == "false") {  // check if the button was previously not active
+                $('<input>').attr({
+                    type: 'hidden',
+                    value: tag_name,
+                    name: "category_button",
+                    id: "category_button_" + tag_name
+                }).appendTo('form');  // add a hidden input field with value of the tag pressed
+            }
+            if (category_button.getAttribute("aria-pressed") == "true") {  // check if button was previously active
+                var hidden_category_button = document.getElementById("category_button_" + tag_name);  // get hidden input field that was created
+                hidden_category_button.remove();  // remove hidden input field
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        function sorting_option_click(sorting_option) {
+            var category_button = document.getElementById(sorting_option);  // get button being pressed
+            console.log(category_button);
+{#            if (category_button.hasClass("active")) {  // check if the button was previously not active#}
+{#                $('<input>').attr({#}
+{#                    type: 'hidden',#}
+{#                    value: sorting_option,#}
+{#                    name: "category_button",#}
+{#                    id: "category_button_" + sorting_option#}
+{#                }).appendTo('form');  // add a hidden input field with value of the tag pressed#}
+{#            }#}
+{#            if (category_button.hasClass("active")) {  // check if button was previously active#}
+{#                var hidden_category_button = document.getElementById("category_button_" + sorting_option);  // get hidden input field that was created#}
+{#                hidden_category_button.remove();  // remove hidden input field#}
+{#            }#}
+        }
+    </script>
+    <script>
+    $(".btn-group > .btn").click(function() {
+        $(this).addClass("active").siblings().removeClass("active");
+    });
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-*.min.js"></script>
 {% endblock %}

@@ -1,29 +1,69 @@
 {% import "_macros.html" as macros %}
 
 <div class="activist_story">
-    <div class="share_title">I'm Looking For Women Known For<br>
-        <h5>You may choose more than one category to narrow your search.</h5>
-        <div class="control-group">
-        <div class="tag_buttons">
-            {% for list in tags %}
-                <div class="row">
-                {% for tag in list %}
-                    {% if tag.name in tag_list %}
-                        <button onclick="get_tags('{{ tag.name }}')" type="button" value="{{ tag.name }}" class="btn btn-primary active" data-toggle="button"
-                                name="{{ tag.name }}" aria-pressed="true" autocomplete="off" >{{ tag.name }}</button>
-                    {% else %}
-                        <button onclick="get_tags('{{ tag.name }}')" type="button" value="{{ tag.name }}" class="btn btn-primary" data-toggle="button"
-                                name="{{ tag.name }}" aria-pressed="false" autocomplete="off" >{{ tag.name }}</button>
-                    {% endif %}
-                {% endfor %}
+    <form name="input" class="form-horizontal" id="searchStories" method="post">
+        <div class="container-fluid">
+            <div class="share_title" style="padding-top: 3%;">I'm Looking For Women Known For<br>
+                <h5>You may choose more than one category to narrow your search.</h5>
+                <div class="control-group">
+                    <div class="tag_buttons">
+                        {% for list in tags %}
+                            <div class="row">
+                                {% for tag in list %}
+                                    {% if tag.name in tag_list %}
+                                        <button onclick="category_button_click('{{ tag.name }}')" type="button"
+                                            value="{{ tag.name }}" id="{{ tag.name }}" class="btn btn-primary active"
+                                            data-toggle="button"
+                                            name="{{ tag.name }}" data-button="{{ tag.name }}"
+                                            aria-pressed="true"
+                                            autocomplete="off">{{ tag.name }}</button>
+                                    {% else %}
+                                    <button onclick="category_button_click('{{ tag.name }}')" type="button"
+                                            value="{{ tag.name }}" id="{{ tag.name }}" class="btn btn-primary"
+                                            data-toggle="button"
+                                            name="{{ tag.name }}" data-button="{{ tag.name }}"
+                                            aria-pressed="false"
+                                            autocomplete="off">{{ tag.name }}</button>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
-            {% endfor %}
+            </div><br><br>
+            <div class="row" style="text-align: center;">
+                <h5>You may enter a name to narrow your search.</h5>
+                <div class="control-group">
+                    <div class="search_keyword">
+                        <input class="activist_info_field col-sm-push-3 col-sm-6" name="input_name_search" title="Name Search" maxlength="256" placeholder="Name">
+                    </div>
+                </div>
+            </div><br><br>
+            <div class="row" style="text-align: center;">
+                <h5 style="text-align: center;">You may choose a sorting option to narrow your search.</h5>
+                <div class="control-group">
+                    <div class="alphabetical_sort">
+                        <div class="btn-group">
+                            <button onclick="sorting_option_click('First Asc')" id="First Asc" type="button" class="btn btn-primary">A-Z First Name</button>
+                            <button onclick="sorting_option_click('First Asc')" id="First Desc" type="button" class="btn btn-primary">Z-A First Name</button>
+                            <button onclick="sorting_option_click('First Asc')" id="Last Asc" type="button" class="btn btn-primary">A-Z Last Name</button>
+                            <button onclick="sorting_option_click('First Asc')" id="Last Desc" type="button" class="btn btn-primary">Z-A Last Name</button>
+                        </div>
+                    </div>
+                </div>
+            </div><br><br>
+            <div class="row">
+                <div id="requestButton" class="control-group">
+                    <div>
+                        <button type="submit" title="Search Stories" class="center-block hero_action_button">
+                            Search
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-        </div> <br> <br>
-    </div>
-    <div class="share_title">
-
-    </div>
+    </form>
+    <br> <br>
 </div>
 
 <div id="filtered-stories" style="text-align: center; margin-top: 2em;">

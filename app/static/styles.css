@@ -349,7 +349,6 @@
 
 
 .share_title {
-    padding-top: 5%;
     font-size: 45px;
     font-family: "Open Sans Regular";
     font-weight: lighter;
@@ -768,11 +767,6 @@
 @media only screen and (min-width: 992px) {
     .hide-mobile {
         display: block;
-    }
-
-    .tag_buttons{
-        width: 90%;
-        padding-left: 2rem;
     }
 
     .show-mobile{

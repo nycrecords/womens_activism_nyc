@@ -95,45 +95,7 @@ def guidelines():
 
 
 @main.route('/catalog', methods=['GET', 'POST'])
-def catalog():
-    page_stories = []
-
-    for story in Story.query.order_by('id desc').all():
-        if story.is_visible == True:
-            story_tags = StoryTag.query.filter_by(story_id=story.id).all()
-            tags = []
-            for story_tag in story_tags:
-                name = Tag.query.filter_by(id=story_tag.tag_id).first().name
-                tags.append(name)
-            current_story = {
-                'id': story.id,
-                'activist_first': story.activist_first,
-                'activist_last': story.activist_last,
-                'activist_start': story.activist_start,
-                'activist_end': story.activist_end,
-                'content': story.content,
-                'creation_time': story.creation_time,
-                'edit_time': story.edit_time,
-                'is_visible': story.is_visible,
-                'is_edited': story.is_edited,
-                'tags': tags
-            }
-            if story.image_link is not None:
-                current_story['image_link'] = story.image_link
-            page_stories.append(current_story)
-        else:
-            continue
-
-    stories = []
-    for i in range(0, len(Story.query.all()), 4):
-        l = []
-        for j in range(i, i + 4):
-            try:
-                l.append(page_stories[j])
-            except IndexError:
-                break
-        stories.append(l)
-
+def catalog(data=None):
     tags = []
     for i in range(0, len(Tag.query.all()), 5):
         l = []
@@ -144,12 +106,110 @@ def catalog():
                 break
         tags.append(l)
 
-    # page = request.args.get('page', 1, type=int)
-    # pagination = Story.query.order_by(Story.creation_time.desc()).paginate(
-    #     page, per_page=current_app.config['STORIES_PER_PAGE'],
-    #     error_out=True)
-    # stories = pagination.items
+    # for story in Story.query.order_by('id desc').all():
+    #     if story.is_visible == True:
+    #         story_tags = StoryTag.query.filter_by(story_id=story.id).all()
+    #         tags = []
+    #         for story_tag in story_tags:
+    #             name = Tag.query.filter_by(id=story_tag.tag_id).first().name
+    #             tags.append(name)
+    #         current_story = {
+    #             'id': story.id,
+    #             'activist_first': story.activist_first,
+    #             'activist_last': story.activist_last,
+    #             'activist_start': story.activist_start,
+    #             'activist_end': story.activist_end,
+    #             'content': story.content,
+    #             'creation_time': story.creation_time,
+    #             'edit_time': story.edit_time,
+    #             'is_visible': story.is_visible,
+    #             'is_edited': story.is_edited,
+    #             'tags': tags
+    #         }
+    #         if story.image_link is not None:
+    #             current_story['image_link'] = story.image_link
+    #         page_stories.append(current_story)
+    #     else:
+    #         continue
+    #
+    # stories = []
+    # for i in range(0, len(Story.query.all()), 4):
+    #     l = []
+    #     for j in range(i, i + 4):
+    #         try:
+    #             l.append(page_stories[j])
+    #         except IndexError:
+    #             break
+    #     stories.append(l)
+
+    stories = []
+
+    if data or request.method == 'POST':
+        data = request.form.copy()
+        print(data)
+        tag_list = data.getlist('category_button')
+        print(tag_list)
+        return render_template('catalog.html', tags=tags, stories=stories, tag_list=tag_list)
+
     return render_template('catalog.html', tags=tags, stories=stories)
+
+
+# @main.route('/catalog', methods=['GET', 'POST'])
+# def catalog():
+#     page_stories = []
+#
+#     for story in Story.query.order_by('id desc').all():
+#         if story.is_visible == True:
+#             story_tags = StoryTag.query.filter_by(story_id=story.id).all()
+#             tags = []
+#             for story_tag in story_tags:
+#                 name = Tag.query.filter_by(id=story_tag.tag_id).first().name
+#                 tags.append(name)
+#             current_story = {
+#                 'id': story.id,
+#                 'activist_first': story.activist_first,
+#                 'activist_last': story.activist_last,
+#                 'activist_start': story.activist_start,
+#                 'activist_end': story.activist_end,
+#                 'content': story.content,
+#                 'creation_time': story.creation_time,
+#                 'edit_time': story.edit_time,
+#                 'is_visible': story.is_visible,
+#                 'is_edited': story.is_edited,
+#                 'tags': tags
+#             }
+#             if story.image_link is not None:
+#                 current_story['image_link'] = story.image_link
+#             page_stories.append(current_story)
+#         else:
+#             continue
+#
+#     stories = []
+#     for i in range(0, len(Story.query.all()), 4):
+#         l = []
+#         for j in range(i, i + 4):
+#             try:
+#                 l.append(page_stories[j])
+#             except IndexError:
+#                 break
+#         stories.append(l)
+#
+#     tags = []
+#     for i in range(0, len(Tag.query.all()), 5):
+#         l = []
+#         for j in range(i, i + 5):
+#             try:
+#                 l.append(Tag.query.order_by('name asc').all()[j])
+#             except IndexError:
+#                 break
+#         tags.append(l)
+#
+#     # page = request.args.get('page', 1, type=int)
+#     # pagination = Story.query.order_by(Story.creation_time.desc()).paginate(
+#     #     page, per_page=current_app.config['STORIES_PER_PAGE'],
+#     #     error_out=True)
+#     # stories = pagination.items
+#     return render_template('catalog.html', tags=tags, stories=stories)
 
 
 @main.route('/_get_tags', methods=['GET', 'POST'])

@@ -227,6 +227,10 @@ def share(data=None):
                 put_obj(story_tag)  # adds storytag into database
 
             flash('Story submitted!', category='share_submitted_story')
+
+            send_email(to=current_app.config['WOMENS_ADMIN'], subject='New Story Submitted',
+                       template='mail/email_new_story', story=story, tags=tag_list)
+
             return redirect(url_for('stories.share', id=story_id.id, site_key=site_key))
     return render_template('stories/share.html', tags=tags, site_key=site_key)
 

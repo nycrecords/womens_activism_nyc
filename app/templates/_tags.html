@@ -51,24 +51,33 @@
 {#                                    <button value="{{ option }}" id="{{ option }}" type="button" class="btn btn-primary">{{ option }}</button>#}
 {#                                {% endif %}#}
 {#                            {% endfor %}#}
-                            {% if "A-Z First Name" == previous_sort_option %}
-                                <button value="activist_first asc" id="A-Z First Name" type="button" class="btn btn-primary active">A-Z First Name</button>
+                            {% if previous_sort_option|length > 0 %}
+                                {% for sort_option in previous_sort_option %}
+                                    {% if "activist_first asc" == sort_option %}
+                                        <button value="activist_first asc" id="A-Z First Name" type="button" class="btn btn-primary active">A-Z First Name</button>
+                                    {% else %}
+                                        <button value="activist_first asc" id="A-Z First Name" type="button" class="btn btn-primary">A-Z First Name</button>
+                                    {% endif %}
+                                    {% if "activist_first desc" == sort_option %}
+                                        <button value="activist_first desc" id="Z-A First Name" type="button" class="btn btn-primary active">Z-A First Name</button>
+                                    {% else %}
+                                        <button value="activist_first desc" id="Z-A First Name" type="button" class="btn btn-primary">Z-A First Name</button>
+                                    {% endif %}
+                                    {% if "activist_last asc" == sort_option %}
+                                        <button value="activist_last asc" id="A-Z Last Name" type="button" class="btn btn-primary active">A-Z Last Name</button>
+                                    {% else %}
+                                        <button value="activist_last asc" id="A-Z Last Name" type="button" class="btn btn-primary">A-Z Last Name</button>
+                                    {% endif %}
+                                    {% if "activist_last desc" == sort_option %}
+                                        <button value="activist_last desc" id="Z-A Last Name" type="button" class="btn btn-primary active">Z-A Last Name</button>
+                                    {% else %}
+                                        <button value="activist_last desc" id="Z-A Last Name" type="button" class="btn btn-primary">Z-A Last Name</button>
+                                    {% endif %}
+                                {% endfor %}
                             {% else %}
                                 <button value="activist_first asc" id="A-Z First Name" type="button" class="btn btn-primary">A-Z First Name</button>
-                            {% endif %}
-                            {% if "Z-A First Name" == previous_sort_option %}
-                                <button value="activist_first desc" id="Z-A First Name" type="button" class="btn btn-primary active">Z-A First Name</button>
-                            {% else %}
                                 <button value="activist_first desc" id="Z-A First Name" type="button" class="btn btn-primary">Z-A First Name</button>
-                            {% endif %}
-                            {% if "A-Z Last Name" == previous_sort_option %}
-                                <button value="activist_last asc" id="A-Z Last Name" type="button" class="btn btn-primary active">A-Z Last Name</button>
-                            {% else %}
                                 <button value="activist_last asc" id="A-Z Last Name" type="button" class="btn btn-primary">A-Z Last Name</button>
-                            {% endif %}
-                            {% if "Z-A Last Name" == previous_sort_option %}
-                                <button value="activist_last desc" id="Z-A Last Name" type="button" class="btn btn-primary active">Z-A Last Name</button>
-                            {% else %}
                                 <button value="activist_last desc" id="Z-A Last Name" type="button" class="btn btn-primary">Z-A Last Name</button>
                             {% endif %}
                         </div>

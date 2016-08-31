@@ -115,13 +115,13 @@ def catalog(data=None):
 
         tag_list = data.getlist('category_button')
         name_search = data['input_name_search']
-        previous_sort_option = data['sort_option']
+        previous_sort_option = data.getlist('sort_option')
 
         print(tag_list, name_search, previous_sort_option)
 
-        stories = []
-
         if len(tag_list) > 0:
+            stories = []
+
             clauses = or_(*[StoryTag.tag_id == Tag.query.filter_by(name=tag).first().id for tag in
                             tag_list])  # creates filter for query in following line
             story_tags = StoryTag.query.filter(
@@ -142,25 +142,25 @@ def catalog(data=None):
                     for story_tag in story_tags:
                         stories.append(Story.query.filter_by(id=story_tag.story_id).first())
 
+            unique_stories = []
+            stories_dict = {i: stories.count(i) for i in
+                            stories}  # creates a dictionary showing the count that a story shows up for stories list
+            for key, value in stories_dict.items():
+                # the same number of times as the number of tags chosen
+                if stories_dict[key] >= len(tag_list):
+                    unique_stories.append(key)
+
         elif name_search != '':
             if previous_sort_option != '':  # name_search and previous_sort_option exist
-                stories = Story.query.filter(or_(activist_first=name_search, activist_last=name_search)).order_by(previous_sort_option).all()
+                unique_stories = Story.query.filter(or_(activist_first=name_search, activist_last=name_search)).order_by(previous_sort_option).all()
             else:  # only name_search exists
-                stories = Story.query.filter(or_(activist_first=name_search, activist_last=name_search))
+                unique_stories = Story.query.filter(or_(activist_first=name_search, activist_last=name_search))
 
         else:
             if previous_sort_option != '':  # only previous_sort_option exists
-                stories = Story.query.order_by(previous_sort_option).all()
+                unique_stories = Story.query.order_by(previous_sort_option).all()
             else:  # none exist
-                stories = Story.query.order_by('id desc').all()
-
-        unique_stories = []
-        stories_dict = {i: stories.count(i) for i in
-                        stories}  # creates a dictionary showing the count that a story shows up for stories list
-        for key, value in stories_dict.items():
-            # the same number of times as the number of tags chosen
-            if stories_dict[key] >= len(tag_list):
-                unique_stories.append(key)
+                unique_stories = Story.query.order_by('id desc').all()
 
         page_stories = []
 

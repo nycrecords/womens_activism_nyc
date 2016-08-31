@@ -88,20 +88,21 @@
         if (this.getAttribute("class") != "btn btn-primary active") {
             $(this).addClass("active").siblings().removeClass("active");
             for (var i = 0; i < $(this).siblings().length; i++) {  // loops through list of other buttons in btn-group
-                var remove_sorting_option = document.getElementById("sort_option_" + $(this).siblings()[i].getAttribute("id"));
+                console.log(document.getElementById("sort_option_" + $(this).siblings()[i].getAttribute("id")));
+                var remove_sorting_option = document.getElementById("sort_option_" + $(this).siblings()[i].getAttribute("value"));
                 if (remove_sorting_option != null) {
                     remove_sorting_option.remove();  // removes other active button hidden inputs
                 }
             }
             $('<input>').attr({
                 type: 'hidden',
-                value: this.getAttribute("id"),
+                value: this.getAttribute("value") || '',
                 name: "sort_option",
-                id: "sort_option_" + this.getAttribute("id")
+                id: "sort_option_" + this.getAttribute("value")
             }).appendTo('form');  // add a hidden input field with value of the tag pressed
         } else {
             $(this).removeClass("active");
-            var hidden_sorting_option = document.getElementById("sort_option_" + this.getAttribute("id"));  // get hidden input field that was created
+            var hidden_sorting_option = document.getElementById("sort_option_" + this.getAttribute("value"));  // get hidden input field that was created
             hidden_sorting_option.remove();  // remove hidden input field
         }
     });

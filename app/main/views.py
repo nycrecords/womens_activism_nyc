@@ -128,16 +128,16 @@ def catalog(data=None):
                 clauses).all()  # queries the StoryTag table to find all with above clauses
 
             if name_search != '':
-                if previous_sort_option != '':  # tag_list, name_search, and previous_sort_option exist
+                if len(previous_sort_option) > 0:  # tag_list, name_search, and previous_sort_option exist
                     for story_tag in story_tags:
-                        stories.append(Story.query.filter(or_(activist_first=name_search, activist_last=name_search).order_by(previous_sort_option).filter_by(id=story_tag.story_id).first()))
+                        stories.append(Story.query.filter(or_(activist_first=name_search, activist_last=name_search).order_by(previous_sort_option[0]).filter_by(id=story_tag.story_id).first()))
                 else:  # tag_list and name_search exist
                     for story_tag in story_tags:
                         stories.append(Story.query.filter(or_(activist_first=name_search, activist_last=name_search).filter_by(id=story_tag.story_id).first()))
             else:
-                if previous_sort_option != '':  # tag_list and previous_sort_option exist
+                if len(previous_sort_option) > 0:  # tag_list and previous_sort_option exist
                     for story_tag in story_tags:
-                        stories.append(Story.query.order_by(previous_sort_option).filter_by(id=story_tag.story_id).first())
+                        stories.append(Story.query.order_by(previous_sort_option[0]).filter_by(id=story_tag.story_id).first())
                 else:  # only tag_list exists
                     for story_tag in story_tags:
                         stories.append(Story.query.filter_by(id=story_tag.story_id).first())
@@ -151,14 +151,14 @@ def catalog(data=None):
                     unique_stories.append(key)
 
         elif name_search != '':
-            if previous_sort_option != '':  # name_search and previous_sort_option exist
-                unique_stories = Story.query.filter(or_(activist_first=name_search, activist_last=name_search)).order_by(previous_sort_option).all()
+            if len(previous_sort_option) > 0:  # name_search and previous_sort_option exist
+                unique_stories = Story.query.filter(or_(activist_first=name_search, activist_last=name_search)).order_by(previous_sort_option[0]).all()
             else:  # only name_search exists
                 unique_stories = Story.query.filter(or_(activist_first=name_search, activist_last=name_search))
 
         else:
-            if previous_sort_option != '':  # only previous_sort_option exists
-                unique_stories = Story.query.order_by(previous_sort_option).all()
+            if len(previous_sort_option) > 0:  # only previous_sort_option exists
+                unique_stories = Story.query.order_by(previous_sort_option[0]).all()
             else:  # none exist
                 unique_stories = Story.query.order_by('id desc').all()
 
@@ -166,10 +166,10 @@ def catalog(data=None):
 
         for story in unique_stories:
             story_tags = StoryTag.query.filter_by(story_id=story.id).all()
-            tags = []
+            unique_tags = []
             for story_tag in story_tags:
                 name = Tag.query.filter_by(id=story_tag.tag_id).first().name
-                tags.append(name)
+                unique_tags.append(name)
             current_story = {
                 'id': story.id,
                 'activist_first': story.activist_first,
@@ -181,7 +181,7 @@ def catalog(data=None):
                 'edit_time': story.edit_time,
                 'is_visible': story.is_visible,
                 'is_edited': story.is_edited,
-                'tags': tags
+                'tags': unique_tags
             }
             if story.image_link is not None:
                 current_story['image_link'] = story.image_link

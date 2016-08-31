@@ -106,8 +106,6 @@ def catalog(data=None):
                 break
         tags.append(l)
 
-    stories = []
-
     sort_options = ['A-Z First Name', 'Z-A First Name', 'A-Z Last Name', 'Z-A Last Name']
 
     if data or request.method == 'POST':
@@ -117,10 +115,8 @@ def catalog(data=None):
         name_search = data['input_name_search']
         previous_sort_option = data.getlist('sort_option')
 
-        print(tag_list, name_search, previous_sort_option)
-
         if len(tag_list) > 0:
-            stories = []
+            unique_stories = []
 
             clauses = or_(*[StoryTag.tag_id == Tag.query.filter_by(name=tag).first().id for tag in
                             tag_list])  # creates filter for query in following line
@@ -129,32 +125,59 @@ def catalog(data=None):
 
             if name_search != '':
                 if len(previous_sort_option) > 0:  # tag_list, name_search, and previous_sort_option exist
-                    for story_tag in story_tags:
-                        stories.append(Story.query.filter(or_(Story.activist_first == name_search, Story.activist_last == name_search).order_by(previous_sort_option[0]).filter_by(id=story_tag.story_id).first()))
+                    stories = [Story.query.filter(
+                            or_(Story.activist_first == name_search, Story.activist_last == name_search),
+                            Story.id == story_tag.story_id).first() for story_tag in story_tags]
+                    stories_dict = {i: stories.count(i) for i in stories}
+                    for key, value in stories_dict.items():
+                        if stories_dict[key] == len(tag_list):
+                            unique_stories.append(key)
+                    if previous_sort_option[0] == 'activist_first asc':
+                        unique_stories.sort(key=lambda x: x.activist_first)
+                    elif previous_sort_option[0] == 'activist_first desc':
+                        unique_stories.sort(key=lambda x: x.activist_first, reverse=True)
+                    elif previous_sort_option[0] == 'activist_last asc':
+                        unique_stories.sort(key=lambda x: x.activist_last)
+                    elif previous_sort_option[0] == 'activist_last desc':
+                        unique_stories.sort(key=lambda x: x.activist_last, reverse=True)
                 else:  # tag_list and name_search exist
-                    for story_tag in story_tags:
-                        stories.append(Story.query.filter(or_(Story.activist_first == name_search, Story.activist_last == name_search).filter_by(id=story_tag.story_id).first()))
+                    stories = [Story.query.filter(
+                        or_(Story.activist_first == name_search, Story.activist_last == name_search),
+                        Story.id == story_tag.story_id).first() for story_tag in story_tags]
+                    stories_dict = {i: stories.count(i) for i in stories}
+                    for key, value in stories_dict.items():
+                        if stories_dict[key] == len(tag_list):
+                            unique_stories.append(key)
             else:
                 if len(previous_sort_option) > 0:  # tag_list and previous_sort_option exist
-                    for story_tag in story_tags:
-                        stories.append(Story.query.order_by(previous_sort_option[0]).filter_by(id=story_tag.story_id).first())
+                    stories = [Story.query.filter_by(id=story_tag.story_id).first() for story_tag in story_tags]
+                    stories_dict = {i: stories.count(i) for i in stories}
+                    for key, value in stories_dict.items():
+                        if stories_dict[key] == len(tag_list):
+                            unique_stories.append(key)
+                    if previous_sort_option[0] == 'activist_first asc':
+                        unique_stories.sort(key=lambda x: x.activist_first)
+                    elif previous_sort_option[0] == 'activist_first desc':
+                        unique_stories.sort(key=lambda x: x.activist_first, reverse=True)
+                    elif previous_sort_option[0] == 'activist_last asc':
+                        unique_stories.sort(key=lambda x: x.activist_last)
+                    elif previous_sort_option[0] == 'activist_last desc':
+                        unique_stories.sort(key=lambda x: x.activist_last, reverse=True)
                 else:  # only tag_list exists
-                    for story_tag in story_tags:
-                        stories.append(Story.query.filter_by(id=story_tag.story_id).first())
-
-            unique_stories = []
-            stories_dict = {i: stories.count(i) for i in
-                            stories}  # creates a dictionary showing the count that a story shows up for stories list
-            for key, value in stories_dict.items():
-                # the same number of times as the number of tags chosen
-                if stories_dict[key] >= len(tag_list):
-                    unique_stories.append(key)
+                    stories = [Story.query.filter_by(id=story_tag.story_id).first() for story_tag in story_tags]
+                    stories_dict = {i: stories.count(i) for i in stories}
+                    for key, value in stories_dict.items():
+                        if stories_dict[key] == len(tag_list):
+                            unique_stories.append(key)
 
         elif name_search != '':
             if len(previous_sort_option) > 0:  # name_search and previous_sort_option exist
-                unique_stories = Story.query.filter(or_(Story.activist_first == name_search, Story.activist_last == name_search)).order_by(previous_sort_option[0]).all()
+                unique_stories = Story.query.filter(
+                    or_(Story.activist_first == name_search, Story.activist_last == name_search)).order_by(
+                    previous_sort_option[0]).all()
             else:  # only name_search exists
-                unique_stories = Story.query.filter(or_(Story.activist_first == name_search, Story.activist_last == name_search)).all()
+                unique_stories = Story.query.filter(
+                    or_(Story.activist_first == name_search, Story.activist_last == name_search)).all()
 
         else:
             if len(previous_sort_option) > 0:  # only previous_sort_option exists
@@ -187,8 +210,6 @@ def catalog(data=None):
                 current_story['image_link'] = story.image_link
             page_stories.append(current_story)
 
-        # page_stories.reverse()
-
         stories = []
         for i in range(0, len(page_stories), 4):
             l = []
@@ -202,102 +223,44 @@ def catalog(data=None):
         return render_template('catalog.html', tags=tags, stories=stories, tag_list=tag_list, name_search=name_search,
                                previous_sort_option=previous_sort_option, sort_options=sort_options)
 
+    unique_stories = Story.query.order_by('id desc').all()
+
+    page_stories = []
+
+    for story in unique_stories:
+        story_tags = StoryTag.query.filter_by(story_id=story.id).all()
+        unique_tags = []
+        for story_tag in story_tags:
+            name = Tag.query.filter_by(id=story_tag.tag_id).first().name
+            unique_tags.append(name)
+        current_story = {
+            'id': story.id,
+            'activist_first': story.activist_first,
+            'activist_last': story.activist_last,
+            'activist_start': story.activist_start,
+            'activist_end': story.activist_end,
+            'content': story.content,
+            'creation_time': story.creation_time,
+            'edit_time': story.edit_time,
+            'is_visible': story.is_visible,
+            'is_edited': story.is_edited,
+            'tags': unique_tags
+        }
+        if story.image_link is not None:
+            current_story['image_link'] = story.image_link
+        page_stories.append(current_story)
+
+    stories = []
+    for i in range(0, len(page_stories), 4):
+        l = []
+        for j in range(i, i + 4):
+            try:
+                l.append(page_stories[j])
+            except IndexError:
+                break
+        stories.append(l)
+
     return render_template('catalog.html', tags=tags, stories=stories, sort_options=sort_options)
-
-
-# for story in Story.query.order_by('id desc').all():
-#     if story.is_visible == True:
-#         story_tags = StoryTag.query.filter_by(story_id=story.id).all()
-#         tags = []
-#         for story_tag in story_tags:
-#             name = Tag.query.filter_by(id=story_tag.tag_id).first().name
-#             tags.append(name)
-#         current_story = {
-#             'id': story.id,
-#             'activist_first': story.activist_first,
-#             'activist_last': story.activist_last,
-#             'activist_start': story.activist_start,
-#             'activist_end': story.activist_end,
-#             'content': story.content,
-#             'creation_time': story.creation_time,
-#             'edit_time': story.edit_time,
-#             'is_visible': story.is_visible,
-#             'is_edited': story.is_edited,
-#             'tags': tags
-#         }
-#         if story.image_link is not None:
-#             current_story['image_link'] = story.image_link
-#         page_stories.append(current_story)
-#     else:
-#         continue
-#
-# stories = []
-# for i in range(0, len(Story.query.all()), 4):
-#     l = []
-#     for j in range(i, i + 4):
-#         try:
-#             l.append(page_stories[j])
-#         except IndexError:
-#             break
-#     stories.append(l)
-
-
-# @main.route('/catalog', methods=['GET', 'POST'])
-# def catalog():
-#     page_stories = []
-#
-#     for story in Story.query.order_by('id desc').all():
-#         if story.is_visible == True:
-#             story_tags = StoryTag.query.filter_by(story_id=story.id).all()
-#             tags = []
-#             for story_tag in story_tags:
-#                 name = Tag.query.filter_by(id=story_tag.tag_id).first().name
-#                 tags.append(name)
-#             current_story = {
-#                 'id': story.id,
-#                 'activist_first': story.activist_first,
-#                 'activist_last': story.activist_last,
-#                 'activist_start': story.activist_start,
-#                 'activist_end': story.activist_end,
-#                 'content': story.content,
-#                 'creation_time': story.creation_time,
-#                 'edit_time': story.edit_time,
-#                 'is_visible': story.is_visible,
-#                 'is_edited': story.is_edited,
-#                 'tags': tags
-#             }
-#             if story.image_link is not None:
-#                 current_story['image_link'] = story.image_link
-#             page_stories.append(current_story)
-#         else:
-#             continue
-#
-#     stories = []
-#     for i in range(0, len(Story.query.all()), 4):
-#         l = []
-#         for j in range(i, i + 4):
-#             try:
-#                 l.append(page_stories[j])
-#             except IndexError:
-#                 break
-#         stories.append(l)
-#
-#     tags = []
-#     for i in range(0, len(Tag.query.all()), 5):
-#         l = []
-#         for j in range(i, i + 5):
-#             try:
-#                 l.append(Tag.query.order_by('name asc').all()[j])
-#             except IndexError:
-#                 break
-#         tags.append(l)
-#
-#     # page = request.args.get('page', 1, type=int)
-#     # pagination = Story.query.order_by(Story.creation_time.desc()).paginate(
-#     #     page, per_page=current_app.config['STORIES_PER_PAGE'],
-#     #     error_out=True)
-#     # stories = pagination.items
-#     return render_template('catalog.html', tags=tags, stories=stories)
 
 
 @main.route('/_get_tags', methods=['GET', 'POST'])

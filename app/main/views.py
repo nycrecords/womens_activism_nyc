@@ -17,12 +17,13 @@ app.main:
 app:
     used recaptcha for verification purposes - prevent bot spam
 """
+import ast
 from flask import render_template, redirect, url_for, flash, request, current_app
-from app.db_helpers import put_obj
 from app.models import User, Story, Tag, StoryTag
 from app.main import main
+from sqlalchemy import func
 from sqlalchemy.sql import or_
-import ast
+from app.db_helpers import put_obj
 from app import recaptcha
 
 
@@ -126,8 +127,9 @@ def catalog(data=None):
             if name_search != '':
                 if len(previous_sort_option) > 0:  # tag_list, name_search, and previous_sort_option exist
                     stories = [Story.query.filter(
-                            or_(Story.activist_first == name_search, Story.activist_last == name_search),
-                            Story.id == story_tag.story_id).first() for story_tag in story_tags]
+                        or_(func.lower(Story.activist_first) == func.lower(name_search),
+                            func.lower(Story.activist_last) == func.lower(name_search)),
+                        Story.id == story_tag.story_id).first() for story_tag in story_tags]
                     stories_dict = {i: stories.count(i) for i in stories}
                     for key, value in stories_dict.items():
                         if stories_dict[key] == len(tag_list):
@@ -142,7 +144,8 @@ def catalog(data=None):
                         unique_stories.sort(key=lambda x: x.activist_last, reverse=True)
                 else:  # tag_list and name_search exist
                     stories = [Story.query.filter(
-                        or_(Story.activist_first == name_search, Story.activist_last == name_search),
+                        or_(func.lower(Story.activist_first) == func.lower(name_search),
+                            func.lower(Story.activist_last) == func.lower(name_search)),
                         Story.id == story_tag.story_id).first() for story_tag in story_tags]
                     stories_dict = {i: stories.count(i) for i in stories}
                     for key, value in stories_dict.items():
@@ -173,11 +176,13 @@ def catalog(data=None):
         elif name_search != '':
             if len(previous_sort_option) > 0:  # name_search and previous_sort_option exist
                 unique_stories = Story.query.filter(
-                    or_(Story.activist_first == name_search, Story.activist_last == name_search)).order_by(
+                    or_(func.lower(Story.activist_first) == func.lower(name_search),
+                        func.lower(Story.activist_last) == func.lower(name_search))).order_by(
                     previous_sort_option[0]).all()
             else:  # only name_search exists
                 unique_stories = Story.query.filter(
-                    or_(Story.activist_first == name_search, Story.activist_last == name_search)).all()
+                    or_(func.lower(Story.activist_first) == func.lower(name_search),
+                        func.lower(Story.activist_last) == func.lower(name_search))).all()
 
         else:
             if len(previous_sort_option) > 0:  # only previous_sort_option exists

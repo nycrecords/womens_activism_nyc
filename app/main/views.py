@@ -130,10 +130,10 @@ def catalog(data=None):
             if name_search != '':
                 if len(previous_sort_option) > 0:  # tag_list, name_search, and previous_sort_option exist
                     for story_tag in story_tags:
-                        stories.append(Story.query.filter(or_(activist_first=name_search, activist_last=name_search).order_by(previous_sort_option[0]).filter_by(id=story_tag.story_id).first()))
+                        stories.append(Story.query.filter(or_(Story.activist_first == name_search, Story.activist_last == name_search).order_by(previous_sort_option[0]).filter_by(id=story_tag.story_id).first()))
                 else:  # tag_list and name_search exist
                     for story_tag in story_tags:
-                        stories.append(Story.query.filter(or_(activist_first=name_search, activist_last=name_search).filter_by(id=story_tag.story_id).first()))
+                        stories.append(Story.query.filter(or_(Story.activist_first == name_search, Story.activist_last == name_search).filter_by(id=story_tag.story_id).first()))
             else:
                 if len(previous_sort_option) > 0:  # tag_list and previous_sort_option exist
                     for story_tag in story_tags:
@@ -152,9 +152,9 @@ def catalog(data=None):
 
         elif name_search != '':
             if len(previous_sort_option) > 0:  # name_search and previous_sort_option exist
-                unique_stories = Story.query.filter(or_(activist_first=name_search, activist_last=name_search)).order_by(previous_sort_option[0]).all()
+                unique_stories = Story.query.filter(or_(Story.activist_first == name_search, Story.activist_last == name_search)).order_by(previous_sort_option[0]).all()
             else:  # only name_search exists
-                unique_stories = Story.query.filter(or_(activist_first=name_search, activist_last=name_search))
+                unique_stories = Story.query.filter(or_(Story.activist_first == name_search, Story.activist_last == name_search)).all()
 
         else:
             if len(previous_sort_option) > 0:  # only previous_sort_option exists
@@ -187,7 +187,7 @@ def catalog(data=None):
                 current_story['image_link'] = story.image_link
             page_stories.append(current_story)
 
-        page_stories.reverse()
+        # page_stories.reverse()
 
         stories = []
         for i in range(0, len(page_stories), 4):

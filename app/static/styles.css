@@ -349,6 +349,7 @@
 
 
 .share_title {
+    padding-top: 3%;
     font-size: 45px;
     font-family: "Open Sans Regular";
     font-weight: lighter;
@@ -439,6 +440,8 @@
 }
 
 .activist_story {
+    padding-top: 3%;
+    padding-bottom: 3%;
     background-color: rgb(89, 49, 95);
     text-align: left;
     color: white;
@@ -535,6 +538,7 @@
 /*first color*/
 .activist_information {
     background-color: rgb(103, 60, 116);
+    padding-top: 3%;
     padding-bottom: 5%;
     color: white;
     font-family: "Open Sans Regular";

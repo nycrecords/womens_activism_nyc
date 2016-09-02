@@ -456,7 +456,7 @@ def delete(id):
         return redirect(url_for('stories.all_stories'))
     return render_template('stories/delete_story.html', story=story)
 
-
+@stories.route('/catalog/<int:id>', methods=['GET', 'POST'])
 @stories.route('/stories/<int:id>', methods=['GET', 'POST'])
 def stories(id):
     """
@@ -498,3 +498,5 @@ def stories(id):
         return render_template('stories/stories.html', story=story, poster=poster)
     else:
         return render_template('404.html')
+
+

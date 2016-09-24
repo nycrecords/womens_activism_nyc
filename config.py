@@ -31,9 +31,9 @@ class Config:
 # TODO: add in docstrings
 class DevelopmentConfig(Config):
     DEBUG = True
+    # SQLALCHEMY_DATABASE_URI = 'postgres://localhost:5432/womens_activism_nyc-20160923_1821'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
                               'postgresql://localhost:5432/womens_activism_nyc_dev'
-
 
 class TestingConfig(Config):
     TESTING = True

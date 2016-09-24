@@ -18,7 +18,7 @@ app:
     used recaptcha for verification purposes - prevent bot spam
 """
 import ast
-from flask import render_template, redirect, url_for, flash, request, current_app
+from flask import render_template, redirect, url_for, flash, request, current_app, Response
 from app.models import User, Story, Tag, StoryTag
 from app.main import main
 from sqlalchemy import func
@@ -362,3 +362,44 @@ def get_tags():
             stories.append(l)
 
         return render_template('_filtered_stories.html', stories=stories)
+
+# import json
+#
+# @main.route('/getlist', methods=['GET', 'POST'])
+# def get_list():
+#     # stories_list = []
+#     # stories_list = Story.query.all()
+#     # print(stories_list)
+#     # print(User.query.filter_by(id=(Story.query.filter_by())))
+#     import datetime
+#     csv = ''
+#     # for story in Story.query.filter_by(creation_time.strftime('%Y-%m-%d')=datetime.datetime(month=8, day=26, year=2016)):
+#     # for story in Story.query.filter_by(creation_time=datetime.datetime(2016, 8, 26)):
+#     for story in Story.query.all():
+#         poster = User.query.filter_by(id=story.poster_id).all()
+#         print(poster)
+#         if len(poster) > 0:
+#             poster_first_name = poster[0].first_name or 'Not Provided'
+#             poster_last_name = poster[0].last_name or 'Not Provided'
+#             poster_email = poster[0].email or 'Not Provided'
+#             if(story.creation_time.day == 26):
+#                 line = str(story.id) + ', ' + story.activist_first + ', ' + story.activist_last + ', ' + poster_first_name + ', ' + poster_last_name + ', ' + poster_email + '\n'
+#             else:
+#                 line = ''
+#                 # line = str(story.id) + ', ' + 'bad' + '\n'
+#                 pass
+#             csv = csv + line
+#         else:
+#             poster_first_name = 'Not Provided'
+#             poster_last_name = 'Not Provided'
+#             poster_email = 'Not Provided'
+#             if(story.creation_time.day == 26):
+#                 line = str(story.id) + ', ' + story.activist_first + ', ' + story.activist_last + ', ' + poster_first_name + ', ' + poster_last_name + ', ' + poster_email + '\n'
+#             else:
+#                 line = ''
+#             csv = csv + line
+#     return Response(
+#         csv,
+#         mimetype="text/csv",
+#         headers={"Content-disposition":
+#                  "attachment; filename=womens_activism_stories.csv"})

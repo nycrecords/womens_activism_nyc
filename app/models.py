@@ -2,7 +2,7 @@ from app import db
 from flask_login import UserMixin, AnonymousUserMixin
 from datetime import datetime
 from sqlalchemy.dialects.postgresql import JSON
-from app.constants import permission, role_name, tag_list
+from app.constants import permission, role_name, tag_list, user_type_auth
 
 
 class Roles(db.Model):

@@ -91,15 +91,15 @@ class User(UserMixin, db.Model):
                 user_type_auth.PUBLIC_USER_GOOGLE,
                 user_type_auth.PUBLIC_USER_NYC_ID,
                 user_type_auth.ANONYMOUS_USER,
-                name='auth_user_type'))
-    is_mod = db.Column(db.Boolean, default=False)
-    is_admin = db.Column(db.Boolean, default=False)
-    first_name = db.Column(db.String(32))
+                name='auth_user_type'), nullable=False)
+    is_mod = db.Column(db.Boolean, default=False, nullable=False)
+    is_admin = db.Column(db.Boolean, default=False, nullable=False)
+    first_name = db.Column(db.String(32), nullable=False)
     middle_initial = db.Column(db.String(1))
-    last_name = db.Column(db.String(64))
-    email = db.Column(db.String(254))
-    email_validated = db.Column(db.Boolean())
-    terms_of_use_accepted = db.Column(db.Boolean)
+    last_name = db.Column(db.String(64), nullable=False)
+    email = db.Column(db.String(254), nullable=False)
+    email_validated = db.Column(db.Boolean, nullable=False)
+    terms_of_use_accepted = db.Column(db.Boolean, nullable=False)
 
     def __repr__(self):
         return '<User %r>' % self.guid
@@ -171,18 +171,18 @@ class Stories(db.Model):
 
     __tablename__ = "stories"
     id = db.Column(db.Integer, primary_key=True)
-    activist_first = db.Column(db.String(30))
-    activist_last = db.Column(db.String(30))
-    activist_start = db.Column(db.Integer)
-    activist_end = db.Column(db.Integer)
-    content = db.Column(db.Text)
-    activist_url = db.Column(db.Text)
-    image_url = db.Column(db.Text)
-    video_url = db.Column(db.Text)
+    activist_first = db.Column(db.String(30), nullable=False)
+    activist_last = db.Column(db.String(30), nullable=False)
+    activist_start = db.Column(db.Integer, nullable=False)
+    activist_end = db.Column(db.Integer, nullable=False)
+    content = db.Column(db.String(5000), nullable=False)
+    activist_url = db.Column(db.String(254))
+    image_url = db.Column(db.String(254))
+    video_url = db.Column(db.String(254))
     poster_id = db.Column(db.Integer, db.ForeignKey("posters.id"))
-    date_created = db.Column(db.DateTime, default=datetime.utcnow())
-    is_edited = db.Column(db.Boolean, default=False)
-    is_visible = db.Column(db.Boolean, default=True)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
+    is_edited = db.Column(db.Boolean, default=False, nullable=False)
+    is_visible = db.Column(db.Boolean, default=True, nullable=False)
 
     def __repr__(self):
         return '<Stories %r>' % self.id
@@ -222,7 +222,7 @@ class Tags(db.Model):
 
     __tablename__ = "tags"
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
+    name = db.Column(db.String(50), nullable=False)
 
     @classmethod
     def populate(cls):
@@ -288,10 +288,10 @@ class Comments(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     story_id = db.Column(db.Integer, db.ForeignKey("stories.id"))
     name = db.Column(db.String(60))
-    content = db.Column(db.String(140))
-    date_created = db.Column(db.DateTime, default=datetime.utcnow())
-    is_edited = db.Column(db.Boolean)
-    is_visible = db.Column(db.Boolean)
+    content = db.Column(db.String(140), nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
+    is_edited = db.Column(db.Boolean, default=False, nullable=False)
+    is_visible = db.Column(db.Boolean, default=True, nullable=False)
 
     def __repr__(self):
         return '<Comments %r>' % self.id
@@ -343,8 +343,8 @@ class Events(db.Model):
                 'Edit Featured Story',
                 'Edit Then and Now',
                 'Edit Event',
-                name='type'))
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow())
+                name='type'), nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
     previous_value = db.Column(JSON)
     new_value = db.Column(JSON)
 
@@ -459,9 +459,9 @@ class Flags(db.Model):
                 'Offensive Content',
                 'Other',
     name = 'type'))
-    reason = db.Column(db.String(500))
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow())
-    addressed = db.Column(db.Boolean)
+    reason = db.Column(db.String(500), nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
+    addressed = db.Column(db.Boolean, default=False, nullable=False)
 
     def __repr__(self):
         return '<Flags %r>' % self.id
@@ -501,10 +501,10 @@ class Feedback(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(60))
     email = db.Column(db.String(254))
-    subject = db.Column(db.String(50))
-    message = db.Column(db.String(500))
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow())
-    addressed = db.Column(db.Boolean)
+    subject = db.Column(db.String(50), nullable=False)
+    message = db.Column(db.String(500), nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
+    addressed = db.Column(db.Boolean, default=False, nullable=False)
 
     def __repr__(self):
         return '<Feedback %r>' % self.title

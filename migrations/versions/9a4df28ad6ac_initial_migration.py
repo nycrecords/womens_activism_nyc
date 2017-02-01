@@ -1,13 +1,13 @@
 """initial migration
 
-Revision ID: 35a99edb9191
+Revision ID: 9a4df28ad6ac
 Revises: None
-Create Date: 2017-02-01 16:01:03.765908
+Create Date: 2017-02-01 16:45:39.531397
 
 """
 
 # revision identifiers, used by Alembic.
-revision = '35a99edb9191'
+revision = '9a4df28ad6ac'
 down_revision = None
 
 from alembic import op
@@ -20,10 +20,10 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=60), nullable=True),
     sa.Column('email', sa.String(length=254), nullable=True),
-    sa.Column('subject', sa.String(length=50), nullable=True),
-    sa.Column('message', sa.String(length=500), nullable=True),
-    sa.Column('timestamp', sa.DateTime(), nullable=True),
-    sa.Column('addressed', sa.Boolean(), nullable=True),
+    sa.Column('subject', sa.String(length=50), nullable=False),
+    sa.Column('message', sa.String(length=500), nullable=False),
+    sa.Column('timestamp', sa.DateTime(), nullable=False),
+    sa.Column('addressed', sa.Boolean(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('posters',
@@ -42,36 +42,36 @@ def upgrade():
     )
     op.create_table('tags',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(length=50), nullable=True),
+    sa.Column('name', sa.String(length=50), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('users',
     sa.Column('guid', sa.String(length=64), nullable=False),
-    sa.Column('auth_user_type', sa.Enum('Saml2In:NYC Employees', 'LDAP:NYC Employees', 'FacebookSSO', 'MSLiveSSO', 'YahooSSO', 'LinkedInSSO', 'GoogleSSO', 'EDIRSSO', 'AnonymousUser', name='auth_user_type'), nullable=True),
-    sa.Column('is_mod', sa.Boolean(), nullable=True),
-    sa.Column('is_admin', sa.Boolean(), nullable=True),
-    sa.Column('first_name', sa.String(length=32), nullable=True),
+    sa.Column('auth_user_type', sa.Enum('Saml2In:NYC Employees', 'LDAP:NYC Employees', 'FacebookSSO', 'MSLiveSSO', 'YahooSSO', 'LinkedInSSO', 'GoogleSSO', 'EDIRSSO', 'AnonymousUser', name='auth_user_type'), nullable=False),
+    sa.Column('is_mod', sa.Boolean(), nullable=False),
+    sa.Column('is_admin', sa.Boolean(), nullable=False),
+    sa.Column('first_name', sa.String(length=32), nullable=False),
     sa.Column('middle_initial', sa.String(length=1), nullable=True),
-    sa.Column('last_name', sa.String(length=64), nullable=True),
-    sa.Column('email', sa.String(length=254), nullable=True),
-    sa.Column('email_validated', sa.Boolean(), nullable=True),
-    sa.Column('terms_of_use_accepted', sa.Boolean(), nullable=True),
+    sa.Column('last_name', sa.String(length=64), nullable=False),
+    sa.Column('email', sa.String(length=254), nullable=False),
+    sa.Column('email_validated', sa.Boolean(), nullable=False),
+    sa.Column('terms_of_use_accepted', sa.Boolean(), nullable=False),
     sa.PrimaryKeyConstraint('guid')
     )
     op.create_table('stories',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('activist_first', sa.String(length=30), nullable=True),
-    sa.Column('activist_last', sa.String(length=30), nullable=True),
-    sa.Column('activist_start', sa.Integer(), nullable=True),
-    sa.Column('activist_end', sa.Integer(), nullable=True),
-    sa.Column('content', sa.Text(), nullable=True),
-    sa.Column('activist_url', sa.Text(), nullable=True),
-    sa.Column('image_url', sa.Text(), nullable=True),
-    sa.Column('video_url', sa.Text(), nullable=True),
+    sa.Column('activist_first', sa.String(length=30), nullable=False),
+    sa.Column('activist_last', sa.String(length=30), nullable=False),
+    sa.Column('activist_start', sa.Integer(), nullable=False),
+    sa.Column('activist_end', sa.Integer(), nullable=False),
+    sa.Column('content', sa.String(length=5000), nullable=False),
+    sa.Column('activist_url', sa.String(length=254), nullable=True),
+    sa.Column('image_url', sa.String(length=254), nullable=True),
+    sa.Column('video_url', sa.String(length=254), nullable=True),
     sa.Column('poster_id', sa.Integer(), nullable=True),
-    sa.Column('date_created', sa.DateTime(), nullable=True),
-    sa.Column('is_edited', sa.Boolean(), nullable=True),
-    sa.Column('is_visible', sa.Boolean(), nullable=True),
+    sa.Column('date_created', sa.DateTime(), nullable=False),
+    sa.Column('is_edited', sa.Boolean(), nullable=False),
+    sa.Column('is_visible', sa.Boolean(), nullable=False),
     sa.ForeignKeyConstraint(['poster_id'], ['posters.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -79,10 +79,10 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('story_id', sa.Integer(), nullable=True),
     sa.Column('name', sa.String(length=60), nullable=True),
-    sa.Column('content', sa.String(length=140), nullable=True),
-    sa.Column('date_created', sa.DateTime(), nullable=True),
-    sa.Column('is_edited', sa.Boolean(), nullable=True),
-    sa.Column('is_visible', sa.Boolean(), nullable=True),
+    sa.Column('content', sa.String(length=140), nullable=False),
+    sa.Column('date_created', sa.DateTime(), nullable=False),
+    sa.Column('is_edited', sa.Boolean(), nullable=False),
+    sa.Column('is_visible', sa.Boolean(), nullable=False),
     sa.ForeignKeyConstraint(['story_id'], ['stories.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -114,8 +114,8 @@ def upgrade():
     sa.Column('comment_id', sa.Integer(), nullable=True),
     sa.Column('module_id', sa.Integer(), nullable=True),
     sa.Column('user_guid', sa.String(length=64), nullable=True),
-    sa.Column('type', sa.Enum('Edit Story', 'Delete Story', 'Edit Comment', 'Delete Comment', 'Edit Featured Story', 'Edit Then and Now', 'Edit Event', name='type'), nullable=True),
-    sa.Column('timestamp', sa.DateTime(), nullable=True),
+    sa.Column('type', sa.Enum('Edit Story', 'Delete Story', 'Edit Comment', 'Delete Comment', 'Edit Featured Story', 'Edit Then and Now', 'Edit Event', name='type'), nullable=False),
+    sa.Column('timestamp', sa.DateTime(), nullable=False),
     sa.Column('previous_value', postgresql.JSON(astext_type=sa.Text()), nullable=True),
     sa.Column('new_value', postgresql.JSON(astext_type=sa.Text()), nullable=True),
     sa.ForeignKeyConstraint(['comment_id'], ['comments.id'], ),
@@ -129,9 +129,9 @@ def upgrade():
     sa.Column('story_id', sa.Integer(), nullable=True),
     sa.Column('comment_id', sa.Integer(), nullable=True),
     sa.Column('type', sa.Enum('Inappropriate Content', 'Incorrect Information', 'Offensive Content', 'Other', name='type'), nullable=True),
-    sa.Column('reason', sa.String(length=500), nullable=True),
-    sa.Column('timestamp', sa.DateTime(), nullable=True),
-    sa.Column('addressed', sa.Boolean(), nullable=True),
+    sa.Column('reason', sa.String(length=500), nullable=False),
+    sa.Column('timestamp', sa.DateTime(), nullable=False),
+    sa.Column('addressed', sa.Boolean(), nullable=False),
     sa.ForeignKeyConstraint(['comment_id'], ['comments.id'], ),
     sa.ForeignKeyConstraint(['story_id'], ['stories.id'], ),
     sa.PrimaryKeyConstraint('id')

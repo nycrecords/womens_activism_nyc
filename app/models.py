@@ -82,17 +82,24 @@ class User(UserMixin, db.Model):
     __tablename__ = "users"
     guid = guid = db.Column(db.String(64), primary_key=True)
     auth_user_type = db.Column(
-        db.Enum(user_type_auth.ADMINISTRATOR,
-                user_type_auth.MODERATOR,
+        db.Enum(user_type_auth.AGENCY_USER,
+                user_type_auth.AGENCY_LDAP_USER,
+                user_type_auth.PUBLIC_USER_FACEBOOK,
+                user_type_auth.PUBLIC_USER_MICROSOFT,
+                user_type_auth.PUBLIC_USER_YAHOO,
+                user_type_auth.PUBLIC_USER_LINKEDIN,
+                user_type_auth.PUBLIC_USER_GOOGLE,
+                user_type_auth.PUBLIC_USER_NYC_ID,
                 user_type_auth.ANONYMOUS_USER,
-                name='auth_user_type'),
-        primary_key=True)
+                name='auth_user_type'))
     is_mod = db.Column(db.Boolean, default=False)
     is_admin = db.Column(db.Boolean, default=False)
     first_name = db.Column(db.String(32))
     middle_initial = db.Column(db.String(1))
     last_name = db.Column(db.String(64))
     email = db.Column(db.String(254))
+    email_validated = db.Column(db.Boolean())
+    terms_of_use_accepted = db.Column(db.Boolean)
 
     def __repr__(self):
         return '<User %r>' % self.guid
@@ -149,7 +156,9 @@ class Stories(db.Model):
     activist_first - a string containing the activist's first name
     activist_last - a string containing the activist's last name
     activist_start- a string containing the activist's birth year
-    activist_end - a string contraining the activist's death year or "Today" if still alive
+    activist_start - an integer containing the the activist's birth year. If the activist was born in a BC year, set
+    the value to negative
+    activist_end - an integer containing the activist's death year. If the user wrote "Today", set this value to 9999
     content - a string containing the story about the activist
     activist_url - a string containing a link to additional information about the activist
     image_url - a string containing a link to an image of the activist
@@ -164,8 +173,8 @@ class Stories(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     activist_first = db.Column(db.String(30))
     activist_last = db.Column(db.String(30))
-    activist_start = db.Column(db.String(4))
-    activist_end = db.Column(db.String(5))
+    activist_start = db.Column(db.Integer)
+    activist_end = db.Column(db.Integer)
     content = db.Column(db.Text)
     activist_url = db.Column(db.Text)
     image_url = db.Column(db.Text)
@@ -197,6 +206,7 @@ class Stories(db.Model):
         self.activist_url = activist_url
         self.image_url = image_url
         self.video_url = video_url
+        self.poster_id = poster_id
         self.date_created = date_created
         self.is_edited = is_edited
         self.is_visible = is_visible

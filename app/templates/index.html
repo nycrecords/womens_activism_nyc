@@ -1,15 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Women's Activism</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Women's Activism NYC{% endblock %}
 
-{% block content %}
-<p>Placeholder for content.</p>
+{% block page_content %}
+
+    {% include 'hero.html' %}
+    <span class="spacer">&nbsp;</span>
+    {% include 'story_counter.html' %}
+    <span class="spacer">&nbsp;</span>
+    {% include 'story_cards.html' %}
+    <span class="spacer">&nbsp;</span>
+    <br><br><br>
+    {% include '_view_stories.html' %}
+    <span class="spacer">&nbsp;</span>
+    {% include 'give.html' %}
+    <span class="spacer">&nbsp;</span>
+    {% if featured_story %}
+        {% include 'featured_story.html' %}
+    {% endif %}
+    {% if then_and_now %}
+        {% include 'then_and_now.html' %}
+    {% endif %}
+
+
 {% endblock %}
 
-
-</body>
-</html>

@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% block title %}Women's Activism NYC - Edit Story{% endblock %}
+
+{% block page_content %}
+    {% if current_user.is_administrator() %}
+        <div class="page-header" align="center">
+            <h1>Edit Story</h1>
+
+            <div id="page-body">
+                <form name="input" class="form-horizontal" id="submitStory" method="post">
+                    <div class="lead">Reason
+                        <div class="control-group">
+                            <input class="input_reason" name="input_reason" maxlength="140" required>
+                        </div>
+                    </div>
+
+                    <div class="lead">Women
+                        <h2>Editing Story About:</h2>
+                        <div class="control-group">
+                            <input class="input_first" name="input_first" value="{{ story['activist_first'] }}"
+                                   maxlength="140" required>
+                            <input class="input_last" name="input_last" value="{{ story['activist_last'] }}"
+                                   maxlength="140" required>
+                        </div>
+                    </div>
+
+                    <div class="lead">Years Active
+                        <h2>She lived:</h2>
+                        <div class="control-group">
+                            <input class="input_start" name="input_start" value="{{ story['activist_start'] }}"
+                                   maxlength="4" required>
+                            <input class="input_end" name="input_end" value="{{ story['activist_end'] }}" maxlength="5"
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="lead">Content
+                        <div class="control-group">
+                            <textarea id="editor1" name="editor1" required>{{ story['content'] }}</textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="lead">Tags
+                        <div class="control-group">
+                            <select class="selectpicker" data-width="fit" name="input_tags" multiple required>
+                                {% for tag in tags %}
+                                    {% if tag.name in story_tags %}
+                                        <option selected value="{{ tag.name }}">{{ tag.name }}</option>
+                                    {% else %}
+                                        <option value="{{ tag.name }}">{{ tag.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <h5>Note: A story can have either an image or video, not both.</h5>
+                    <div class="lead"> Image Link
+                        <div>
+                            <input id=image_link class="image_link" name="image_link" title="Image Link"
+                                   value="{{ story['image_link'] or '' }}">
+                        </div>
+                    </div>
+
+                    <div class="lead"> Video Link
+                        <div>
+                            <input id=video_link class="video_link" name="video_link" title="Video Link"
+                                   value="{{ story['video_link'] or '' }}">
+                        </div>
+                    </div>
+
+                    {#            <div class="control-group">#}
+                    {#                    <button type="button" class="upload_image">Upload Image</button>#}
+                    {#                    <button type="button" class="upload_video">Upload Video</button>#}
+                    {#            </div>#}
+                    {##}
+                    {#            {% if story.image_link %}#}
+                    {##}
+                    {#                <h5 class="image_link">Enter an image URL</h5>#}
+                    {#                <input id=image_link class="image_link" name="image_link" title="Image Link"#}
+                    {#                          value="{{ story.image_link or '' }}">#}
+                    {#                <h5 class="video_link" style="display:none;">Enter a YouTube or Vimeo URL</h5>#}
+                    {#                <input id=video_link class="video_link" name="video_link" title="Video Link"#}
+                    {#                          value="{{ video_link or '' }}" style="display:none;">#}
+                    {##}
+                    {#            {% elif story.video_link %}#}
+                    {##}
+                    {#                <h5 class="image_link" style="display:none;">Enter an image URL</h5>#}
+                    {#                <input id=image_link class="image_link" name="image_link" title="Image Link"#}
+                    {#                          value="{{ image_link or '' }}" style="display:none;">#}
+                    {#                <h5 class="video_link">Enter a YouTube or Vimeo URL</h5>#}
+                    {#                <input id=video_link class="video_link" name="video_link" title="Video Link"#}
+                    {#                          value="{{ story.video_link or '' }}">#}
+                    {#            {% else %}#}
+                    {#                <h5 class="image_link" style="display:none;">Enter an image URL</h5>#}
+                    {#                <input id=image_link class="image_link" name="image_link" title="Image Link"#}
+                    {#                          value="{{ image_link or '' }}" style="display:none;">#}
+                    {#                <h5 class="video_link" style="display:none;">Enter a YouTube or Vimeo URL</h5>#}
+                    {#                <input id=video_link class="video_link" name="video_link" title="Video Link"#}
+                    {#                          value="{{ video_link or '' }}" style="display:none;">#}
+                    {#                {% endif %}#}
+
+                    <div class="lead">Additional link for more information [Optional]
+                        <div class="control-group">
+                            {#                    <textarea id="input_url" name="input_url">{{ story['activist_url'] }}</textarea>#}
+                            <input id="input_url" class="input_url" name="input_url"
+                                   value="{{ story['activist_url'] }}">
+                        </div>
+                    </div>
+
+                    <div id="requestButton" class="control-group">
+                        <div>
+                            <button type="submit" title="submit_story" class="btn btn-primary">Submit</button>
+                            <input action="action" type="button" value="Cancel" onclick="history.go(-1);"
+                                   class="btn btn-primary"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <br>
+        </div>
+    {% else %}
+        <h1>You must be an Administrator to view this page</h1>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-*.min.js"></script>
+{% endblock %}

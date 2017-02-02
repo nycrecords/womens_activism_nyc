@@ -1,0 +1,314 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+    <div class="container-fluid">
+        <form name="input" class="form-horizontal" id="submitPost" method="post">
+            <div class="container-fluid">
+                {% with just_submitted = get_flashed_messages(category_filter=['share_submitted_story']) %}
+                    {% if just_submitted %}
+                        <div class="share-buttons">
+                            <p>Share what you submitted on your social media!</p>
+                            <a href="https://twitter.com/share?url={{ url_for('stories.stories', id=request.args.get('id'), _external=True) }}&text=I just posted a story about a woman activist who inspires me, you should too!&hashtags=20000By2020"
+                               target="_blank">
+                                <img src="{{ url_for('static', filename='img/twitter_icon.png') }}" alt="Twitter"/>
+                            </a>
+                            <!-- Facebook -->
+                            <a href="http://www.facebook.com/sharer.php?u={{ url_for('stories.stories', id=request.args.get('id'), _external=True) }}"
+                               target="_blank">
+                                <img src="{{ url_for('static', filename='img/facebook_icon.png') }}" alt="Facebook"/>
+                            </a>
+                        </div>
+                        <br> <br>
+                    {% endif %}
+                {% endwith %}
+                <div class="activist_information">
+                    <div class="share_title">Who Inspires You?<br>
+                        <h5>Share your story about a woman<br>
+                            whose activism has inspired you</h5>
+                        <div class="row">
+                            <div class="control-group col-sm-push-4 col-sm-5">
+                                <input class="activist_info_field col-sm-4" name="activist_first_name"
+                                       title="Activist First Name" id="activist_first_name"
+                                       value="{{ activist_first_name or '' }}" maxlength="30" placeholder="Mary"
+                                       required>
+                                <input class="activist_info_field col-sm-4 col-sm-push-1" name="activist_last_name"
+                                       title="Activist Last Name" id="activist_last_name"
+                                       value="{{ activist_last_name or '' }}" maxlength="30" placeholder="Smith"
+                                       required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <span class="required">required</span>
+                        </div>
+                    </div>
+                    <div class="share_title">She Lived<br>
+                        <div class="row" style="margin-top: 1em;">
+                            <div class="control-group col-sm-push-4 col-sm-5">
+                                <input class="activist_info_field col-sm-4" name="input_birth"
+                                       title="Activist Start Date"
+                                       maxlength="4"
+                                       placeholder="1960"
+                                       value="{{ activist_start_date or '' }}">
+                                <div class="col-sm-1"><span>-</span></div>
+                                <input class="activist_info_field col-sm-4" name="input_death" title="Activist End Date"
+                                       maxlength="5" id="input_death"
+                                       placeholder="Today"
+                                       value="{{ activist_end_date or '' }}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="control-group">
+                                <span class="required">from - to</span>
+                            </div>
+                        </div>
+                        <h5>If still living, enter "Today"</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid">
+                <div class="activist_story">
+                    <div class="share_title">What Is She Known For?<br>
+                        <h5>Choose one or more categories</h5>
+                        <div class="control-group">
+                            <div class="tag_buttons">
+                                {% for list in tags %}
+                                    <div class="row">
+                                        {% for tag in list %}
+                                            {% if tag.name in tag_list %}
+                                                <button onclick="category_button_click('{{ tag.name }}')" type="button"
+                                                    value="{{ tag.name }}" id="{{ tag.name }}" class="btn btn-primary active"
+                                                    data-toggle="button"
+                                                    name="{{ tag.name }}" data-button="{{ tag.name }}"
+                                                    aria-pressed="true"
+                                                    autocomplete="off">{{ tag.name }}</button>
+                                            {% else %}
+                                            <button onclick="category_button_click('{{ tag.name }}')" type="button"
+                                                    value="{{ tag.name }}" id="{{ tag.name }}" class="btn btn-primary"
+                                                    data-toggle="button"
+                                                    name="{{ tag.name }}" data-button="{{ tag.name }}"
+                                                    aria-pressed="false"
+                                                    autocomplete="off">{{ tag.name }}</button>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="share_title">Share Her Story<br>
+                            <h5>Share a few words about how your woman activist<br>
+                                has inspired you and others</h5>
+                            <div class="container">
+                    <textarea class="activist_story_input" id="editor1" name="editor1"
+                              placeholder="Enter your story here" rows="10" required>{{ content or '' }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="share_title">Add A Link<br>
+                        <h5>Enter a URL to allow others to learn<br>
+                            more about your woman activist online</h5>
+                        <div class="row">
+                            <div class="control-group">
+                                <input class="activist_info_field col-sm-push-3 col-sm-6" name="input_url_link"
+                                       title="Activist Link"
+                                       maxlength="256"
+                                       value="{{ activist_link or '' }}" placeholder="www.activistwoman.com">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <span class="required">optional</span>
+                        </div>
+                    </div>
+
+                    <div class="share_title">Add Media<br>
+                        <h5>Add your favorite photo or video of the<br>
+                            woman activist to help tell her story</h5>
+                        <div class="row">
+                            <div class="control-group" style="max-width: 6em; margin: auto auto 1.5em;">
+                                <button type="button" class="upload_image" id="media_action_button_image">
+                                    Add Image Link
+                                </button>
+                                <button type="button" class="upload_video" id="media_action_button_video">
+                                    Add Video Link
+                                </button>
+                            </div>
+                            <div class="control-group">
+                                <h5 class="image_link" style="display: none;">Enter an image URL below</h5>
+                                <input id=image_link class="image_link" name="image_link" title="Image Link"
+                                       value="{{ image_link or '' }}" style="display: none; width: 60%;">
+                                <h5 class="video_link" style="display: none;">Enter a YouTube or Vimeo URL below</h5>
+                                <input id=video_link class="video_link" name="video_link" title="Video Link"
+                                       value="{{ video_link or '' }}" style="display: none; width: 60%;">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <span class="required">optional</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid">
+                <div class="activist_information">
+                    <div class="share_title">Tell Us About Yourself<br>
+                        <h5>If you would like to share your name, enter below<br>
+                            Your email address will not be made public</h5>
+                        <div class="row">
+                            <div class="control-group col-sm-push-4 col-sm-5">
+                                <input class="activist_info_field col-sm-4" name="author_first_name"
+                                       title="Author First Name" maxlength="140" id="author_first_name"
+                                       value="{{ author_first_name or '' }}" placeholder="Mary">
+                                <input class="activist_info_field col-sm-4 col-sm-push-1" name="author_last_name"
+                                       title="Author Last Name" maxlength="140" id="author_last_name"
+                                       value="{{ author_last_name or '' }}" placeholder="Smith"> <br>
+                                <input class="activist_info_field col-sm-9" name="author_email" title="Author Email"
+                                       maxlength="140"
+                                       value="{{ author_email or '' }}" placeholder="msmith@gmail.com"
+                                       style="padding-top: 1em;">
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="control-group">
+                                <div class="g-recaptcha" data-sitekey="{{ site_key }}"
+                                     style="margin: .5em auto; width: 6.75em; padding-top: 4rem;"></div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div id="requestButton" class="control-group">
+                                <div>
+                                    <button type="submit" title="submit_post" class="center-block hero_action_button">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="text-align: center; margin-top: 2%">
+                        <a href="{{ url_for('main.guidelines') }}">Community Guidelines</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/js/bootstrap-select.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/js/i18n/defaults-*.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".upload_image").click(function () {
+                $(".image_link").show();
+                $(".video_link").hide();
+                $(".video_link").val('');
+            });
+            $(".upload_video").click(function () {
+                $(".video_link").show();
+                $(".image_link").hide();
+                $(".image_link").val('');
+            });
+        });
+    </script>
+    <script>
+        $('textarea').keyup(function () {
+            var length = $(this).val().length;
+            $('#chars').text(length + " / 1500 used");
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var category_buttons = document.getElementsByClassName('btn btn-primary active');  // grabs all tag buttons selected previously
+            for (var i = 0; i < category_buttons.length; i++) {  // loops through list of previously selected tags
+                $('<input>').attr({
+                    type: 'hidden',
+                    value: category_buttons[i].value,
+                    name: "category_button",
+                    id: "category_button_" + category_buttons[i].value
+                }).appendTo('form');  // add a hidden input field with value of the tag pressed
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        function category_button_click(tag_name) {
+            var category_button = document.getElementById(tag_name);  // get button being pressed
+            if (category_button.getAttribute("aria-pressed") == "false") {  // check if the button was previously not active
+                $('<input>').attr({
+                    type: 'hidden',
+                    value: tag_name,
+                    name: "category_button",
+                    id: "category_button_" + tag_name
+                }).appendTo('form');  // add a hidden input field with value of the tag pressed
+            }
+            if (category_button.getAttribute("aria-pressed") == "true") {  // check if button was previously active
+                var hidden_category_button = document.getElementById("category_button_" + tag_name);  // get hidden input field that was created
+                hidden_category_button.remove();  // remove hidden input field
+            }
+        }
+    </script>
+    <script type="text/javascript">
+    $(document).ready(function() {  // capitalizes first letter of inputs involving activist name and author name
+        $('#activist_first_name').on('keydown', function(event) {
+            if (this.selectionStart == 0 && event.keyCode >= 65 && event.keyCode <= 90 && !(event.shiftKey) && !(event.ctrlKey) && !(event.metaKey) && !(event.altKey)) {
+               var $t = $(this);
+               event.preventDefault();
+               var char = String.fromCharCode(event.keyCode);
+               $t.val(char + $t.val().slice(this.selectionEnd));
+               this.setSelectionRange(1,1);
+            }
+        });
+        $('#activist_last_name').on('keydown', function(event) {
+            if (this.selectionStart == 0 && event.keyCode >= 65 && event.keyCode <= 90 && !(event.shiftKey) && !(event.ctrlKey) && !(event.metaKey) && !(event.altKey)) {
+               var $t = $(this);
+               event.preventDefault();
+               var char = String.fromCharCode(event.keyCode);
+               $t.val(char + $t.val().slice(this.selectionEnd));
+               this.setSelectionRange(1,1);
+            }
+        });
+        $('#author_first_name').on('keydown', function(event) {
+            if (this.selectionStart == 0 && event.keyCode >= 65 && event.keyCode <= 90 && !(event.shiftKey) && !(event.ctrlKey) && !(event.metaKey) && !(event.altKey)) {
+               var $t = $(this);
+               event.preventDefault();
+               var char = String.fromCharCode(event.keyCode);
+               $t.val(char + $t.val().slice(this.selectionEnd));
+               this.setSelectionRange(1,1);
+            }
+        });
+        $('#author_last_name').on('keydown', function(event) {
+            if (this.selectionStart == 0 && event.keyCode >= 65 && event.keyCode <= 90 && !(event.shiftKey) && !(event.ctrlKey) && !(event.metaKey) && !(event.altKey)) {
+               var $t = $(this);
+               event.preventDefault();
+               var char = String.fromCharCode(event.keyCode);
+               $t.val(char + $t.val().slice(this.selectionEnd));
+               this.setSelectionRange(1,1);
+            }
+        });
+        $('#input_death').on('keydown', function(event) {
+            if (this.selectionStart == 0 && event.keyCode >= 65 && event.keyCode <= 90 && !(event.shiftKey) && !(event.ctrlKey) && !(event.metaKey) && !(event.altKey)) {
+               var $t = $(this);
+               event.preventDefault();
+               var char = String.fromCharCode(event.keyCode);
+               $t.val(char + $t.val().slice(this.selectionEnd));
+               this.setSelectionRange(1,1);
+            }
+        });
+    });
+    </script>
+{% endblock %}

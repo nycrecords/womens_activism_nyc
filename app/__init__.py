@@ -1,0 +1,62 @@
+from flask import Flask
+from flask_bootstrap import Bootstrap
+from flask_mail import Mail
+from flask_moment import Moment
+from flask_sqlalchemy import SQLAlchemy
+from config import config
+from flask_login import LoginManager
+from flask_recaptcha import ReCaptcha
+
+# TODO: add in docstrings in imports and declarations
+
+
+bootstrap = Bootstrap()
+mail = Mail()
+moment = Moment()
+db = SQLAlchemy()
+recaptcha = ReCaptcha()
+
+login_manager = LoginManager()
+login_manager.session_protection = 'strong'
+login_manager.login_view = 'auth.login'
+
+
+def create_app(config_name):
+    app = Flask(__name__)
+    app.config.from_object(config[config_name])
+
+    config[config_name].init_app(app)
+
+    bootstrap.init_app(app)
+    mail.init_app(app)
+    moment.init_app(app)
+    db.init_app(app)
+    recaptcha.init_app(app)
+
+    login_manager.init_app(app)
+
+    # TODO: add in docstrings for blueprints
+    # TODO: CHANGE .stories to .stories
+
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+    from .auth import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint)
+
+    from .tags import tags as tag_blueprint
+    app.register_blueprint(tag_blueprint)
+
+    from .feedback import feedback as feedback_blueprint
+    app.register_blueprint(feedback_blueprint)
+
+    from .flags import flags as flags_blueprint
+    app.register_blueprint(flags_blueprint)
+
+    from .stories import stories as stories_blueprint
+    app.register_blueprint(stories_blueprint)
+
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+    return app

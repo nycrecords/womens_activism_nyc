@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Form</title>
+</head>
+<body>
+
+    <p>Notice [Women's Activism NYC]: <b>Delete Made on a Story</b>!</p>
+
+    <p>
+        Before the Edit:<br>
+            Story About: {{ story_edit.activist_last }} , {{ story_edit.activist_first }}<br>
+            She Lived: {{ story_edit.activist_start }} to {{ story_edit.activist_end }}<br>
+            {% if story_edit.activist_url %}
+                Activist Url: {{ story_edit.activist_url }}<br>
+            {% endif %}
+            Tags: {{ old_tags }}<br>
+            Content: {{ story_edit.content | safe }}
+    </p>
+
+
+    <p>
+        Version Information:<br>
+            Delete made by: {{ user_last }} , {{ user_first }}<br>
+            Reason given: {{ story_edit.reason }}<br>
+            Story Creation time: {{ story.creation_time }}<br>
+            Story Edit time: {{ story.edit_time }}<br>
+            Previous Story Version: {{ story_edit.version }}<br>
+            Current Story Version: Deleted
+    </p>
+
+
+    <p>
+    Sincerely,<br>
+    Women's Activism NYC<br>
+    <small>Note: replies to this email address are not monitored.</small>
+    </p>
+
+</body>
+</html>

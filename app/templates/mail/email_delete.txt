@@ -1,0 +1,25 @@
+Notice [Women's Activism NYC]: Delete Made on a Story!
+
+
+    Before the Edit:
+        Story About: {{ story_edit.activist_last }} , {{ story_edit.activist_first }}
+        She Lived: {{ story_edit.activist_start }} to {{ story_edit.activist_end }}
+        {% if story_edit.activist_url %}
+            Activist Url: {{ story_edit.activist_url }}
+        {% endif %}
+        Tags: {{ old_tags }}
+        Content: {{ story_edit.content | safe }}
+
+
+    Version Information:
+        Delete made by: { user_last }} , {{ user_first }}
+        Reason given: {{ story_edit.reason }}
+        Story Creation time: {{ story.creation_time }}
+        Story Edit time: {{ story.edit_time }}
+        Previous Story Version: {{ story_edit.version }}
+        Current Story Version: Deleted
+    
+
+Sincerely,
+Women's Activism NYC
+Note: replies to this email address are not monitored.

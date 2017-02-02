@@ -1,0 +1,155 @@
+{% import "_macros.html" as macros %}
+
+<div class="activist_story">
+    <form name="input" class="form-horizontal" id="searchStories" method="post">
+        <div class="container-fluid">
+            <div class="share_title" style="padding-top: 3%;">I'm Looking For Women Known For<br>
+                <h5>You may choose more than one category to narrow your search.</h5>
+                <div class="control-group">
+                    <div class="tag_buttons">
+                        {% for list in tags %}
+                            <div class="row">
+                                {% for tag in list %}
+                                    {% if tag.name in tag_list %}
+                                        <button onclick="category_button_click('{{ tag.name }}')" type="button"
+                                                value="{{ tag.name }}" id="{{ tag.name }}"
+                                                class="btn btn-primary active"
+                                                data-toggle="button"
+                                                name="{{ tag.name }}" data-button="{{ tag.name }}"
+                                                aria-pressed="true"
+                                                autocomplete="off">{{ tag.name }}</button>
+                                    {% else %}
+                                        <button onclick="category_button_click('{{ tag.name }}')" type="button"
+                                                value="{{ tag.name }}" id="{{ tag.name }}" class="btn btn-primary"
+                                                data-toggle="button"
+                                                name="{{ tag.name }}" data-button="{{ tag.name }}"
+                                                aria-pressed="false"
+                                                autocomplete="off">{{ tag.name }}</button>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <div class="row" style="text-align: center;">
+                <h5 style="font-size: 22px;">You may enter either a first or last name to narrow your search.</h5>
+                <div class="control-group">
+                    <div class="search_keyword">
+                        <input class="activist_info_field col-sm-push-3 col-sm-6" value="{{ name_search or '' }}"
+                               name="input_name_search" title="Name Search" maxlength="256"
+                               placeholder="First Name or Last Name">
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <div class="row" style="text-align: center;">
+                <h5 style="text-align: center; font-size: 22px;">You may choose a sorting option to narrow your
+                    search.</h5>
+                <div class="control-group">
+                    <div class="alphabetical_sort">
+                        <div class="btn-group">
+{#                            {% for option in sort_options %}#}
+{#                                {% if option == previous_sort_option %}#}
+{#                                    <button value="{{ option }}" id="{{ option }}" type="button"#}
+{#                                            class="btn btn-primary active">{{ option }}</button>#}
+{#                                {% else %}#}
+{#                                    <button value="{{ option }}" id="{{ option }}" type="button"#}
+{#                                            class="btn btn-primary">{{ option }}</button>#}
+{#                                {% endif %}#}
+{#                            {% endfor %}#}
+                            {% if previous_sort_option|length > 0 %}
+                                {% for sort_option in previous_sort_option %}
+                                    {% if "activist_first asc" == sort_option %}
+                                        <button value="activist_first asc" id="A-Z First Name" type="button"
+                                                class="btn btn-primary active">A-Z First Name
+                                        </button>
+                                    {% else %}
+                                        <button value="activist_first asc" id="A-Z First Name" type="button"
+                                                class="btn btn-primary">A-Z First Name
+                                        </button>
+                                    {% endif %}
+                                    {% if "activist_first desc" == sort_option %}
+                                        <button value="activist_first desc" id="Z-A First Name" type="button"
+                                                class="btn btn-primary active">Z-A First Name
+                                        </button>
+                                    {% else %}
+                                        <button value="activist_first desc" id="Z-A First Name" type="button"
+                                                class="btn btn-primary">Z-A First Name
+                                        </button>
+                                    {% endif %}
+                                    {% if "activist_last asc" == sort_option %}
+                                        <button value="activist_last asc" id="A-Z Last Name" type="button"
+                                                class="btn btn-primary active">A-Z Last Name
+                                        </button>
+                                    {% else %}
+                                        <button value="activist_last asc" id="A-Z Last Name" type="button"
+                                                class="btn btn-primary">A-Z Last Name
+                                        </button>
+                                    {% endif %}
+                                    {% if "activist_last desc" == sort_option %}
+                                        <button value="activist_last desc" id="Z-A Last Name" type="button"
+                                                class="btn btn-primary active">Z-A Last Name
+                                        </button>
+                                    {% else %}
+                                        <button value="activist_last desc" id="Z-A Last Name" type="button"
+                                                class="btn btn-primary">Z-A Last Name
+                                        </button>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <button value="activist_first asc" id="A-Z First Name" type="button"
+                                        class="btn btn-primary">A-Z First Name
+                                </button>
+                                <button value="activist_first desc" id="Z-A First Name" type="button"
+                                        class="btn btn-primary">Z-A First Name
+                                </button>
+                                <button value="activist_last asc" id="A-Z Last Name" type="button"
+                                        class="btn btn-primary">A-Z Last Name
+                                </button>
+                                <button value="activist_last desc" id="Z-A Last Name" type="button"
+                                        class="btn btn-primary">Z-A Last Name
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <div class="row">
+                <div id="requestButton" class="control-group">
+                    <div>
+                        <button type="submit" title="Search Stories" class="center-block hero_action_button">
+                            Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <br> <br>
+</div>
+
+<div id="filtered-stories" style="text-align: center; margin-top: 2em;">
+    {% include 'story_cards.html' %}
+    {#    <center>{{ macros.pagination_widget(pagination, 'main.catalog') }}</center>#}
+</div>
+
+<br>
+
+<div class="who_inspires_you">
+    <div class="share_title">Who Inspires You?<br>
+        <h5>Share your story about a woman<br>
+            whose activism has inspired you.</h5>
+        <div id="requestButton" class="control-group">
+            <div>
+                <a href="{{ url_for('stories.share') }}">
+                    <button class="center-block hero_action_button">
+                        Share Your Story
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

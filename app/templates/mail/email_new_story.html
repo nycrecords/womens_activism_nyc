@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Story Submission</title>
+</head>
+<body>
+
+<p>Notice [Women's Activism NYC]: <b>New Story Submission</b>!</p>
+
+<p>
+    Story About: {{ story.activist_first }} {{ story.activist_last }}<br>
+    Content: {{ story.content }}<br>
+    Tags: {{ tags }}
+</p>
+
+<p>
+    To view the post please <a href="{{ url_for('stories.stories', id=story.id, _external=True) }}">click here</a>.<br>
+    Alternatively, you can paste the following link in your browser's address bar:<br>
+    {{ url_for('stories.stories', id=story.id, _external=True) }}
+</p>
+
+<p>
+    Sincerely,<br>
+    Women's Activism NYC<br>
+    <small>Note: replies to this email address are not monitored.</small>
+</p>
+
+</body>
+</html>

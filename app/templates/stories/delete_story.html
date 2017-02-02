@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Women's Activism NYC - Delete Story{% endblock %}
+
+{% block page_content %}
+    {% if current_user.is_administrator() %}
+        <div class="page-header">
+            <h1>Do you really want to delete this Story?</h1>
+
+            <div class="html_form">
+                <form name="input" class="form-horizontal" id="submitStory" method="post">
+                    <div class="lead">Reason
+                        <div class="control-group">
+                            <input class="input_reason" name="input_reason" maxlength="140" required>
+                        </div>
+                    </div>
+
+                    <div class="lead">
+                        <h1>Deleting Story About:</h1>
+                        {{ story['activist_first'] }} {{ story['activist_last'] }}
+                    </div>
+
+                    <div class="lead">
+                        <h1>Content</h1>
+                        {{ story['content'] | safe }}
+                    </div>
+
+                    <div id="requestButton" class="control-group">
+                        <div>
+                            <button type="submit" title="delete_story" class="btn btn-primary">Delete</button>
+                            <input action="action" type="button" value="Cancel" onclick="history.go(-1);"
+                                   class="btn batn-primary"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <br>
+        </div>
+    {% else %}
+        <h1>You must be an Administrator to view this page</h1>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+{#    <script type="text/javascript" src="//cdn.ckeditor.com/4.4.7/full/ckeditor.js"></script>#}
+{% endblock %}

@@ -1,0 +1,132 @@
+/* Home Defaults */
+h1 {
+  margin: 0;
+  padding: 0;
+  font-size: 50px;
+  font-weight: lighter;
+}
+
+/* Header */
+
+#header-top {
+  text-align: center;
+}
+#logo {
+  max-width: 183px;
+  margin: 40px 0;
+}
+.navbar-nav {
+  width: 100%;
+  text-align: center;
+}
+.navbar-nav li {
+    float: none;
+    display: inline-block;
+}
+.navbar {
+  min-height: 40px;
+  height: 40px;
+  margin-bottom: 0;
+  border: 0;
+  border-radius: 0;
+}
+.navbar-nav > li > a {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-transform: uppercase;
+  color: #ffffff !important;
+  font-weight: 600;
+}
+.navbar-default {
+  background: #d29f13;
+}
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+  background: #e0b040;
+}
+.navbar-toggle {
+  margin-top: 3px;
+  margin-bottom: 0;
+}
+
+/* Fonts */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Open Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+p, div {
+  font-family: 'Open Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Hero */
+
+#hero {
+  background: url('./static/img/womens_activism_hero_image.png');
+  background-size: cover;
+  background-color: rgb(89, 49, 95);
+  min-height: 380px;
+  text-align: center;
+  color: #ffffff;
+  height:100%;
+  width:100%;
+  display: table;
+}
+@media (min-width:768px) {
+  #hero {
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+#hero-content {
+  height: 100%;
+  display: table-cell;
+  vertical-align: middle;
+}
+#hero h1 {
+  font-weight: 300;
+  font-size: 50px;
+  padding: 0;
+  margin: 0 15px 15px 15px;
+}
+#hero p {
+  margin: 0 0 10px 0;
+  padding: 0 15px;
+}
+#hero-collect {
+  font-weight: normal;
+}
+#hero .btn {
+  background: none;
+  font-size: 20px;
+  color: white;
+  border-radius: 0;
+  border-width: 2px;
+  margin-top: 20px;
+}
+.home-wrapper {
+  margin-top: 75px;
+  margin-bottom: 75px;
+  text-align: center;
+}
+.home-count {
+  color: #d29f13;
+  font-weight: normal;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+#home-stories h2 {
+  color: #c0c0c0;
+  font-weight: lighter;
+  font-size: 36px;
+  margin-top: 25px;
+  margin-bottom: 80px;
+}
+.home-story {
+}
+.home-story-content {
+  margin: 0 3px;
+  border: 1px solid #d9d9d9;
+}

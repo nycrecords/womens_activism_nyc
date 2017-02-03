@@ -15,9 +15,9 @@ def create_story(activist_first,
                  video_url,
                  poster_id):
     if activist_start_BC:
-        activist_start *= -1
+        activist_start = int(activist_start) * -1
     if activist_end_BC:
-        activist_end *= -1
+        activist_end = int(activist_end) * -1
     if activist_end == "Today":
         activist_end = 9999
     if activist_url == "":

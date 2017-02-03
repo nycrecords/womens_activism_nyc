@@ -11,6 +11,16 @@ def index():
         if form.validate_on_submit():
             poster_id = None
 
+            # print(form.activist_start_BC)
+            # print(form.activist_start)
+            # print(form.activist_end_BC)
+            # print(form.activist_end)
+            #
+            # print(form.activist_start_BC.data)
+            # print(form.activist_start.data)
+            # print(form.activist_end_BC.data)
+            # print(form.activist_end.data)
+
             if form.poster_first.data or form.poster_last.data or form.poster_email.data:
                 poster_id = create_poster(poster_first=form.poster_first.data,
                                           poster_last=form.poster_last.data,
@@ -21,7 +31,7 @@ def index():
                          activist_start=form.activist_start.data,
                          activist_start_BC=form.activist_start_BC.data,
                          activist_end=form.activist_end.data,
-                         activist_end_BC=form.activist_start_BC.data,
+                         activist_end_BC=form.activist_end_BC.data,
                          tags=form.tags.data,
                          content=form.content.data,
                          activist_url=form.activist_url.data,

@@ -227,7 +227,7 @@ class Stories(db.Model):
             date_created=datetime.utcnow(),
             is_edited=False,
             is_visible=True,
-            tags = None
+            tags=None
     ):
         self.activist_first = activist_first
         self.activist_last = activist_last

@@ -2,6 +2,12 @@ from wtforms import ValidationError
 import requests
 
 
+def validate_white_space(form, value):
+    value_data = value.data
+    if value_data.startswith(" ") or value_data.endswith(" "):
+        raise ValidationError()
+
+
 def validate_name(form, name):
     activist_name = name.data
     if activist_name[:1].islower():

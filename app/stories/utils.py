@@ -1,6 +1,5 @@
 from app.models import Stories, Posters
 from app import db
-from flask import session
 
 
 def create_story(activist_first,
@@ -21,6 +20,12 @@ def create_story(activist_first,
         activist_end *= -1
     if activist_end == "Today":
         activist_end = 9999
+    if activist_url == "":
+        activist_url = None
+    if image_url == "":
+        image_url = None
+    if video_url == "":
+        video_url = None
 
     story = Stories(activist_first=activist_first,
                     activist_last=activist_last,
@@ -30,7 +35,8 @@ def create_story(activist_first,
                     activist_url=activist_url,
                     image_url=image_url,
                     video_url=video_url,
-                    poster_id=poster_id)
+                    poster_id=poster_id,
+                    tags=tags)
 
     db.session.add(story)
     db.session.commit()
@@ -39,9 +45,17 @@ def create_story(activist_first,
 def create_poster(poster_first,
                   poster_last,
                   poster_email):
+    if poster_first == "":
+        poster_first = None
+    if poster_last == "":
+        poster_last = None
+    if poster_email == "":
+        poster_email = None
+
     poster = Posters(poster_first=poster_first,
                      poster_last=poster_last,
                      email=poster_email)
+
     db.session.add(poster)
     db.session.commit()
     return poster.id

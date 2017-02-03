@@ -134,7 +134,7 @@ class Posters(db.Model):
         self.id = id
         self.poster_first = poster_first
         self.poster_last = poster_last
-        self.email =  email
+        self.email = email
 
 
 class Anonymous(AnonymousUserMixin):

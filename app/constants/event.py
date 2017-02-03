@@ -1,0 +1,7 @@
+EDIT_STORY = "Edit Story"
+DELETE_STORY = "Delete Story"
+EDIT_COMMENT = "Edit Comment"
+DELETE_COMMENT = "Delete Comment"
+EDIT_FEATURED_STORY = "Edit Featured Story"
+EDIT_THEN_AND_NOW = "Edit Then and Now"
+EDIT_EVENT = "Edit Event"

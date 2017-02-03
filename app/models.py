@@ -1,8 +1,8 @@
 from app import db
 from flask_login import UserMixin, AnonymousUserMixin
 from datetime import datetime
-from sqlalchemy.dialects.postgresql import JSON
-from app.constants import permission, role_name, tag_list, user_type_auth
+from sqlalchemy.dialects.postgresql import JSON, ARRAY
+from app.constants import permission, role_name, tag, user_type_auth, event, module, flag
 
 
 class Roles(db.Model):
@@ -69,8 +69,8 @@ class User(UserMixin, db.Model):
     """
     Define the User class with the following columns and relationships:
 
-    guid - an integer that contains the guid of a user, part of a compositie primary key
-    auth_user_type - an integer that contains that authentification type of a user, part of a composite primary key
+    guid - an integer that contains the guid of a user, part of a composite primary key
+    auth_user_type - an integer that contains that authentication type of a user, part of a composite primary key
     is_mod - a boolean that determines if a user is a moderator or not
     is_admin - a boolean that determines if a user is an admin or not
     first_name - a string that contains the first name of the user
@@ -106,11 +106,35 @@ class User(UserMixin, db.Model):
 
 
 class Posters(db.Model):
+    """
+    Define the Poster class with the following columns and relationships:
+    A poster is a user that provided personal information (name and/or email) when they created a story
+
+    id - an integer that contains the the id of a poster
+    poster_first - a string containing the poster's first name
+    poster_last - a string containing the poster's last name
+    email - a string containg the poster's email address
+    """
+
     __tablename__ = "posters"
     id = db.Column(db.Integer, primary_key=True)
     poster_first = db.Column(db.String(30))
     poster_last = db.Column(db.String(30))
     email = db.Column(db.String(254))
+
+    def __repr__(self):
+        return '<Posters %r>' % self.email
+
+    def __init__(self,
+                 id,
+                 poster_first,
+                 poster_last,
+                 email
+    ):
+        self.id = id
+        self.poster_first = poster_first
+        self.poster_last = poster_last
+        self.email =  email
 
 
 class Anonymous(AnonymousUserMixin):
@@ -183,6 +207,7 @@ class Stories(db.Model):
     date_created = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
     is_edited = db.Column(db.Boolean, default=False, nullable=False)
     is_visible = db.Column(db.Boolean, default=True, nullable=False)
+    tags = db.Column(ARRAY(db.String(50)))
 
     def __repr__(self):
         return '<Stories %r>' % self.id
@@ -198,7 +223,8 @@ class Stories(db.Model):
             poster_id,
             date_created=datetime.utcnow(),
             is_edited=False,
-            is_visible=True
+            is_visible=True,
+            tags = None
     ):
         self.activist_first = activist_first
         self.activist_last = activist_last
@@ -210,6 +236,7 @@ class Stories(db.Model):
         self.date_created = date_created
         self.is_edited = is_edited
         self.is_visible = is_visible
+        self.tags = tags
 
 
 class Tags(db.Model):
@@ -230,10 +257,10 @@ class Tags(db.Model):
         Automatically populates the tags table with tags from a predefined list
         """
 
-        for tag in tag_list.tags:
-            tag_obj = Tags.query.filter_by(name=tag).first()
+        for item in tag.tags:
+            tag_obj = Tags.query.filter_by(name=item).first()
             if tag_obj is None:
-                tag_obj = Tags(name=tag)
+                tag_obj = Tags(name=item)
                 db.session.add(tag_obj)
         db.session.commit()
 
@@ -336,13 +363,13 @@ class Events(db.Model):
     module_id = db.Column(db.Integer, db.ForeignKey('modules.id'))
     user_guid = db.Column(db.String(64), db.ForeignKey('users.guid'))
     type = db.Column(
-        db.Enum('Edit Story',
-                'Delete Story',
-                'Edit Comment',
-                'Delete Comment',
-                'Edit Featured Story',
-                'Edit Then and Now',
-                'Edit Event',
+        db.Enum(event.EDIT_STORY,
+                event.DELETE_STORY,
+                event.EDIT_COMMENT,
+                event.DELETE_COMMENT,
+                event.EDIT_FEATURED_STORY,
+                event.EDIT_THEN_AND_NOW,
+                event.EDIT_EVENT,
                 name='type'), nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
     previous_value = db.Column(JSON)
@@ -394,10 +421,10 @@ class Modules(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     story_id = db.Column(db.Integer, db.ForeignKey('stories.id'))
     type = db.Column(
-        db.Enum('Featured',
-                'Then',
-                'Now',
-                'Event',
+        db.Enum(module.FEATURED,
+                module.THEN,
+                module.NOW,
+                module.EVENT,
     name = 'type'))
     title1 = db.Column(db.String(50))
     title2 = db.Column(db.String(50))
@@ -454,10 +481,10 @@ class Flags(db.Model):
     story_id = db.Column(db.Integer, db.ForeignKey('stories.id'))
     comment_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
     type = db.Column(
-        db.Enum('Inappropriate Content',
-                'Incorrect Information',
-                'Offensive Content',
-                'Other',
+        db.Enum(flag.INAPPROPRIATE_CONTENT,
+                flag.INCORRECT_INFORMATION,
+                flag.OFFENSIVE_CONTENT,
+                flag.OTHER,
     name = 'type'))
     reason = db.Column(db.String(500), nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)

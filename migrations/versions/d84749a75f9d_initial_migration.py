@@ -1,13 +1,13 @@
 """initial migration
 
-Revision ID: 9a4df28ad6ac
+Revision ID: d84749a75f9d
 Revises: None
-Create Date: 2017-02-01 16:45:39.531397
+Create Date: 2017-02-03 11:03:00.479918
 
 """
 
 # revision identifiers, used by Alembic.
-revision = '9a4df28ad6ac'
+revision = 'd84749a75f9d'
 down_revision = None
 
 from alembic import op
@@ -72,6 +72,7 @@ def upgrade():
     sa.Column('date_created', sa.DateTime(), nullable=False),
     sa.Column('is_edited', sa.Boolean(), nullable=False),
     sa.Column('is_visible', sa.Boolean(), nullable=False),
+    sa.Column('tags', postgresql.ARRAY(sa.String(length=50)), nullable=True),
     sa.ForeignKeyConstraint(['poster_id'], ['posters.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

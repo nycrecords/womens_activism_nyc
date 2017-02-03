@@ -189,8 +189,11 @@ class Stories(db.Model):
     video_url - a string containing a link to a video about the activist
     poster_id - an integer containing the id of the user who wrote the story
     date_created - a date of when the story was originally created
-    is_edited - a boolean that determines if the story was edited. True = the story was edited, False = the story was not edited
-    is_visible - a boolean that determines if the story has been hidden from the public. True = the story has been hidden, False = the story has not been hidden
+    is_edited - a boolean that determines if the story was edited. True = the story was edited,
+                False = the story was not edited
+    is_visible - a boolean that determines if the story has been hidden from the public.
+                 True = the story has been hidden, False = the story has not been hidden
+    tasg - an array containing the tags the user selected when creating the story. The array is a string type.
     """
 
     __tablename__ = "stories"

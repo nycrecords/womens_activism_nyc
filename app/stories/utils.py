@@ -1,5 +1,5 @@
 from app.models import Stories, Posters
-from app import db
+from app.db_utils import create_object
 
 
 def create_story(activist_first,
@@ -38,8 +38,7 @@ def create_story(activist_first,
                     poster_id=poster_id,
                     tags=tags)
 
-    db.session.add(story)
-    db.session.commit()
+    create_object(story)
 
 
 def create_poster(poster_first,
@@ -56,6 +55,5 @@ def create_poster(poster_first,
                      poster_last=poster_last,
                      email=poster_email)
 
-    db.session.add(poster)
-    db.session.commit()
+    create_object(poster)
     return poster.id

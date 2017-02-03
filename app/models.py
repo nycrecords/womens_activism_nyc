@@ -126,12 +126,10 @@ class Posters(db.Model):
         return '<Posters %r>' % self.email
 
     def __init__(self,
-                 id,
                  poster_first,
                  poster_last,
                  email
     ):
-        self.id = id
         self.poster_first = poster_first
         self.poster_last = poster_last
         self.email = email
@@ -219,6 +217,8 @@ class Stories(db.Model):
             self,
             activist_first,
             activist_last,
+            activist_start,
+            activist_end,
             content,
             activist_url,
             image_url,
@@ -231,6 +231,8 @@ class Stories(db.Model):
     ):
         self.activist_first = activist_first
         self.activist_last = activist_last
+        self.activist_start = activist_start
+        self.activist_end = activist_end
         self.content = content
         self.activist_url = activist_url
         self.image_url = image_url

@@ -40,3 +40,10 @@ class StoryForm(Form):
     poster_email = StringField("Poster email", validators=[Optional(), Email(), Length(1, 254)],
                                render_kw={"placeholder": "msmith@gmail.com"})
     submit = SubmitField('Submit')
+
+
+class MyForm(Form):
+    activist_first = StringField("Activist first name", validators=[DataRequired(), Length(1, 30),
+                                                                    validators.validate_name],
+                                 render_kw={"placeholder": "Mary"})
+    submit = SubmitField('Submit')

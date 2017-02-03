@@ -193,7 +193,7 @@ class Stories(db.Model):
                 False = the story was not edited
     is_visible - a boolean that determines if the story has been hidden from the public.
                  True = the story has been hidden, False = the story has not been hidden
-    tasg - an array containing the tags the user selected when creating the story. The array is a string type.
+    tags - an array containing the tags the user selected when creating the story. The array is a string type.
     """
 
     __tablename__ = "stories"

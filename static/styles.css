@@ -68,8 +68,8 @@ p, div {
   min-height: 380px;
   text-align: center;
   color: #ffffff;
-  height:100%;
-  width:100%;
+  height: 100%;
+  width: 100%;
   display: table;
 }
 @media (min-width:768px) {
@@ -105,6 +105,7 @@ p, div {
   border-radius: 0;
   border-width: 2px;
   margin-top: 20px;
+  border-color: white;
 }
 .home-wrapper {
   margin-top: 75px;
@@ -125,8 +126,69 @@ p, div {
   margin-bottom: 80px;
 }
 .home-story {
+  margin: 15px 0;
 }
 .home-story-content {
   margin: 0 3px;
   border: 1px solid #d9d9d9;
+}
+.home-story-content h4 {
+  padding: 25px 0 10px 0;
+}
+.home-story-content p {
+  padding: 0 10px;
+  font-size: 13px;
+}
+.img-mask {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 35px auto;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.hearts-div {
+  margin: 0 0 35px 0;
+}
+.hearts-div .glyphicon-heart {
+  font-size: 11px;
+  color: #d29f13;
+}
+.hearts-div .hearts-num {
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  color: #d29f13;
+}
+#home-view-all-btn {
+  background: none;
+  font-size: 20px;
+  color: #59315f;
+  border-radius: 0;
+  border-width: 2px;
+  margin-top: 40px;
+  border-color: #59315f;
+}
+
+/* Give Section */
+
+
+#give-jumbotron {
+  background-color: #f2f2f2;
+  min-height: 380px;
+  text-align: center;
+  color: #34294f;
+  height: 100%;
+  width: 100%;
+  display: table;
+}
+@media (min-width:768px) {
+  #give-jumbotron {
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }

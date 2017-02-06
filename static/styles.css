@@ -135,8 +135,13 @@ p, div {
   margin-top: 20px;
   border-color: white;
   padding: 12px 40px;
+  transition: background 0.2s ease;
 }
 
+#hero .btn:hover {
+  background: #ffffff;
+  color: rgb(89, 49, 95);
+}
 /* Home Stories */
 
 .home-wrapper {
@@ -203,6 +208,12 @@ p, div {
   margin-top: 40px;
   border-color: #59315f;
   padding: 12px 40px;
+  transition: background 0.2s ease;
+}
+
+#home-view-all-btn:hover {
+  background: #59315f;
+  color: #ffffff;
 }
 
 /* Give Section */
@@ -252,6 +263,11 @@ p, div {
   max-width: 400px;
   width: 80%;
   padding: 15px 0;
+  transition: background 0.2s ease;
+}
+#home-give-btn:hover {
+  background: #59315f;
+  color: #ffffff;
 }
 
 /* BW Suffrage Section */
@@ -373,6 +389,11 @@ p, div {
   max-width: 400px;
   width: 80%;
   padding: 15px 0;
+  transition: background 0.2s ease;
+}
+#home-then-now-btn:hover {
+  background: #ffffff;
+  color: #202427;
 }
 .then-now-img {
   width: 150px;
@@ -458,9 +479,10 @@ p, div {
   color: #59315f;
   text-decoration: underline;
   font-weight: normal;
+  transition: color 0.2s ease;
 }
 .records-link:hover {
-  color: #59315f;
+  color: #000000;
 }
 
 /* Social Links / Footer */

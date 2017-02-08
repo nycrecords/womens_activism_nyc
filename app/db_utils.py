@@ -1,8 +1,17 @@
+"""
+Utility functions used for database operations
+"""
+
 from app import db
 import sys
 
+
 def create_object(obj):
     """
+    A utility function to add objects to the database
+
+    :param obj: the object that is being added to the database
+    :return: no return value, an object will be added to the database
     """
     try:
         db.session.add(obj)

@@ -1,3 +1,7 @@
+"""
+WTForms used for Stories
+"""
+
 from flask_wtf import Form
 from wtforms import TextAreaField, StringField, SubmitField, SelectMultipleField, BooleanField
 from wtforms.validators import DataRequired, Optional, Length, Email

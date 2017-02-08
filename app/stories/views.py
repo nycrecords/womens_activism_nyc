@@ -6,6 +6,10 @@ from app.stories.utils import create_story, create_poster, validate_years, valid
 
 @stories.route('/share', methods=['GET', 'POST'])
 def index():
+    """
+
+    :return:
+    """
     form = StoryForm()
     if request.method == 'POST':
         if form.validate_on_submit():

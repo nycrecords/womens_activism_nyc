@@ -49,6 +49,7 @@ h1 {
   margin-bottom: 0;
   border: 0;
   border-radius: 0;
+  z-index: 9999;
 }
 .navbar-nav {
   margin: 0 !important;
@@ -501,4 +502,234 @@ p, div {
   font-size: 13px;
   color: #34294f;
   margin-top: 20px;
+}
+
+/* ------------ SHARE A STORY ------------ */
+
+/* Name / Dates */
+
+#share-who {
+  background: #673c74;
+  text-align: center;
+  color: white;
+  padding-top: 90px;
+  padding-bottom: 90px;
+}
+#share-who h1 {
+  font-size: 50px;
+}
+.share-subheading {
+  font-size: 22px;
+  font-weight: lighter;
+  max-width: 495px;
+  margin: 20px auto 0 auto;
+  padding: 0 10px;
+}
+.share-who-input {
+  background: none;
+  outline: none;
+  border: 0px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  text-align: center;
+  font-size: 36px;
+  max-width: 292px;
+  margin: 20px 20px 0 20px;
+  padding-bottom: 10px;
+}
+.who-input-group {
+  margin-top: 35px;
+}
+.share-who-input::-webkit-input-placeholder { color: #a373aa; }
+.share-who-input:-moz-placeholder { color: #a373aa; }
+.share-who-input::-moz-placeholder { color: #a373aa; }
+.share-who-input:-ms-input-placeholder { color: #a373aa; }
+.name-required {
+  font-size: 22px;
+  font-weight: 800;
+  color: #98819b;
+  font-style: italic;
+  margin-top: 30px;
+}
+#she-lived-heading {
+  margin-top: 80px;
+}
+#date-dash {
+  font-size: 22px;
+  font-weight: 800;
+}
+@media (max-width: 738px) {
+  #date-dash {
+    display: block;
+    margin-top: 30px;
+  }
+}
+
+/* About Her / Known For */
+
+#about-her {
+  background: #59315f;
+  text-align: center;
+  color: white;
+  padding-top: 90px;
+  padding-bottom: 90px;
+}
+.share-tags-group {
+  max-width: 768px;
+  margin: 50px auto 10px auto;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.share-tag {
+  border: 2px solid #ffffff;
+  height: 40px;
+  border-radius: 20px;
+  padding: 5px 35px;
+  margin: 15px 10px;
+  font-size: 14px;
+  outline: none;
+}
+.share-inactive:hover {
+  background: white;
+  color: #59315f;
+}
+.share-inactive {
+  background: none;
+}
+.share-active {
+  background: white;
+  color: #59315f;
+}
+#share-her-story-heading {
+  margin-top: 80px;
+}
+.her-story-text {
+  font-size: 30px;
+  vertical-align: top;
+  margin-top: 60px;
+  background: none;
+  width: 90%;
+  max-width: 768px;
+  border: 0;
+  border-top: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  outline: 0;
+  min-height: 440px;
+  padding: 20px 10px;
+}
+#add-link-heading {
+  margin-top: 80px;
+}
+.her-story-text::-webkit-input-placeholder { color: #a373aa; }
+.her-story-text:-moz-placeholder { color: #a373aa; }
+.her-story-text::-moz-placeholder { color: #a373aa; }
+.her-story-text:-ms-input-placeholder { color: #a373aa; }
+.char-required {
+  font-size: 22px;
+  font-weight: 800;
+  color: #98819b;
+  font-style: italic;
+  margin-top: 30px;
+}
+.share-link-input {
+  background: none;
+  outline: none;
+  border: 0px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  text-align: center;
+  font-size: 36px;
+  max-width: 627px;
+  width: 90%;
+  margin: 20px 20px 0 20px;
+  padding-bottom: 10px;
+}
+.share-link-input::-webkit-input-placeholder { color: #a373aa; }
+.share-link-input:-moz-placeholder { color: #a373aa; }
+.share-link-input::-moz-placeholder { color: #a373aa; }
+.share-link-input:-ms-input-placeholder { color: #a373aa; }
+.share-link-subheading {
+  font-size: 22px;
+  font-weight: lighter;
+  max-width: 420px;
+  margin: 20px auto 0 auto;
+  padding: 0 10px;
+}
+#add-media-heading {
+  margin-top: 100px;
+}
+.add-media-subheading {
+  font-size: 22px;
+  font-weight: lighter;
+  max-width: 480px;
+  margin: 20px auto 0 auto;
+  padding: 0 10px;
+}
+#media-upload-btn {
+  width: 258px;
+  height: 65px;
+  background: none;
+  outline: none;
+  border: 2px solid #ffffff;
+  font-size: 20px;
+  margin-top: 30px;
+  transition: background 0.2s ease;
+}
+#media-upload-btn:hover {
+  background: #ffffff;
+  color: #59315f;
+}
+
+/* About You */
+
+#about-you {
+  background: #673c74;
+  text-align: center;
+  color: white;
+  padding-top: 90px;
+  padding-bottom: 90px;
+}
+#share-her-story-heading {
+  margin-top: 80px;
+}
+.about-you-subheading {
+  font-size: 22px;
+  font-weight: lighter;
+  max-width: 550px;
+  margin: 20px auto 0 auto;
+  padding: 0 10px;
+}
+.share-you-email-input {
+  background: none;
+  outline: none;
+  border: 0px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  text-align: center;
+  font-size: 36px;
+  width: 100%;
+  max-width: 627px;
+  margin: 20px 20px 0 20px;
+  padding-bottom: 10px;
+}
+@media (max-width: 712px) {
+  .share-you-email-input {
+    max-width: 292px;
+  }
+}
+.share-you-email-input::-webkit-input-placeholder { color: #a373aa; }
+.share-you-email-input:-moz-placeholder { color: #a373aa; }
+.share-you-email-input::-moz-placeholder { color: #a373aa; }
+.share-you-email-input:-ms-input-placeholder { color: #a373aa; }
+#share-story-btn {
+  width: 258px;
+  height: 65px;
+  background: none;
+  outline: none;
+  border: 2px solid #ffffff;
+  font-size: 20px;
+  margin-top: 50px;
+  transition: background 0.2s ease;
+}
+#share-story-btn:hover {
+  background: #ffffff;
+  color: #673c74;
 }

@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request
-from app.stories.forms import StoryForm, MyForm
+from app.stories.forms import StoryForm
 from app.stories import stories
-from app.stories.utils import create_story, create_poster
+from app.stories.utils import create_story, create_poster, validate_years, validate_poster
 
 
 @stories.route('/share', methods=['GET', 'POST'])
@@ -11,17 +11,19 @@ def index():
         if form.validate_on_submit():
             poster_id = None
 
-            # print(form.activist_start_BC)
-            # print(form.activist_start)
-            # print(form.activist_end_BC)
-            # print(form.activist_end)
-            #
-            # print(form.activist_start_BC.data)
-            # print(form.activist_start.data)
-            # print(form.activist_end_BC.data)
-            # print(form.activist_end.data)
+            # extra validator because can't be done through WTForms built in
+            if not validate_years(form.activist_start.data,
+                              form.activist_start_BC.data,
+                              form.activist_end.data,
+                              form.activist_end_BC):
+                flash('Error, please try again.')
+                return render_template('stories/share_a_story.html', form=form)
 
             if form.poster_first.data or form.poster_last.data or form.poster_email.data:
+                # extra validator because can't be done through WTForms built in
+                if not validate_poster(form.poster_first.data, form.poster_last.data):
+                    flash('Error, please try again.')
+                    return render_template('stories/share_a_story.html', form=form)
                 poster_id = create_poster(poster_first=form.poster_first.data,
                                           poster_last=form.poster_last.data,
                                           poster_email=form.poster_email.data)

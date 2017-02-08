@@ -2,6 +2,29 @@ from app.models import Stories, Posters
 from app.db_utils import create_object
 
 
+def validate_poster(poster_first, poster_last):
+    if poster_first is None and poster_last:
+        return False
+    return True
+
+
+def validate_years(activist_start, activist_start_BC, activist_end, activist_end_BC):
+    if activist_end == "Today":
+        return True
+
+    if activist_end == "Today" and activist_end_BC:
+        return False
+
+    if activist_start_BC:
+        activist_start = int(activist_start) * -1
+    if activist_end_BC and activist_end != "Today":
+        activist_end = int(activist_end) * -1
+
+    if activist_start > activist_end:
+        return False
+    return True
+
+
 def create_story(activist_first,
                  activist_last,
                  activist_start,

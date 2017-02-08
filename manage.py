@@ -1,13 +1,11 @@
-#!/usr/bin/env python
 import os
 from app import create_app, db
 from app.models import (
     Roles,
-    User,
+    Users,
     Posters,
     Stories,
     Tags,
-    StoryTag,
     Comments,
     Events,
     Modules,
@@ -26,11 +24,10 @@ def make_shell_context():
     return dict(app=app,
                 db=db,
                 Roles=Roles,
-                User=User,
+                Users=Users,
                 Posters=Posters,
                 Stories=Stories,
                 Tags=Tags,
-                StoryTag=StoryTag,
                 Comments=Comments,
                 Events=Events,
                 Modules=Modules,

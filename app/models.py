@@ -13,7 +13,6 @@ class Roles(db.Model):
     name - a string containing the name of the role
     permission - a string containing the number value for permissions of a role
     """
-
     __tablename__ = "roles"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -65,7 +64,7 @@ class Roles(db.Model):
         return '<Roles %r>' % self.name
 
 
-class User(UserMixin, db.Model):
+class Users(UserMixin, db.Model):
     """
     Define the User class with the following columns and relationships:
 
@@ -78,9 +77,8 @@ class User(UserMixin, db.Model):
     last_name - a string that contains the last name of the user
     email - a string that contains the email of the user
     """
-
     __tablename__ = "users"
-    guid = guid = db.Column(db.String(64), primary_key=True)
+    guid = db.Column(db.String(64), primary_key=True)
     auth_user_type = db.Column(
         db.Enum(user_type_auth.AGENCY_USER,
                 user_type_auth.AGENCY_LDAP_USER,
@@ -115,7 +113,6 @@ class Posters(db.Model):
     poster_last - a string containing the poster's last name
     email - a string containg the poster's email address
     """
-
     __tablename__ = "posters"
     id = db.Column(db.Integer, primary_key=True)
     poster_first = db.Column(db.String(30))
@@ -126,15 +123,13 @@ class Posters(db.Model):
         return '<Posters %r>' % self.email
 
     def __init__(self,
-                 id,
                  poster_first,
                  poster_last,
                  email
     ):
-        self.id = id
         self.poster_first = poster_first
         self.poster_last = poster_last
-        self.email =  email
+        self.email = email
 
 
 class Anonymous(AnonymousUserMixin):
@@ -195,7 +190,6 @@ class Stories(db.Model):
                  True = the story has been hidden, False = the story has not been hidden
     tags - an array containing the tags the user selected when creating the story. The array is a string type.
     """
-
     __tablename__ = "stories"
     id = db.Column(db.Integer, primary_key=True)
     activist_first = db.Column(db.String(30), nullable=False)
@@ -207,9 +201,9 @@ class Stories(db.Model):
     image_url = db.Column(db.String(254))
     video_url = db.Column(db.String(254))
     poster_id = db.Column(db.Integer, db.ForeignKey("posters.id"))
-    date_created = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
-    is_edited = db.Column(db.Boolean, default=False, nullable=False)
-    is_visible = db.Column(db.Boolean, default=True, nullable=False)
+    date_created = db.Column(db.DateTime, nullable=False)
+    is_edited = db.Column(db.Boolean, nullable=False)
+    is_visible = db.Column(db.Boolean, nullable=False)
     tags = db.Column(ARRAY(db.String(50)))
 
     def __repr__(self):
@@ -219,18 +213,22 @@ class Stories(db.Model):
             self,
             activist_first,
             activist_last,
+            activist_start,
+            activist_end,
             content,
-            activist_url,
-            image_url,
-            video_url,
-            poster_id,
+            tags,
             date_created=datetime.utcnow(),
-            is_edited=False,
             is_visible=True,
-            tags = None
+            activist_url=None,
+            image_url=None,
+            video_url=None,
+            poster_id=None,
+            is_edited=False,
     ):
         self.activist_first = activist_first
         self.activist_last = activist_last
+        self.activist_start = activist_start
+        self.activist_end = activist_end
         self.content = content
         self.activist_url = activist_url
         self.image_url = image_url
@@ -249,7 +247,6 @@ class Tags(db.Model):
     id - an integer containing the tag id
     name - a string containing the name of the tag
     """
-
     __tablename__ = "tags"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
@@ -274,34 +271,6 @@ class Tags(db.Model):
         self.name = name
 
 
-class StoryTag(db.Model):
-    """
-    Define the StoryTag class with the following columns:
-    a StoryTag is a relationship between which tags are associated a story
-    one story can have many tags but each tag is stored in its own row
-    story_id and tag_id are combined to make a composite primary key
-
-
-    story_id - an integer containing the story id
-    tag_id - an integer containing the tag id
-
-    """
-
-    __tablename__ = "story_tags"
-    story_id = db.Column(db.Integer, db.ForeignKey("stories.id"), primary_key=True)
-    tag_id = db.Column(db.Integer, db.ForeignKey("tags.id"), primary_key=True)
-
-    def __repr__(self):
-        return '<StoryTag %r>' % self.story_id
-
-    def __init__(self,
-                 story_id,
-                 tag_id
-                 ):
-        self.story_id = story_id
-        self.tag_id = tag_id
-
-
 class Comments(db.Model):
     """
     Define the Comments class with the following columns and relationships:
@@ -313,15 +282,14 @@ class Comments(db.Model):
     is_edited - a boolean that determines if the comment was edited or not.
     is_visible - a boolean that determines if the comment has been hidden from the public or not.
     """
-
     __tablename__ = "comments"
     id = db.Column(db.Integer, primary_key=True)
     story_id = db.Column(db.Integer, db.ForeignKey("stories.id"))
     name = db.Column(db.String(60))
-    content = db.Column(db.String(140), nullable=False)
-    date_created = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
-    is_edited = db.Column(db.Boolean, default=False, nullable=False)
-    is_visible = db.Column(db.Boolean, default=True, nullable=False)
+    content = db.Column(db.String(254), nullable=False)
+    date_created = db.Column(db.DateTime, nullable=False)
+    is_edited = db.Column(db.Boolean, nullable=False)
+    is_visible = db.Column(db.Boolean, nullable=False)
 
     def __repr__(self):
         return '<Comments %r>' % self.id
@@ -357,9 +325,7 @@ class Events(db.Model):
     previous_value - a JSON that contains the old content of a story or comment
     new_value - a JSON that contains the new content of a story or comment
     """
-
     __tablename__ = "events"
-
     id = db.Column(db.Integer, primary_key=True)
     story_id = db.Column(db.Integer, db.ForeignKey('stories.id'))
     comment_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
@@ -374,7 +340,7 @@ class Events(db.Model):
                 event.EDIT_THEN_AND_NOW,
                 event.EDIT_EVENT,
                 name='type'), nullable=False)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
+    timestamp = db.Column(db.DateTime, nullable=False)
     previous_value = db.Column(JSON)
     new_value = db.Column(JSON)
 
@@ -387,7 +353,7 @@ class Events(db.Model):
                  comment_id,
                  module_id,
                  user_guid,
-                 type,
+                 _type,
                  timestamp=datetime.utcnow(),
                  previous_value=None,
                  new_value=None
@@ -397,7 +363,7 @@ class Events(db.Model):
         self.comment_id = comment_id
         self.module_id = module_id
         self.user_guid = user_guid,
-        self.type = type,
+        self.type = _type,
         self.timestamp = timestamp,
         self.previous_value = previous_value
         self.new_value = new_value
@@ -419,7 +385,6 @@ class Modules(db.Model):
     event_date - the date associated with the "Event" module
     activist_year - a string that contains the birth year of an activist (for then and now module)
     """
-
     __tablename__ = "modules"
     id = db.Column(db.Integer, primary_key=True)
     story_id = db.Column(db.Integer, db.ForeignKey('stories.id'))
@@ -428,13 +393,13 @@ class Modules(db.Model):
                 module.THEN,
                 module.NOW,
                 module.EVENT,
-    name = 'type'))
+                name='type'))
     title1 = db.Column(db.String(50))
     title2 = db.Column(db.String(50))
     activist_first = db.Column(db.String(30))
     activist_last = db.Column(db.String(30))
     content = db.Column(db.String(500))  # short description or quote
-    media_url = db.Column(db.Text)
+    media_url = db.Column(db.String(254))
     event_date = db.Column(db.DateTime)
     activist_year = db.Column(db.String(4))
 
@@ -478,7 +443,6 @@ class Flags(db.Model):
     timestamp - the date of when the flag was submitted
     addressed - a boolean that determines whether or not an Admin/Mod has addressed the issues with the story
     """
-
     __tablename__ = "flags"
     id = db.Column(db.Integer, primary_key=True)
     story_id = db.Column(db.Integer, db.ForeignKey('stories.id'))
@@ -488,10 +452,10 @@ class Flags(db.Model):
                 flag.INCORRECT_INFORMATION,
                 flag.OFFENSIVE_CONTENT,
                 flag.OTHER,
-    name = 'type'))
+                name='type'))
     reason = db.Column(db.String(500), nullable=False)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
-    addressed = db.Column(db.Boolean, default=False, nullable=False)
+    timestamp = db.Column(db.DateTime, nullable=False)
+    addressed = db.Column(db.Boolean, nullable=False)
 
     def __repr__(self):
         return '<Flags %r>' % self.id
@@ -526,15 +490,14 @@ class Feedback(db.Model):
     timestamp - the date of when the feedback was submitted
     addressed - a boolean that determines whether or not an Admin/Mod has addressed the feedback or not
     """
-
     __tablename__ = "feedback"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(60))
     email = db.Column(db.String(254))
     subject = db.Column(db.String(50), nullable=False)
     message = db.Column(db.String(500), nullable=False)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
-    addressed = db.Column(db.Boolean, default=False, nullable=False)
+    timestamp = db.Column(db.DateTime, nullable=False)
+    addressed = db.Column(db.Boolean, nullable=False)
 
     def __repr__(self):
         return '<Feedback %r>' % self.title

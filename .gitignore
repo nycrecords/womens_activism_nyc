@@ -4,6 +4,7 @@ redis-stable/
 python-sudo.sh
 quarantine/
 .vagrant/
+Vagrantfile
 tmp/
 .pip-packages/
 logs/

@@ -1,0 +1,67 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+$redhat_username = <REDHAT_USERNAME>
+$redhat_password = <REDHAT_PASSWORD>
+
+Vagrant.configure("2") do |config|
+ config.vm.box = "rhel-6.8"
+
+ config.vm.provider "virtualbox" do |vb|
+   # Customize the amount of memory on the VM:
+   vb.memory = "1024"
+ end
+
+ # Proxy Configuration
+ config.vm.provision "shell" do |s|
+   s.path = "build_scripts/proxy.sh"
+ end
+
+ # RedHat Subscription Management
+ config.vm.provision "shell" do |s|
+   s.path = "build_scripts/subscription_manager.sh"
+   s.args = [$redhat_username, $redhat_password]
+ end
+
+ config.vm.provision :reload
+
+ config.vm.provision "shell" do |s|
+   s.inline = 'sudo yum -y groupinstall "Development Tools" && sudo /etc/init.d/vboxadd setup'
+ end
+
+
+
+
+#  (1..2).each do |i|
+#    config.vm.define "web-{i}" do |web|
+#      web.vm.network "forwarded_port", guest: 80,  host: "808{i}".to_i
+#      web.vm.network "forwarded_port", guest: 443, host: "443{i}".to_i
+#      web.vm.network "forwarded_port", guest: 22,  host: "222{i}".to_i
+#      web.vm.network "private_network", ip: "10.0.0.{i+1}"
+#    end
+#  end
+
+ #(3..4).each do |i|
+#    config.vm.define "app-{i}" do |web|
+#      app.vm.network "forwarded_port", guest: 80,  host: "808{i}".to_i
+#      app.vm.network "forwarded_port", guest: 22,  host: "222{i}".to_i
+#      app.vm.network "private_network", ip: "10.0.0.{i+1}"
+#    end
+#  end
+
+#  (5..6).each do |i|
+#    config.vm.define "db-{i}" do |web|
+#      db.vm.network "forwarded_port", guest: 5432,  host: "900{i}".to_i
+#      db.vm.network "forwarded_port", guest: 22,  host: "222{i}".to_i
+#      db.vm.network "private_network", ip: "10.0.0.{i+1}"
+#    end
+#  end
+
+#  (7..9).each do |i|
+#    config.vm.define "es-{i}" do |web|
+#      es.vm.network "forwarded_port", guest: 9200,  host: "920{i}".to_i
+#      es.vm.network "forwarded_port", guest: 22,  host: "222{i}".to_i
+#      es.vm.network "private_network", ip: "10.0.0.{i+1}"
+#    end
+#  end
+end

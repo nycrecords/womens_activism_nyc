@@ -533,11 +533,11 @@ p, div {
   text-align: center;
   font-size: 36px;
   max-width: 292px;
-  margin: 20px 20px 0 20px;
+  margin: 30px 20px 0 20px;
   padding-bottom: 10px;
 }
 .who-input-group {
-  margin-top: 35px;
+  margin-top: 25px;
 }
 .share-who-input::-webkit-input-placeholder { color: #a373aa; }
 .share-who-input:-moz-placeholder { color: #a373aa; }
@@ -588,10 +588,26 @@ p, div {
   margin: 15px 10px;
   font-size: 14px;
   outline: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .share-inactive:hover {
   background: white;
   color: #59315f;
+}
+.share-tag.active {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.share-tag.active.focus, .share-tag.active:focus {
+
 }
 .share-inactive {
   background: none;
@@ -732,4 +748,13 @@ p, div {
 #share-story-btn:hover {
   background: #ffffff;
   color: #673c74;
+}
+
+.parsley-errors-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 5px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }

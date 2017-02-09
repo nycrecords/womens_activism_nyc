@@ -73,9 +73,13 @@
             <h1 id="she-lived-heading">She Lived</h1>
             <p class="share-subheading">If still living, enter "today".</p>
             <div class="who-input-group">
-              <input type="text" placeholder="1960" class="share-who-input" data-parsley-required />
+              <div style="display: inline; position: relative;">
+                <input type="text" placeholder="1960" class="share-who-input" data-parsley-required />
+              </div>
               <span id="date-dash">&#8212;</span>
-              <input type="text" placeholder="Today" class="share-who-input" data-parsley-required />
+              <div style="display: inline; position: relative;">
+                <input type="text" placeholder="Today" class="share-who-input" data-parsley-required />
+              </div>
             </div>
             <p class="name-required">required</p>
           </div>
@@ -110,8 +114,8 @@
           <div class="col-md-12">
             <h1 id="share-her-story-heading">Share Her Story</h1>
             <p class="share-subheading">Share a few words about how your female activist has inspired you and others.</p>
-            <textarea class="her-story-text" placeholder="My mother was ..." data-parsley-minlength="20" data-parsley-maxlength="100"></textarea>
-            <p class="char-required">0 / 5000 used</p>
+            <textarea id="her-story-text" class="her-story-text" placeholder="My mother was ..." data-parsley-required data-parsley-minlength="1" data-parsley-maxlength="5000" data-parsley-maxlength-message="Your entry is too long."></textarea>
+            <p class="char-required"><span id="story-text-count">0</span> / 5000 used</p>
           </div>
         </div>
         <div class="row" >

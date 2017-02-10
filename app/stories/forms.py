@@ -1,7 +1,6 @@
 """
 WTForms used for Stories
 """
-
 from flask_wtf import Form
 from wtforms import TextAreaField, StringField, SubmitField, SelectMultipleField, BooleanField
 from wtforms.validators import DataRequired, Optional, Length, Email
@@ -17,7 +16,7 @@ from app.stories.validators import (validate_name,
 
 class StoryForm(Form):
     """
-
+    The WTForm used to create a new Story
     """
     activist_first = StringField("Activist first name", validators=[DataRequired(), Length(1, 30),
                                                                     validate_name, validate_white_space],

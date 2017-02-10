@@ -13,7 +13,6 @@ def validate_white_space(form, value):
     :param form: part of the StoryForm object
     :param value: the string that will be checked
     """
-
     value_data = value.data
     if value_data.startswith(" ") or value_data.endswith(" "):
         raise ValidationError()
@@ -25,7 +24,6 @@ def validate_name(form, name):
     :param form: part of the StoryForm
     :param name: the first or last name of an activist/poster
     """
-
     activist_name = name.data
     if activist_name[0].islower():
         raise ValidationError()
@@ -37,7 +35,6 @@ def validate_start_year(form, year):
     :param form: part of the StoryForm
     :param year: the start year that will be validated
     """
-
     activist_start = year.data
     if not activist_start.isdigit():
         raise ValidationError()
@@ -49,7 +46,6 @@ def validate_end_year(form, year):
     :param form: part of the StoryForm object
     :param year: the end year that will be validated
     """
-
     activist_end = year.data
     if activist_end != "Today" and (activist_end.isdigit() == False):
         raise ValidationError()
@@ -62,7 +58,6 @@ def validate_url(form, url):
     :param form: part of the StoryForm object
     :param url: a url with additional information about an activist
     """
-
     try:
         url_test = requests.get(url.data)
         if url_test.status_code != 200:
@@ -78,7 +73,6 @@ def validate_image(form, image):
     :param form: part of the StoryForm object
     :param image: the URL of the image
     """
-
     if (image.data[-3:].lower() == 'jpg') or (image.data[-3:].lower() == 'png') or (image.data[-4:].lower() == 'jpeg'):
         try:
             image_test = requests.get(image.data)
@@ -97,7 +91,6 @@ def validate_video(form, video):
     :param form: part of the StoryForm object
     :param video: the URL of the video
     """
-
     print(video.data)
     if "youtube.com" in video.data or "youtu.be" in video.data or "vimeo.com" in video.data:
         try:

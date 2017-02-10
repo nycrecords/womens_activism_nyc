@@ -15,9 +15,11 @@ def validate_poster(poster_first, poster_last):
     :param poster_last: the poster's last name
     :return: True is validation is passed, False otherwise
     """
-    if (poster_first is None and poster_last) or (poster_first is not None and poster_last is None):
+
+    if (len(poster_first) == 0 and len(poster_last) != 0) or (len(poster_first) != 0 and len(poster_last) == 0):
         return False
-    return True
+    else:
+        return True
 
 
 def validate_years(activist_start, activist_start_BC, activist_end, activist_end_BC):
@@ -28,21 +30,19 @@ def validate_years(activist_start, activist_start_BC, activist_end, activist_end
     :param activist_start_BC: a boolean to see if the birth year was a BC year
     :param activist_end: the activist's death year
     :param activist_end_BC: a boolean to see if the death year was a BC year
-    :return:
+    :return: True is the years are valid, False otherwise
     """
-    if activist_end == "Today":
-        return True
 
-    if activist_end == "Today" and activist_end_BC:  # ensures "Today" and BC are not inputed at the same time
+    if activist_end == "Today" and activist_end_BC:  # ensures "Today" and BC are not inputted at the same time
         return False
 
     # if the activist years are BC years then convert them to negative integers
     if activist_start_BC:
         activist_start = int(activist_start) * -1
-    if activist_end_BC and activist_end != "Today":
+    if activist_end_BC:
         activist_end = int(activist_end) * -1
 
-    if int(activist_start) > int(activist_end):
+    if activist_start > activist_end:
         return False
     return True
 

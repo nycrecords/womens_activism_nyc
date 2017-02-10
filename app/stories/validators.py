@@ -13,6 +13,7 @@ def validate_white_space(form, value):
     :param form: part of the StoryForm object
     :param value: the string that will be checked
     """
+
     value_data = value.data
     if value_data.startswith(" ") or value_data.endswith(" "):
         raise ValidationError()
@@ -20,21 +21,23 @@ def validate_white_space(form, value):
 
 def validate_name(form, name):
     """
-    A validator to check
+    A validator to check that the first character in a name is uppercase
     :param form: part of the StoryForm
-    :param name:
+    :param name: the first or last name of an activist/poster
     """
+
     activist_name = name.data
-    if activist_name[:1].islower():
+    if activist_name[0].islower():
         raise ValidationError()
 
 
 def validate_start_year(form, year):
     """
-    A validator to
+    A validator to check that the start year is only numbers
     :param form: part of the StoryForm
-    :param year:
+    :param year: the start year that will be validated
     """
+
     activist_start = year.data
     if not activist_start.isdigit():
         raise ValidationError()
@@ -42,10 +45,11 @@ def validate_start_year(form, year):
 
 def validate_end_year(form, year):
     """
-
+    A validator to check that the start year is only numbers or "Today"
     :param form: part of the StoryForm object
-    :param year:
+    :param year: the end year that will be validated
     """
+
     activist_end = year.data
     if activist_end != "Today" and (activist_end.isdigit() == False):
         raise ValidationError()
@@ -53,10 +57,12 @@ def validate_end_year(form, year):
 
 def validate_url(form, url):
     """
+    A validator to check that the url is valid and returns a 200 response code
 
     :param form: part of the StoryForm object
-    :param url:
+    :param url: a url with additional information about an activist
     """
+
     try:
         url_test = requests.get(url.data)
         if url_test.status_code != 200:
@@ -67,10 +73,12 @@ def validate_url(form, url):
 
 def validate_image(form, image):
     """
+    A validator to check that an image URL has the proper format and returns a 200 response code
 
     :param form: part of the StoryForm object
-    :param image:
+    :param image: the URL of the image
     """
+
     if (image.data[-3:].lower() == 'jpg') or (image.data[-3:].lower() == 'png') or (image.data[-4:].lower() == 'jpeg'):
         try:
             image_test = requests.get(image.data)
@@ -84,10 +92,12 @@ def validate_image(form, image):
 
 def validate_video(form, video):
     """
+    A validator to check that a video URL has the proper format and returns a 200 response code
 
     :param form: part of the StoryForm object
-    :param video:
+    :param video: the URL of the video
     """
+
     print(video.data)
     if "youtube.com" in video.data or "youtu.be" in video.data or "vimeo.com" in video.data:
         try:

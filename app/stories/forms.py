@@ -50,10 +50,3 @@ class StoryForm(Form):
     poster_email = StringField("Poster email", validators=[Optional(), Email(), Length(1, 254)],
                                render_kw={"placeholder": "msmith@gmail.com"})
     submit = SubmitField('Submit')
-
-
-class MyForm(Form):
-    content = TextAreaField("Share a few words about how your woman activist has inspired you and others",
-                            validators=[DataRequired(), Length(1, 5000), validate_white_space],
-                            render_kw={"placeholder": "Enter your story here"})
-    submit = SubmitField('Submit')

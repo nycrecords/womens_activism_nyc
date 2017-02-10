@@ -10,6 +10,7 @@ tmp/
 logs/
 received-emails/
 ldap/
+*.rpm
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

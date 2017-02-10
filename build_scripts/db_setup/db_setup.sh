@@ -12,7 +12,7 @@ mkdir -p /data/postgres
 chown -R postgres:postgres /data/postgres
 
 # 4. Copy script (enable postgres commands in command line) to /etc/profile.d
-cp /vagrant/postgres.sh /etc/profile.d/postgres.sh
+cp /vagrant/build_scripts/postgres.sh /etc/profile.d/postgres.sh
 source /etc/profile.d/postgres.sh
 
 postgresql-setup --initdb
@@ -21,21 +21,43 @@ postgresql-setup --initdb
 mv /var/opt/rh/rh-postgresql95/lib/pgsql/data/* /data/postgres/
 rm -rf /var/opt/rh/rh-postgresql95/lib/pgsql/data
 ln -s /data/postgres /var/opt/rh/rh-postgresql95/lib/pgsql/data
+chmod 700 /var/opt/rh/rh-postgresql95/lib/pgsql/data
 
 # 6. Setup Postgres Configuration
 mv /data/postgres/postgresql.conf /data/postgres/postgresql.conf.orig
 mv /data/postgres/pg_hba.conf /data/postgres/pg_hba.conf.orig
-# copy configuration files from home directory (vagrant for vagrant, /export/local/project_name/ for DOITT)
-cp /vagrant/db_setup/postgresql.conf /data/postgres/
-cp /vagrant/db_setup/pg_hba.conf /data/postgres/
-cp /vagrant/db_setup/root.crt /data/postgres
-chmod 644 /data/postgres/root.crt
-cp /vagrant/db_setup/server.crt /data/postgres
-chmod 644 /data/postgres/server.crt
-cp /vagrant/db_setup/server.key /data/postgres
-chmod 644 /data/postgres/server.key
 
-createdb womens_activism
+# copy configuration files from home directory (vagrant for vagrant, /export/local/project_name/ for DOITT)
+cp /vagrant/build_scripts/db_setup/postgresql.conf /data/postgres/
+cp /vagrant/build_scripts/db_setup/pg_hba.conf /data/postgres/
+chown -R posgres:postgres /data/postgres
+
+# create postgres key and certificates
+openssl req \
+       -newkey rsa:4096 -nodes -keyout /vagrant/build_scripts/db_setup/server.key \
+       -x509 -days 365 -out /vagrant/build_scripts/db_setup/server.crt -subj "/C=US/ST=New York/L=New York/O=NYC Department of Records and Information Services/OU=IT/CN=womensactivism.nyc"
+cp /vagrant/build_scripts/db_setup/server.crt /vagrant/build_scripts/db_setup/root.crt
+
+cp /vagrant/build_scripts/db_setup/root.crt /data/postgres
+chmod 400 /data/postgres/root.crt
+chown postgres:postgres /data/postgres/root.crt
+cp /vagrant/build_scripts/db_setup/server.crt /data/postgres
+chmod 600 /data/postgres/server.crt
+chown postgres:postgres /data/postgres/server.crt
+cp /vagrant/build_scripts/db_setup/server.key /data/postgres
+chmod 600 /data/postgres/server.key
+chown postgres:postgres /data/postgres/server.key
+
+ln -s /opt/rh/rh-postgresql95/root/usr/lib64/libpq.so.rh-postgresql95-5 /usr/lib64/libpq.so.rh-postgresql95-5
+ln -s /opt/rh/rh-postgresql95/root/usr/lib64/libpq.so.rh-postgresql95-5 /usr/lib/libpq.so.rh-postgresql95-5
+
+sudo service rh-postgresql95-postgresql start
+
+sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createuser -s -e developer
+sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createuser -s -e womens_activism_db
+
+
+sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createdb womens_activism
 
 # 6. Add the following lines to /etc/sudoers file (allows running postgres commands without sudo access)
 #womens_activism   ALL=(ALL) NOPASSWD: /etc/init.d/rh-postgresql95-postgresql start

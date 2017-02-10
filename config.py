@@ -15,17 +15,17 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-        'postgresql://localhost:5432/womens_activism_nyc_v2_dev'
+        'postgresql://localhost:5432/womens_activism_dev'
 
 
 class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or \
-        'postgresql://localhost:5432/womens_activism_nyc_v2_test'
+        'postgresql://localhost:5432/womens_activism_test'
 
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'postgresql://localhost:5432/womens_activism_nyc_v2_prod'
+        'postgresql://localhost:5432/womens_activism_prod'
 
 
 config = {

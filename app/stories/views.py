@@ -22,7 +22,7 @@ def share():
             if not validate_years(form.activist_start.data,
                               form.activist_start_BC.data,
                               form.activist_end.data,
-                              form.activist_end_BC):
+                              form.activist_end_BC.data):
                 flash('Error, please try again.')
                 return render_template('stories/share_a_story.html', form=form)
 

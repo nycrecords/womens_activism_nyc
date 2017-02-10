@@ -75,6 +75,17 @@ def create_story(activist_first,
     :param poster_id: the id of the poster who created the story
     :return: no return value, a Story object will be created
     """
+    activist_first.strip()
+    activist_first.title()
+    activist_last.strip()
+    activist_last.title()
+    activist_start.strip()
+    activist_end.strip()
+    content.strip()
+    activist_url.strip()
+    image_url.strip()
+    video_url.strip()
+
     if activist_start_BC:  # convert the year to a negative integer if the start year was in BC
         activist_start = int(activist_start) * -1
     if activist_end_BC:  # convert the year to a negative integer if the end year was in BC
@@ -113,6 +124,12 @@ def create_poster(poster_first,
     :param poster_email: the poster's email
     :return: no return value, a Poster object will be created
     """
+    poster_first.strip()
+    poster_first.title()
+    poster_last.strip()
+    poster_last.title()
+    poster_email.strip()
+
     if poster_first == "":
         poster_first = None
     if poster_last == "":

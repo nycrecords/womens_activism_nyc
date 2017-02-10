@@ -6,29 +6,6 @@ from wtforms import ValidationError
 import requests
 
 
-def validate_white_space(form, value):
-    """
-    A validator used to check that an input doesn't start or end with whitespace
-
-    :param form: part of the StoryForm object
-    :param value: the string that will be checked
-    """
-    value_data = value.data
-    if value_data.startswith(" ") or value_data.endswith(" "):
-        raise ValidationError()
-
-
-def validate_name(form, name):
-    """
-    A validator to check that the first character in a name is uppercase
-    :param form: part of the StoryForm
-    :param name: the first or last name of an activist/poster
-    """
-    activist_name = name.data
-    if activist_name[0].islower():
-        raise ValidationError()
-
-
 def validate_start_year(form, year):
     """
     A validator to check that the start year is only numbers
@@ -36,6 +13,7 @@ def validate_start_year(form, year):
     :param year: the start year that will be validated
     """
     activist_start = year.data
+    activist_start.strip()
     if not activist_start.isdigit():
         raise ValidationError()
 
@@ -47,6 +25,7 @@ def validate_end_year(form, year):
     :param year: the end year that will be validated
     """
     activist_end = year.data
+    activist_end.strip()
     if activist_end != "Today" and (activist_end.isdigit() == False):
         raise ValidationError()
 

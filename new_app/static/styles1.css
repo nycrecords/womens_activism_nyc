@@ -573,9 +573,18 @@ p, div {
   padding-top: 90px;
   padding-bottom: 90px;
 }
+#hidden-tag-input {
+  color: black;
+  visibility: hidden;
+  height: 0;
+  padding: 0;
+  margin: 0;
+  width: 0;
+}
+
 .share-tags-group {
   max-width: 768px;
-  margin: 50px auto 10px auto;
+  margin: 40px auto 10px auto;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
@@ -645,7 +654,7 @@ p, div {
   font-weight: 800;
   color: #98819b;
   font-style: italic;
-  margin-top: 30px;
+  margin-top: 35px;
 }
 .share-link-input {
   background: none;
@@ -750,11 +759,24 @@ p, div {
   color: #673c74;
 }
 
+
+/* Parsley */
+
 .parsley-errors-list {
   list-style-type: none;
-  padding: 0;
   margin-top: 5px;
+  padding: 0;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.parsley-errors-list li {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  padding: 5px 10px;
+  font-weight: bold;
+  border: 1px solid transparent;
+  border-radius: 4px;
 }

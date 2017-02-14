@@ -12,7 +12,7 @@ mkdir -p /data/postgres
 chown -R postgres:postgres /data/postgres
 
 # 4. Copy script (enable postgres commands in command line) to /etc/profile.d
-cp /vagrant/build_scripts/postgres.sh /etc/profile.d/postgres.sh
+cp /vagrant/build_scripts/db_setup/postgres.sh /etc/profile.d/postgres.sh
 source /etc/profile.d/postgres.sh
 
 postgresql-setup --initdb

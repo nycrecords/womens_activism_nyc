@@ -13,7 +13,11 @@ bash -c "printf '#\!/bin/bash\nsource /opt/rh/rh-nginx18/enable'"
 mv /etc/opt/rh/rh-nginx18/nginx/nginx.conf /etc/opt/rh/rh-nginx18/nginx/nginx.conf.orig
 
 # 5. SymLink nginx.conf
-ln -s /vagrant/build_scripts/web_setup/nginx_conf/nginx.conf /etc/opt/rh/rh-nginx18/nginx/nginx.conf
+if [ "$1" != single_server ]; then
+    ln -s /vagrant/build_scripts/web_setup/nginx_conf/nginx.conf /etc/opt/rh/rh-nginx18/nginx/nginx.conf
+else
+    ln -s /vagrant/build_scripts/default/nginx_conf/nginx.conf /etc/opt/rh/rh-nginx18/nginx/nginx.conf
+fi
 
 # 6. Create ssl Certs
 openssl req \

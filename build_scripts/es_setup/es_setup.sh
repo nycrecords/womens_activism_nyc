@@ -7,12 +7,15 @@ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.2.0.rp
 # 2. Install ElasticSearch
 rpm -ivh /tmp/elasticsearch-5.2.0.rpm
 
-# 3. Configure ElasticSearch
+# 3. Autostart ElasticSearch
+sudo chkconfig --add elasticsearch
+chkconfig elasticsearch on
+
+# 4. Configure ElasticSearch
 mv /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml.orig
 ln -s /vagrant/build_scripts/es_setup/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
 
-sudo chkconfig --add elasticsearchq
-
+# Install nginx and create ssl certs if not running on a single server
 if [ "$1" != single_server ]; then
     echo "complete complete complete COMPLETE"
     yum -y install rh-nginx18-nginx
@@ -35,10 +38,10 @@ mkdir -p /data/es_logs
 chown -R vagrant:vagrant /data
 chmod 777 -R /data
 
-# 4. Start Elasticsearch
+# 5. Start Elasticsearch
 sudo /etc/init.d/elasticsearch start
 
-# 5. Add the following lines to /etc/sudoers file
+# 6. Add the following lines to /etc/sudoers file
 #womens_activism   ALL=(elasticsearch:elasticsearch) NOPASSWD:ALL
 #womens_activism   ALL=(ALL) NOPASSWD: /etc/init.d/elasticsearch start
 #womens_activism   ALL=(ALL) NOPASSWD: /etc/init.d/elasticsearch stop

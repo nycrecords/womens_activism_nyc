@@ -19,10 +19,12 @@ yum -y groupinstall "Development Tools"
 sudo yum -y install libxml2-devel xmlsec1-devel xmlsec1-openssl-devel libtool-ltd1-devel
 
 # 6. Install Required pip Packages
+source /opt/rh/rh-python35/enable
 pip install virtualenv
-virtualenv womens_activism
-source womens_activism/bin/activate
-pip install -r requirements.txt
+mkdir -p /home/vagrant/.virtualenvs/womens_activism
+virtualenv /home/vagrant/.virtualenvs/womens_activism
+source /home/vagrant/.virtualenvs/womens_activism/bin/activate
+pip install -r /vagrant/requirements.txt
 
 # 7. Install telnet-server
 yum -y install telnet-server

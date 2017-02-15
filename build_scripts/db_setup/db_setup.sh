@@ -27,12 +27,12 @@ chmod 700 /var/opt/rh/rh-postgresql95/lib/pgsql/data
 mv /data/postgres/postgresql.conf /data/postgres/postgresql.conf.orig
 mv /data/postgres/pg_hba.conf /data/postgres/pg_hba.conf.orig
 
-# copy configuration files from home directory (vagrant for vagrant, /export/local/project_name/ for DOITT)
+# 7. Copy configuration files from home directory (vagrant for vagrant, /export/local/project_name/ for DOITT)
 cp /vagrant/build_scripts/db_setup/postgresql.conf /data/postgres/
 cp /vagrant/build_scripts/db_setup/pg_hba.conf /data/postgres/
 chown -R posgres:postgres /data/postgres
 
-# create postgres key and certificates
+# 8. Create postgres key and certificates
 openssl req \
        -newkey rsa:4096 -nodes -keyout /vagrant/build_scripts/db_setup/server.key \
        -x509 -days 365 -out /vagrant/build_scripts/db_setup/server.crt -subj "/C=US/ST=New York/L=New York/O=NYC Department of Records and Information Services/OU=IT/CN=womensactivism.nyc"
@@ -53,10 +53,11 @@ ln -s /opt/rh/rh-postgresql95/root/usr/lib64/libpq.so.rh-postgresql95-5 /usr/lib
 
 sudo service rh-postgresql95-postgresql start
 
+# 9. Create postgres users
 sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createuser -s -e developer
 sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createuser -s -e womens_activism_db
 
-
+# 10. Create database
 sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createdb womens_activism
 
 # 6. Add the following lines to /etc/sudoers file (allows running postgres commands without sudo access)

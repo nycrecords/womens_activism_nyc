@@ -28,7 +28,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision :reload
 
   config.vm.provision "shell" do |s|
-    s.inline = 'sudo yum -y groupinstall "Development Tools" && sudo /etc/init.d/vboxadd setup && echo "cd /vagrant" >> /home/vagrant/.bash_profile'
+    s.inline = 'sudo yum -y groupinstall "Development Tools" && sudo yum install "kernel-devel" && sudo /etc/init.d/vboxadd setup && echo "cd /vagrant" >> /home/vagrant/.bash_profile'
   end
 
   # Single server VM

@@ -11,7 +11,7 @@ def index():
     :return: renders the 'index.html' template with parameters for the current story count and recent stories
     """
     visible_stories = len(Stories.query.filter_by(is_visible=True).all())
-    story_counter = 20000 - visible_stories
+    remaining_stories = 20000 - visible_stories
 
     all_stories = Stories.query.filter_by(is_visible=True).order_by(Stories.date_created.desc())
     all_stories = all_stories[:8]
@@ -26,4 +26,6 @@ def index():
             'image_url': story.image_url
         }
         recent_stories.append(story)
-    return render_template('index.html', story_counter=story_counter, recent_stories=recent_stories)
+    return render_template('index.html', visible_stories=visible_stories,
+                           remaining_stories=remaining_stories,
+                           recent_stories=recent_stories)

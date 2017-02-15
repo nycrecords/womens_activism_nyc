@@ -1,5 +1,19 @@
 {% extends "base.html" %}
 
 {% block page_content %}
-<h1>Home Page</h1>
+    <h1>Home Page</h1>
+    <br>
+    <h3>Story Counter</h3>
+    <h3>{{visible_stories}} current stories</h3>
+    <h3>{{remaining_stories}} more stories to go</h3>
+    <br>
+
+    <h4>Recent Stories</h4> <br>
+    {% for story in recent_stories %}
+        <p>First name: {{ story['activist_first'] }}</p>
+        <p>last name: {{ story['activist_last'] }}</p>
+        <p>Content: {{ story['content'] }}</p>
+        <p>Image url: {{ story['image_url'] }}</p>
+        <br>
+    {% endfor %}
 {% endblock %}

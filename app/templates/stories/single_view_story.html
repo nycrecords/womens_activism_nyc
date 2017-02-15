@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+    <h1>Single View</h1>
+    <p>First name: {{ story['activist_first'] }}</p>
+    <p>Last name: {{ story['activist_last'] }}</p>
+    <p>Start year: {{ story['activist_start'] }}</p>
+    <p>End year: {{ story['activist_end'] }}</p>
+    <p>Poster first: {{ poster }}</p>
+    <p>Date created: {{ story['date_created'] }}</p>
+    <p>Image url: {{ story['image_url'] }}</p>
+    <p>Video url: {{ story['video_url'] }}</p>
+    <p>Content: {{ story['content'] }}</p>
+    <p>Activist url: {{ story['activist_url'] }}</p>
+{% endblock %}

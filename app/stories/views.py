@@ -5,6 +5,7 @@ from flask import render_template, redirect, url_for, flash, request
 from app.stories.forms import StoryForm
 from app.stories import stories
 from app.stories.utils import create_story, create_poster, validate_years, validate_poster
+from app.models import Stories, Posters
 
 
 @stories.route('/share', methods=['GET', 'POST'])
@@ -51,3 +52,31 @@ def share():
             return redirect(url_for('stories.share'))
         flash('Error, please try again.')
     return render_template('stories/share_a_story.html', form=form)
+
+
+@stories.route('/stories/<int:id>', methods=['GET', 'POST'])
+def stories(id):
+    single_story = Stories.query.get_or_404(id)
+
+    if single_story.is_visible:
+        story = {
+            'id': single_story.id,
+            'activist_first': single_story.activist_first,
+            'activist_last': single_story.activist_last,
+            'activist_start': single_story.activist_start,
+            'activist_end': single_story.activist_end,
+            'content': single_story.content,
+            'activist_url': single_story.activist_url,
+            'image_url': single_story.image_url,
+            'video_url': single_story.video_url,
+            'date_created': single_story.date_created,
+            'tags': single_story.tags
+        }
+        if single_story.poster_id:
+            poster = Posters.query.filter_by(id=single_story.poster_id).first()
+            poster = poster.poster_first
+        else:
+            poster = None
+        return render_template('stories/single_view_story.html', story=story, poster=poster)
+    else:
+        return render_template('404.html')

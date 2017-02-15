@@ -2,7 +2,6 @@
 
 # 1. Install Postgres 9.5
 yum -y install rh-postgresql95
-yum -y install rh-python35-python-devel
 
 # 2. Autostart Postgres
 chkconfig rh-postgresql95-postgresql on

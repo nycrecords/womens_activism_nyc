@@ -21,7 +21,9 @@ sudo yum -y install libxml2-devel xmlsec1-devel xmlsec1-openssl-devel libtool-lt
 # 6. Install Required pip Packages
 source /opt/rh/rh-python35/enable
 pip install virtualenv
+mkdir /home/vagrant/.virtualenvs
 virtualenv /home/vagrant/.virtualenvs/womens_activism
+chown -R vagrant:vagrant /home/vagrant
 source /home/vagrant/.virtualenvs/womens_activism/bin/activate
 pip install -r /vagrant/requirements.txt --no-use-wheel
 

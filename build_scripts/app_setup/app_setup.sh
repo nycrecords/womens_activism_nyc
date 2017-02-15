@@ -9,7 +9,8 @@ yum -y install rh-python35
 # 2. Setup /etc/profile.d/python.sh
 bash -c "printf '#\!/bin/bash\nsource /opt/rh/rh-python35/enable\n' > /etc/profile.d/python35.sh"
 
-# 3. Install PostgreSQL Python Package (psycopg2)
+# 3. Install Postgres Python Package (psycopg2) and Postgres Developer Package
+yum -y install rh-postgresql95-postgresql-devel
 yum -y install rh-python35-python-psycopg2
 
 # 4. Install Developer Tools

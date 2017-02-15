@@ -14,6 +14,16 @@ def index():
     story_counter = 20000 - visible_stories
 
     all_stories = Stories.query.filter_by(is_visible=True).order_by(Stories.date_created.desc())
-    recent_stories = all_stories[:8]
+    all_stories = all_stories[:8]
 
+    recent_stories = []
+    for story in all_stories:
+        current_story = {
+            'id': story.id,
+            'activist_first': story.activist_first,
+            'activist_last': story.activist_last,
+            'content': story.content,
+            'image_url': story.image_url
+        }
+        recent_stories.append(story)
     return render_template('index.html', story_counter=story_counter, recent_stories=recent_stories)

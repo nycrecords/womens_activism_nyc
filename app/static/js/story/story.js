@@ -58,6 +58,30 @@ $(function() {
     $("#first-name-field, #last-name-field, #user-first-name-field, #user-last-name-field").on('keyup', function() {
         capitalize(this.id, this.value)
     });
+
+    // Media input type selection
+    $('#image-upload-btn').click(function() {
+        $('#story-video-input').hide();
+        $('#story-image-input').show();
+        $('#media-back-btn').show();
+        $('#image-upload-btn').hide();
+        $('#video-upload-btn').hide();
+    });
+    $('#video-upload-btn').click(function() {
+        $('#story-image-input').hide();
+        $('#story-video-input').show();
+        $('#media-back-btn').show();
+        $('#image-upload-btn').hide();
+        $('#video-upload-btn').hide();
+    });
+    $('#media-back-btn').click(function() {
+        $('#media-back-btn').hide();
+        $('#story-image-input').hide();
+        $('#story-video-input').hide();
+        $('#image-upload-btn').show();
+        $('#video-upload-btn').show();
+        $('#story-image-input-box, #story-video-input-box').val("");
+    });
 });
 
 // Share a story - capitalize first letter of name inputs

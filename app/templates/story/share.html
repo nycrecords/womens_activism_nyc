@@ -92,8 +92,21 @@
         <h1 id="add-media-heading">Add Media</h1>
         <p class="add-media-subheading">Upload your favorite photo or video of your female activist to help tell her story.</p>
         <div class="who-input-group">
-          <button type="button" id="media-upload-btn">Upload</button>
+          <button type="button" class="media-buttons" id="image-upload-btn">Image</button>
+          <button type="button" class="media-buttons" id="video-upload-btn">Video</button>
         </div>
+        <div class="who-input-group" id="story-image-input">
+          <div>
+            <input type="text" maxlength="254" id="story-image-input-box" placeholder="http://womensactivism.nyc" name="media-image-input" class="share-link-input" />
+          </div>
+        </div>
+        <div class="who-input-group" id="story-video-input">
+          <div>
+            <input type="text" maxlength="254" id="story-video-input-box" placeholder="http://youtube.com" name="media-video-input" class="share-link-input" />
+          </div>
+        </div>
+        <br />
+        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" id="media-back-btn"></span>
       </div>
     </div>
   </div>

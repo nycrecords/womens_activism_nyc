@@ -689,7 +689,7 @@ p, div {
   margin: 20px auto 0 auto;
   padding: 0 10px;
 }
-#media-upload-btn {
+.media-buttons {
   width: 258px;
   height: 65px;
   background: none;
@@ -698,12 +698,26 @@ p, div {
   font-size: 20px;
   margin-top: 30px;
   transition: background 0.2s ease;
+  margin-right: 5px;
+  margin-left: 5px;
 }
-#media-upload-btn:hover {
+.media-buttons:hover {
   background: #ffffff;
   color: #59315f;
 }
 
+#story-image-input, #story-video-input {
+  display: none;
+}
+
+#media-back-btn {
+  font-size: 20px;
+  display: none;
+}
+
+#media-back-btn:hover {
+  cursor: pointer;
+}
 /* About You */
 
 #about-you {

@@ -1,4 +1,4 @@
-window.onload = function() {
+$(function() {
     var hiddenTagInput = $('#hidden-tag-input');
 
     // Functionality for tags
@@ -27,7 +27,7 @@ window.onload = function() {
     $('a[href=".' + this.location.pathname + '"]').parents('li,ul').addClass('active');
 
     // Scroll fix for Parsley.js
-    if (this.location.pathname == '/share') {
+    if (this.location.pathname == '/story') {
       var errorList = [];
       window.Parsley.on('field:error', function() {
         if (!errorList[0]) {
@@ -55,7 +55,10 @@ window.onload = function() {
      }
     });
 
-};
+    $("#first-name-field, #last-name-field, #user-first-name-field, #user-last-name-field").on('keyup', function() {
+        capitalize(this.id, this.value)
+    });
+});
 
 // Share a story - capitalize first letter of name inputs
 function capitalize(textboxid, str) {

@@ -9,10 +9,10 @@
         <p class="share-subheading">Share your story about an empowering female whose activism has inspired you.</p>
         <div class="who-input-group">
           <div class="input-inline-fix";">
-            <input type="text" placeholder="Mary" class="share-who-input" name="first-name" data-parsley-required />
+            <input type="text" placeholder="Mary" class="share-who-input" name="first-name" id="first-name-field" data-parsley-required />
           </div>
           <div class="input-inline-fix";">
-            <input type="text" placeholder="Smith" class="share-who-input" name="last-name" data-parsley-required />
+            <input type="text" placeholder="Smith" class="share-who-input" name="last-name" id="last-name-field" data-parsley-required />
           </div>
         </div>
         <p class="name-required">required</p>
@@ -24,11 +24,11 @@
         <p class="share-subheading">If still living, enter "today".</p>
         <div class="who-input-group">
           <div class="input-inline-fix";">
-            <input type="text" placeholder="1960" class="share-who-input" name="year-born" data-parsley-required />
+            <input type="text" placeholder="1960" class="share-who-input" name="year-born" onkeypress="return event.charCode >= 48 && event.charCode <= 57" data-parsley-required />
           </div>
           <span id="date-dash">&#8212;</span>
           <div class="input-inline-fix";">
-            <input type="text" placeholder="Today" class="share-who-input" name="year-death" data-parsley-required />
+            <input type="text" placeholder="Today" class="share-who-input" name="year-death" onkeypress="return event.charCode >= 48 && event.charCode <= 57" data-parsley-required />
           </div>
         </div>
         <p class="name-required">required</p>
@@ -104,8 +104,8 @@
         <p class="about-you-subheading">If you would like to share your name, enter below. Your email address will not be made public.</p>
         <div class="who-input-group">
           <div>
-            <input type="text" placeholder="Mary" name="user-first-name" class="share-who-input" />
-            <input type="text" placeholder="Smith" name="user-last-name" class="share-who-input" />
+            <input type="text" placeholder="Mary" name="user-first-name" class="share-who-input" id="user-first-name-field" />
+            <input type="text" placeholder="Smith" name="user-last-name" class="share-who-input" id="user-last-name-field" />
           </div>
         </div>
         <div class="who-input-group">

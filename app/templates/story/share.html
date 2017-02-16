@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form data-parsley-validate id="share-form" data-parsley-focus="none">
+    <div class="container-fluid" id="share-who">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 id="who-h1">Who Inspires You?</h1>
+                <p class="share-subheading">Share your story about an empowering female whose activism has inspired
+                    you.</p>
+                <div class="who-input-group">
+                    <div class="input-inline-fix">
+                        <input type="text" maxlength="30" placeholder="Mary" class="share-who-input" name="first-name"
+                               id="first-name-field" data-parsley-required
+                               data-parsley-maxlength="30" data-parsley-maxlength-message="Your entry is too long."/>
+                    </div>
+                    <div class="input-inline-fix">
+                        <input type="text" maxlength="30" placeholder="Smith" class="share-who-input" name="last-name"
+                               id="last-name-field" data-parsley-required
+                               data-parsley-maxlength="30" data-parsley-maxlength-message="Your entry is too long."/>
+                    </div>
+                </div>
+                <p class="name-required">required</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h1 id="she-lived-heading">She Lived</h1>
+                <p class="share-subheading">If still living, enter "today".</p>
+                <div class="who-input-group">
+                    <div class="input-inline-fix">
+                        <input type="text" maxlength="4" placeholder="1960" class="share-who-input" name="year-born"
+                               id="year-born-input" data-parsley-required
+                               data-parsley-maxlength="4" data-parsley-maxlength-message="Your entry is too long."/>
+                    </div>
+                    <span id="date-dash">&#8212;</span>
+                    <div class="input-inline-fix">
+                        <input type="text" maxlength="5" placeholder="Today" class="share-who-input" name="year-death"
+                               id="year-death-input" data-parsley-required data-parsley-maxlength="5"
+                               data-parsley-maxlength-message="Your entry is too long."/>
+                    </div>
+                </div>
+                <p class="name-required">required</p>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" id="about-her">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>What is She Known For?</h1>
+                <p class="share-subheading">Choose one or more categories.</p>
+                <div>
+                    <div>
+                        <input type="text" placeholder="" id="hidden-tag-input" name="tags" data-parsley-required/>
+                    </div>
+                </div>
+                <div class="share-tags-group" data-toggle="buttons">
+                    <button type="button" class="share-tag share-inactive">Abolitionists</button>
+                    <button type="button" class="share-tag share-inactive">Arts, Entertainment, Literature</button>
+                    <button type="button" class="share-tag share-inactive">Business and Entrepreneurship</button>
+                    <button type="button" class="share-tag share-inactive">Civil and Human Rights</button>
+                    <button type="button" class="share-tag share-inactive">Education</button>
+                    <button type="button" class="share-tag share-inactive">Government and Politics</button>
+                    <button type="button" class="share-tag share-inactive">Health</button>
+                    <button type="button" class="share-tag share-inactive">LGBTQ</button>
+                    <button type="button" class="share-tag share-inactive">Law</button>
+                    <button type="button" class="share-tag share-inactive">Military</button>
+                    <button type="button" class="share-tag share-inactive">Religion</button>
+                    <button type="button" class="share-tag share-inactive">Science, Technology, Engineering, Math
+                        (STEM)
+                    </button>
+                    <button type="button" class="share-tag share-inactive">Suffrage</button>
+                    <button type="button" class="share-tag share-inactive">Sports</button>
+                    <button type="button" class="share-tag share-inactive">Other</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h1 id="share-her-story-heading">Share Her Story</h1>
+                <p class="share-subheading">Share a few words about how your female activist has inspired you and
+                    others.</p>
+                <div>
+                    <div>
+                        <textarea id="her-story-text" maxlength="5000" class="her-story-text"
+                                  placeholder="My mother was ..." data-parsley-required
+                                  data-parsley-maxlength="5000"
+                                  data-parsley-maxlength-message="Your entry is too long."></textarea>
+                    </div>
+                </div>
+                <p class="char-required"><span id="story-text-count">0</span> / 5000 used</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h1 id="add-link-heading">Add a Link</h1>
+                <p class="share-link-subheading">Enter a URL to allow others to learn more about your female activist
+                    online.</p>
+                <div class="who-input-group">
+                    <div>
+                        <input type="text" maxlength="254" placeholder="http://womensactivism.nyc" name="email"
+                               class="share-link-input"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h1 id="add-media-heading">Add Media</h1>
+                <p class="add-media-subheading">Upload your favorite photo or video of your female activist to help tell
+                    her story.</p>
+                <div class="who-input-group">
+                    <button type="button" class="media-buttons" id="image-upload-btn">Image</button>
+                    <button type="button" class="media-buttons" id="video-upload-btn">Video</button>
+                </div>
+                <div class="who-input-group" id="story-image-input">
+                    <div>
+                        <input type="text" maxlength="254" id="story-image-input-box"
+                               placeholder="http://womensactivism.nyc" name="media-image-input"
+                               class="share-link-input"/>
+                    </div>
+                </div>
+                <div class="who-input-group" id="story-video-input">
+                    <div>
+                        <input type="text" maxlength="254" id="story-video-input-box" placeholder="http://youtube.com"
+                               name="media-video-input" class="share-link-input"/>
+                    </div>
+                </div>
+                <br/>
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" id="media-back-btn"></span>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" id="about-you">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 id="about-you-heading">Tell Us About Yourself</h1>
+                <p class="about-you-subheading">If you would like to share your name, enter below. Your email address
+                    will not be made public.</p>
+                <div class="who-input-group">
+                    <div>
+                        <input type="text" maxlength="30" placeholder="Mary" name="user-first-name"
+                               class="share-who-input" id="user-first-name-field"/>
+                        <input type="text" maxlength="30" placeholder="Smith" name="user-last-name"
+                               class="share-who-input" id="user-last-name-field"/>
+                    </div>
+                </div>
+                <div class="who-input-group">
+                    <div>
+                        <input type="text" maxlength="254" placeholder="ms@gmail.com" name="user-email"
+                               class="share-you-email-input"/>
+                    </div>
+                </div>
+                <div class="who-input-group">
+                    <button id="share-story-btn">Share</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+{% block custom_script %}
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/plugins/parsley.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/story/story.js') }}"></script>
+{% endblock %}

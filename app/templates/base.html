@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Women's Activism NYC</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/plugins/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='styles/womens_activism.css')}}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet">
+</head>
+<body>
+
+<title>Women's Activism NYC</title>
+{% include "header.html" %}
+
+{% block content %}
+{% endblock %}
+
+{% block footer %}
+{% include 'footer.html' %}
+{% endblock %}
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/plugins/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/plugins/bootstrap.min.js') }}"></script>
+
+{% block custom_script %}
+{% endblock %}
+</body>
+</html>

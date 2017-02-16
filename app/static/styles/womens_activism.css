@@ -758,7 +758,10 @@ p, div {
   background: #ffffff;
   color: #673c74;
 }
-
+.input-inline-fix {
+  display: inline;
+  position: relative;
+}
 
 /* Parsley */
 

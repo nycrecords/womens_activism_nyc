@@ -26,6 +26,7 @@ mkdir /home/vagrant/.virtualenvs
 virtualenv --system-site-packages /home/vagrant/.virtualenvs/womens_activism
 chown -R vagrant:vagrant /home/vagrant
 source /home/vagrant/.virtualenvs/womens_activism/bin/activate
+echo "source /home/vagrant/.virtualenvs/womens_activism/bin/activate" >> /home/vagrant/.bash_profile
 pip install -r /vagrant/requirements.txt --no-use-wheel
 
 # 7. Install telnet-server

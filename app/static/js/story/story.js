@@ -1,4 +1,6 @@
 window.onload = function() {
+    var hiddenTagInput = $('#hidden-tag-input');
+
     // Functionality for tags
     var selectedTags = [];
 
@@ -10,9 +12,9 @@ window.onload = function() {
         } else {
             selectedTags.push(this.childNodes[0].data);
         }
-        $('#hidden-tag-input').val(selectedTags);
+        hiddenTagInput.val(selectedTags);
 
-        $('#hidden-tag-input').parsley().validate();
+        hiddenTagInput.parsley().validate();
     });
 
     // Share a story - text counter
@@ -38,7 +40,7 @@ window.onload = function() {
         }
       });
     }
-}
+};
 
 // Share a story - capitalize first letter of name inputs
 function capitalize(textboxid, str) {

@@ -3,6 +3,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
+    # Flask-SQLAlchemy
+    SQLALCHEMY_TRACK_MODIFICATIONS = False  # remove once this becomes the default
 
     @staticmethod
     def init_app(app):

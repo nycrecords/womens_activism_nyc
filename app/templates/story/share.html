@@ -24,11 +24,11 @@
         <p class="share-subheading">If still living, enter "today".</p>
         <div class="who-input-group">
           <div class="input-inline-fix";">
-            <input type="text" maxlength="4" placeholder="1960" class="share-who-input" name="year-born" onkeypress="return event.charCode >= 48 && event.charCode <= 57" data-parsley-required data-parsley-minlength="1" data-parsley-maxlength="4" data-parsley-maxlength-message="Your entry is too long." />
+            <input type="text" maxlength="4" placeholder="1960" class="share-who-input" name="year-born" id="year-born-input" data-parsley-required data-parsley-minlength="1" data-parsley-maxlength="4" data-parsley-maxlength-message="Your entry is too long." />
           </div>
           <span id="date-dash">&#8212;</span>
           <div class="input-inline-fix";">
-            <input type="text" maxlength="4" placeholder="Today" class="share-who-input" name="year-death" onkeypress="return event.charCode >= 48 && event.charCode <= 57" data-parsley-required data-parsley-minlength="1" data-parsley-maxlength="4" data-parsley-maxlength-message="Your entry is too long." />
+            <input type="text" maxlength="5" placeholder="Today" class="share-who-input" name="year-death" id="year-death-input" data-parsley-required data-parsley-minlength="1" data-parsley-maxlength="5" data-parsley-maxlength-message="Your entry is too long." />
           </div>
         </div>
         <p class="name-required">required</p>

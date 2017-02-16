@@ -1,4 +1,6 @@
 window.onload = function() {
+    var hiddenTagInput = $('#hidden-tag-input');
+
     // Functionality for tags
     var selectedTags = [];
 
@@ -10,9 +12,9 @@ window.onload = function() {
         } else {
             selectedTags.push(this.childNodes[0].data);
         }
-        $('#hidden-tag-input').val(selectedTags);
+        hiddenTagInput.val(selectedTags);
 
-        $('#hidden-tag-input').parsley().validate();
+        hiddenTagInput.parsley().validate();
     });
 
     // Share a story - text counter
@@ -38,7 +40,22 @@ window.onload = function() {
         }
       });
     }
-}
+
+    //Numbers only in year input
+    $('#year-born-input').keypress(function (e) {
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        return false;
+     }
+    });
+    $('#year-death-input').keypress(function (e) {
+     if (e.which == 116 || e.which == 84 || e.which == 116 || e.which == 111 || e.which == 79 || e.which == 100 || e.which == 68 || e.which == 116  || e.which == 97 || e.which == 65 || e.which == 121 || e.which == 89) {
+         return true;
+     } else if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        return false;
+     }
+    });
+
+};
 
 // Share a story - capitalize first letter of name inputs
 function capitalize(textboxid, str) {

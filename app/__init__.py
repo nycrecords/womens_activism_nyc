@@ -6,7 +6,7 @@ from config import config
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
-es = FlaskElasticsearch
+es = FlaskElasticsearch()
 
 
 def create_app(config_name):
@@ -16,6 +16,7 @@ def create_app(config_name):
     config[config_name].init_app(app)
 
     bootstrap.init_app(app)
+    es.init_app(app, use_ssl=app.config['ELASTICSEARCH_USE_SSL'])
     db.init_app(app)
 
     from .main import main as main
@@ -23,5 +24,8 @@ def create_app(config_name):
 
     from .story import story as story
     app.register_blueprint(story, url_prefix="/story")
+
+    from .search import search as search
+    app.register_blueprint(search, url_prefix="/search")
 
     return app

@@ -2,6 +2,7 @@ from flask import current_app
 from elasticsearch.helpers import bulk
 
 from app import es
+from app.constants import tag
 from app.models import Stories
 from app.search.constants import MOCK_EMPTY_ELASTICSEARCH_RESULT
 
@@ -64,14 +65,13 @@ def update_docs():
 
 
 def search_stories(query,
-                   activist_first,
-                   activist_last,
-                   content,
-                   tag,
+                   # activist_first,
+                   # activist_last,
+                   # content,
+                   # search_tags,
                    size,
                    start,
-                   by_phrase=False,
-                   highlight=False):
+                   by_phrase=False):
     """
     The arguments of this function match the request parameters
     of the '/search/stories' endpoints.
@@ -80,14 +80,10 @@ def search_stories(query,
     :param activist_first: search by activist's first name?
     :param activist_last: search by activist's last name?
     :param content: search by story content?
-    :param tag: search by tag
+    :param search_tags: search by tag
     :param size: number of stories
     :param start: starting index of story result set
     :param by_phrase: use phrase matching instead of full-text?
-    :param highlight: return highlights?
-        if True, will come at a slgiht performance cost (in order to
-        restrict highlights to public fields, iterating over elasticsearch
-        query results is required)
     :return: elasticsearch json response with result information
     """
     # clean query trailing/leading whitespace
@@ -99,6 +95,7 @@ def search_stories(query,
         return MOCK_EMPTY_ELASTICSEARCH_RESULT
 
     # TODO: tags from search
+    # tags = [t for t, b in zip(tag.tags, search_tags) if b]
 
     # set matching type (full-text or phrase matching)
     match_type = 'match_phrase' if by_phrase else 'match'

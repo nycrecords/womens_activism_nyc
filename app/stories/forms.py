@@ -25,7 +25,8 @@ class StoryForm(Form):
     activist_end = StringField("Activist death year", validators=[DataRequired(), Length(1, 5), validate_end_year],
                                id="year-death-input")
     activist_end_BC = BooleanField("Check if activist died during BC", validators=[Optional()])
-    tags = SelectMultipleField("What is she known for? Choose one or more categories", choices=tag.tag_choices)
+    # tags = SelectMultipleField("What is she known for? Choose one or more categories", choices=tag.tag_choices)
+    tags = StringField()
     content = TextAreaField("Share a few words about how your woman activist has inspired you and others",
                             validators=[DataRequired(), Length(1, 5000)], id="her-story-text")
     activist_url = StringField("Enter a URL to allow others to learn more about your woman activist online",

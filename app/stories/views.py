@@ -13,8 +13,12 @@ def share():
     View function for creating a story
     :return: If the story form was fully validated, create a Story and Poster object to store in the database
     """
+    flash("asdkjfahsdlkfja")
     form = StoryForm()
     if request.method == 'POST':
+        tag_string = form.tags.data
+        tags = tag_string.split(',')
+
         if form.validate_on_submit():
             # extra validator for activist's years because it can't be done through WTForms built in
             if not validate_years(form.activist_start.data,
@@ -41,7 +45,7 @@ def share():
                          activist_start_BC=form.activist_start_BC.data,
                          activist_end=form.activist_end.data,
                          activist_end_BC=form.activist_end_BC.data,
-                         tags=form.tags.data,
+                         tags=tags,
                          content=form.content.data,
                          activist_url=form.activist_url.data,
                          image_url=form.image_url.data,

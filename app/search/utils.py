@@ -7,6 +7,14 @@ from app.models import Stories
 from app.search.constants import MOCK_EMPTY_ELASTICSEARCH_RESULT
 
 
+def recreate():
+    """Delete current index and create new index and docs"""
+    es.indices.delete(current_app.config["ELASTICSEARCH_INDEX"],
+                      ignore=[400, 404])
+    create_index()
+    create_docs()
+
+
 def create_index():
     """
     Create elasticsearch index with mappings for stories docs.
@@ -17,8 +25,14 @@ def create_index():
             "mappings": {
                 "story": {
                     "properties": {
-                        "key": {
+                        "activist_first": {
                             "type": "keyword"
+                        },
+                        "activist_last": {
+                            "type": "keyword"
+                        },
+                        "content": {
+                            "type": "text"
                         },
                         "tag": {
                             "type": "keyword"
@@ -68,7 +82,7 @@ def search_stories(query,
                    # activist_first,
                    # activist_last,
                    # content,
-                   # search_tags,
+                   search_tags,
                    size,
                    start,
                    by_phrase=False):
@@ -95,7 +109,12 @@ def search_stories(query,
     #     return MOCK_EMPTY_ELASTICSEARCH_RESULT
 
     # TODO: tags from search
-    # tags = [t for t, b in zip(tag.tags, search_tags) if b]
+    if search_tags:
+        tags = [t for t, b in zip(tag.tags, search_tags) if b]
+    else:
+        tags = tag.tags
+
+    print(tags)
 
     # set matching type (full-text or phrase matching)
     match_type = 'match_phrase' if by_phrase else 'match'
@@ -106,7 +125,7 @@ def search_stories(query,
         'activist_last': True,
         'content': True,
     }
-    dsl_gen = StoriesDSLGenerator(query, query_fields, match_type)
+    dsl_gen = StoriesDSLGenerator(query, query_fields, tags, match_type)
     dsl = dsl_gen.search() if query else dsl_gen.queryless()
 
     from flask import json
@@ -132,12 +151,12 @@ class StoriesDSLGenerator(object):
     """
     Class for generating dicts representing query dsl bodies for searching story docs.
     """
-    def __init__(self, query, query_fields, match_type):
+    def __init__(self, query, query_fields, tags, match_type):
         self.__query = query
         self.__query_fields = query_fields
         self.__match_type = match_type
 
-        self.__default_filters = [{'terms': {'tag': ['Sports']}}]
+        self.__default_filters = [{'terms': {'tag': tags}}]
         self.__filters = []
         self.__conditions = []
 
@@ -184,4 +203,3 @@ class StoriesDSLGenerator(object):
 
     def __get_filters(self):
         return self.__filters + self.__default_filters
-

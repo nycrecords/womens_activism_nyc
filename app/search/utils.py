@@ -91,8 +91,8 @@ def search_stories(query,
         query = query.strip()
 
     # return no results if there is nothing to query by
-    if query and not any((activist_first, activist_last, content, tag)):
-        return MOCK_EMPTY_ELASTICSEARCH_RESULT
+    # if query and not any((activist_first, activist_last, content, tag)):
+    #     return MOCK_EMPTY_ELASTICSEARCH_RESULT
 
     # TODO: tags from search
     # tags = [t for t, b in zip(tag.tags, search_tags) if b]
@@ -102,13 +102,15 @@ def search_stories(query,
 
     # generate query dsl body
     query_fields = {
-        'activist_first': activist_first,
-        'activist_last': activist_last,
-        'content': content,
-        'tag': tag
+        'activist_first': True,
+        'activist_last': True,
+        'content': True,
     }
     dsl_gen = StoriesDSLGenerator(query, query_fields, match_type)
     dsl = dsl_gen.search() if query else dsl_gen.queryless()
+
+    from flask import json
+    print(json.dumps(dsl, indent=4))
 
     # search/run query
     results = es.search(
@@ -122,7 +124,7 @@ def search_stories(query,
         size=size,
         from_=start,
     )
-
+    print(results)
     return results
 
 
@@ -130,12 +132,12 @@ class StoriesDSLGenerator(object):
     """
     Class for generating dicts representing query dsl bodies for searching story docs.
     """
-    def __init__(self, query, query_fields, tags, match_type):
+    def __init__(self, query, query_fields, match_type):
         self.__query = query
         self.__query_fields = query_fields
         self.__match_type = match_type
 
-        self.__default_filters = [{'terms': {'tags': tags}}]
+        self.__default_filters = [{'terms': {'tag': ['Sports']}}]
         self.__filters = []
         self.__conditions = []
 
@@ -154,7 +156,13 @@ class StoriesDSLGenerator(object):
         self.__filters = [
             {'match_all': {}}
         ]
-        return self.__must
+        return self.__must_query
+
+    @property
+    def __must_query(self):
+        return {
+            'query': self.__must
+        }
 
     @property
     def __must(self):

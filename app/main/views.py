@@ -13,13 +13,11 @@ def index():
     visible_stories = len(Stories.query.filter_by(is_visible=True).all())
     remaining_stories = 20000 - visible_stories
 
-    all_stories = Stories.query.filter_by(is_visible=True).order_by(Stories.date_created.desc())
-    all_stories = all_stories[:8]
+    stories = Stories.query.filter_by(is_visible=True).order_by(Stories.date_created.desc()).limit(8)
 
     recent_stories = []
-    for story in all_stories:
+    for story in stories:
         current_story = {
-            'id': story.id,
             'activist_first': story.activist_first,
             'activist_last': story.activist_last,
             'content': story.content,

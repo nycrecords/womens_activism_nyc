@@ -13,7 +13,6 @@ def share():
     View function for creating a story
     :return: If the story form was fully validated, create a Story and Poster object to store in the database
     """
-    flash("asdkjfahsdlkfja")
     form = StoryForm()
     if request.method == 'POST':
         tag_string = form.tags.data

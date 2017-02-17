@@ -56,27 +56,13 @@ def share():
 
 @stories.route('/stories/<int:id>', methods=['GET', 'POST'])
 def stories(id):
-    single_story = Stories.query.get_or_404(id)
+    story = Stories.query.filter_by(id=id).one()
 
-    if single_story.is_visible:
-        story = {
-            'id': single_story.id,
-            'activist_first': single_story.activist_first,
-            'activist_last': single_story.activist_last,
-            'activist_start': single_story.activist_start,
-            'activist_end': single_story.activist_end,
-            'content': single_story.content,
-            'activist_url': single_story.activist_url,
-            'image_url': single_story.image_url,
-            'video_url': single_story.video_url,
-            'date_created': single_story.date_created,
-            'tags': single_story.tags
-        }
-        if single_story.poster_id:
-            poster = Posters.query.filter_by(id=single_story.poster_id).first()
-            poster = poster.poster_first
+    if story.is_visible:
+        if story.poster_id:
+            poster = Posters.query.filter_by(id=story.poster_id).first()
         else:
             poster = None
         return render_template('stories/single_view_story.html', story=story, poster=poster)
     else:
-        return render_template('404.html')
+        return render_template("error/generic.html", status_code=404)

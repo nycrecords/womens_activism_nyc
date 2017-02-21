@@ -4,7 +4,7 @@ from elasticsearch.helpers import bulk
 from app import es
 from app.constants import tag
 from app.models import Stories
-from app.search.constants import MOCK_EMPTY_ELASTICSEARCH_RESULT
+from app.search.constants import ALL_RESULTS_CHUNKSIZE
 
 
 def recreate():
@@ -58,6 +58,7 @@ def create_docs():
             'activist_first': s.activist_first,
             'activist_last': s.activist_last,
             'content': s.content,
+            'image_url': s.image_url,
             'tag': s.tags
         })
 
@@ -66,7 +67,7 @@ def create_docs():
         operations,
         index=current_app.config["ELASTICSEARCH_INDEX"],
         doc_type='story',
-        chunk_size=100,
+        chunk_size=ALL_RESULTS_CHUNKSIZE,
         raise_on_error=True
     )
     print("Successfully created %s docs." % num_success)
@@ -104,10 +105,6 @@ def search_stories(query,
     if query is not None:
         query = query.strip()
 
-    # return no results if there is nothing to query by
-    # if query and not any((activist_first, activist_last, content, tag)):
-    #     return MOCK_EMPTY_ELASTICSEARCH_RESULT
-
     # TODO: tags from search
     tags = search_tags if search_tags else tag.tags
 
@@ -123,9 +120,6 @@ def search_stories(query,
     dsl_gen = StoriesDSLGenerator(query, query_fields, tags, match_type)
     dsl = dsl_gen.search() if query else dsl_gen.queryless()
 
-    # from flask import json
-    # print(json.dumps(dsl, indent=4))
-
     # search/run query
     results = es.search(
         index=current_app.config["ELASTICSEARCH_INDEX"],
@@ -134,11 +128,12 @@ def search_stories(query,
         _source=['activist_first',
                  'activist_last',
                  'content',
+                 'image_url',
                  'tag'],
         size=size,
         from_=start,
     )
-    # print(results)
+
     return results
 
 

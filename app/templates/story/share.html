@@ -12,13 +12,13 @@
                         <div class="input-inline-fix">
                             <input type="text" maxlength="30" placeholder="Mary" class="share-who-input"
                                    name="first-name" id="first-name-field" data-parsley-required
-                                   data-parsley-minlength="1" data-parsley-maxlength="30"
+                                   data-parsley-maxlength="30"
                                    data-parsley-maxlength-message="Your entry is too long."/>
                         </div>
                         <div class="input-inline-fix">
                             <input type="text" maxlength="30" placeholder="Smith" class="share-who-input"
                                    name="last-name" id="last-name-field" data-parsley-required
-                                   data-parsley-minlength="1" data-parsley-maxlength="30"
+                                   data-parsley-maxlength="30"
                                    data-parsley-maxlength-message="Your entry is too long."/>
                         </div>
                     </div>
@@ -31,20 +31,21 @@
                     <p class="share-subheading">If still living, enter "today".</p>
                     <div class="who-input-group">
                         <div class="input-inline-fix">
-                        <input type="text" maxlength="4" placeholder="1960" class="share-who-input" name="year-born"
-                               id="year-born-input" data-parsley-required data-parsley-minlength="1"
-                               data-parsley-maxlength="4" data-parsley-maxlength-message="Your entry is too long."/>
+                            <input type="text" maxlength="4" placeholder="1960" class="share-who-input" name="year-born"
+                                   id="year-born-input" data-parsley-required
+                                   data-parsley-maxlength="4" data-parsley-maxlength-message="Your entry is too long."/>
+                        </div>
+                        <span id="date-dash">&#8212;</span>
+                        <div class="input-inline-fix">
+                            <input type="text" maxlength="5" placeholder="Today" class="share-who-input"
+                                   name="year-death"
+                                   id="year-death-input" data-parsley-required
+                                   data-parsley-maxlength="5" data-parsley-maxlength-message="Your entry is too long."/>
+                        </div>
                     </div>
-                    <span id="date-dash">&#8212;</span>
-                    <div class="input-inline-fix">
-                        <input type="text" maxlength="5" placeholder="Today" class="share-who-input" name="year-death"
-                               id="year-death-input" data-parsley-required data-parsley-minlength="1"
-                               data-parsley-maxlength="5" data-parsley-maxlength-message="Your entry is too long."/>
-                    </div>
+                    <p class="name-required">required</p>
                 </div>
-                <p class="name-required">required</p>
             </div>
-        </div>
         </div>
         <div class="container-fluid" id="about-her">
             <div class="row">
@@ -85,7 +86,7 @@
                     <div>
                         <div>
                             <textarea id="her-story-text" maxlength="5000" class="her-story-text"
-                                      placeholder="My mother was ..." data-parsley-required data-parsley-minlength="1"
+                                      placeholder="My mother was ..." data-parsley-required
                                       data-parsley-maxlength="5000"
                                       data-parsley-maxlength-message="Your entry is too long."></textarea>
                         </div>

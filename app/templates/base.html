@@ -5,15 +5,9 @@
     <title>Women's Activism NYC</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/plugins/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{url_for('static', filename='styles/womens_activism.css')}}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet">
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename = 'js/story/story.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename = 'js/plugins/parsley.min.js') }}"></script>
-
 </head>
 <body>
 
@@ -25,6 +19,12 @@
 
 {% block footer %}
 {% include 'footer.html' %}
+{% endblock %}
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/plugins/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/plugins/bootstrap.min.js') }}"></script>
+
+{% block custom_script %}
 {% endblock %}
 </body>
 </html>

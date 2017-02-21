@@ -63,19 +63,19 @@ $(function() {
     $('#image-upload-btn').click(function() {
         $('#story-video-input').hide();
         $('#story-image-input').show();
-        $('#media-back-btn').show();
+        $('#media-back-div').show();
         $('#image-upload-btn').hide();
         $('#video-upload-btn').hide();
     });
     $('#video-upload-btn').click(function() {
         $('#story-image-input').hide();
         $('#story-video-input').show();
-        $('#media-back-btn').show();
+        $('#media-back-div').show();
         $('#image-upload-btn').hide();
         $('#video-upload-btn').hide();
     });
-    $('#media-back-btn').click(function() {
-        $('#media-back-btn').hide();
+    $('#media-back-div').click(function() {
+        $('#media-back-div').hide();
         $('#story-image-input').hide();
         $('#story-video-input').hide();
         $('#image-upload-btn').show();

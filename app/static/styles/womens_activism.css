@@ -504,6 +504,11 @@ p, div {
   margin-top: 20px;
 }
 
+.copyright-bureau-blank {
+  font-weight: bold;
+  color: rgb(52, 41, 79)
+}
+
 /* ------------ SHARE A STORY ------------ */
 
 /* Name / Dates */

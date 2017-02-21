@@ -28,4 +28,7 @@ def create_app(config_name):
     from .search import search as search
     app.register_blueprint(search, url_prefix="/search")
 
+    from .catalog import catalog as catalog
+    app.register_blueprint(catalog, url_prefix="/catalog")
+
     return app

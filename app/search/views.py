@@ -33,8 +33,10 @@ def stories():
         start = 0
 
     query = request.args.get('query')
+    search_tags = []
     results = search_stories(
         query,
+        search_tags,
         size,
         start
     )
@@ -43,7 +45,7 @@ def stories():
     total = results["hits"]["total"]
     formatted_results = None
     if total != 0:
-        formatted_results = render_template("catalog/result_row.html",
+        formatted_results = render_template("catalog/result.html",
                                             stories=results["hits"]["hits"])
     return jsonify({
         "count": len(results["hits"]["hits"]),

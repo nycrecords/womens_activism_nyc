@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row">
+        <input type="text" id="query" name="query">
+    </div>
+    <input type="hidden" name="start">
+    <div class="text-right">
+        <button id="search">SEARCH</button>
+    </div>
+    <div class="container" id="home-stories"></div>
+{% endblock %}
+
+{% block custom_script %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/catalog/search.js') }}"></script>
+{% endblock %}

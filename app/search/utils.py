@@ -26,10 +26,10 @@ def create_index():
                 "story": {
                     "properties": {
                         "activist_first": {
-                            "type": "keyword"
+                            "type": "text"
                         },
                         "activist_last": {
-                            "type": "keyword"
+                            "type": "text"
                         },
                         "content": {
                             "type": "text"
@@ -109,12 +109,7 @@ def search_stories(query,
     #     return MOCK_EMPTY_ELASTICSEARCH_RESULT
 
     # TODO: tags from search
-    if search_tags:
-        tags = [t for t, b in zip(tag.tags, search_tags) if b]
-    else:
-        tags = tag.tags
-
-    print(tags)
+    tags = search_tags if search_tags else tag.tags
 
     # set matching type (full-text or phrase matching)
     match_type = 'match_phrase' if by_phrase else 'match'
@@ -128,8 +123,8 @@ def search_stories(query,
     dsl_gen = StoriesDSLGenerator(query, query_fields, tags, match_type)
     dsl = dsl_gen.search() if query else dsl_gen.queryless()
 
-    from flask import json
-    print(json.dumps(dsl, indent=4))
+    # from flask import json
+    # print(json.dumps(dsl, indent=4))
 
     # search/run query
     results = es.search(
@@ -143,7 +138,7 @@ def search_stories(query,
         size=size,
         from_=start,
     )
-    print(results)
+    # print(results)
     return results
 
 

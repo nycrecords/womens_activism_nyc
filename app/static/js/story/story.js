@@ -5,7 +5,7 @@ $(function () {
     var videoInput = $('#story-video-input');
     var imageInput = $('#story-image-input');
     var videoButton = $('#video-upload-btn');
-    var mediaButton = $('#media-back-btn');
+    var mediaButton = $('#media-back-div');
 
     // Functionality for tags
     var selectedTags = [];

@@ -4,10 +4,10 @@
     <div class="container-fluid" id="catalog-head">
         <h1>I'm Looking for Women Known For</h1>
         <p>You may choose more than one category to narrow your search.</p>
-
-        <input type="text" id="catalog-search" placeholder="Find by name or content" /><br />
-        <button type="button" id="catalog-search-btn">Search</button>
-
+        <form data-parsley-validate id="catalog-form">
+            <input type="text" id="catalog-search" placeholder="Find by name or content" required data-parsley-required minlength="3" data-parsley-minlength="3" /><br />
+            <button id="catalog-search-btn">Search</button>
+        </form>
         <div id="catalog-tags">
             <div>
                 <input type="text" placeholder="" id="hidden-catalog-tag-input" data-parsley-required style="color: black;" />
@@ -32,3 +32,8 @@
         </div>
     </div>
 {%  endblock %}
+
+{% block custom_script %}
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/plugins/parsley.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/story/catalog.js') }}"></script>
+{% endblock %}

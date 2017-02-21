@@ -869,11 +869,11 @@ p, div {
   background: white;
   color: #59315f;
 }
-.catalog-tag.active {
+.catalog-tag-active {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-.catalog-tag.active.focus, .catalog-tag.active:focus {
+.catalog-tag-active.focus, .catalog-tag-active:focus {
 
 }
 .catalog-tag-inactive {
@@ -912,8 +912,17 @@ p, div {
   border: 0;
   outline: 0;
   transition: background 0.2s ease;
+  font-weight: 600;
 }
 
 #catalog-search-btn:hover {
   background: #673c74;
+}
+
+#catalog-form {
+  position: relative;
+}
+
+#catalog-form .parsley-errors-list {
+  top: 15px;
 }

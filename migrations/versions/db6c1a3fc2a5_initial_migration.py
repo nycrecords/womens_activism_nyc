@@ -44,7 +44,7 @@ def upgrade():
     )
     op.create_table('tags',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(length=50), nullable=False),
+    sa.Column('name', sa.String(length=300), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('users',

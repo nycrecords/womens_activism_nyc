@@ -23,6 +23,6 @@ def create_app(config_name):
     app.register_blueprint(main)
 
     from .stories import stories as stories_blueprint
-    app.register_blueprint(stories_blueprint, url_prefix="/stories")
+    app.register_blueprint(stories_blueprint)
 
     return app

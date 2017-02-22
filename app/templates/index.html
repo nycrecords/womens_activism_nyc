@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}Women's Activism NYC{% endblock %}
+
+<div class="page-header">
+    <h1>Share your activist story</h1>
+</div>
+
+{% block page_content %}
+<div>
+
+<div id="page-body">
+    <form name="input" class="form-horizontal" id="submitPost" method="post">
+        <div class="lead">Activist Name
+            <div class="control-group">
+                <input class="input_title" name="input_title" name="Activist Name"
+                       maxlength="140" value="{{ post_title or '' }}" required>
+            </div>
+        </div>
+        <div class="lead">Content
+            <div class="control-group">
+                <textarea id="editor1" name="editor1" required>{{ post_content or '' }}</textarea>
+            </div>
+        </div>
+        <div class="lead">Tags
+            <div class="control-group">
+                <select class="selectpicker" data-width="fit" name="input_tags" multiple required>
+                    {% for tag in tags %}
+                        <option value="{{ tag.name }}">{{ tag.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="g-recaptcha" data-sitekey="6LetUSYTAAAAALgTT8Rt2nLZ2OTBNph6Qa1TbrAH"></div> <br>
+        <div id="requestButton" class="control-group">
+            <div>
+                <button type="submit" title="submit_post" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+    <br>
+</div>
+
+        <div class="posts-header">
+            <h2>Recent Posts</h2>
+        </div>
+
+{% include '_posts.html' %}
+            {% if pagination %}
+                <div class="pagination">
+                    {{ macros.pagination_widget(pagination, '.index') }}
+                </div>
+            {% endif %}
+{% endblock %}
+
+    {% block view_stories %}
+        {% include "_view_stories.html" %}
+    {% endblock %}
+
+    {% block view_story %}
+        {% include "_view_story.html" %}
+    {% endblock %}
+
+{# this is rendering the old main page#}
+
+
+{#    {% block hear_our_story %}#}
+{#        {% include "_hear_our_story.html" %}#}
+{#    {% endblock %}#}
+
+    {% block share_your_story %}
+        {% include "_share_your_story.html" %}
+    {% endblock %}
+
+    {% block submit_share_story %}
+        {% include "_submit_share_story.html" %}
+        {% include "postsTab.html" %}
+    {% endblock %}
+
+{#    {% include "_posts.html" %}#}
+
+{#    {% include "tags.html" %}#}
+
+    {% block attend_our_events %}
+        {% include "_attend_our_events.html" %}
+    {% endblock %}
+
+    {% block give %}
+        {% include "_give.html" %}
+    {% endblock %}
+
+    {% block quote1 %}
+        {% include "_quote1.html" %}
+    {% endblock %}
+
+    {% block women_inspire %}
+        {% include "_women_inspire_women.html" %}
+    {% endblock %}
+
+    {% block quote2 %}
+        {% include "_quote2.html" %}
+    {% endblock %}
+
+    {% block take_action_now %}
+        {% include "_take_action_now.html" %}
+    {% endblock %}
+{#    {% block join_the_conversation %}#}
+{#        {% include "_join_the_conversation.html" %}#}
+{#    {% endblock %}#}
+
+    {% block footer %}
+        {% include "_footer.html" %}
+    {% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+<script src="static/ckeditor/ckeditor.js"></script>
+<script type="text/javascript">
+    CKEDITOR.replace('editor1');
+</script>
+<script src='https://www.google.com/recaptcha/api.js' async defer></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-*.min.js"></script>
+{% endblock %}

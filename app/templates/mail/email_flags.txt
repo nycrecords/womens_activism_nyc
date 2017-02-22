@@ -1,0 +1,16 @@
+Notice [Women's Activism NYC]: Flagged Content!
+
+Post Title: {{ post_title }}
+{% if comment_content %}
+    Comment Content: {{ comment_content }}
+{% endif %}
+Flag Reason: {{ reason }}
+Flag Description: {{ description }}
+
+To view the post please {{ url_for('posts.posts', id=post.id, _external=True) }} click here.
+Alternatively, you can paste the following link in your browser's address bar:
+{{ url_for('posts.posts', id=post.id, _external=True) }}
+
+Sincerely,
+Women's Activism NYC
+Note: replies to this email address are not monitored.

@@ -26,7 +26,8 @@ def validate_end_year(form, year):
     """
     activist_end = year.data
     activist_end.strip()
-    if activist_end != "Today" and (activist_end.isdigit() == False):
+    activist_end.lower()
+    if activist_end != "today" and (activist_end.isdigit() == False):
         raise ValidationError()
 
 
@@ -70,7 +71,6 @@ def validate_video(form, video):
     :param form: part of the StoryForm object
     :param video: the URL of the video
     """
-    print(video.data)
     if "youtube.com" in video.data or "youtu.be" in video.data or "vimeo.com" in video.data:
         try:
             video_test = requests.get(video.data)

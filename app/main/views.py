@@ -3,7 +3,7 @@ from app.main import main
 from app.models import Stories
 
 
-@main.route('/', methods=['GET', 'POST'])
+@main.route('/', methods=['GET'])
 def index():
     """
     View function for the homepage. This function queries the database for the amount of current visible stories
@@ -24,6 +24,6 @@ def index():
             'image_url': story.image_url
         }
         recent_stories.append(story)
-    return render_template('index.html', visible_stories=visible_stories,
+    return render_template('main/home.html', visible_stories=visible_stories,
                            remaining_stories=remaining_stories,
                            recent_stories=recent_stories)

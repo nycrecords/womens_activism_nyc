@@ -1,8 +1,8 @@
-"""Initial migration
+"""initial migration
 
-Revision ID: db6c1a3fc2a5
+Revision ID: 790c94ee274b
 Revises: 
-Create Date: 2017-02-08 17:08:41.209049
+Create Date: 2017-02-22 14:34:04.266853
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = 'db6c1a3fc2a5'
+revision = '790c94ee274b'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -74,7 +74,7 @@ def upgrade():
     sa.Column('date_created', sa.DateTime(), nullable=False),
     sa.Column('is_edited', sa.Boolean(), nullable=False),
     sa.Column('is_visible', sa.Boolean(), nullable=False),
-    sa.Column('tags', postgresql.ARRAY(sa.String(length=50)), nullable=True),
+    sa.Column('tags', postgresql.ARRAY(sa.String(length=300)), nullable=True),
     sa.ForeignKeyConstraint(['poster_id'], ['posters.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

@@ -1,49 +1,39 @@
-{% extends "bootstrap/base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Women's Activism NYC</title>
 
-{% block title %}Flasky{% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/plugins/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='styles/womens_activism.css')}}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet">
+</head>
+<body>
 
-{% block head %}
-{{ super() }}
-<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-{% endblock %}
+<title>Women's Activism NYC</title>
+{% include "header.html" %}
 
-{% block navbar %}
-<div class="navbar navbar-inverse" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{{ url_for('main.index') }}">Flasky</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('main.index') }}">Home</a></li>
-                <li><a href="{{ url_for('stories.share') }}">Share</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
-{% endblock %}
-
-{% block content %}
-<div class="container">
+{% block flash_message %}
     {% for message in get_flashed_messages() %}
     <div class="alert alert-warning">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         {{ message }}
     </div>
     {% endfor %}
-
-    {% block page_content %}{% endblock %}
-</div>
 {% endblock %}
 
-{% block scripts %}
-{{ super() }}
-{{ moment.include_moment() }}
+{% block content %}
 {% endblock %}
+
+{% block footer %}
+{% include 'footer.html' %}
+{% endblock %}
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/plugins/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/plugins/bootstrap.min.js') }}"></script>
+
+{% block custom_script %}
+{% endblock %}
+</body>
+</html>

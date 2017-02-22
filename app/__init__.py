@@ -19,10 +19,10 @@ def create_app(config_name):
     db.init_app(app)
     moment.init_app((app))
 
-    from .main import main as main_blueprint
-    app.register_blueprint(main_blueprint)
+    from .main import main as main
+    app.register_blueprint(main)
 
     from .stories import stories as stories_blueprint
-    app.register_blueprint(stories_blueprint)
+    app.register_blueprint(stories_blueprint, url_prefix="/stories")
 
     return app

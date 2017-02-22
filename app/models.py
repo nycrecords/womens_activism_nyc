@@ -204,7 +204,7 @@ class Stories(db.Model):
     date_created = db.Column(db.DateTime, nullable=False)
     is_edited = db.Column(db.Boolean, nullable=False)
     is_visible = db.Column(db.Boolean, nullable=False)
-    tags = db.Column(ARRAY(db.String(50)))
+    tags = db.Column(ARRAY(db.String(300)))
 
     def __repr__(self):
         return '<Stories %r>' % self.id
@@ -217,7 +217,6 @@ class Stories(db.Model):
             activist_end,
             content,
             tags,
-            date_created=datetime.utcnow(),
             is_visible=True,
             activist_url=None,
             image_url=None,
@@ -234,7 +233,7 @@ class Stories(db.Model):
         self.image_url = image_url
         self.video_url = video_url
         self.poster_id = poster_id
-        self.date_created = date_created
+        self.date_created = datetime.utcnow()
         self.is_edited = is_edited
         self.is_visible = is_visible
         self.tags = tags
@@ -298,14 +297,13 @@ class Comments(db.Model):
                  story_id,
                  name,
                  content,
-                 date_created=datetime.utcnow(),
                  is_edited=False,
                  is_visible=True
                  ):
         self.story_id = story_id
         self.name = name
         self.content = content
-        self.date_created = date_created
+        self.date_created = datetime.utcnow()
         self.is_edited = is_edited
         self.is_visible = is_visible
 
@@ -354,7 +352,6 @@ class Events(db.Model):
                  module_id,
                  user_guid,
                  _type,
-                 timestamp=datetime.utcnow(),
                  previous_value=None,
                  new_value=None
                  ):
@@ -364,7 +361,7 @@ class Events(db.Model):
         self.module_id = module_id
         self.user_guid = user_guid,
         self.type = _type,
-        self.timestamp = timestamp,
+        self.timestamp = datetime.utcnow(),
         self.previous_value = previous_value
         self.new_value = new_value
 
@@ -466,7 +463,6 @@ class Flags(db.Model):
                  comment_id,
                  type,
                  reason,
-                 timestamp=datetime.utcnow(),
                  addressed=False
                  ):
         self.id = id
@@ -474,7 +470,7 @@ class Flags(db.Model):
         self.comment_id = comment_id
         self.type = type
         self.reason = reason
-        self.timestamp = timestamp
+        self.timestamp = datetime.utcnow()
         self.addressed = addressed
 
 
@@ -508,7 +504,6 @@ class Feedback(db.Model):
                  email,
                  subject,
                  message,
-                 timestamp=datetime.utcnow(),
                  addressed=False
                  ):
         self.id = id
@@ -516,5 +511,5 @@ class Feedback(db.Model):
         self.email = email
         self.subject = subject
         self.message = message
-        self.timestamp = timestamp
+        self.timestamp = datetime.utcnow()
         self.addressed = addressed

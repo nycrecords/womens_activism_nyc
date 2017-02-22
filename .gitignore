@@ -4,11 +4,16 @@ redis-stable/
 python-sudo.sh
 quarantine/
 .vagrant/
+Vagrantfile
 tmp/
 .pip-packages/
 logs/
 received-emails/
 ldap/
+*.rpm
+*.crt
+*.key
+*.pem
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -22,17 +22,51 @@ def create_index():
     es.indices.create(
         index=current_app.config["ELASTICSEARCH_INDEX"],
         body={
+            "settings": {
+                "analysis": {
+                    "tokenizer": {
+                        "ngram_tokenizer": {
+                            "type": "ngram",
+                            "min_gram": 1,
+                            "max_gram": 6
+                        }
+                    },
+                    "analyzer": {
+                        "ngram_tokenizer_analyzer": {
+                            "type": "custom",
+                            "tokenizer": "ngram_tokenizer",
+                            "filter": [
+                                "lowercase"
+                            ]
+                        }
+                    }
+                }
+            },
             "mappings": {
                 "story": {
                     "properties": {
                         "activist_first": {
-                            "type": "text"
+                            "type": "text",
+                            "analyzer": "ngram_tokenizer_analyzer",
+                            "fields": {
+                                "exact": {
+                                    "type": "text",
+                                    "analyzer": "standard",
+                                },
+                            },
                         },
                         "activist_last": {
-                            "type": "text"
+                            "type": "text",
+                            "analyzer": "ngram_tokenizer_analyzer",
+                            "fields": {
+                                "exact": {
+                                    "type": "text",
+                                    "analyzer": "standard",
+                                },
+                            },
                         },
                         "content": {
-                            "type": "text"
+                            "type": "text",
                         },
                         "tag": {
                             "type": "keyword"
@@ -85,8 +119,7 @@ def search_stories(query,
                    # content,
                    search_tags,
                    size,
-                   start,
-                   by_phrase=False):
+                   start):
     """
     The arguments of this function match the request parameters
     of the '/search/stories' endpoints.
@@ -109,12 +142,14 @@ def search_stories(query,
     tags = search_tags if search_tags else tag.tags
 
     # set matching type (full-text or phrase matching)
-    match_type = 'match_phrase' if by_phrase else 'match'
+    match_type = 'multi_match'
 
     # generate query dsl body
     query_fields = {
         'activist_first': True,
+        'activist_first.exact': True,
         'activist_last': True,
+        'activist_last.exact': True,
         'content': True,
     }
     dsl_gen = StoriesDSLGenerator(query, query_fields, tags, match_type)
@@ -151,14 +186,17 @@ class StoriesDSLGenerator(object):
         self.__conditions = []
 
     def search(self):
-        for name, use in self.__query_fields.items():
-            if use:
-                self.__filters = [
-                    {self.__match_type: {
-                        name: self.__query
-                    }}
-                ]
-                self.__conditions.append(self.__must)
+        # for name, use in self.__query_fields.items():
+        #     if use:
+        self.__filters = [
+            {self.__match_type: {
+                "query": self.__query,
+                "fields": [name for name in self.__query_fields.keys()],
+                "type": "most_fields",
+                "minimum_should_match": "75%"
+            }}
+        ]
+        self.__conditions.append(self.__must)
         return self.__should
 
     def queryless(self):

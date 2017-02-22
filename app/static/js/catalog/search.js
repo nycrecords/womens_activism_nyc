@@ -3,9 +3,9 @@ $(function () {
         total = 0,
         size = null,
         append = false,
-        query = $("#query"),
+        query = $("#catalog-search"),
         startInput = $("input[name='start']"),
-        searchBtn = $("#search"),
+        searchBtn = $("#catalog-search-btn"),
         noResultsFound = true;
 
     function search() {
@@ -61,7 +61,10 @@ $(function () {
     });
 
     searchBtn.click(function () {
-        resetAndSearch();
+        query.parsley().validate();
+        if (query.parsley().isValid()) {
+            resetAndSearch();
+        }
     });
 
     $(window).scroll(function () {

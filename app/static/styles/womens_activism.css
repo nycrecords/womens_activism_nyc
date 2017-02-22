@@ -908,8 +908,8 @@ p, div {
   width: 90%;
   max-width: 600px;
   height: 50px;
-  -webkit-border-radius:;
-  -moz-border-radius:;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
   border-radius: 25px;
   color: white;
   background: #9857a3;

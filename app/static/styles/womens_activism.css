@@ -836,9 +836,9 @@ p, div {
   border: 1px solid #ddd;
 }
 #story-content-container img {
-  max-width: 300px;
+  width: 50%;
   float: left;
-  margin: 10px 25px 0 0;
+  margin: 10px 25px 10px 0;
 }
 #story-content-container p {
   line-height: 30px;
@@ -849,7 +849,23 @@ p, div {
     padding: 20px;
   }
   #story-content-container img {
+    width: 100%;
+    max-width: 300px;
     float: initial;
     margin: 10px 0 10px 0;
   }
+}
+#view-story-footer {
+  text-align: center;
+  font-size: 22px;
+  margin: 20px 0 0 0;
+}
+#view-story-contact-link {
+    color: #59315f;
+    text-decoration: underline;
+    font-weight: normal;
+    transition: color 0.2s ease;
+}
+#view-story-contact-link:hover {
+    color: black;
 }

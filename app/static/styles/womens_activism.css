@@ -504,6 +504,11 @@ p, div {
   margin-top: 20px;
 }
 
+.copyright-bureau-blank {
+  font-weight: bold;
+  color: rgb(52, 41, 79)
+}
+
 /* ------------ SHARE A STORY ------------ */
 
 /* Name / Dates */
@@ -711,13 +716,23 @@ p, div {
 }
 
 #media-back-btn {
+  font-size: 16px;
+}
+
+#media-back-txt {
   font-size: 20px;
+  margin-left: 5px;
+  font-weight: 100;
+}
+
+#media-back-btn:hover, #media-back-txt:hover {
+  cursor: pointer;
+}
+
+#media-back-div {
   display: none;
 }
 
-#media-back-btn:hover {
-  cursor: pointer;
-}
 /* About You */
 
 #about-you {

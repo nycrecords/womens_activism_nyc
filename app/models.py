@@ -204,7 +204,7 @@ class Stories(db.Model):
     date_created = db.Column(db.DateTime, nullable=False)
     is_edited = db.Column(db.Boolean, nullable=False)
     is_visible = db.Column(db.Boolean, nullable=False)
-    tags = db.Column(ARRAY(db.String(50)))
+    tags = db.Column(ARRAY(db.String(300)))
 
     def __repr__(self):
         return '<Stories %r>' % self.id

@@ -833,7 +833,7 @@ p, div {
     padding: 60px;
     border: 1px solid #ddd;
 }
-#story-content-container img {
+#view-story-img {
     width: 50%;
     float: left;
     margin: 10px 25px 10px 0;
@@ -867,4 +867,25 @@ p, div {
 }
 #view-story-contact-link:hover {
     color: black;
+}
+#learn-more {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 40px;
+}
+#learn-more-link {
+    color: #59315f;
+    text-decoration: underline;
+    font-weight: normal;
+    transition: color 0.2s ease;
+}
+#learn-more-link:hover {
+    color: black;
+}
+
+#view-story-social {
+    width: 50px;
+    margin: 30px auto 0 auto;
+    display: flex;
+    justify-content: space-between;
 }

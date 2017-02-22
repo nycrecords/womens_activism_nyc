@@ -814,3 +814,120 @@ p, div {
   font-size: 75%;
   vertical-align: baseline;
 }
+
+/* Catalog Page */
+#catalog-head {
+  background: #59315f;
+  color: #ffffff;
+  text-align: center;
+  padding-top: 90px;
+  padding-bottom: 90px;
+}
+
+#catalog-head h1 {
+  font-weight: 300;
+  font-size: 50px;
+  padding: 0;
+  margin: 0 15px 15px 15px;
+}
+
+#catalog-head p {
+  padding: 0;
+  margin: 0;
+  font-size: 22px;
+  font-weight: 100;
+}
+#hidden-catalog-tag-input {
+  color: black;
+  visibility: hidden;
+  height: 0;
+  padding: 0;
+  margin: 0;
+  width: 0;
+}
+.catalog-tags-group {
+  max-width: 768px;
+  margin: 40px auto 10px auto;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.catalog-tag {
+  border: 2px solid #ffffff;
+  height: 40px;
+  border-radius: 20px;
+  padding: 5px 35px;
+  margin: 15px 10px;
+  font-size: 14px;
+  outline: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.catalog-tag-inactive:hover {
+  background: white;
+  color: #59315f;
+}
+.catalog-tag-active {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.catalog-tag-active.focus, .catalog-tag-active:focus {
+
+}
+.catalog-tag-inactive {
+  background: none;
+}
+.catalog-tag-active {
+  background: white;
+  color: #59315f;
+}
+
+#catalog-search {
+  margin: 60px 0 0 0;
+  padding: 0 15px;
+  width: 90%;
+  max-width: 600px;
+  height: 50px;
+  border-radius: 25px;
+  outline: 0;
+  border: 0;
+  font-size: 22px;
+  color: black;
+  text-align: center;
+}
+
+#catalog-search-btn {
+  margin: 30px 0 0 0;
+  width: 90%;
+  max-width: 600px;
+  height: 50px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
+  color: white;
+  background: #9857a3;
+  font-size: 22px;
+  border: 0;
+  outline: 0;
+  transition: background 0.2s ease;
+  font-weight: 600;
+}
+
+#catalog-search-btn:hover {
+  background: #673c74;
+}
+
+#catalog-form {
+  position: relative;
+}
+
+#catalog-form .parsley-errors-list {
+  top: 15px;
+}

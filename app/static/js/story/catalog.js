@@ -13,8 +13,7 @@ $(function () {
         } else {
             selectedCatTags.push(this.childNodes[0].data);
         }
-        hiddenCatTagInput.val(selectedCatTags);
-        console.log(selectedCatTags);
+        hiddenCatTagInput.val(selectedCatTags.join(';'));
     });
 
 });

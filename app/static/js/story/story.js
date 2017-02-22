@@ -25,6 +25,7 @@ $(function () {
     $("#her-story-text").keyup(function () {
         $('#story-text-count').text($(this).val().length);
     });
+]
 
     //Nav active state change
     $(".nav li").removeClass("active");

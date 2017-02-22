@@ -1,10 +1,10 @@
-from flask import current_app
 from elasticsearch.helpers import bulk
+from flask import current_app
 
 from app import es
 from app.constants import tag
+from app.constants.search import ALL_RESULTS_CHUNKSIZE
 from app.models import Stories
-from app.search.constants import ALL_RESULTS_CHUNKSIZE
 
 
 def recreate():

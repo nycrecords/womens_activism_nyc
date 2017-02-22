@@ -4,10 +4,14 @@ $(function () {
         total = 0,
         size = null,
         append = false,
-        query = $("#catalog-search"),
+        query = $("#search"),
         startInput = $("input[name='start']"),
-        searchBtn = $("#catalog-search-btn"),
+        searchBtn = $("#search-btn"),
+        searchTag = $(".search-tag"),
+        hiddenTagInput = $("#hidden-search-tag-input"),
+        selectedTags = [],
         noResultsFound = true;
+
 
     // Search function
     function search() {
@@ -18,6 +22,7 @@ $(function () {
             type: "GET",
             data: {
                 query: query.val(),
+                tags: hiddenTagInput.val(),
                 size: size,
                 start: startInput.val()
             },
@@ -81,5 +86,20 @@ $(function () {
             append = true;
             search();
         }
+    });
+
+    searchTag.click(function () {
+        $(this).toggleClass('search-tag-inactive');
+        $(this).toggleClass('search-tag-active');
+        var index = selectedTags.indexOf(this.value);
+        // Append values of active buttons to array, remove if inactive
+        if(index > -1) {
+            selectedTags.splice(index, 1);
+        } else {
+            selectedTags.push(this.value);
+        }
+        // Append array to hidden search tag input
+        hiddenTagInput.val(selectedTags);
+        resetAndSearch();
     });
 });

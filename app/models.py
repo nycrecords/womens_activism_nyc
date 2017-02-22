@@ -245,23 +245,6 @@ class Stories(db.Model):
         self.is_visible = is_visible
         self.tags = tags
 
-    @staticmethod
-    def create_stories_search_set():
-        from itertools import product
-        from app.constants import tag
-        import random
-        for activist_first, activist_last, content in product(("foo", "bar", "qux"), repeat=3):
-            story = Stories(
-                activist_first=activist_first,
-                activist_last=activist_last,
-                activist_start=1917,
-                activist_end=1920,
-                content=content,
-                tags=[random.choice(tag.tags)]
-            )
-            db.session.add(story)
-            db.session.commit()
-
     def es_create(self):
         """Create elasticsearch index"""
         es.create(

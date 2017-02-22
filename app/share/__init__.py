@@ -1,5 +1,5 @@
 from flask import Blueprint
 
-catalog = Blueprint('catalog', __name__)
+share = Blueprint('share', __name__)
 
 from . import views

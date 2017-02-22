@@ -5,7 +5,7 @@ from flask import (
 )
 
 from app.search import search
-from app.search.constants import DEFAULT_HITS_SIZE
+from app.search.constants import DEFAULT_HITS_SIZE, DEFAULT_START_NUMBER
 from app.search.utils import search_stories
 
 
@@ -28,9 +28,9 @@ def stories():
         size = DEFAULT_HITS_SIZE
 
     try:
-        start = int(request.args.get('start'), 0)
+        start = int(request.args.get('start'), DEFAULT_START_NUMBER)
     except ValueError:
-        start = 0
+        start = DEFAULT_START_NUMBER
 
     query = request.args.get('query')
     search_tags = []
@@ -46,7 +46,7 @@ def stories():
     formatted_results = None
     if total != 0:
         formatted_results = render_template("catalog/result.html",
-                                            stories=results["hits"]["hits"])
+                                            stories=[r['_source'] for r in results['hits']['hits']])
     return jsonify({
         "count": len(results["hits"]["hits"]),
         "total": total,

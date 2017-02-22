@@ -108,6 +108,7 @@ def create_docs():
 
 
 def update_docs():
+    """Update elasticsearch doc"""
     stories = Stories.query.all()
     for s in stories:
         s.es_update()
@@ -125,6 +126,8 @@ def search_stories(query,
     of the '/search/stories' endpoints.
 
     :param query: string to query for
+    NOTE: activist_first, activist_last, and content are currently
+    being searched by default and thus are not inputs
     :param activist_first: search by activist's first name?
     :param activist_last: search by activist's last name?
     :param content: search by story content?
@@ -177,6 +180,14 @@ class StoriesDSLGenerator(object):
     Class for generating dicts representing query dsl bodies for searching story docs.
     """
     def __init__(self, query, query_fields, tags, match_type):
+        """
+        Constructor for class StoriesDSLGenerator
+
+        :param query: string to query for
+        :param query_fields: fields to query by
+        :param tags: tags to query by
+        :param match_type: type of query
+        """
         self.__query = query
         self.__query_fields = query_fields
         self.__match_type = match_type
@@ -186,8 +197,10 @@ class StoriesDSLGenerator(object):
         self.__conditions = []
 
     def search(self):
-        # for name, use in self.__query_fields.items():
-        #     if use:
+        """
+        Generate dictionary of generic search query
+        :return: dictionary with prepended method __should
+        """
         self.__filters = [
             {self.__match_type: {
                 "query": self.__query,
@@ -200,6 +213,10 @@ class StoriesDSLGenerator(object):
         return self.__should
 
     def queryless(self):
+        """
+        Generate dictionary of search query that queries all
+        :return: dictionary with prepended method __must
+        """
         self.__filters = [
             {'match_all': {}}
         ]
@@ -207,12 +224,18 @@ class StoriesDSLGenerator(object):
 
     @property
     def __must_query(self):
+        """
+        :return: dictionary with key of 'query' and value of __must method
+        """
         return {
             'query': self.__must
         }
 
     @property
     def __must(self):
+        """
+        :return: dictionary with key of 'bool' and value of __get_filters method
+        """
         return {
             'bool': {
                 'must': self.__get_filters()
@@ -221,6 +244,10 @@ class StoriesDSLGenerator(object):
 
     @property
     def __should(self):
+        """
+        dictionary header representing dsl query bodies
+        :return: nested dictionary
+        """
         return {
             'query': {
                 'bool': {
@@ -230,4 +257,7 @@ class StoriesDSLGenerator(object):
         }
 
     def __get_filters(self):
+        """
+        :return: combine dicts from __filter and __default_filters methods
+        """
         return self.__filters + self.__default_filters

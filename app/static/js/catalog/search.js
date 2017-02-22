@@ -1,4 +1,5 @@
 $(function () {
+    // Initialize global variables
     var start = 0,
         total = 0,
         size = null,
@@ -8,12 +9,13 @@ $(function () {
         searchBtn = $("#catalog-search-btn"),
         noResultsFound = true;
 
+    // Search function
     function search() {
-        // var results = $("#results");
         var results = $("#home-stories");
 
         $.ajax({
             url: "/search/stories",
+            type: "GET",
             data: {
                 query: query.val(),
                 size: size,
@@ -42,11 +44,13 @@ $(function () {
     // Search on page load
     search();
 
+    // Set value of hidden start input
     function setStart(val) {
         start = val;
         startInput.val(val);
     }
 
+    // Resets all previous search results and call search method
     function resetAndSearch() {
         setStart(0);
         size = null;
@@ -54,12 +58,14 @@ $(function () {
         search()
     }
 
+    // Upon hitting enter on search input, click search button
     query.keyup(function(e){
         if (e.keyCode === 13) {
             searchBtn.click();
         }
     });
 
+    // Validate search input field and if valid, call resetAndSearch method
     searchBtn.click(function () {
         query.parsley().validate();
         if (query.parsley().isValid()) {
@@ -67,6 +73,7 @@ $(function () {
         }
     });
 
+    // Call search method upon scrolling to bottom of page
     $(window).scroll(function () {
         if ($(window).scrollTop() == $(document).height() - $(window).height() && (start < total)) {
             setStart(start);

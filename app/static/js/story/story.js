@@ -18,7 +18,7 @@ $(function () {
         } else {
             selectedTags.push(this.childNodes[0].data);
         }
-        hiddenTagInput.val(selectedTags);
+        hiddenTagInput.val(selectedTags.join(';'));
     });
 
     // Share a story - text counter

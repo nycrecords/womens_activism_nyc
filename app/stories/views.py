@@ -16,7 +16,7 @@ def share():
     form = StoryForm()
     if request.method == 'POST':
         tag_string = form.tags.data
-        tags = tag_string.split(',')
+        tags = tag_string.split(';')
 
         if form.validate_on_submit():
             # extra validator for activist's years because it can't be done through WTForms built in

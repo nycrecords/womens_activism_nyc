@@ -31,7 +31,7 @@ def validate_years(activist_start, activist_start_BC, activist_end, activist_end
     :param activist_end_BC: a boolean to see if the death year was a BC year
     :return: True is the years are valid, False otherwise
     """
-    if activist_end == "Today" and activist_end_BC:  # ensures "Today" and BC are not inputted at the same time
+    if (activist_end == "Today" or activist_end == "today") and activist_end_BC:  # ensures "Today" and BC are not inputted at the same time
         return False
 
     # if the activist years are BC years then convert them to negative integers
@@ -90,7 +90,7 @@ def create_story(activist_first,
         activist_start = int(activist_start) * -1
     if activist_end_BC:  # convert the year to a negative integer if the end year was in BC
         activist_end = int(activist_end) * -1
-    if activist_end == "Today":  # convert "Today" to 9999 to be stored in the database
+    if activist_end == "Today" or activist_end == "today":  # convert "Today" to 9999 to be stored in the database
         activist_end = 9999
     if activist_url == "":
         activist_url = None

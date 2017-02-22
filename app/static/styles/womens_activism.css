@@ -814,3 +814,22 @@ p, div {
   font-size: 75%;
   vertical-align: baseline;
 }
+
+
+/* View Individual Story Page */
+
+#view-story-container {
+  text-align: center;
+}
+
+#story-content-container {
+  text-align: left;
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+#story-content-container img {
+  max-width: 300px;
+}

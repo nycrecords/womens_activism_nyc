@@ -821,15 +821,35 @@ p, div {
 #view-story-container {
   text-align: center;
 }
-
+#view-story-container h1 {
+  margin-top: 80px;
+}
+#story-subheading {
+  margin-top: 10px;
+}
 #story-content-container {
   text-align: left;
-  max-width: 1200px;
+  max-width: 1000px;
   width: 100%;
-  display: flex;
-  justify-content: flex-start;
+  margin: 60px auto 10px auto;
+  padding: 60px;
+  border: 1px solid #ddd;
 }
-
 #story-content-container img {
   max-width: 300px;
+  float: left;
+  margin: 10px 25px 0 0;
+}
+#story-content-container p {
+  line-height: 30px;
+}
+@media only screen and (max-width: 550px) {
+  #story-content-container {
+    text-align: center;
+    padding: 20px;
+  }
+  #story-content-container img {
+    float: initial;
+    margin: 10px 0 10px 0;
+  }
 }

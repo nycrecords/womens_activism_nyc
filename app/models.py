@@ -246,7 +246,7 @@ class Stories(db.Model):
         self.tags = tags
 
     def es_create(self):
-        """Create elasticsearch index"""
+        """Create elasticsearch doc"""
         es.create(
             index=current_app.config["ELASTICSEARCH_INDEX"],
             doc_type='story',

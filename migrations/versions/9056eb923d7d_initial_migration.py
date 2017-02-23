@@ -1,8 +1,8 @@
 """initial migration
 
-Revision ID: 2f7e48a35458
+Revision ID: 9056eb923d7d
 Revises: 
-Create Date: 2017-02-17 11:31:02.266740
+Create Date: 2017-02-23 16:35:20.861907
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = '2f7e48a35458'
+revision = '9056eb923d7d'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -26,13 +26,6 @@ def upgrade():
     sa.Column('message', sa.String(length=500), nullable=False),
     sa.Column('timestamp', sa.DateTime(), nullable=False),
     sa.Column('addressed', sa.Boolean(), nullable=False),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_table('posters',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('poster_first', sa.String(length=30), nullable=True),
-    sa.Column('poster_last', sa.String(length=30), nullable=True),
-    sa.Column('email', sa.String(length=254), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('roles',
@@ -52,30 +45,30 @@ def upgrade():
     sa.Column('auth_user_type', sa.Enum('Saml2In:NYC Employees', 'LDAP:NYC Employees', 'FacebookSSO', 'MSLiveSSO', 'YahooSSO', 'LinkedInSSO', 'GoogleSSO', 'EDIRSSO', 'AnonymousUser', name='auth_user_type'), nullable=False),
     sa.Column('is_mod', sa.Boolean(), nullable=False),
     sa.Column('is_admin', sa.Boolean(), nullable=False),
-    sa.Column('first_name', sa.String(length=32), nullable=False),
+    sa.Column('first_name', sa.String(length=128), nullable=True),
     sa.Column('middle_initial', sa.String(length=1), nullable=True),
-    sa.Column('last_name', sa.String(length=64), nullable=False),
-    sa.Column('email', sa.String(length=254), nullable=False),
+    sa.Column('last_name', sa.String(length=128), nullable=True),
+    sa.Column('email', sa.String(length=254), nullable=True),
     sa.Column('email_validated', sa.Boolean(), nullable=False),
     sa.Column('terms_of_use_accepted', sa.Boolean(), nullable=False),
     sa.PrimaryKeyConstraint('guid')
     )
     op.create_table('stories',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('activist_first', sa.String(length=30), nullable=False),
-    sa.Column('activist_last', sa.String(length=30), nullable=False),
-    sa.Column('activist_start', sa.Integer(), nullable=False),
-    sa.Column('activist_end', sa.Integer(), nullable=False),
-    sa.Column('content', sa.String(length=5000), nullable=False),
+    sa.Column('activist_first', sa.String(length=64), nullable=False),
+    sa.Column('activist_last', sa.String(length=64), nullable=False),
+    sa.Column('activist_start', sa.Integer(), nullable=True),
+    sa.Column('activist_end', sa.Integer(), nullable=True),
+    sa.Column('content', sa.Text(), nullable=False),
     sa.Column('activist_url', sa.String(length=254), nullable=True),
-    sa.Column('image_url', sa.String(length=254), nullable=True),
+    sa.Column('image_url', sa.Text(), nullable=True),
     sa.Column('video_url', sa.String(length=254), nullable=True),
-    sa.Column('poster_id', sa.Integer(), nullable=True),
+    sa.Column('user_guid', sa.String(length=64), nullable=True),
     sa.Column('date_created', sa.DateTime(), nullable=False),
     sa.Column('is_edited', sa.Boolean(), nullable=False),
     sa.Column('is_visible', sa.Boolean(), nullable=False),
-    sa.Column('tags', postgresql.ARRAY(sa.String(length=50)), nullable=True),
-    sa.ForeignKeyConstraint(['poster_id'], ['posters.id'], ),
+    sa.Column('tags', postgresql.ARRAY(sa.String(length=500)), nullable=True),
+    sa.ForeignKeyConstraint(['user_guid'], ['users.guid'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('comments',
@@ -145,6 +138,5 @@ def downgrade():
     op.drop_table('users')
     op.drop_table('tags')
     op.drop_table('roles')
-    op.drop_table('posters')
     op.drop_table('feedback')
     # ### end Alembic commands ###

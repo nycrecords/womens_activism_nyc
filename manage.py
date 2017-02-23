@@ -3,7 +3,6 @@ from app import create_app, db
 from app.models import (
     Roles,
     Users,
-    Posters,
     Stories,
     Tags,
     Comments,
@@ -25,7 +24,6 @@ def make_shell_context():
                 db=db,
                 Roles=Roles,
                 Users=Users,
-                Posters=Posters,
                 Stories=Stories,
                 Tags=Tags,
                 Comments=Comments,

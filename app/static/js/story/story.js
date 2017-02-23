@@ -21,11 +21,6 @@ $(function () {
         hiddenTagInput.val(selectedTags);
     });
 
-    // Share a story - text counter
-    $("#her-story-text").keyup(function () {
-        $('#story-text-count').text($(this).val().length);
-    });
-
     //Nav active state change
     $(".nav li").removeClass("active");
     $('a[href=".' + this.location.pathname + '"]').parents('li,ul').addClass('active');

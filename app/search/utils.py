@@ -108,7 +108,7 @@ def create_docs():
 
 
 def update_docs():
-    """Update elasticsearch doc"""
+    """Update elasticsearch index"""
     stories = Stories.query.all()
     for s in stories:
         s.es_update()

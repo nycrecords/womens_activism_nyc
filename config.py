@@ -17,9 +17,9 @@ class DevelopmentConfig(Config):
                                'postgresql://localhost:5432/womens_activism_dev')
 
     # Elasticsearch settings
-    ELASTICSEARCH_HOST = os.environ.get('ELASTICSEARCH_HOST') or "localhost:9200"
-    ELASTICSEARCH_INDEX = os.environ.get('ELASTICSEARCH_INDEX') or "stories"
-    ELASTICSEARCH_USE_SSL = os.environ.get('ELASTICSEARCH_USE_SSL') == "True"
+    ELASTICSEARCH_HOST = os.environ.get('ELASTICSEARCH_HOST') or 'localhost:9200'
+    ELASTICSEARCH_INDEX = os.environ.get('ELASTICSEARCH_INDEX') or 'stories'
+    ELASTICSEARCH_USE_SSL = os.environ.get('ELASTICSEARCH_USE_SSL') == 'True'
     ELASTICSEARCH_USERNAME = os.environ.get('ELASTICSEARCH_USERNAME')
     ELASTICSEARCH_PASSWORD = os.environ.get('ELASTICSEARCH_PASSWORD')
     ELASTICSEARCH_HTTP_AUTH = ((ELASTICSEARCH_USERNAME,

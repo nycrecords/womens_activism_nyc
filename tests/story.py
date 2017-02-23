@@ -2,6 +2,7 @@ import random
 from itertools import product
 
 from app import db
+from app.constants import tag
 from app.models import Stories
 
 

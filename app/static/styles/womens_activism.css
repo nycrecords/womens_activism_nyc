@@ -814,3 +814,112 @@ p, div {
   font-size: 75%;
   vertical-align: baseline;
 }
+
+
+/* ------------ ABOUT ------------ */
+
+#about-our-story {
+    text-align: center;
+}
+#about-our-story h1 {
+    margin-top: 80px;
+    color: #0c0b41;
+}
+
+#about-20by20 {
+    color: #c0c0c0;
+    font-size: 36px;
+    font-weight: 300;
+    margin-top: 10px;
+}
+
+#about-info {
+    font-size: 18px;
+    line-height: 36px;
+    max-width: 1000px;
+    margin: 45px auto 80px auto;
+    text-align: left;
+    width: 90%;
+    color: #0c0b41;
+    font-weight: 300;
+}
+
+/* Empowerment Partners */
+
+#empowerment-partners {
+    background: #673c74;
+    text-align: center;
+    color: white;
+}
+
+#empowerment-partners h1 {
+    color: white;
+    margin: 60px 0 0 0;
+}
+
+#empowerment-info {
+    font-weight: 300;
+    font-size: 20px;
+    width: 90%;
+    max-width: 900px;
+    margin: 30px auto 0 auto;
+}
+#empowerment-featured {
+    margin: 40px 0 80px 0;
+}
+.empowerment-img-mask {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 35px auto 10px auto;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#empowerment-featured h4 {
+    width: 290px;
+    margin: 0 auto;
+    font-size: 24px;
+    line-height: 32px;
+}
+#empowerment-featured p {
+    width: 290px;
+    margin: 0px auto 30px auto;
+    font-size: 18px;
+    line-height: 30px;
+    font-weight: 100;
+}
+.get-involved-btn {
+    background: none;
+    font-size: 20px;
+    color: white;
+    border-radius: 0;
+    border-width: 2px;
+    border-color: white;
+    padding: 12px 40px;
+    transition: background 0.2s ease;
+}
+.get-involved-btn:hover {
+    background: #ffffff;
+    color: rgb(89, 49, 95);
+    border-color: #ffffff;
+}
+.get-involved-btn:active {
+    background: #ffffff !important;
+    color: rgb(89, 49, 95) !important;
+    border-color: #ffffff !important;
+}
+.get-involved-btn:focus {
+    background: #ffffff !important;
+    color: rgb(89, 49, 95) !important;
+    border-color: #ffffff !important;
+}
+.empowerment-name {
+    min-height: 140px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+

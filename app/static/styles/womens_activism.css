@@ -923,3 +923,49 @@ p, div {
     flex-direction: column;
 }
 
+/* Empowerment List */
+
+#empowerment-list {
+    background: #59315f;
+    color: white;
+}
+#empowerment-list .row {
+    margin: 70px auto 80px auto;
+    max-width: 1200px;
+}
+#empowerment-list .col-md-6 {
+    min-height: 400px;
+}
+#empowerment-list h4 {
+    font-weight: 600;
+    font-size: 24px;
+    margin-top: 30px;
+}
+#empowerment-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    font-size: 18px;
+}
+#empowerment-list li {
+    margin: 30px 0;
+}
+
+/* Steering Committee */
+
+.committee-member {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 350px;
+}
+
+.committee-img-mask {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}

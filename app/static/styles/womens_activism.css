@@ -953,13 +953,32 @@ p, div {
 
 /* Steering Committee */
 
-.committee-member {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  width: 350px;
+#steering-committee {
+    background: #f3f3f3;
+    color: #0c0b41;
 }
-
+#steering-committee .row {
+    max-width: 1200px;
+    margin: 80px auto;
+}
+#steering-heading {
+    text-align: center;
+}
+#steering-heading p {
+    font-size: 18px;
+    font-weight: 300;
+    max-width: 850px;
+    margin: 35px auto 20px auto;
+}
+.committee-member {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    align-items: center;
+    width: 350px;
+    margin: 25px auto;
+    min-height: 130px;
+}
 .committee-img-mask {
     width: 100px;
     height: 100px;
@@ -968,4 +987,17 @@ p, div {
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+    flex-shrink: 0;
+}
+.committee-member-info {
+    margin-left: 30px;
+}
+
+.committee-member-info h5 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.committee-member-info p {
+    font-size: 13px;
 }

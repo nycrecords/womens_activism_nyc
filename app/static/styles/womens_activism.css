@@ -1002,3 +1002,7 @@ p, div {
     display: flex;
     justify-content: space-between;
 }
+
+#view-story-content-no-media {
+    text-align: center;
+}

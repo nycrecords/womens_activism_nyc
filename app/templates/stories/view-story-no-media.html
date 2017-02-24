@@ -1,6 +1,5 @@
 <div id="story-content-container">
-    <img src="{{ story.image_url }}" id="view-story-img" />
-    <p style="text-align: center">{{ story.content }}</p>
+    <p id="view-story-content-no-media">{{ story.content }}</p>
     {% if story.activist_url %}
     <p id="learn-more">To learn more visit:<br /><a href="#" id="learn-more-link">{{ story.activist_url }}</a></p>
     {% endif %}

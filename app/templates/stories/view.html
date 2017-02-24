@@ -5,14 +5,25 @@
         <div class="row">
             <div class="col-md-12">
                 <h1>{{ story.activist_first }} {{ story.activist_last }}</h1>
-                <p id="story-subheading">By Judith Wellman | May 10th, 2016</p>
+
+                {% if story.activist_end == 9999 %}
+                    <p id="story-subheading">{{ story.activist_start }} - Today</p>
+                {% else %}
+                    <p id="story-subheading">{{ story.activist_start }} - {{ story.activist_end }}</p>
+                {% endif %}
+
+                {% if poster %}
+                    <p id="story-subheading">By {{ poster.poster_first }} | May 10th, 2016</p>
+                {% else %}
+                    <p id="story-subheading">May 10th, 2016</p>
+                {% endif %}
 
                 {% if story.image_url %}
                     {%  include 'stories/view-story-image.html' %}
                 {% elif story.video_url %}
                     {%  include 'stories/view-story-video.html' %}
                 {% else %}
-                    <p>There is nothing here to display.</p>
+                    {%  include 'stories/view-story-no-media.html' %}
                 {% endif %}
 
             </div>

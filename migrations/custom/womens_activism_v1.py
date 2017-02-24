@@ -48,7 +48,7 @@ def transfer_tags_in_v1():
     Transfer tags in v1 from story_tags table to stories table
     """
     # Add tags column to stories table
-    # CUR_V1.execute("ALTER TABLE stories ADD COLUMN tags VARCHAR(50)[];")
+    CUR_V1.execute("ALTER TABLE stories ADD COLUMN tags VARCHAR(50)[];")
     CUR_V1.execute("SELECT * FROM story_tags")
     story_tags = CUR_V1.fetchall()
 

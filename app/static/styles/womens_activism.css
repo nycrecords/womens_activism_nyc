@@ -454,8 +454,10 @@ p, div {
   color: #34294f;
   height: 100%;
   width: 100%;
-  display: table;
+  display: flex;
   margin-bottom: 0;
+  justify-content: center;
+  align-items: center;
 }
 @media (min-width:768px) {
   #project-info {
@@ -467,8 +469,6 @@ p, div {
 }
 #project-info-content {
   height: 100%;
-  display: table-cell;
-  vertical-align: middle;
 }
 #project-info h1 {
   font-weight: 300;

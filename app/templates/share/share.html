@@ -14,12 +14,12 @@
                         <div class="input-inline-fix">
                             <input type="text" maxlength="30" placeholder="Mary" class="share-who-input" name="activist_first"
                                    id="first-name-field" data-parsley-required
-                                   data-parsley-maxlength="30" data-parsley-maxlength-message="Your entry is too long."/>
+                                   data-parsley-maxlength="30" data-parsley-maxlength-message="Your entry is too long." value="{{ story['activist_first'] or '' }}"/>
                         </div>
                         <div class="input-inline-fix">
                             <input type="text" maxlength="30" placeholder="Smith" class="share-who-input" name="activist_last"
                                    id="last-name-field" data-parsley-required
-                                   data-parsley-maxlength="30" data-parsley-maxlength-message="Your entry is too long."/>
+                                   data-parsley-maxlength="30" data-parsley-maxlength-message="Your entry is too long." value="{{ story['activist_last'] or '' }}"/>
                         </div>
                     </div>
                     <p class="name-required">required</p>
@@ -33,13 +33,13 @@
                         <div class="input-inline-fix">
                             <input type="text" maxlength="4" placeholder="1960" class="share-who-input" name="activist_start"
                                    id="year-born-input" data-parsley-required
-                                   data-parsley-maxlength="4" data-parsley-maxlength-message="Your entry is too long."/>
+                                   data-parsley-maxlength="4" data-parsley-maxlength-message="Your entry is too long." value="{{ story['activist_start'] or '' }}"/>
                         </div>
                         <span id="date-dash">&#8212;</span>
                         <div class="input-inline-fix">
                             <input type="text" maxlength="5" placeholder="Today" class="share-who-input" name="activist_end"
                                    id="year-death-input" data-parsley-required data-parsley-maxlength="5"
-                                   data-parsley-maxlength-message="Your entry is too long."/>
+                                   data-parsley-maxlength-message="Your entry is too long." value="{{ story['activist_end'] or '' }}"/>
                         </div>
                     </div>
                     <p class="name-required">required</p>
@@ -87,7 +87,7 @@
                             <textarea id="her-story-text" name="content" maxlength="5000" class="her-story-text"
                                       placeholder="My mother was ..." data-parsley-required
                                       data-parsley-maxlength="5000"
-                                      data-parsley-maxlength-message="Your entry is too long."></textarea>
+                                      data-parsley-maxlength-message="Your entry is too long." value="{{ story['content'] or '' }}"></textarea>
                         </div>
                     </div>
                     <p class="char-required"><span id="story-text-count">0</span> / 5000 used</p>
@@ -101,7 +101,7 @@
                     <div class="who-input-group">
                         <div>
                             <input type="text" maxlength="254" placeholder="http://womensactivism.nyc" name="activist_url"
-                                   class="share-link-input" id="activist-url"/>
+                                   class="share-link-input" id="activist-url" value="{{ story['activist_url'] or '' }}"/>
                         </div>
                     </div>
                 </div>
@@ -119,13 +119,13 @@
                         <div>
                             <input type="text" maxlength="254" id="story-image-input-box"
                                    placeholder="http://womensactivism.nyc" name="image_url"
-                                   class="share-link-input" id="image-url"/>
+                                   class="share-link-input" id="image-url" value="{{ story['image_url'] or '' }}"/>
                         </div>
                     </div>
                     <div class="who-input-group" id="story-video-input">
                         <div>
                             <input type="text" maxlength="254" id="story-video-input-box" placeholder="http://youtube.com"
-                                   name="video_url" class="share-link-input" id="video-url"/>
+                                   name="video_url" class="share-link-input" id="video-url" value="{{ story['video_url'] or '' }}"/>
                         </div>
                     </div>
                     <br/>
@@ -142,15 +142,15 @@
                     <div class="who-input-group">
                         <div>
                             <input type="text" maxlength="30" placeholder="Mary" name="poster_first"
-                                   class="share-who-input" id="user-first-name-field"/>
+                                   class="share-who-input" id="user-first-name-field" value="{{ story['poster_first'] or '' }}"/>
                             <input type="text" maxlength="30" placeholder="Smith" name="poster_last"
-                                   class="share-who-input" id="user-last-name-field"/>
+                                   class="share-who-input" id="user-last-name-field" value="{{ story['poster_first'] or '' }}"/>
                         </div>
                     </div>
                     <div class="who-input-group">
                         <div>
                             <input type="text" maxlength="254" placeholder="ms@gmail.com" name="poster_email"
-                                   class="share-you-email-input" id="user-email-field"/>
+                                   class="share-you-email-input" id="user-email-field" value="{{ story['poster_email'] or '' }}"/>
                         </div>
                     </div>
                     <div class="who-input-group">

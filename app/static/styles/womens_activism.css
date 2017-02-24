@@ -1014,3 +1014,9 @@ p, div {
 #view-story-content-with-video {
     word-break: break-all
 }
+
+#video-player {
+    width: 560px;
+    height: 315px;
+    text-align: center;
+}

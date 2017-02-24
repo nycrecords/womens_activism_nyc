@@ -15,7 +15,7 @@
                 {% if poster %}
                     <p id="story-subheading">By {{ poster.poster_first }} | May 10th, 2016</p>
                 {% else %}
-                    <p id="story-subheading">May 10th, 2016</p>
+                    <p id="story-subheading">{{ story.date_created.strftime('%B %d, %Y') }}</p>
                 {% endif %}
 
                 {% if story.image_url %}

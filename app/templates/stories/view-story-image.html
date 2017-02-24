@@ -2,7 +2,7 @@
     <img src="{{ story.image_url }}" id="view-story-img" />
     <p id="view-story-content-with-image">{{ story.content }}</p>
     {% if story.activist_url %}
-    <p id="learn-more">To learn more visit:<br /><a href="#" id="learn-more-link">{{ story.activist_url }}</a></p>
+        <p id="learn-more">To learn more visit:<br /><a href="{{ story.activist_url }}" target="_blank" id="learn-more-link">{{ story.activist_url }}</a></p>
     {% endif %}
     <div id="view-story-social">
         <a href="https://twitter.com/share?url=#####################&text=I%20just%20posted%20a%20story%20about%20a%20woman%20activist%20who%20inspires%20me,%20you%20should%20too!&hashtags=20000By2020">

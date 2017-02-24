@@ -454,8 +454,10 @@ p, div {
   color: #34294f;
   height: 100%;
   width: 100%;
-  display: table;
+  display: flex;
   margin-bottom: 0;
+  justify-content: center;
+  align-items: center;
 }
 @media (min-width:768px) {
   #project-info {
@@ -467,8 +469,6 @@ p, div {
 }
 #project-info-content {
   height: 100%;
-  display: table-cell;
-  vertical-align: middle;
 }
 #project-info h1 {
   font-weight: 300;
@@ -922,4 +922,193 @@ p, div {
 
 #search-btn:hover {
   background: #673c74;
+}
+
+/* ------------ ABOUT ------------ */
+
+#about-our-story {
+    text-align: center;
+}
+#about-our-story h1 {
+    margin-top: 80px;
+    color: #0c0b41;
+}
+
+#about-20by20 {
+    color: #c0c0c0;
+    font-size: 36px;
+    font-weight: 300;
+    margin-top: 10px;
+}
+
+#about-info {
+    font-size: 18px;
+    line-height: 36px;
+    max-width: 1000px;
+    margin: 45px auto 80px auto;
+    text-align: left;
+    width: 90%;
+    color: #0c0b41;
+    font-weight: 300;
+}
+
+/* Empowerment Partners */
+
+#empowerment-partners {
+    background: #673c74;
+    text-align: center;
+    color: white;
+}
+
+#empowerment-partners h1 {
+    color: white;
+    margin: 60px 0 0 0;
+}
+
+#empowerment-info {
+    font-weight: 300;
+    font-size: 20px;
+    width: 90%;
+    max-width: 900px;
+    margin: 30px auto 0 auto;
+}
+#empowerment-featured {
+    margin: 40px 0 80px 0;
+}
+.empowerment-img-mask {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 35px auto 10px auto;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#empowerment-featured h4 {
+    width: 290px;
+    margin: 0 auto;
+    font-size: 24px;
+    line-height: 32px;
+}
+#empowerment-featured p {
+    width: 290px;
+    margin: 0px auto 30px auto;
+    font-size: 18px;
+    line-height: 30px;
+    font-weight: 100;
+}
+.get-involved-btn {
+    background: none;
+    font-size: 20px;
+    color: white;
+    border-radius: 0;
+    border-width: 2px;
+    border-color: white;
+    padding: 12px 40px;
+    transition: background 0.2s ease;
+}
+.get-involved-btn:hover {
+    background: #ffffff;
+    color: rgb(89, 49, 95);
+    border-color: #ffffff;
+}
+.get-involved-btn:active {
+    background: #ffffff !important;
+    color: rgb(89, 49, 95) !important;
+    border-color: #ffffff !important;
+}
+.get-involved-btn:focus {
+    background: #ffffff !important;
+    color: rgb(89, 49, 95) !important;
+    border-color: #ffffff !important;
+}
+.empowerment-name {
+    min-height: 140px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+/* Empowerment List */
+
+#empowerment-list {
+    background: #59315f;
+}
+#empowerment-list .row {
+    margin: 70px auto 80px auto;
+    max-width: 1200px;
+}
+#empowerment-list .col-md-6 {
+    min-height: 400px;
+}
+#empowerment-list h4 {
+    font-weight: 600;
+    font-size: 24px;
+    margin-top: 30px;
+}
+#empowerment-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    font-size: 18px;
+}
+#empowerment-list li {
+    margin: 30px 0;
+}
+
+#empowerment-list a {
+    color: white;
+}
+
+/* Steering Committee */
+
+#steering-committee {
+    background: #f3f3f3;
+    color: #0c0b41;
+}
+#steering-committee .row {
+    max-width: 1200px;
+    margin: 80px auto;
+}
+#steering-heading {
+    text-align: center;
+}
+#steering-heading p {
+    font-size: 18px;
+    font-weight: 300;
+    max-width: 850px;
+    margin: 35px auto 20px auto;
+}
+.committee-member {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    align-items: center;
+    width: 350px;
+    margin: 25px auto;
+    min-height: 130px;
+}
+.committee-img-mask {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
+}
+.committee-member-info {
+    margin-left: 30px;
+}
+
+.committee-member-info h5 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.committee-member-info p {
+    font-size: 13px;
 }

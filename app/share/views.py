@@ -1,7 +1,7 @@
-from app.share import share
 from flask import render_template, redirect, url_for, flash, request
-from app.stories.forms import StoryForm
-from app.stories.utils import create_story, create_poster, validate_years, validate_poster
+from app.share import share
+from app.share.forms import StoryForm
+from app.share.utils import create_story, create_poster, validate_years, validate_poster
 
 
 @share.route('/', methods=['GET', 'POST'])

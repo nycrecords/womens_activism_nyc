@@ -24,16 +24,28 @@
 {% endblock %}
 
 {% block content %}
+    <div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    {% block page_content %}{% endblock %}
+</div>
 {% endblock %}
 
 {% block footer %}
-{% include 'footer.html' %}
+    {% include 'footer.html' %}
 {% endblock %}
 
 <script type="text/javascript" src="{{ url_for('static', filename='js/plugins/jquery.min.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/plugins/bootstrap.min.js') }}"></script>
 
 {% block custom_script %}
+    {{ super() }}
+    {{ moment.include_moment() }}
 {% endblock %}
 </body>
 </html>

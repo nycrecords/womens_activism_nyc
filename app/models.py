@@ -13,6 +13,7 @@ from flask import current_app
 from flask_login import UserMixin, AnonymousUserMixin
 from datetime import datetime
 from sqlalchemy.dialects.postgresql import JSON, ARRAY
+from app.constants import permission, role_name, tag, user_type_auth, event, module, flag
 
 
 class Roles(db.Model):
@@ -215,6 +216,9 @@ class Stories(db.Model):
     is_edited = db.Column(db.Boolean, nullable=False)
     is_visible = db.Column(db.Boolean, nullable=False)
     tags = db.Column(ARRAY(db.String(300)))
+
+    def __repr__(self):
+        return '<Stories %r>' % self.id
 
     def __init__(
             self,

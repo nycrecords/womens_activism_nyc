@@ -10,15 +10,15 @@
                         you.</p>
                     <div class="who-input-group">
                         <div class="input-inline-fix">
-                            <input type="text" maxlength="30" placeholder="Mary" class="share-who-input"
+                            <input type="text" maxlength="64" placeholder="Mary" class="share-who-input"
                                    name="first-name" id="first-name-field" data-parsley-required
-                                   data-parsley-maxlength="30"
+                                   data-parsley-maxlength="64"
                                    data-parsley-maxlength-message="Your entry is too long."/>
                         </div>
                         <div class="input-inline-fix">
-                            <input type="text" maxlength="30" placeholder="Smith" class="share-who-input"
+                            <input type="text" maxlength="64" placeholder="Smith" class="share-who-input"
                                    name="last-name" id="last-name-field" data-parsley-required
-                                   data-parsley-maxlength="30"
+                                   data-parsley-maxlength="64"
                                    data-parsley-maxlength-message="Your entry is too long."/>
                         </div>
                     </div>
@@ -32,15 +32,14 @@
                     <div class="who-input-group">
                         <div class="input-inline-fix">
                             <input type="text" maxlength="4" placeholder="1960" class="share-who-input" name="year-born"
-                                   id="year-born-input" data-parsley-required
-                                   data-parsley-maxlength="4" data-parsley-maxlength-message="Your entry is too long."/>
+                                   id="year-born-input" data-parsley-maxlength="4"
+                                   data-parsley-maxlength-message="Your entry is too long."/>
                         </div>
                         <span id="date-dash">&#8212;</span>
                         <div class="input-inline-fix">
                             <input type="text" maxlength="5" placeholder="Today" class="share-who-input"
-                                   name="year-death"
-                                   id="year-death-input" data-parsley-required
-                                   data-parsley-maxlength="5" data-parsley-maxlength-message="Your entry is too long."/>
+                                   name="year-death" id="year-death-input" data-parsley-maxlength="5"
+                                   data-parsley-maxlength-message="Your entry is too long."/>
                         </div>
                     </div>
                     <p class="name-required">required</p>
@@ -85,13 +84,10 @@
                         others.</p>
                     <div>
                         <div>
-                            <textarea id="her-story-text" maxlength="5000" class="her-story-text"
-                                      placeholder="My mother was ..." data-parsley-required
-                                      data-parsley-maxlength="5000"
-                                      data-parsley-maxlength-message="Your entry is too long."></textarea>
+                            <textarea id="her-story-text" class="her-story-text"
+                                      placeholder="My mother was ..." data-parsley-required></textarea>
                         </div>
                     </div>
-                    <p class="char-required"><span id="story-text-count">0</span> / 5000 used</p>
                 </div>
             </div>
             <div class="row">
@@ -101,7 +97,7 @@
                         activist online.</p>
                     <div class="who-input-group">
                         <div>
-                            <input type="text" maxlength="254" placeholder="http://womensactivism.nyc" name="email"
+                            <input type="text" placeholder="http://womensactivism.nyc" name="email"
                                    class="share-link-input"/>
                         </div>
                     </div>
@@ -118,14 +114,14 @@
                     </div>
                     <div class="who-input-group" id="story-image-input">
                         <div>
-                            <input type="text" maxlength="254" id="story-image-input-box"
-                                   placeholder="http://womensactivism.nyc" name="media-image-input"
+                            <input type="text" id="story-image-input-box" placeholder="http://womensactivism.nyc"
+                                   name="media-image-input"
                                    class="share-link-input"/>
                         </div>
                     </div>
                     <div class="who-input-group" id="story-video-input">
                         <div>
-                            <input type="text" maxlength="254" id="story-video-input-box"
+                            <input type="text" id="story-video-input-box"
                                    placeholder="http://youtube.com" name="media-video-input" class="share-link-input"/>
                         </div>
                     </div>
@@ -145,10 +141,16 @@
                         address will not be made public.</p>
                     <div class="who-input-group">
                         <div>
-                            <input type="text" maxlength="30" placeholder="Mary" name="user-first-name"
-                                   class="share-who-input" id="user-first-name-field"/>
-                            <input type="text" maxlength="30" placeholder="Smith" name="user-last-name"
-                                   class="share-who-input" id="user-last-name-field"/>
+                            <input type="text" maxlength="128" placeholder="Mary"
+                                   name="user-first-name"
+                                   class="share-who-input" id="user-first-name-field"
+                                   data-parsley-maxlength="128"
+                                   data-parsley-maxlength-message="Your entry is too long."/>
+                            <input type="text" maxlength="128" placeholder="Smith"
+                                   name="user-last-name"
+                                   class="share-who-input" id="user-last-name-field"
+                                   data-parsley-maxlength="128"
+                                   data-parsley-maxlength-message="Your entry is too long."/>
                         </div>
                     </div>
                     <div class="who-input-group">

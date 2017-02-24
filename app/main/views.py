@@ -27,3 +27,8 @@ def index():
     return render_template('main/home.html', visible_stories=visible_stories,
                            remaining_stories=remaining_stories,
                            recent_stories=recent_stories)
+
+
+@main.route('/about', methods=['GET'])
+def about():
+    return render_template('main/about.html')

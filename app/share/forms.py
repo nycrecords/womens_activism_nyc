@@ -2,14 +2,14 @@
 WTForms used for Stories
 """
 from flask_wtf import Form
-from wtforms import TextAreaField, StringField, SubmitField, SelectMultipleField, BooleanField
+from wtforms import TextAreaField, StringField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Optional, Length, Email
-from app.constants import tag
-from app.stories.validators import (validate_end_year,
-                                    validate_image,
-                                    validate_start_year,
-                                    validate_url,
-                                    validate_video)
+
+from app.share.validators import (validate_end_year,
+                                  validate_image,
+                                  validate_start_year,
+                                  validate_url,
+                                  validate_video)
 
 
 class StoryForm(Form):

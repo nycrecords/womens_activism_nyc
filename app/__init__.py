@@ -1,12 +1,15 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
+
 from flask_moment import Moment
+from flask_elasticsearch import FlaskElasticsearch
 from flask_sqlalchemy import SQLAlchemy
 from config import config
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
 moment = Moment()
+es = FlaskElasticsearch()
 
 
 def create_app(config_name):
@@ -16,6 +19,7 @@ def create_app(config_name):
     config[config_name].init_app(app)
 
     bootstrap.init_app(app)
+    es.init_app(app, use_ssl=app.config['ELASTICSEARCH_USE_SSL'])
     db.init_app(app)
     moment.init_app((app))
 
@@ -23,6 +27,15 @@ def create_app(config_name):
     app.register_blueprint(main)
 
     from .stories import stories as stories_blueprint
-    app.register_blueprint(stories_blueprint, url_prefix="/stories")
+    app.register_blueprint(stories_blueprint)
+
+    from .share import share as share
+    app.register_blueprint(share, url_prefix="/share")
+
+    from .stories import stories as story
+    app.register_blueprint(story, url_prefix="/stories")
+
+    from .search import search as search
+    app.register_blueprint(search, url_prefix="/search")
 
     return app

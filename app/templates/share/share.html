@@ -2,7 +2,8 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block content %}
-    <form data-parsley-validate id="share-form" data-parsley-focus="none">
+    <form data-parsley-validate id="share-form" data-parsley-focus="none" method="post">
+    {{ form.csrf_token }}
         <div class="container-fluid" id="share-who">
             <div class="row">
                 <div class="col-md-12">
@@ -11,16 +12,14 @@
                         you.</p>
                     <div class="who-input-group">
                         <div class="input-inline-fix">
-                            <input type="text" maxlength="30" placeholder="Mary" class="share-who-input"
-                                   name="first-name" id="first-name-field" data-parsley-required
-                                   data-parsley-maxlength="30"
-                                   data-parsley-maxlength-message="Your entry is too long."/>
+                            <input type="text" maxlength="30" placeholder="Mary" class="share-who-input" name="activist_first"
+                                   id="first-name-field" data-parsley-required
+                                   data-parsley-maxlength="30" data-parsley-maxlength-message="Your entry is too long."/>
                         </div>
                         <div class="input-inline-fix">
-                            <input type="text" maxlength="30" placeholder="Smith" class="share-who-input"
-                                   name="last-name" id="last-name-field" data-parsley-required
-                                   data-parsley-maxlength="30"
-                                   data-parsley-maxlength-message="Your entry is too long."/>
+                            <input type="text" maxlength="30" placeholder="Smith" class="share-who-input" name="activist_last"
+                                   id="last-name-field" data-parsley-required
+                                   data-parsley-maxlength="30" data-parsley-maxlength-message="Your entry is too long."/>
                         </div>
                     </div>
                     <p class="name-required">required</p>
@@ -32,16 +31,15 @@
                     <p class="share-subheading">If still living, enter "today".</p>
                     <div class="who-input-group">
                         <div class="input-inline-fix">
-                            <input type="text" maxlength="4" placeholder="1960" class="share-who-input" name="year-born"
+                            <input type="text" maxlength="4" placeholder="1960" class="share-who-input" name="activist_start"
                                    id="year-born-input" data-parsley-required
                                    data-parsley-maxlength="4" data-parsley-maxlength-message="Your entry is too long."/>
                         </div>
                         <span id="date-dash">&#8212;</span>
                         <div class="input-inline-fix">
-                            <input type="text" maxlength="5" placeholder="Today" class="share-who-input"
-                                   name="year-death"
-                                   id="year-death-input" data-parsley-required
-                                   data-parsley-maxlength="5" data-parsley-maxlength-message="Your entry is too long."/>
+                            <input type="text" maxlength="5" placeholder="Today" class="share-who-input" name="activist_end"
+                                   id="year-death-input" data-parsley-required data-parsley-maxlength="5"
+                                   data-parsley-maxlength-message="Your entry is too long."/>
                         </div>
                     </div>
                     <p class="name-required">required</p>
@@ -86,7 +84,7 @@
                         others.</p>
                     <div>
                         <div>
-                            <textarea id="her-story-text" maxlength="5000" class="her-story-text"
+                            <textarea id="her-story-text" name="content" maxlength="5000" class="her-story-text"
                                       placeholder="My mother was ..." data-parsley-required
                                       data-parsley-maxlength="5000"
                                       data-parsley-maxlength-message="Your entry is too long."></textarea>
@@ -98,12 +96,12 @@
             <div class="row">
                 <div class="col-md-12">
                     <h1 id="add-link-heading">Add a Link</h1>
-                    <p class="share-link-subheading">Enter a URL to allow others to learn more about your female
-                        activist online.</p>
+                    <p class="share-link-subheading">Enter a URL to allow others to learn more about your female activist
+                        online.</p>
                     <div class="who-input-group">
                         <div>
-                            <input type="text" maxlength="254" placeholder="http://womensactivism.nyc" name="email"
-                                   class="share-link-input"/>
+                            <input type="text" maxlength="254" placeholder="http://womensactivism.nyc" name="activist_url"
+                                   class="share-link-input" id="activist-url"/>
                         </div>
                     </div>
                 </div>
@@ -111,8 +109,8 @@
             <div class="row">
                 <div class="col-md-12">
                     <h1 id="add-media-heading">Add Media</h1>
-                    <p class="add-media-subheading">Upload your favorite photo or video of your female activist to help
-                        tell her story.</p>
+                    <p class="add-media-subheading">Upload your favorite photo or video of your female activist to help tell
+                        her story.</p>
                     <div class="who-input-group">
                         <button type="button" class="media-buttons" id="image-upload-btn">Image</button>
                         <button type="button" class="media-buttons" id="video-upload-btn">Video</button>
@@ -120,21 +118,18 @@
                     <div class="who-input-group" id="story-image-input">
                         <div>
                             <input type="text" maxlength="254" id="story-image-input-box"
-                                   placeholder="http://womensactivism.nyc" name="media-image-input"
-                                   class="share-link-input"/>
+                                   placeholder="http://womensactivism.nyc" name="image_url"
+                                   class="share-link-input" id="image-url"/>
                         </div>
                     </div>
                     <div class="who-input-group" id="story-video-input">
                         <div>
-                            <input type="text" maxlength="254" id="story-video-input-box"
-                                   placeholder="http://youtube.com" name="media-video-input" class="share-link-input"/>
+                            <input type="text" maxlength="254" id="story-video-input-box" placeholder="http://youtube.com"
+                                   name="video_url" class="share-link-input" id="video-url"/>
                         </div>
                     </div>
                     <br/>
-                    <div id="media-back-div">
-                        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" id="media-back-btn"></span>
-                        <span id="media-back-txt">Back</span>
-                    </div>
+                    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" id="media-back-btn"></span>
                 </div>
             </div>
         </div>
@@ -142,24 +137,24 @@
             <div class="row">
                 <div class="col-md-12">
                     <h1 id="about-you-heading">Tell Us About Yourself</h1>
-                    <p class="about-you-subheading">If you would like to share your name, enter below. Your email
-                        address will not be made public.</p>
+                    <p class="about-you-subheading">If you would like to share your name, enter below. Your email address
+                        will not be made public.</p>
                     <div class="who-input-group">
                         <div>
-                            <input type="text" maxlength="30" placeholder="Mary" name="user-first-name"
+                            <input type="text" maxlength="30" placeholder="Mary" name="poster_first"
                                    class="share-who-input" id="user-first-name-field"/>
-                            <input type="text" maxlength="30" placeholder="Smith" name="user-last-name"
+                            <input type="text" maxlength="30" placeholder="Smith" name="poster_last"
                                    class="share-who-input" id="user-last-name-field"/>
                         </div>
                     </div>
                     <div class="who-input-group">
                         <div>
-                            <input type="text" maxlength="254" placeholder="ms@gmail.com" name="user-email"
-                                   class="share-you-email-input"/>
+                            <input type="text" maxlength="254" placeholder="ms@gmail.com" name="poster_email"
+                                   class="share-you-email-input" id="user-email-field"/>
                         </div>
                     </div>
                     <div class="who-input-group">
-                        <button id="share-story-btn">Share</button>
+                        <button id="share-story-btn" type="submit" name="submit">Share</button>
                     </div>
                 </div>
             </div>
@@ -169,5 +164,5 @@
 
 {% block custom_script %}
     <script type="text/javascript" src="{{ url_for('static', filename = 'js/plugins/parsley.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename = 'js/story/story.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/stories/story.js') }}"></script>
 {% endblock %}

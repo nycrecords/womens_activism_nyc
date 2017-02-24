@@ -1,8 +1,18 @@
-from app import db
+from app import db, es
+from app.constants import (
+    permission,
+    role_name,
+    tag,
+    user_type_auth,
+    event,
+    module,
+    flag
+)
+
+from flask import current_app
 from flask_login import UserMixin, AnonymousUserMixin
 from datetime import datetime
 from sqlalchemy.dialects.postgresql import JSON, ARRAY
-from app.constants import permission, role_name, tag, user_type_auth, event, module, flag
 
 
 class Roles(db.Model):
@@ -206,9 +216,6 @@ class Stories(db.Model):
     is_visible = db.Column(db.Boolean, nullable=False)
     tags = db.Column(ARRAY(db.String(300)))
 
-    def __repr__(self):
-        return '<Stories %r>' % self.id
-
     def __init__(
             self,
             activist_first,
@@ -237,6 +244,24 @@ class Stories(db.Model):
         self.is_edited = is_edited
         self.is_visible = is_visible
         self.tags = tags
+
+    def es_create(self):
+        """Create elasticsearch doc"""
+        es.create(
+            index=current_app.config["ELASTICSEARCH_INDEX"],
+            doc_type='story',
+            id=self.id,
+            body={
+                'activist_first': self.activist_first,
+                'activist_last': self.activist_last,
+                'content': self.content,
+                'image_url': self.image_url,
+                'tag': self.tags
+            }
+        )
+
+    def __repr__(self):
+        return '<Stories %r>' % self.id
 
 
 class Tags(db.Model):

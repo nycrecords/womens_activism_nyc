@@ -36,6 +36,13 @@ manager.add_command('db', MigrateCommand)
 
 
 @manager.command
+def es_recreate():
+    """Recreate elasticsearch index and request docs."""
+    from app.search.utils import recreate
+    recreate()
+
+
+@manager.command
 def test():
     """Run the unit tests."""
     import unittest

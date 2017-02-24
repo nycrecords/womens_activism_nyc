@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container-fluid" id="search-head">
+        <h1>I'm Looking for Women Known For</h1>
+        <p>You may choose more than one category to narrow your search.</p>
+        <input type="text" id="search" placeholder="Find by name or content"/><br/>
+        <input type="hidden" name="start">
+        <button id="search-btn">Search</button>
+        <div id="search-tags">
+            <div>
+                <input type="text" placeholder="" id="hidden-search-tag-input" data-parsley-required
+                       style="color: black;"/>
+            </div>
+            <div class="search-tags-group" data-toggle="buttons">
+                {% for tag in tags %}
+                    <button type="button" class="search-tag search-tag-inactive" value="{{ tag.id }}">{{ tag.name }}</button>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="home-wrapper">
+        <div class="container" id="home-stories"></div>
+    </div>
+{% endblock %}
+
+{% block custom_script %}
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/plugins/parsley.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/stories/search.js') }}"></script>
+{% endblock %}

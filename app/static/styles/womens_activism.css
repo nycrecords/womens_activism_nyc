@@ -923,3 +923,82 @@ p, div {
 #search-btn:hover {
   background: #673c74;
 }
+
+
+/* View Individual Story Page */
+
+#view-story-container {
+    text-align: center;
+}
+#view-story-container h1 {
+    margin-top: 80px;
+    color: #23224f;
+}
+#story-subheading {
+    margin-top: 10px;
+    color: #23224f;
+}
+#story-content-container {
+    text-align: left;
+    max-width: 1000px;
+    width: 100%;
+    margin: 60px auto 10px auto;
+    padding: 60px;
+    border: 1px solid #ddd;
+}
+#view-story-img {
+    width: 50%;
+    float: left;
+    margin: 10px 25px 10px 0;
+}
+#story-content-container p {
+    line-height: 30px;
+    color: #23224f;
+}
+@media only screen and (max-width: 550px) {
+    #story-content-container {
+        text-align: center;
+        padding: 20px;
+    }
+    #story-content-container img {
+        width: 100%;
+        max-width: 290px;
+        float: initial;
+        margin: 10px 0 10px 0;
+    }
+}
+#view-story-footer {
+    text-align: center;
+    font-size: 22px;
+    margin: 20px 0 0 0;
+}
+#view-story-contact-link {
+    color: #59315f;
+    text-decoration: underline;
+    font-weight: normal;
+    transition: color 0.2s ease;
+}
+#view-story-contact-link:hover {
+    color: black;
+}
+#learn-more {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 40px;
+}
+#learn-more-link {
+    color: #59315f;
+    text-decoration: underline;
+    font-weight: normal;
+    transition: color 0.2s ease;
+}
+#learn-more-link:hover {
+    color: black;
+}
+
+#view-story-social {
+    width: 50px;
+    margin: 30px auto 0 auto;
+    display: flex;
+    justify-content: space-between;
+}

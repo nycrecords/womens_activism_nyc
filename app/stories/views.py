@@ -14,7 +14,7 @@ def view_story(id):
             poster = Posters.query.filter_by(id=story.poster_id).first()
         else:
             poster = None
-        return render_template('stories/single_view_story.html', story=story, poster=poster)
+        return render_template('stories/view.html', story=story, poster=poster)
     else:
         return render_template("error/generic.html", status_code=404)
 

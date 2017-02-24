@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container-fluid" id="view-story-container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>{{ story.activist_first }} {{ story.activist_last }}</h1>
+                <p id="story-subheading">By Judith Wellman | May 10th, 2016</p>
+
+                {% if story.image_url %}
+                    {%  include 'stories/view-story-image.html' %}
+                {% elif story.video_url %}
+                    {%  include 'stories/view-story-video.html' %}
+                {% else %}
+                    <p>There is nothing here to display.</p>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" id="view-story-footer">
+        <div class="row">
+            <div class="col-md-12">
+                <p>We strive for accuracy and fairness. If you see something that doesn't look right, <a href="mailto:womensactivism@records.nyc.gov" id="view-story-contact-link" >contact us</a>!</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

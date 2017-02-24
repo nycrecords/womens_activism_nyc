@@ -24,6 +24,7 @@ TAG_ID_TO_NAME = {
     17: "Other"
 }
 
+# Fill in proper database credentials
 CONN_V1 = psycopg2.connect(database='womens_activism_v1',
                            user='postgres',
                            host='localhost',
@@ -48,7 +49,7 @@ def transfer_tags_in_v1():
     Transfer tags in v1 from story_tags table to stories table
     """
     # Add tags column to stories table
-    # CUR_V1.execute("ALTER TABLE stories ADD COLUMN tags VARCHAR(50)[];")
+    CUR_V1.execute("ALTER TABLE stories ADD COLUMN tags VARCHAR(50)[];")
     CUR_V1.execute("SELECT * FROM story_tags")
     story_tags = CUR_V1.fetchall()
 

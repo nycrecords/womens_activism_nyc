@@ -1006,3 +1006,11 @@ p, div {
 #view-story-content-no-media {
     text-align: center;
 }
+
+#view-story-content-with-image {
+    word-break: break-all
+}
+
+#view-story-content-with-video {
+    word-break: break-all
+}

@@ -1,6 +1,6 @@
 <div id="story-content-container">
     <iframe class="youtube-player" type="text/html" src="{{ story.video_url }}" frameborder="0" allowFullScreen></iframe>
-    <p style="text-align: center">{{ story.content }}</p>
+    <p id="view-story-content-with-image">{{ story.content }}</p>
     {% if story.activist_url %}
     <p id="learn-more">To learn more visit:<br /><a href="#" id="learn-more-link">{{ story.activist_url }}</a></p>
     {% endif %}

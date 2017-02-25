@@ -26,14 +26,11 @@ def create_app(config_name):
     from .main import main as main
     app.register_blueprint(main)
 
-    from .stories import stories as stories_blueprint
-    app.register_blueprint(stories_blueprint)
-
     from .share import share as share
     app.register_blueprint(share, url_prefix="/share")
 
-    from .stories import stories as story
-    app.register_blueprint(story, url_prefix="/stories")
+    from .stories import stories as stories
+    app.register_blueprint(stories, url_prefix="/stories")
 
     from .search import search as search
     app.register_blueprint(search, url_prefix="/search")

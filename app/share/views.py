@@ -1,7 +1,10 @@
 from flask import render_template, redirect, url_for, flash, request
+
+from app.models import Tags
 from app.share import share
 from app.share.forms import StoryForm
-from app.share.utils import create_story, create_poster, validate_years, validate_poster
+from app.share.utils import create_story, create_user
+from app.share.validators import validate_years, validate_user
 
 
 @share.route('/', methods=['GET', 'POST'])
@@ -26,7 +29,7 @@ def new():
     # }
     if request.method == 'POST':
         tag_string = form.tags.data
-        tags = tag_string.split(';')
+        tags = tag_string.split(',')
 
         if form.validate_on_submit():
             # extra validator for activist's years because it can't be done through WTForms built in
@@ -39,12 +42,12 @@ def new():
 
             if form.poster_first.data or form.poster_last.data or form.poster_email.data:
                 # extra validator for poster information because it can't be done through WTForms built in
-                if not validate_poster(form.user_first.data, form.user_last.data):
+                if not validate_user(form.user_first.data, form.user_last.data):
                     flash('Error, please try again.')
                     return render_template('share/share.html', form=form)
-                user_id = create_poster(user_first=form.user_first.data,
-                                        user_last=form.user_last.data,
-                                        user_email=form.user_email.data)
+                user_id = create_user(user_first=form.user_first.data,
+                                      user_last=form.user_last.data,
+                                      user_email=form.user_email.data)
             else:
                 user_id = None
 
@@ -63,4 +66,4 @@ def new():
             flash('Story submitted!', category='share_submitted_story')
             return redirect(url_for('share.new'))
         flash('Error, please try again.')
-    return render_template('share/share.html', form=form)
+    return render_template('share/share.html', form=form, tags=Tags.query.all())

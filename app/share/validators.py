@@ -46,7 +46,7 @@ def validate_years(activist_start, activist_start_BC, activist_end, activist_end
     return True
 
 
-def validate_start_year(year):
+def validate_start_year(form, year):
     """
     A validator to check that the start year is only numbers
     :param form: part of the StoryForm
@@ -58,7 +58,7 @@ def validate_start_year(year):
         raise ValidationError()
 
 
-def validate_end_year(year):
+def validate_end_year(form, year):
     """
     A validator to check that the start year is only numbers or "Today"
     :param form: part of the StoryForm object
@@ -70,7 +70,7 @@ def validate_end_year(year):
         raise ValidationError()
 
 
-def validate_url(url):
+def validate_url(form, url):
     """
     A validator to check that the url is valid and returns a 200 response code
 
@@ -85,7 +85,7 @@ def validate_url(url):
         raise ValidationError()
 
 
-def validate_image(image):
+def validate_image(form, image):
     """
     A validator to check that an image URL has the proper format and returns a 200 response code
 
@@ -103,7 +103,7 @@ def validate_image(image):
         raise ValidationError('The image URL must end in "jpeg","jpg", or "png". Please try again.')
 
 
-def validate_video(video):
+def validate_video(form, video):
     """
     A validator to check that a video URL has the proper format and returns a 200 response code
 

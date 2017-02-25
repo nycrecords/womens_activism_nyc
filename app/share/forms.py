@@ -7,7 +7,6 @@ from wtforms import (
     StringField,
     SubmitField,
     BooleanField,
-    IntegerField
 )
 from wtforms.validators import (
     DataRequired,
@@ -30,8 +29,8 @@ class StoryForm(Form):
     activist_first = StringField("Activist first name", validators=[DataRequired(), Length(1, 128)],
                                  id="first-name-field")
     activist_last = StringField("Activist last name", validators=[DataRequired(), Length(1, 128)], id="last-name-field")
-    activist_start = IntegerField("Activist birth year", validators=[DataRequired(), Length(1, 4), validate_start_year],
-                                  id="year-born-input")
+    activist_start = StringField("Activist birth year", validators=[DataRequired(), Length(1, 4), validate_start_year],
+                                 id="year-born-input")
     activist_start_BC = BooleanField("Check if activist was born during BC", validators=[Optional()])
     activist_end = StringField("Activist death year", validators=[DataRequired(), Length(1, 5), validate_end_year],
                                id="year-death-input")

@@ -123,7 +123,7 @@ class Users(UserMixin, db.Model):
             terms_of_use_accepted=False
     ):
         self.guid = guid
-        self.auth_user_type = auth_user_type,
+        self.auth_user_type = auth_user_type
         self.is_mod = is_mod
         self.is_admin = is_admin
         self.first_name = first_name
@@ -132,6 +132,21 @@ class Users(UserMixin, db.Model):
         self.email = email
         self.email_validated = email_validated
         self.terms_of_use_accepted = terms_of_use_accepted
+
+    @property
+    def val_for_events(self):
+        """
+        JSON to store in Events 'new_value' field.
+        """
+        return {
+            'guid': self.guid,
+            'auth_user_type': self.auth_user_type,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'email': self.email,
+            'email_validated': self.email_validated,
+            'terms_of_use_accepted': self.terms_of_use_accepted
+        }
 
     def __repr__(self):
         return '<User %r>' % self.guid
@@ -215,15 +230,15 @@ class Stories(db.Model):
             self,
             activist_first,
             activist_last,
-            activist_start,
-            activist_end,
             content,
             tags,
             is_visible=True,
+            activist_start=None,
+            activist_end=None,
             activist_url=None,
             image_url=None,
             video_url=None,
-            poster_id=None,
+            user_guid=None,
             is_edited=False,
     ):
         self.activist_first = activist_first
@@ -234,11 +249,27 @@ class Stories(db.Model):
         self.activist_url = activist_url
         self.image_url = image_url
         self.video_url = video_url
-        self.poster_id = poster_id
+        self.user_guid = user_guid
         self.date_created = datetime.utcnow()
         self.is_edited = is_edited
         self.is_visible = is_visible
         self.tags = tags
+
+    @property
+    def val_for_events(self):
+        """
+        JSON to store in Events 'new_value' field.
+        """
+        return {
+            'activist_first': self.activist_first,
+            'activist_last': self.activist_last,
+            'activist_start': self.activist_start,
+            'activist_end': self.activist_end,
+            'content': self.content,
+            'activist_url': self.activist_url,
+            'image_url': self.image_url,
+            'video_url': self.video_url
+        }
 
     def es_create(self):
         """Create elasticsearch doc"""
@@ -350,14 +381,16 @@ class Events(db.Model):
     module_id = db.Column(db.Integer, db.ForeignKey('modules.id'))
     user_guid = db.Column(db.String(64), db.ForeignKey('users.guid'))
     type = db.Column(
-        db.Enum(event.EDIT_STORY,
+        db.Enum(event.STORY_CREATED,
+                event.USER_CREATED,
+                event.EDIT_STORY,
                 event.DELETE_STORY,
                 event.EDIT_COMMENT,
                 event.DELETE_COMMENT,
                 event.EDIT_FEATURED_STORY,
                 event.EDIT_THEN_AND_NOW,
-                event.EDIT_EVENT,
-                name='type'), nullable=False)
+                event.STORY_FLAGGED,
+                name='event_type'), nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
     previous_value = db.Column(JSON)
     new_value = db.Column(JSON)
@@ -366,22 +399,20 @@ class Events(db.Model):
         return '<Events %r' % self.id
 
     def __init__(self,
-                 id,
-                 story_id,
-                 comment_id,
-                 module_id,
-                 user_guid,
                  _type,
+                 story_id=None,
+                 user_guid=None,
+                 comment_id=None,
+                 module_id=None,
                  previous_value=None,
                  new_value=None
                  ):
-        self.id = id
         self.story_id = story_id
         self.comment_id = comment_id
         self.module_id = module_id
-        self.user_guid = user_guid,
-        self.type = _type,
-        self.timestamp = datetime.utcnow(),
+        self.user_guid = user_guid
+        self.type = _type
+        self.timestamp = datetime.utcnow()
         self.previous_value = previous_value
         self.new_value = new_value
 
@@ -410,11 +441,11 @@ class Modules(db.Model):
                 module.THEN,
                 module.NOW,
                 module.EVENT,
-                name='type'))
+                name='module_type'))
     title1 = db.Column(db.String(50))
     title2 = db.Column(db.String(50))
-    activist_first = db.Column(db.String(30))
-    activist_last = db.Column(db.String(30))
+    activist_first = db.Column(db.String(128))
+    activist_last = db.Column(db.String(128))
     content = db.Column(db.String(500))  # short description or quote
     media_url = db.Column(db.String(254))
     event_date = db.Column(db.DateTime)
@@ -469,7 +500,7 @@ class Flags(db.Model):
                 flag.INCORRECT_INFORMATION,
                 flag.OFFENSIVE_CONTENT,
                 flag.OTHER,
-                name='type'))
+                name='flag_type'))
     reason = db.Column(db.String(500), nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
     addressed = db.Column(db.Boolean, nullable=False)

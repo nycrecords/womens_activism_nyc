@@ -1,4 +1,4 @@
-INAPPROPRIATE_CONTENT = "Inappropriate Content"
-INCORRECT_INFORMATION = "Incorrect Information"
-OFFENSIVE_CONTENT = "Offensive Content"
-OTHER = "Other"
+INAPPROPRIATE_CONTENT = "inappropriate_content"
+INCORRECT_INFORMATION = "incorrect_information"
+OFFENSIVE_CONTENT = "offensive_content"
+OTHER = "other"

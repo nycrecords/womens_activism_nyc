@@ -1,7 +1,10 @@
 """
 Utility functions used for view functions involving stories
 """
+import uuid
+from flask import current_app
 
+from app.constants.user_type_auth import ANONYMOUS_USER
 from app.models import Stories, Users
 from app.db_utils import create_object
 
@@ -9,15 +12,13 @@ from app.db_utils import create_object
 def create_story(activist_first,
                  activist_last,
                  activist_start,
-                 activist_start_BC,
                  activist_end,
-                 activist_end_BC,
                  tags,
                  content,
                  activist_url,
                  image_url,
                  video_url,
-                 user_id):
+                 user_guid):
     """
     A utility function to create a Story object and convert parameters to the correct data types. After the Story object
     is created it will be added and committed to the database
@@ -25,58 +26,43 @@ def create_story(activist_first,
     :param activist_first: the activist's first name
     :param activist_last: the activist's last name
     :param activist_start: the activist's birth year
-    :param activist_start_BC:
     :param activist_end: the activist's death year
-    :param activist_end_BC:
     :param tags: a string array containing the selected tags associated with the activist
     :param content: the content of the story
-    :param activist_url:
+    :param activist_url: a url containing additional information about the activist
     :param image_url: a url containing an image link
     :param video_url: a url containing a
-    :param poster_id: the id of the poster who created the story
+    :param user_guid: the guid of the user who created the story
     :return: no return value, a Story object will be created
     """
-    activist_first.strip()
-    activist_first.title()
-    activist_last.strip()
-    activist_last.title()
-    activist_start.strip()
-    activist_end.strip()
-    content.strip()
-    activist_url.strip()
-    image_url.strip()
-    video_url.strip()
+    strip_fields = ['activist_first', 'activist_last', 'activist_start', 'activist_end', 'content', 'activist_url',
+                    'img_url', 'video_url']
+    for field in strip_fields:
+        field.strip()
 
-    if activist_start_BC:  # convert the year to a negative integer if the start year was in BC
-        activist_start = int(activist_start) * -1
-    if activist_end_BC:  # convert the year to a negative integer if the end year was in BC
-        activist_end = int(activist_end) * -1
     if activist_end == "Today" or activist_end == "today":  # convert "Today" to 9999 to be stored in the database
         activist_end = 9999
-    if activist_url == "":
-        activist_url = None
-    if image_url == "":
-        image_url = None
-    if video_url == "":
-        video_url = None
 
-    story = Stories(activist_first=activist_first,
-                    activist_last=activist_last,
-                    activist_start=activist_start,
-                    activist_end=activist_end,
+    story = Stories(activist_first=activist_first.title(),
+                    activist_last=activist_last.title(),
+                    activist_start=activist_start if activist_start else None,
+                    activist_end=activist_end if activist_start else None,
                     content=content,
-                    activist_url=activist_url,
-                    image_url=image_url,
-                    video_url=video_url,
-                    poster_id=poster_id,
+                    activist_url=activist_url if activist_url else None,
+                    image_url=image_url if activist_url else None,
+                    video_url=video_url if activist_url else None,
+                    user_guid=user_guid,
                     tags=tags)
 
     create_object(story)
 
+    if current_app.config['ELASTICSEARCH_ENABLED']:
+        story.es_create()
+
 
 def create_user(user_first,
-                  user_last,
-                  user_email):
+                user_last,
+                user_email):
     """
     A utility function used to create a User object.
     If any of the fields are left blank then convert them to None types
@@ -86,22 +72,15 @@ def create_user(user_first,
     :param user_email: the poster's email
     :return: no return value, a Poster object will be created
     """
-    user_first.strip()
-    user_first.title()
-    user_last.strip()
-    user_last.title()
-    user_email.strip()
+    strip_fields = ['user_first', 'user_last', 'user_email']
+    for field in strip_fields:
+        field.strip()
 
-    if user_first == "":
-        user_first = None
-    if user_last == "":
-        user_last = None
-    if user_email == "":
-        user_email = None
-
-    user = Users(first_name=user_first,
-                 last_name=user_last,
-                 email=user_email)
+    user = Users(guid=str(uuid.uuid4()),
+                 first_name=user_first if user_first else None,
+                 last_name=user_last if user_first else None,
+                 auth_user_type=ANONYMOUS_USER,
+                 email=user_email if user_email else None)
 
     create_object(user)
-    return user.id
+    return user.guid

@@ -6,46 +6,6 @@ from wtforms import ValidationError
 import requests
 
 
-def validate_user(user_first, user_last):
-    """
-    A validator used check that a poster has provided both their first and last name if they decide to
-    give their personal information.
-
-    :param user_first: the poster's first name
-    :param user_last: the poster's last name
-    :return: True is validation is passed, False otherwise
-    """
-    if (len(user_first) == 0 and len(user_last) != 0) or (len(user_first) != 0 and len(user_last) == 0):
-        return False
-    else:
-        return True
-
-
-def validate_years(activist_start, activist_start_BC, activist_end, activist_end_BC):
-    """
-    A validator used to to check edge cases for activist years involving both the start and end years.
-
-    :param activist_start: the activist's birth year
-    :param activist_start_BC: a boolean to see if the birth year was a BC year
-    :param activist_end: the activist's death year
-    :param activist_end_BC: a boolean to see if the death year was a BC year
-    :return: True is the years are valid, False otherwise
-    """
-    # ensure "Today" and BC are not inputted at the same time
-    if (activist_end == "Today" or activist_end == "today") and activist_end_BC:
-        return False
-
-    # if the activist years are BC years then convert them to negative integers
-    if activist_start_BC:
-        activist_start = int(activist_start) * -1
-    if activist_end_BC:
-        activist_end = int(activist_end) * -1
-
-    if activist_start > activist_end:
-        return False
-    return True
-
-
 def validate_start_year(form, year):
     """
     A validator to check that the start year is only numbers
@@ -66,7 +26,7 @@ def validate_end_year(form, year):
     """
     activist_end = year.data
     activist_end.strip()
-    if activist_end != "Today" and activist_end != "today" and activist_end.isdigit() == False:
+    if activist_end != "Today" and activist_end != "today" and not activist_end.isdigit():
         raise ValidationError()
 
 

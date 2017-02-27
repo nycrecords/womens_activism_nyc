@@ -1,8 +1,8 @@
 """initial migration
 
-Revision ID: 408aeb81a5c4
+Revision ID: bd974aec16bf
 Revises: 
-Create Date: 2017-02-24 15:17:11.818593
+Create Date: 2017-02-27 14:14:04.100926
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = '408aeb81a5c4'
+revision = 'bd974aec16bf'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -88,7 +88,7 @@ def upgrade():
     op.create_table('modules',
                     sa.Column('id', sa.Integer(), nullable=False),
                     sa.Column('story_id', sa.Integer(), nullable=True),
-                    sa.Column('type', sa.Enum('Featured', 'Then', 'Now', 'Event', name='type'), nullable=True),
+                    sa.Column('type', sa.Enum('Featured', 'Then', 'Now', 'Event', name='module_type'), nullable=True),
                     sa.Column('title1', sa.String(length=50), nullable=True),
                     sa.Column('title2', sa.String(length=50), nullable=True),
                     sa.Column('activist_first', sa.String(length=30), nullable=True),
@@ -107,8 +107,8 @@ def upgrade():
                     sa.Column('module_id', sa.Integer(), nullable=True),
                     sa.Column('user_guid', sa.String(length=64), nullable=True),
                     sa.Column('type', sa.Enum('Edit Story', 'Delete Story', 'Edit Comment', 'Delete Comment',
-                                              'Edit Featured Story', 'Edit Then and Now', 'Edit Event', name='type'),
-                              nullable=False),
+                                              'Edit Featured Story', 'Edit Then and Now', 'Edit Event',
+                                              name='event_type'), nullable=False),
                     sa.Column('timestamp', sa.DateTime(), nullable=False),
                     sa.Column('previous_value', postgresql.JSON(astext_type=sa.Text()), nullable=True),
                     sa.Column('new_value', postgresql.JSON(astext_type=sa.Text()), nullable=True),
@@ -124,7 +124,7 @@ def upgrade():
                     sa.Column('comment_id', sa.Integer(), nullable=True),
                     sa.Column('type',
                               sa.Enum('Inappropriate Content', 'Incorrect Information', 'Offensive Content', 'Other',
-                                      name='type'), nullable=True),
+                                      name='flag_type'), nullable=True),
                     sa.Column('reason', sa.String(length=500), nullable=False),
                     sa.Column('timestamp', sa.DateTime(), nullable=False),
                     sa.Column('addressed', sa.Boolean(), nullable=False),

@@ -14,8 +14,6 @@ $(function () {
     var userLast = $("#user-last-name-field");
     var userEmail = $("#user-email-field");
 
-
-
     // Functionality for tags
     var selectedTags = [];
 

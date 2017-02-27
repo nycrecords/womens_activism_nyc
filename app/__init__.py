@@ -4,9 +4,11 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_elasticsearch import FlaskElasticsearch
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import CsrfProtect
 from config import config
 
 bootstrap = Bootstrap()
+csrf = CsrfProtect()
 db = SQLAlchemy()
 moment = Moment()
 es = FlaskElasticsearch()
@@ -21,7 +23,8 @@ def create_app(config_name):
     bootstrap.init_app(app)
     es.init_app(app, use_ssl=app.config['ELASTICSEARCH_USE_SSL'])
     db.init_app(app)
-    moment.init_app((app))
+    csrf.init_app(app)
+    moment.init_app(app)
 
     from .main import main as main
     app.register_blueprint(main)

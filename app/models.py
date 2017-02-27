@@ -123,7 +123,7 @@ class Users(UserMixin, db.Model):
             terms_of_use_accepted=False
     ):
         self.guid = guid
-        self.auth_user_type = auth_user_type,
+        self.auth_user_type = auth_user_type
         self.is_mod = is_mod
         self.is_admin = is_admin
         self.first_name = first_name
@@ -215,15 +215,15 @@ class Stories(db.Model):
             self,
             activist_first,
             activist_last,
-            activist_start,
-            activist_end,
             content,
             tags,
             is_visible=True,
+            activist_start=None,
+            activist_end=None,
             activist_url=None,
             image_url=None,
             video_url=None,
-            poster_id=None,
+            user_guid=None,
             is_edited=False,
     ):
         self.activist_first = activist_first
@@ -234,7 +234,7 @@ class Stories(db.Model):
         self.activist_url = activist_url
         self.image_url = image_url
         self.video_url = video_url
-        self.poster_id = poster_id
+        self.user_guid = user_guid
         self.date_created = datetime.utcnow()
         self.is_edited = is_edited
         self.is_visible = is_visible
@@ -357,7 +357,7 @@ class Events(db.Model):
                 event.EDIT_FEATURED_STORY,
                 event.EDIT_THEN_AND_NOW,
                 event.EDIT_EVENT,
-                name='type'), nullable=False)
+                name='event_type'), nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
     previous_value = db.Column(JSON)
     new_value = db.Column(JSON)
@@ -410,7 +410,7 @@ class Modules(db.Model):
                 module.THEN,
                 module.NOW,
                 module.EVENT,
-                name='type'))
+                name='module_type'))
     title1 = db.Column(db.String(50))
     title2 = db.Column(db.String(50))
     activist_first = db.Column(db.String(30))
@@ -469,7 +469,7 @@ class Flags(db.Model):
                 flag.INCORRECT_INFORMATION,
                 flag.OFFENSIVE_CONTENT,
                 flag.OTHER,
-                name='type'))
+                name='flag_type'))
     reason = db.Column(db.String(500), nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
     addressed = db.Column(db.Boolean, nullable=False)

@@ -10,3 +10,7 @@ def catalog():
         'stories/stories.html',
         tags=Tags.query.all()
     )
+
+@stories.route('/view', methods=['GET'])
+def view():
+    return render_template('stories/view.html')

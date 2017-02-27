@@ -1328,3 +1328,8 @@ p, div {
 #contact-email-link:hover {
     color: #000000;
 }
+#no-results-text {
+    text-align: center;
+    font-size: 22px;
+    margin: 0;
+}

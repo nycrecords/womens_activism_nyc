@@ -42,6 +42,9 @@ $(function () {
                     noResultsFound = true;
                     results.html("<div>No results found.</div>")
                 }
+                $('html, body').animate({
+                    scrollTop: $("#home-stories").offset().top
+                }, 2000);
             }
         });
     }

@@ -76,6 +76,10 @@ $(function () {
         if (query.parsley().isValid()) {
             resetAndSearch();
         }
+        // Scroll down to results
+        $('html, body').animate({
+            scrollTop: $("#home-stories").offset().top
+        }, 850);
     });
 
     // Call search method upon scrolling to bottom of page

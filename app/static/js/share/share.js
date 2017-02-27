@@ -6,6 +6,15 @@ $(function () {
     var imageInput = $("#story-image-input");
     var videoButton = $("#video-upload-btn");
     var mediaButton = $("#media-back-div");
+    var activistFirst = $("#first-name-field");
+    var activistLast = $("#last-name-field");
+    var activistStart = $("#activist-start");
+    var activistEnd = $("#activist-end");
+    var userFirst = $("#user-first-name-field");
+    var userLast = $("#user-last-name-field");
+    var userEmail = $("#user-email-field");
+
+
 
     // Functionality for tags
     var selectedTags = [];
@@ -25,9 +34,25 @@ $(function () {
         hiddenTagInput.val(selectedTags);
     });
 
-    //Nav active state change
+    // Nav active state change
     $(".nav li").removeClass("active");
     $('a[href=".' + this.location.pathname + '"]').parents('li,ul').addClass('active');
+
+    // Loop through required fields and apply a data-parsley-required attribute to them
+    var requiredFields = ["first-name-field", "last-name-field", "hidden-tag-input", "story-content"];
+    for (var i = 0; i < requiredFields.length; i++) {
+        $("#" + requiredFields[i]).attr("data-parsley-required", "");
+    }
+
+    // Specify length requirement of certain fields
+    activistFirst.attr("data-parsley-maxlength", 128);
+    activistLast.attr("data-parsley-maxlength", 128);
+    hiddenTagInput.attr("data-parsley-maxlength", 500);
+    userFirst.attr("data-parsley-maxlength", 64);
+    userLast.attr("data-parsley-maxlength", 64);
+    userEmail.attr("data-parsley-maxlength", 254);
+
+    userEmail.attr("data-parsley-type", "email");
 
     // Scroll fix for Parsley.js
     var errorList = [];
@@ -46,12 +71,12 @@ $(function () {
     });
 
     //Numbers only in year input
-    $('#year-born-input').keypress(function (e) {
+    activistStart.keypress(function (e) {
         if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
             return false;
         }
     });
-    $('#year-death-input').keypress(function (e) {
+    activistEnd.keypress(function (e) {
         if (e.which == 116 || e.which == 84 || e.which == 116 || e.which == 111 || e.which == 79 || e.which == 100 || e.which == 68 || e.which == 116 || e.which == 97 || e.which == 65 || e.which == 121 || e.which == 89) {
             return true;
         } else if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {

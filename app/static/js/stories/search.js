@@ -40,7 +40,7 @@ $(function () {
                 }
                 else {
                     noResultsFound = true;
-                    results.html("<div id='search-no-results'>No results found were found.</div>")
+                    results.html("<div id='search-no-results'>No results were found.</div>")
                 }
             }
         });

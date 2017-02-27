@@ -8,11 +8,11 @@
                 <p id="story-subheading">By Judith Wellman | May 10th, 2016</p>
 
                 {% if image_url %}
-                    {%  include 'view-story-image.html' %}
+                    {%  include 'story/view-story-image.html' %}
                 {% elif video_url %}
-                    {%  include 'view-story-video.html' %}
+                    {%  include 'story/view-story-video.html' %}
                 {% else %}
-                    <p>There is nothing here to display.</p>
+                    {%  include 'story/view-story-none.html' %}
                 {% endif %}
 
             </div>

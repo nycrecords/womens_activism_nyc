@@ -889,3 +889,8 @@ p, div {
     display: flex;
     justify-content: space-between;
 }
+#no-results-text {
+    text-align: center;
+    font-size: 22px;
+    margin: 0;
+}

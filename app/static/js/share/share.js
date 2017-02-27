@@ -42,6 +42,16 @@ $(function () {
         $("#" + requiredFields[i]).attr("data-parsley-required", "");
     }
 
+    // Set buttons to active if hiddenTagInput has value (backend validation for form fails)
+    if (hiddenTagInput.val()) {
+        selectedTags = hiddenTagInput.val().split(',');
+        for (i = 0; i < selectedTags.length; i++) {
+            var activeButton = $("button[value=" + selectedTags[i] + "]");
+            activeButton.toggleClass("share-inactive");
+            activeButton.toggleClass("share-active");
+        }
+    }
+
     // Specify length requirement of certain fields
     activistFirst.attr("data-parsley-maxlength", 128);
     activistLast.attr("data-parsley-maxlength", 128);
@@ -68,7 +78,7 @@ $(function () {
         }
     });
 
-    //Numbers only in year input
+    // Numbers only in year input
     activistStart.keypress(function (e) {
         if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
             return false;

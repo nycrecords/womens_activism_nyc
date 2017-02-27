@@ -1444,3 +1444,6 @@ p, div {
     font-size: 22px;
     margin: 0;
 }
+#search-no-results {
+    font-size: 22px;
+}

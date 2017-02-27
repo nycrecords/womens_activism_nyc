@@ -1174,6 +1174,7 @@ p, div {
     font-size: 18px;
     line-height: 30px;
     font-weight: 100;
+    min-height: 210px;
 }
 
 .get-involved-btn {

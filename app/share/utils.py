@@ -5,7 +5,8 @@ import uuid
 from flask import current_app
 
 from app.constants.user_type_auth import ANONYMOUS_USER
-from app.models import Stories, Users
+from app.constants.event import STORY_CREATED, USER_CREATED
+from app.models import Stories, Users, Events
 from app.db_utils import create_object
 
 
@@ -40,9 +41,11 @@ def create_story(activist_first,
     for field in strip_fields:
         field.strip()
 
-    if activist_end == "Today" or activist_end == "today":  # convert "Today" to 9999 to be stored in the database
+    # convert "Today" to 9999 to be stored in the database
+    if activist_end == "Today" or activist_end == "today":
         activist_end = 9999
 
+    # Create Stories object
     story = Stories(activist_first=activist_first.title(),
                     activist_last=activist_last.title(),
                     activist_start=activist_start if activist_start else None,
@@ -53,9 +56,16 @@ def create_story(activist_first,
                     video_url=video_url if activist_url else None,
                     user_guid=user_guid,
                     tags=tags)
-
     create_object(story)
 
+    # Create Events object
+    create_object(Events(
+        _type=STORY_CREATED,
+        story_id=story.id,
+        new_value=story.val_for_events
+    ))
+
+    # Create the elasticsearch story doc
     if current_app.config['ELASTICSEARCH_ENABLED']:
         story.es_create()
 
@@ -76,11 +86,19 @@ def create_user(user_first,
     for field in strip_fields:
         field.strip()
 
+    # Create Users object
     user = Users(guid=str(uuid.uuid4()),
                  first_name=user_first if user_first else None,
-                 last_name=user_last if user_first else None,
+                 last_name=user_last if user_last else None,
                  auth_user_type=ANONYMOUS_USER,
                  email=user_email if user_email else None)
-
     create_object(user)
+
+    # Create Events object
+    create_object(Events(
+        _type=USER_CREATED,
+        user_guid=user.guid,
+        new_value=user.val_for_events
+    ))
+
     return user.guid

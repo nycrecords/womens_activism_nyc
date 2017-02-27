@@ -1,8 +1,8 @@
 """initial migration
 
-Revision ID: bd974aec16bf
+Revision ID: 243d0f8552d8
 Revises: 
-Create Date: 2017-02-27 14:14:04.100926
+Create Date: 2017-02-27 16:43:11.182503
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = 'bd974aec16bf'
+revision = '243d0f8552d8'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -88,11 +88,11 @@ def upgrade():
     op.create_table('modules',
                     sa.Column('id', sa.Integer(), nullable=False),
                     sa.Column('story_id', sa.Integer(), nullable=True),
-                    sa.Column('type', sa.Enum('Featured', 'Then', 'Now', 'Event', name='module_type'), nullable=True),
+                    sa.Column('type', sa.Enum('featured', 'then', 'now', 'event', name='module_type'), nullable=True),
                     sa.Column('title1', sa.String(length=50), nullable=True),
                     sa.Column('title2', sa.String(length=50), nullable=True),
-                    sa.Column('activist_first', sa.String(length=30), nullable=True),
-                    sa.Column('activist_last', sa.String(length=30), nullable=True),
+                    sa.Column('activist_first', sa.String(length=128), nullable=True),
+                    sa.Column('activist_last', sa.String(length=128), nullable=True),
                     sa.Column('content', sa.String(length=500), nullable=True),
                     sa.Column('media_url', sa.String(length=254), nullable=True),
                     sa.Column('event_date', sa.DateTime(), nullable=True),
@@ -106,9 +106,10 @@ def upgrade():
                     sa.Column('comment_id', sa.Integer(), nullable=True),
                     sa.Column('module_id', sa.Integer(), nullable=True),
                     sa.Column('user_guid', sa.String(length=64), nullable=True),
-                    sa.Column('type', sa.Enum('Edit Story', 'Delete Story', 'Edit Comment', 'Delete Comment',
-                                              'Edit Featured Story', 'Edit Then and Now', 'Edit Event',
-                                              name='event_type'), nullable=False),
+                    sa.Column('type', sa.Enum('story_created', 'user_created', 'story_edited', 'story_deleted',
+                                              'comment_edited', 'comment_deleted', 'feature_story_edited',
+                                              'then_and_now_edited', 'story_flagged', name='event_type'),
+                              nullable=False),
                     sa.Column('timestamp', sa.DateTime(), nullable=False),
                     sa.Column('previous_value', postgresql.JSON(astext_type=sa.Text()), nullable=True),
                     sa.Column('new_value', postgresql.JSON(astext_type=sa.Text()), nullable=True),
@@ -123,7 +124,7 @@ def upgrade():
                     sa.Column('story_id', sa.Integer(), nullable=True),
                     sa.Column('comment_id', sa.Integer(), nullable=True),
                     sa.Column('type',
-                              sa.Enum('Inappropriate Content', 'Incorrect Information', 'Offensive Content', 'Other',
+                              sa.Enum('inappropriate_content', 'incorrect_information', 'offensive_content', 'other',
                                       name='flag_type'), nullable=True),
                     sa.Column('reason', sa.String(length=500), nullable=False),
                     sa.Column('timestamp', sa.DateTime(), nullable=False),

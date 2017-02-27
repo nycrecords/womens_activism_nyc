@@ -588,6 +588,9 @@ p, div {
     font-weight: bold;
     color: rgb(52, 41, 79)
 }
+.copyright-bureau-blank:hover {
+    color: rgb(52, 41, 79)
+}
 
 /* ------------ SHARE A STORY ------------ */
 
@@ -1300,4 +1303,26 @@ p, div {
 
 .committee-member-info p {
     font-size: 13px;
+}
+
+/* Contact Page */
+
+#contact-container {
+    text-align: center;
+}
+#contact-container h1 {
+    margin-top: 80px;
+}
+#contact-container p {
+    margin: 60px 0;
+    font-size: 22px;
+}
+#contact-email-link {
+    color: #59315f;
+    text-decoration: underline;
+    font-weight: normal;
+    transition: color 0.2s ease;
+}
+#contact-email-link:hover {
+    color: #000000;
 }

@@ -22,7 +22,9 @@ h1 {
     text-align: center;
     background: #d29f13;
 }
-
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+    background-color: #e0b040 !important;
+}
 .icon-bar {
     background-color: #ffffff !important;
 }
@@ -1545,13 +1547,35 @@ p, div {
 #view-story-feedback-content p {
     margin-top: 20px;
 }
+#back-to-top-div {
+    width: 60px;
+    position: fixed;
+    right: 0;
+    bottom: 10%;
+    height: 60px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 15px 0;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    z-index: 99999;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
 #back-to-top-div:hover {
     cursor: pointer;
 }
 #back-to-top-icon {
-    font-size: 28px;
+    font-size: 22px;
     color: #ccc;
 }
 #back-to-top {
     color: #ccc;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 0 3px;
 }

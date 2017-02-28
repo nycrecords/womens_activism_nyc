@@ -53,11 +53,11 @@ $(function () {
     }
 
     // Specify length requirement of certain fields
-    activistFirst.attr("data-parsley-maxlength", 128);
-    activistLast.attr("data-parsley-maxlength", 128);
+    activistFirst.attr("data-parsley-maxlength", 64);
+    activistLast.attr("data-parsley-maxlength", 64);
     hiddenTagInput.attr("data-parsley-maxlength", 500);
-    userFirst.attr("data-parsley-maxlength", 64);
-    userLast.attr("data-parsley-maxlength", 64);
+    userFirst.attr("data-parsley-maxlength", 128);
+    userLast.attr("data-parsley-maxlength", 128);
     userEmail.attr("data-parsley-maxlength", 254);
 
     userEmail.attr("data-parsley-type", "email");

@@ -11,10 +11,10 @@
                         you.</p>
                     <div class="who-input-group">
                         <div class="input-inline-fix">
-                            {{ form.activist_first (id="first-name-field", class="share-who-input", placeholder="Mary", maxlength=128, required=true) }}
+                            {{ form.activist_first (id="first-name-field", class="share-who-input", placeholder="Mary", maxlength=64, required=true) }}
                         </div>
                         <div class="input-inline-fix">
-                            {{ form.activist_last (id="last-name-field", class="share-who-input", placeholder="Smith", maxlength=128, required=true) }}
+                            {{ form.activist_last (id="last-name-field", class="share-who-input", placeholder="Smith", maxlength=64, required=true) }}
                         </div>
                     </div>
                     <p class="name-required">required</p>
@@ -107,8 +107,8 @@
                     <p class="about-you-subheading">If you would like to share your name, enter below. Your email
                         address will not be made public.</p>
                     <div class="who-input-group">
-                        {{ form.user_first (id="user-first-name-field", class="share-who-input", placeholder="Mary", maxlength=64) }}
-                        {{ form.user_last (id="user-last-name-field", class="share-who-input", placeholder="Smith", maxlength=64) }}
+                        {{ form.user_first (id="user-first-name-field", class="share-who-input", placeholder="Mary", maxlength=128) }}
+                        {{ form.user_last (id="user-last-name-field", class="share-who-input", placeholder="Smith", maxlength=128) }}
                     </div>
                     <div class="who-input-group">
                         {{ form.user_email (id="user-email-field", class="share-you-email-input", placeholder="msmith@gmail.com", maxlength=254, type="email") }}

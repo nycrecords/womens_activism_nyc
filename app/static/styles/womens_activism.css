@@ -205,6 +205,7 @@ p, div {
     margin: 0 3px;
     border: 1px solid #d9d9d9;
     height: 381px;
+    word-wrap: break-word;
 }
 
 .home-story-content h4 {

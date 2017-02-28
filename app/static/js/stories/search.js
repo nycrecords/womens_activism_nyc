@@ -87,7 +87,7 @@ $(function () {
     $(window).scroll(function () {
         if ($(window).scrollTop() == $(document).height() - $(window).height() && (start < total)) {
             setStart(start);
-            size = 20;
+            size = 12;
             append = true;
             search();
         }

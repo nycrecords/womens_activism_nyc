@@ -119,6 +119,10 @@ $(function () {
         videoButton.show();
         // $("#story-image-input-box, #story-video-input-box").val("");
     });
+
+    $("#share-form").submit(function () {
+        $("#share-story-btn").attr("disabled","disabled");
+    })
 });
 
 // Share a story - capitalize first letter of name inputs

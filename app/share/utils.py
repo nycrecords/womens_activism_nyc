@@ -43,7 +43,7 @@ def create_story(activist_first,
 
     # convert "Today" to 9999 to be stored in the database
     if activist_end:
-        activist_end = 9999 if (activist_end == 'Today' or activist_end == 'today') else int(activist_end)
+        activist_end = 9999 if activist_end.lower() == 'today' else int(activist_end)
     else:
         activist_end = None
 

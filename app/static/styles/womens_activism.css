@@ -193,6 +193,10 @@ p, div {
     color: inherit;
 }
 
+#home-stories a:hover {
+    text-decoration: none;
+}
+
 .home-story {
     margin: 15px 0;
 }
@@ -1327,4 +1331,206 @@ p, div {
 }
 #contact-email-link:hover {
     color: #000000;
+}
+
+/* View Individual Story Page */
+
+#view-story-container {
+    text-align: center;
+}
+#view-story-container h1 {
+    margin-top: 80px;
+    color: #23224f;
+}
+#view-story-container-short {
+    text-align: center;
+}
+#view-story-container-short h1 {
+    margin-top: 80px;
+    color: #23224f;
+}
+#story-subheading {
+    margin-top: 5px;
+    font-size: 20px;
+    color: #23224f;
+}
+#story-user-date-subheading {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #23224f;
+}
+#story-content-container {
+    text-align: left;
+    max-width: 1000px;
+    width: 100%;
+    margin: 60px auto 10px auto;
+    padding: 60px;
+    border: 1px solid #ddd;
+}
+#story-content-container-short {
+    text-align: center;
+    max-width: 1000px;
+    width: 100%;
+    margin: 60px auto 10px auto;
+    padding: 60px;
+    border: 1px solid #ddd;
+}
+#view-story-img {
+    width: 50%;
+    float: left;
+    margin: 10px 25px 10px 0;
+}
+#view-story-img-short {
+    width: 50%;
+    margin: 0 auto 20px auto;
+}
+#video-wrapper {
+    float: none;
+    clear: both;
+    width: 100%;
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 25px;
+    height: 0;
+}
+#video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+#view-story-center-wrap {
+    width: 100%;
+    text-align: center;
+}
+#story-content-container p {
+    line-height: 30px;
+    color: #23224f;
+}
+#view-story-text-short {
+    line-height: 30px;
+    color: #23224f;
+}
+@media only screen and (max-width: 550px) {
+    #story-content-container {
+        text-align: center;
+        padding: 20px;
+    }
+    #story-content-container img {
+        width: 100%;
+        max-width: 290px;
+        float: initial;
+        margin: 10px 0 10px 0;
+    }
+    #view-story-img-short {
+        width: 100%;
+        max-width: 290px;
+        float: initial;
+        margin: 10px 0 10px 0;
+    }
+}
+#view-story-footer {
+    text-align: center;
+    font-size: 22px;
+    margin: 20px 0 0 0;
+}
+#view-story-contact-link {
+    color: #59315f;
+    text-decoration: underline;
+    font-weight: normal;
+    transition: color 0.2s ease;
+}
+#view-story-contact-link:hover {
+    color: black;
+}
+#search-no-results {
+    font-size: 22px;
+}
+#learn-more {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 40px;
+}
+#learn-more-link {
+    color: #59315f;
+    text-decoration: underline;
+    font-weight: normal;
+    transition: color 0.2s ease;
+}
+#learn-more-link:hover {
+    color: black;
+}
+
+#view-story-social-div {
+    text-align: center;
+    margin: 40px 0;
+}
+#view-story-social-div p {
+    font-size: 20px;
+    margin: 20px 0;
+}
+#view-story-social {
+    width: 50px;
+    margin: 0 auto 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+#no-results-text {
+    text-align: center;
+    font-size: 22px;
+    margin: 0;
+}
+#view-story-feedback-jumbotron {
+    background-color: #59315f;
+    min-height: 380px;
+    text-align: center;
+    color: #ffffff;
+    height: 100%;
+    width: 100%;
+    display: table;
+    margin: 0;
+}
+#view-story-feedback-jumbotron h1 {
+    padding: 0 20px;
+    font-size: 50px;
+}
+@media (min-width:768px) {
+    #view-story-feedback-jumbotron {
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+@media (min-width: 1170px) {
+    #view-story-feedback-jumbotron h1 {
+        padding: 0 200px;
+    }
+}
+#view-story-feedback-btn {
+    background: none;
+    font-size: 20px;
+    color: white;
+    border-radius: 0;
+    border-width: 2px;
+    margin-top: 40px;
+    border-color: white;
+    padding: 12px 80px;
+    transition: background 0.2s ease;
+}
+
+#view-story-feedback-btn:hover {
+    background: #ffffff;
+    color: rgb(89, 49, 95);
+}
+#view-story-feedback-content {
+    height: 100%;
+    display: table-cell;
+    vertical-align: middle;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+#view-story-feedback-content p {
+    margin-top: 20px;
 }

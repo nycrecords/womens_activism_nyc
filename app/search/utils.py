@@ -93,6 +93,7 @@ def create_docs():
         operations.append({
             '_op_type': 'create',
             '_id': s.id,
+            'id': s.id,
             'activist_first': s.activist_first,
             'activist_last': s.activist_last,
             'content': s.content,
@@ -169,7 +170,8 @@ def search_stories(query,
         index=current_app.config["ELASTICSEARCH_INDEX"],
         doc_type='story',
         body=dsl,
-        _source=['activist_first',
+        _source=['id'
+                 'activist_first',
                  'activist_last',
                  'content',
                  'image_url',

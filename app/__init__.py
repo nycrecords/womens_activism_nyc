@@ -1,8 +1,7 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
-
-from flask_moment import Moment
 from flask_elasticsearch import FlaskElasticsearch
+from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CsrfProtect
 from config import config
@@ -10,8 +9,8 @@ from config import config
 bootstrap = Bootstrap()
 csrf = CsrfProtect()
 db = SQLAlchemy()
-moment = Moment()
 es = FlaskElasticsearch()
+moment = Moment()
 
 
 def create_app(config_name):

@@ -1,20 +1,20 @@
 {% for story in stories %}
-    <a href="#">
+    <a href="{{ url_for('stories.view', story_id=story['_id']) }}">
         <div class="home-story col-lg-3 col-md-4">
             <div class="home-story-content">
-                <h4>{{ story['activist_first'] }}&nbsp;{{ story['activist_last'] }}</h4>
-                {% if story['image_url'] %}
-                    {% if story['content']|length < 50 %}
-                        <p>{{ story['content'] }}</p>
+                <h4>{{ story['_source']['activist_first'] }}&nbsp;{{ story['_source']['activist_last'] }}</h4>
+                {% if story['_source']['image_url'] %}
+                    {% if story['_source']['content']|length < 50 %}
+                        <p>{{ story['_source']['content'] }}</p>
                     {% else %}
-                        <p>{{ story['content'][:50] }}</p>
+                        <p>{{ story['_source']['content'][:50] }}</p>
                     {% endif %}
                     <div class="img-mask" style="background-image: url({{ story['image_url'] }});">
                 {% else %}
-                    {% if story['content']|length < 150 %}
-                        <p>{{ story['content'] }}</p>
+                    {% if story['_source']['content']|length < 150 %}
+                        <p>{{ story['_source']['content'] }}</p>
                     {% else %}
-                        <p>{{ story['content'][:150] }}</p>
+                        <p>{{ story['_source']['content'][:150] }}</p>
                     {% endif %}
                 {% endif %}
                 </div>

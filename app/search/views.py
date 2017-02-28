@@ -51,7 +51,7 @@ def stories():
     formatted_results = None
     if total != 0:
         formatted_results = render_template("stories/result.html",
-                                            stories=[r['_source'] for r in results['hits']['hits']])
+                                            stories=results['hits']['hits'])
     return jsonify({
         "count": len(results["hits"]["hits"]),
         "total": total,

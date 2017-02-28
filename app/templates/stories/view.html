@@ -4,9 +4,16 @@
     <div class="container-fluid" id="view-story-container">
         <div class="row">
             <div class="col-md-12">
-                <h1>Charlotte Woodward</h1>
-                <p id="story-subheading">By Judith Wellman | May 10th, 2016</p>
+                <h1>{{ story.activist_first }} {{ story.activist_last }}</h1>
 
+                {% if story.activist_start %}
+                    <p id="story-subheading">{{ story.activist_start }} - {% if story.activist_end %}{{ story.activist_end if story.activist_end != 9999 else 'Today'}}{% endif %}</p>
+                {% else %}
+                    <p id="story-subheading">{% if story.activist_end %}{{ story.activist_end if story.activist_end != 9999 else 'Today'}}{% endif %}</p>
+                {% endif %}
+
+                {% if user.first_name and user.last_name %}
+                <p id="story-subheading">By {{ user.first_name }} {{ user.last_name }}{% endif %} | {{ moment(story.date_created).format('MMMM D, YYYY') }}</p>
                 {% if image_url %}
                     {%  include 'stories/view-story-image.html' %}
                 {% elif image_url %}

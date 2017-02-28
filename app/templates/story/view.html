@@ -7,7 +7,7 @@
                 <h1>Charlotte Woodward</h1>
                 <p id="story-subheading">By Judith Wellman | May 10th, 2016</p>
 
-                {% if image_url %}
+                {% if 1 == 1 %}
                     {%  include 'story/view-story-image.html' %}
                 {% elif video_url %}
                     {%  include 'story/view-story-video.html' %}
@@ -18,11 +18,19 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid" id="view-story-footer">
-        <div class="row">
-            <div class="col-md-12">
-                <p>We strive for accuracy and fairness. If you see something that doesn't look right, <a href="mailto:womensactivism@records.nyc.gov" id="view-story-contact-link" >contact us</a>!</p>
-            </div>
+    <div class="jumbotron" id="view-story-feedback-jumbotron">
+        <div id="view-story-feedback-content">
+            <h1>We'd Love Your Feedback</h1>
+            <p>Share your thoughts on this story with us. Your comments will not be made public.</p>
+            <a class="btn btn-default btn-lg" id="view-story-feedback-btn"
+               href="mailto:womensactivism@records.nyc.gov" role="button">Email</a>
         </div>
     </div>
+{#    <div class="container-fluid" id="view-story-footer">#}
+{#        <div class="row">#}
+{#            <div class="col-md-12">#}
+{#                <p>We strive for accuracy and fairness. If you see something that doesn't look right, <a href="mailto:womensactivism@records.nyc.gov" id="view-story-contact-link" >contact us</a>!</p>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
 {% endblock %}

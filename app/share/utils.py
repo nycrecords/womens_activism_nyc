@@ -42,14 +42,16 @@ def create_story(activist_first,
         field.strip()
 
     # convert "Today" to 9999 to be stored in the database
-    if activist_end == "Today" or activist_end == "today":
-        activist_end = 9999
+    if activist_end:
+        activist_end = 9999 if (activist_end == 'Today' or activist_end == 'today') else int(activist_end)
+    else:
+        activist_end = None
 
     # Create Stories object
     story = Stories(activist_first=activist_first.title(),
                     activist_last=activist_last.title(),
-                    activist_start=activist_start if activist_start else None,
-                    activist_end=activist_end if activist_start else None,
+                    activist_start=int(activist_start) if activist_start else None,
+                    activist_end=activist_end,
                     content=content,
                     activist_url=activist_url if activist_url else None,
                     image_url=image_url if activist_url else None,

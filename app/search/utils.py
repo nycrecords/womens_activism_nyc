@@ -3,7 +3,7 @@ from flask import current_app
 
 from app import es
 from app.constants import tag
-from app.constants.search import ALL_RESULTS_CHUNKSIZE
+from app.constants.search import ALL_RESULTS_CHUNKSIZE, ES_DATETIME_FORMAT
 from app.models import Stories
 
 
@@ -70,6 +70,10 @@ def create_index():
                         },
                         "tag": {
                             "type": "keyword"
+                        },
+                        "date_created": {
+                            "type": "date",
+                            "format": "strict_date_hour_minute_second",
                         }
                     }
                 }
@@ -93,7 +97,8 @@ def create_docs():
             'activist_last': s.activist_last,
             'content': s.content,
             'image_url': s.image_url,
-            'tag': s.tags
+            'tag': s.tags,
+            'date_created': s.date_created.strftime(ES_DATETIME_FORMAT)
         })
 
     num_success, _ = bulk(
@@ -143,6 +148,8 @@ def search_stories(query,
 
     tags = search_tags if search_tags else tag.tags
 
+    sort = ['date_created:desc']
+
     # set matching type (full-text or phrase matching)
     match_type = 'multi_match'
 
@@ -169,6 +176,7 @@ def search_stories(query,
                  'tag'],
         size=size,
         from_=start,
+        sort=sort
     )
 
     return results

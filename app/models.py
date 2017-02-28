@@ -8,6 +8,7 @@ from app.constants import (
     module,
     flag
 )
+from app.constants.search import ES_DATETIME_FORMAT
 
 from flask import current_app
 from flask_login import UserMixin, AnonymousUserMixin
@@ -282,7 +283,8 @@ class Stories(db.Model):
                 'activist_last': self.activist_last,
                 'content': self.content,
                 'image_url': self.image_url,
-                'tag': self.tags
+                'tag': self.tags,
+                'date_created': self.date_created.strftime(ES_DATETIME_FORMAT)
             }
         )
 

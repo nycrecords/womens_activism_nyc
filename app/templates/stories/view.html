@@ -14,43 +14,47 @@
                         {{ story.activist_end if story.activist_end != 9999 else 'Today' }}{% endif %}</p>
                 {% endif %}
 
-                <p id="story-subheading">{% if user %}
-                    By {% if user.first_name and user.last_name %}
+                <p id="story-user-date-subheading">{% if user %}
+                    <strong>By: </strong> {% if user.first_name and user.last_name %}
                         {{ user.first_name }} {{ user.last_name }}
                         {% elif user.first_name %}{{ user.first_name }}
                         {% elif user.last_name %}{{ user.last_name }}
                     {% endif %}| {% endif %}
-                    {{ moment(story.date_created).format('MMMM D, YYYY') }}</p>
+                    <strong>Date Added: </strong>{{ moment(story.date_created).format('MMMM D, YYYY') }}</p>
 
-                {% if image_url and story.content|length < 1500 %}
-                    <div id="story-content-container-short">
-                {% else %}
-                    <div id="story-content-container">
-                {% endif %}
+                <div id="story-content-container">
                     {% if story.image_url and story.content|length > 1500 %}
-                        <img src="{{ story.image_url }}" id="view-story-img" />
+                        <img src="{{ story.image_url }}" id="view-story-img"/>
                         <p>{{ story.content }}</p>
                     {% elif story.image_url and story.content|length < 1500 %}
-                        <img src="{{ story.image_url }}" id="view-story-img-short" />
-                        <p>{{ story.content }}</p>
+                        <div id="view-story-center-wrap">
+                            <img src="{{ story.image_url }}" id="view-story-img-short"/>
+                            <p id="view-story-text-short">{{ story.content }}</p>
+                        </div>
                     {% elif video_url %}
-                        <iframe class="youtube-player" type="text/html" src="{{ video_url }}" frameborder="0" allowFullScreen></iframe>
-                        <p>{{ story.content }}</p>
+                        <div id="view-story-center-wrap">
+                            <div id="video-wrapper">
+                                <iframe class="youtube-player" type="text/html" src="{{ video_url }}" frameborder="0"
+                                        allowFullScreen></iframe>
+                            </div>
+                            <p>{{ story.content }}</p>
+                        </div>
                     {% else %}
                         <p>{{ story.content }}</p>
                     {% endif %}
 
                     {% if story.activist_url %}
-                    <p id="learn-more">To learn more, <a href="{{ story.activist_url }}" id="learn-more-link">click
-                        here</a>.</p>
+                        <p id="learn-more">To learn more, <a href="{{ story.activist_url }}" id="learn-more-link">click
+                            here</a>.</p>
                     {% endif %}
 
                     <div id="view-story-social">
                         <a href="https://twitter.com/share?url={{ url_for('stories.view', story_id=story.id, _external=True) }}&text=I just posted a story about a woman activist who inspires me, you should too!&hashtags=20000By2020"
-                        target="_blank">
+                           target="_blank">
                             <img src="{{ url_for('static', filename='img/twitter_icon.png') }}"/>
                         </a>
-                        <a href="http://www.facebook.com/sharer.php?u={{ url_for('stories.view', story_id=story_id, _external=True) }}" target="_blank">
+                        <a href="http://www.facebook.com/sharer.php?u={{ url_for('stories.view', story_id=story_id, _external=True) }}"
+                           target="_blank">
                             <img src="{{ url_for('static', filename='img/facebook_icon.png') }}"/>
                         </a>
                     </div>

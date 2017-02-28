@@ -19,8 +19,7 @@ from app.models import Stories, Tags, Users
 @stories.route('/', methods=['GET'])
 def catalog():
     return render_template(
-        'stories/stories.html',
-        tags=Tags.query.all()
+        'stories/stories.html'
     )
 
 

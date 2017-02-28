@@ -2,7 +2,7 @@
 ## Development Environment Setup ##
 *Make sure you have the latest version of VirtualBox.*
 
-1. Copy `rhel-6.8.virtualbox.box` from `smb://nas2012server03.records.nycnet/public/webdev` into your desired directory.
+1. Copy `rhel-6.8.virtualbox.box` from the repository into your desired directory.
 2. Run `vagrant box add rhel-6.8 <path-to-box-file>`
     - If you change the name of the box, remember to edit Vagrantfile (config.vm.box)
 3. Clone this repository.

@@ -22,7 +22,9 @@ h1 {
     text-align: center;
     background: #d29f13;
 }
-
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+    background-color: #e0b040 !important;
+}
 .icon-bar {
     background-color: #ffffff !important;
 }

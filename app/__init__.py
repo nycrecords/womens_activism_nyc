@@ -1,15 +1,16 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
-
-from flask_moment import Moment
 from flask_elasticsearch import FlaskElasticsearch
+from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import CsrfProtect
 from config import config
 
 bootstrap = Bootstrap()
+csrf = CsrfProtect()
 db = SQLAlchemy()
-moment = Moment()
 es = FlaskElasticsearch()
+moment = Moment()
 
 
 def create_app(config_name):
@@ -21,19 +22,17 @@ def create_app(config_name):
     bootstrap.init_app(app)
     es.init_app(app, use_ssl=app.config['ELASTICSEARCH_USE_SSL'])
     db.init_app(app)
-    moment.init_app((app))
+    csrf.init_app(app)
+    moment.init_app(app)
 
     from .main import main as main
     app.register_blueprint(main)
 
-    from .stories import stories as stories_blueprint
-    app.register_blueprint(stories_blueprint)
-
     from .share import share as share
     app.register_blueprint(share, url_prefix="/share")
 
-    from .stories import stories as story
-    app.register_blueprint(story, url_prefix="/stories")
+    from .stories import stories as stories
+    app.register_blueprint(stories, url_prefix="/stories")
 
     from .search import search as search
     app.register_blueprint(search, url_prefix="/search")

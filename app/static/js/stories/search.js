@@ -40,7 +40,7 @@ $(function () {
                 }
                 else {
                     noResultsFound = true;
-                    results.html("<div>No results found.</div>")
+                    results.html("<div id='search-no-results'>No results were found.</div>")
                 }
             }
         });
@@ -76,6 +76,10 @@ $(function () {
         if (query.parsley().isValid()) {
             resetAndSearch();
         }
+        // Scroll down to results
+        $('html, body').animate({
+            scrollTop: $("#home-stories").offset().top
+        }, 850);
     });
 
     // Call search method upon scrolling to bottom of page
@@ -89,8 +93,8 @@ $(function () {
     });
 
     searchTag.click(function () {
-        $(this).toggleClass('search-tag-inactive');
-        $(this).toggleClass('search-tag-active');
+        $(this).toggleClass("search-tag-inactive");
+        $(this).toggleClass("search-tag-active");
         var index = selectedTags.indexOf(this.value);
         // Append values of active buttons to array, remove if inactive
         if(index > -1) {

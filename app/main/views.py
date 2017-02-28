@@ -15,20 +15,17 @@ def index():
 
     stories = Stories.query.filter_by(is_visible=True).order_by(Stories.date_created.desc()).limit(8)
 
-    recent_stories = []
-    for story in stories:
-        current_story = {
-            'activist_first': story.activist_first,
-            'activist_last': story.activist_last,
-            'content': story.content,
-            'image_url': story.image_url
-        }
-        recent_stories.append(story)
-    return render_template('main/home.html', visible_stories=visible_stories,
+    return render_template('main/home.html',
+                           visible_stories=visible_stories,
                            remaining_stories=remaining_stories,
-                           recent_stories=recent_stories)
+                           stories=stories)
 
 
 @main.route('/about', methods=['GET'])
 def about():
     return render_template('main/about.html')
+
+
+@main.route('/contact', methods=['GET'])
+def contact():
+    return render_template('main/contact.html')

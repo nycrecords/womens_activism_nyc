@@ -1,9 +1,8 @@
 {% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
 
 {% block content %}
     <form data-parsley-validate id="share-form" data-parsley-focus="none" method="post">
-    {{ form.csrf_token }}
+        {{ form.csrf_token }}
         <div class="container-fluid" id="share-who">
             <div class="row">
                 <div class="col-md-12">
@@ -12,14 +11,10 @@
                         you.</p>
                     <div class="who-input-group">
                         <div class="input-inline-fix">
-                            <input type="text" maxlength="30" placeholder="Mary" class="share-who-input" name="activist_first"
-                                   id="first-name-field" data-parsley-required
-                                   data-parsley-maxlength="30" data-parsley-maxlength-message="Your entry is too long." value="{{ story['activist_first'] or '' }}"/>
+                            {{ form.activist_first (id="first-name-field", class="share-who-input", placeholder="Mary", maxlength=64, required=true) }}
                         </div>
                         <div class="input-inline-fix">
-                            <input type="text" maxlength="30" placeholder="Smith" class="share-who-input" name="activist_last"
-                                   id="last-name-field" data-parsley-required
-                                   data-parsley-maxlength="30" data-parsley-maxlength-message="Your entry is too long." value="{{ story['activist_last'] or '' }}"/>
+                            {{ form.activist_last (id="last-name-field", class="share-who-input", placeholder="Smith", maxlength=64, required=true) }}
                         </div>
                     </div>
                     <p class="name-required">required</p>
@@ -28,21 +23,16 @@
             <div class="row">
                 <div class="col-md-12">
                     <h1 id="she-lived-heading">She Lived</h1>
-                    <p class="share-subheading">If still living, enter "today".</p>
+                    <p class="share-subheading">If still living, enter "Today".</p>
                     <div class="who-input-group">
                         <div class="input-inline-fix">
-                            <input type="text" maxlength="4" placeholder="1960" class="share-who-input" name="activist_start"
-                                   id="year-born-input" data-parsley-required
-                                   data-parsley-maxlength="4" data-parsley-maxlength-message="Your entry is too long." value="{{ story['activist_start'] or '' }}"/>
+                            {{ form.activist_start (id="activist-start", placeholder="1960", maxlength="4", class="share-who-input") }}
                         </div>
                         <span id="date-dash">&#8212;</span>
                         <div class="input-inline-fix">
-                            <input type="text" maxlength="5" placeholder="Today" class="share-who-input" name="activist_end"
-                                   id="year-death-input" data-parsley-required data-parsley-maxlength="5"
-                                   data-parsley-maxlength-message="Your entry is too long." value="{{ story['activist_end'] or '' }}"/>
+                            {{ form.activist_end (id="activist-end", placeholder="Today", maxlength="5", class="share-who-input") }}
                         </div>
                     </div>
-                    <p class="name-required">required</p>
                 </div>
             </div>
         </div>
@@ -53,27 +43,14 @@
                     <p class="share-subheading">Choose one or more categories.</p>
                     <div>
                         <div>
-                            <input type="text" placeholder="" id="hidden-tag-input" name="tags" data-parsley-required/>
+                            {{ form.tags (id="hidden-tag-input", maxlength=500, required=true) }}
                         </div>
                     </div>
                     <div class="share-tags-group" data-toggle="buttons">
-                        <button type="button" class="share-tag share-inactive">Abolitionists</button>
-                        <button type="button" class="share-tag share-inactive">Arts, Entertainment, Literature</button>
-                        <button type="button" class="share-tag share-inactive">Business and Entrepreneurship</button>
-                        <button type="button" class="share-tag share-inactive">Civil and Human Rights</button>
-                        <button type="button" class="share-tag share-inactive">Education</button>
-                        <button type="button" class="share-tag share-inactive">Government and Politics</button>
-                        <button type="button" class="share-tag share-inactive">Health</button>
-                        <button type="button" class="share-tag share-inactive">LGBTQ</button>
-                        <button type="button" class="share-tag share-inactive">Law</button>
-                        <button type="button" class="share-tag share-inactive">Military</button>
-                        <button type="button" class="share-tag share-inactive">Religion</button>
-                        <button type="button" class="share-tag share-inactive">Science, Technology, Engineering, Math
-                            (STEM)
-                        </button>
-                        <button type="button" class="share-tag share-inactive">Suffrage</button>
-                        <button type="button" class="share-tag share-inactive">Sports</button>
-                        <button type="button" class="share-tag share-inactive">Other</button>
+                        {% for tag in tags %}
+                            <button type="button" class="share-tag share-inactive"
+                                    value="{{ tag.id }}">{{ tag.name }}</button>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -83,25 +60,19 @@
                     <p class="share-subheading">Share a few words about how your female activist has inspired you and
                         others.</p>
                     <div>
-                        <div>
-                            <textarea id="her-story-text" name="content" maxlength="5000" class="her-story-text"
-                                      placeholder="My mother was ..." data-parsley-required
-                                      data-parsley-maxlength="5000"
-                                      data-parsley-maxlength-message="Your entry is too long." value="{{ story['content'] or '' }}"></textarea>
-                        </div>
+                        {{ form.content (id="story-content", class="her-story-text", placeholder="Enter your story here", required=true) }}
                     </div>
-                    <p class="char-required"><span id="story-text-count">0</span> / 5000 used</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <h1 id="add-link-heading">Add a Link</h1>
-                    <p class="share-link-subheading">Enter a URL to allow others to learn more about your female activist
+                    <p class="share-link-subheading">Enter a URL to allow others to learn more about your female
+                        activist
                         online.</p>
                     <div class="who-input-group">
                         <div>
-                            <input type="text" maxlength="254" placeholder="http://womensactivism.nyc" name="activist_url"
-                                   class="share-link-input" id="activist-url" value="{{ story['activist_url'] or '' }}"/>
+                            {{ form.activist_url (id="activist-url", class="share-link-input", placeholder="http://womensactivism.nyc") }}
                         </div>
                     </div>
                 </div>
@@ -109,27 +80,23 @@
             <div class="row">
                 <div class="col-md-12">
                     <h1 id="add-media-heading">Add Media</h1>
-                    <p class="add-media-subheading">Upload your favorite photo or video of your female activist to help tell
-                        her story.</p>
+                    <p class="add-media-subheading">Add your favorite photo or video of the woman activist to help
+                        tell her story.</p>
                     <div class="who-input-group">
                         <button type="button" class="media-buttons" id="image-upload-btn">Image</button>
                         <button type="button" class="media-buttons" id="video-upload-btn">Video</button>
                     </div>
                     <div class="who-input-group" id="story-image-input">
-                        <div>
-                            <input type="text" maxlength="254" id="story-image-input-box"
-                                   placeholder="http://womensactivism.nyc" name="image_url"
-                                   class="share-link-input" id="image-url" value="{{ story['image_url'] or '' }}"/>
-                        </div>
+                        {{ form.image_url (id="story-image-input-box", class="share-link-input", placeholder="http//womensactivism.nyc") }}
                     </div>
                     <div class="who-input-group" id="story-video-input">
-                        <div>
-                            <input type="text" maxlength="254" id="story-video-input-box" placeholder="http://youtube.com"
-                                   name="video_url" class="share-link-input" id="video-url" value="{{ story['video_url'] or '' }}"/>
-                        </div>
+                        {{ form.video_url (id="story-video-input-box", class="share-link-input", placeholder="http://youtube.com") }}
                     </div>
                     <br/>
-                    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" id="media-back-btn"></span>
+                    <div id="media-back-div">
+                        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true" id="media-back-btn"></span>
+                        <span id="media-back-txt">Back</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -137,24 +104,17 @@
             <div class="row">
                 <div class="col-md-12">
                     <h1 id="about-you-heading">Tell Us About Yourself</h1>
-                    <p class="about-you-subheading">If you would like to share your name, enter below. Your email address
-                        will not be made public.</p>
+                    <p class="about-you-subheading">If you would like to share your name, enter below. Your email
+                        address will not be made public.</p>
                     <div class="who-input-group">
-                        <div>
-                            <input type="text" maxlength="30" placeholder="Mary" name="poster_first"
-                                   class="share-who-input" id="user-first-name-field" value="{{ story['poster_first'] or '' }}"/>
-                            <input type="text" maxlength="30" placeholder="Smith" name="poster_last"
-                                   class="share-who-input" id="user-last-name-field" value="{{ story['poster_first'] or '' }}"/>
-                        </div>
+                        {{ form.user_first (id="user-first-name-field", class="share-who-input", placeholder="Mary", maxlength=128) }}
+                        {{ form.user_last (id="user-last-name-field", class="share-who-input", placeholder="Smith", maxlength=128) }}
                     </div>
                     <div class="who-input-group">
-                        <div>
-                            <input type="text" maxlength="254" placeholder="ms@gmail.com" name="poster_email"
-                                   class="share-you-email-input" id="user-email-field" value="{{ story['poster_email'] or '' }}"/>
-                        </div>
+                        {{ form.user_email (id="user-email-field", class="share-you-email-input", placeholder="msmith@gmail.com", maxlength=254, type="email") }}
                     </div>
                     <div class="who-input-group">
-                        <button id="share-story-btn" type="submit" name="submit">Share</button>
+                        {{ form.submit (id="share-story-btn") }}
                     </div>
                 </div>
             </div>
@@ -164,5 +124,5 @@
 
 {% block custom_script %}
     <script type="text/javascript" src="{{ url_for('static', filename = 'js/plugins/parsley.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename = 'js/stories/story.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/share/share.js') }}"></script>
 {% endblock %}

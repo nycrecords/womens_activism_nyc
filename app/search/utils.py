@@ -3,7 +3,7 @@ from flask import current_app
 
 from app import es
 from app.constants import tag
-from app.constants.search import ALL_RESULTS_CHUNKSIZE
+from app.constants.search import ALL_RESULTS_CHUNKSIZE, ES_DATETIME_FORMAT
 from app.models import Stories
 
 
@@ -70,6 +70,10 @@ def create_index():
                         },
                         "tag": {
                             "type": "keyword"
+                        },
+                        "date_created": {
+                            "type": "date",
+                            "format": "strict_date_hour_minute_second",
                         }
                     }
                 }
@@ -89,11 +93,13 @@ def create_docs():
         operations.append({
             '_op_type': 'create',
             '_id': s.id,
+            'id': s.id,
             'activist_first': s.activist_first,
             'activist_last': s.activist_last,
             'content': s.content,
             'image_url': s.image_url,
-            'tag': s.tags
+            'tag': s.tags,
+            'date_created': s.date_created.strftime(ES_DATETIME_FORMAT)
         })
 
     num_success, _ = bulk(
@@ -141,8 +147,9 @@ def search_stories(query,
     if query is not None:
         query = query.strip()
 
-    # TODO: tags from search
     tags = search_tags if search_tags else tag.tags
+
+    sort = ['date_created:desc']
 
     # set matching type (full-text or phrase matching)
     match_type = 'multi_match'
@@ -163,13 +170,15 @@ def search_stories(query,
         index=current_app.config["ELASTICSEARCH_INDEX"],
         doc_type='story',
         body=dsl,
-        _source=['activist_first',
+        _source=['id'
+                 'activist_first',
                  'activist_last',
                  'content',
                  'image_url',
                  'tag'],
         size=size,
         from_=start,
+        sort=sort
     )
 
     return results

@@ -26,6 +26,7 @@ class DevelopmentConfig(Config):
 
     # Elasticsearch settings
     ELASTICSEARCH_HOST = os.environ.get('ELASTICSEARCH_HOST') or 'localhost:9200'
+    ELASTICSEARCH_ENABLED = os.environ.get('ELASTICSEARCH_ENABLED') == "True"
     ELASTICSEARCH_INDEX = os.environ.get('ELASTICSEARCH_INDEX') or 'stories'
     ELASTICSEARCH_USE_SSL = os.environ.get('ELASTICSEARCH_USE_SSL') == 'True'
     ELASTICSEARCH_USERNAME = os.environ.get('ELASTICSEARCH_USERNAME')

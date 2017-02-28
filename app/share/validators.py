@@ -26,7 +26,7 @@ def validate_end_year(form, year):
     """
     activist_end = year.data
     activist_end.strip()
-    if activist_end != "Today" and activist_end != "today" and activist_end.isdigit() == False:
+    if activist_end != "Today" and activist_end != "today" and not activist_end.isdigit():
         raise ValidationError()
 
 

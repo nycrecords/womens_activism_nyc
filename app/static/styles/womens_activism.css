@@ -210,6 +210,7 @@ p, div {
 
 .home-story-content h4 {
     padding: 25px 3px 10px 0;
+    word-wrap: break-word;
 }
 
 .home-story-content p {

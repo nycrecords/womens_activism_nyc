@@ -32,7 +32,7 @@ def create_app(config_name):
     app.register_blueprint(share, url_prefix="/share")
 
     from .stories import stories as stories
-    app.register_blueprint(stories, url_prefix="/stories")
+    app.register_blueprint(stories)
 
     from .search import search as search
     app.register_blueprint(search, url_prefix="/search")

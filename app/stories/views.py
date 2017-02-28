@@ -16,7 +16,8 @@ from app.constants.video_url import (
 from app.models import Stories, Tags, Users
 
 
-@stories.route('/', methods=['GET'])
+@stories.route('/catalog/', methods=['GET'])
+@stories.route('/stories/', methods=['GET'])
 def catalog():
     return render_template(
         'stories/stories.html',
@@ -24,7 +25,8 @@ def catalog():
     )
 
 
-@stories.route('/<story_id>', methods=['GET'])
+@stories.route('/catalog/<story_id>', methods=['GET'])
+@stories.route('/stories/<story_id>', methods=['GET'])
 def view(story_id):
     story = Stories.query.filter_by(id=story_id).one()
 

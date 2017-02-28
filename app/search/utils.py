@@ -86,7 +86,7 @@ def create_docs():
     """
     Create elasticsearch request docs for every request stored in our db.
     """
-    stories = Stories.query.all()
+    stories = Stories.query.filter_by(is_visible=True).all()
 
     operations = []
     for s in stories:
@@ -115,7 +115,7 @@ def create_docs():
 
 def update_docs():
     """Update elasticsearch index"""
-    stories = Stories.query.all()
+    stories = Stories.query.filter_by(is_visible=True).all()
     for s in stories:
         s.es_update()
 

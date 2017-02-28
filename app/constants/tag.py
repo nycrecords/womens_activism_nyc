@@ -11,7 +11,7 @@ tags = ['Abolition',
         'Literature and Journalism',
         'Military',
         'Religion',
-        'Science, Technology, Engineering, and Math (STEM)',
+        'Science, Technology, Engineering and Math (STEM)',
         'Sports',
         'Suffrage',
         'Other']

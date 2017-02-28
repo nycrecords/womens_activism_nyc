@@ -207,10 +207,12 @@ p, div {
     margin: 0 3px;
     border: 1px solid #d9d9d9;
     height: 381px;
+    word-wrap: break-word;
 }
 
 .home-story-content h4 {
     padding: 25px 3px 10px 0;
+    word-wrap: break-word;
 }
 
 .home-story-content p {
@@ -1535,4 +1537,14 @@ p, div {
 }
 #view-story-feedback-content p {
     margin-top: 20px;
+}
+#back-to-top-div:hover {
+    cursor: pointer;
+}
+#back-to-top-icon {
+    font-size: 28px;
+    color: #ccc;
+}
+#back-to-top {
+    color: #ccc;
 }

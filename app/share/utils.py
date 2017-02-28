@@ -54,8 +54,8 @@ def create_story(activist_first,
                     activist_end=activist_end,
                     content=content,
                     activist_url=activist_url if activist_url else None,
-                    image_url=image_url if activist_url else None,
-                    video_url=video_url if activist_url else None,
+                    image_url=image_url if image_url else None,
+                    video_url=video_url if video_url else None,
                     user_guid=user_guid,
                     tags=tags)
     create_object(story)

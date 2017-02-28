@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if status_code == 400 %}
+        Bad Request
+    {% elif status_code == 403 %}
+        Forbidden
+    {% elif status_code == 404 %}
+        Page Not Found
+    {% elif status_code == 500 %}
+        Internal Server Error
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div style="text-align: center">
+        {% if status_code in (400, 500) %}
+            <h1>Oops! Something has gone wrong.</h1>
+        {% elif status_code == 403 %}
+            <h1>Forbidden</h1>
+        {% elif status_code == 404 %}
+            <h1>Page Not Found</h1>
+        {% endif %}
+    </div>
+{% endblock %}

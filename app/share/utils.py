@@ -71,6 +71,8 @@ def create_story(activist_first,
     if current_app.config['ELASTICSEARCH_ENABLED']:
         story.es_create()
 
+    return story.id
+
 
 def create_user(user_first,
                 user_last,

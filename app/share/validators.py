@@ -27,7 +27,7 @@ def validate_end_year(form, year):
     activist_end = year.data
     activist_end.strip()
     if activist_end != "Today" and activist_end != "today" and not activist_end.isdigit():
-        raise ValidationError()
+        raise ValidationError('Invalid Death Year, please enter "Today" or the year')
 
 
 def validate_url(form, url):
@@ -40,9 +40,9 @@ def validate_url(form, url):
     try:
         url_test = requests.get(url.data)
         if url_test.status_code != 200:
-            raise ValidationError()
+            raise ValidationError('Invalid activist URL, please try again')
     except:
-        raise ValidationError()
+        raise ValidationError('Invalid activist URL, please try again')
 
 
 def validate_image(form, image):

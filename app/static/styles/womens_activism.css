@@ -261,6 +261,14 @@ p, div {
     background: #59315f;
     color: #ffffff;
 }
+#flash-messages {
+    background-color: #673c74;
+}
+#flash-messages .alert {
+    margin: 20px auto;
+    width: 90%;
+    max-width: 600px;
+}
 
 /* Give Section */
 
@@ -1393,6 +1401,7 @@ p, div {
     position: relative;
     padding-bottom: 56.25%;
     padding-top: 25px;
+    margin-bottom: 20px;
     height: 0;
 }
 #video-wrapper iframe {

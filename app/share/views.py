@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash, request
+from flask import render_template, redirect, url_for, flash, request, Markup
 
 from app.models import Tags
 from app.share import share
@@ -27,19 +27,20 @@ def new():
             for t in tag_string.split(','):
                 tags.append(Tags.query.filter_by(id=t).one().name)
 
-            create_story(activist_first=form.activist_first.data,
-                         activist_last=form.activist_last.data,
-                         activist_start=form.activist_start.data,
-                         activist_end=form.activist_end.data,
-                         tags=tags,
-                         content=form.content.data,
-                         activist_url=form.activist_url.data,
-                         image_url=form.image_url.data,
-                         video_url=form.video_url.data,
-                         user_guid=user_guid)
-            flash('Story submitted!', category='share_submitted_story')
-            return redirect(url_for('share.new'))
+            story_id = create_story(activist_first=form.activist_first.data,
+                                    activist_last=form.activist_last.data,
+                                    activist_start=form.activist_start.data,
+                                    activist_end=form.activist_end.data,
+                                    tags=tags,
+                                    content=form.content.data,
+                                    activist_url=form.activist_url.data,
+                                    image_url=form.image_url.data,
+                                    video_url=form.video_url.data,
+                                    user_guid=user_guid)
+            flash(Markup('Story submitted!'), category='success')
+            return redirect(url_for('stories.view', story_id=story_id))
         else:
-            flash('Error, please try again.', category="danger")
+            for field, error in form.errors.items():
+                flash(form.errors[field][0], category="danger")
             return render_template('share/share.html', form=form, tags=Tags.query.all())
     return render_template('share/share.html', form=form, tags=Tags.query.all())

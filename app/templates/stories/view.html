@@ -20,7 +20,16 @@
                     <strong>Date Added: </strong>{{ moment(story.date_created).format('MMMM D, YYYY') }}</p>
 
                 <div id="story-content-container">
-                    {% if story.image_url and story.content|length > 1500 %}
+                    {% if story.image_url and video_url %}
+                        <div id="view-story-center-wrap">
+                            <img src="{{ story.image_url }}" id="view-story-img-short"/>
+                            <div id="video-wrapper">
+                                <iframe class="youtube-player" type="text/html" src="{{ video_url }}" frameborder="0"
+                                            allowFullScreen></iframe>
+                            </div>
+                            <p>{{ story.content }}</p>
+                        </div>
+                    {% elif story.image_url and story.content|length > 1500 %}
                         <img src="{{ story.image_url }}" id="view-story-img"/>
                         <p>{{ story.content }}</p>
                     {% elif story.image_url and story.content|length < 1500 %}
@@ -37,7 +46,9 @@
                             <p>{{ story.content }}</p>
                         </div>
                     {% else %}
-                        <p>{{ story.content }}</p>
+                        <div id="view-story-center-wrap">
+                            <p>{{ story.content }}</p>
+                        </div>
                     {% endif %}
 
                     {% if story.activist_url %}

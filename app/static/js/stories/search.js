@@ -10,7 +10,8 @@ $(function () {
         searchTag = $(".search-tag"),
         hiddenTagInput = $("#hidden-search-tag-input"),
         selectedTags = [],
-        noResultsFound = true;
+        noResultsFound = true,
+        backToTopDiv = $("#back-to-top-div");
 
 
     // Search function
@@ -108,17 +109,18 @@ $(function () {
     });
 
     //Back to top functionality
-    var offset = 220;
+    backToTopDiv.hide();
+    var offset = 350;
     var duration = 100;
-    jQuery(window).scroll(function() {
-        if (jQuery(this).scrollTop() > offset) {
-            jQuery('#back-to-top-div').fadeIn(duration);
+    $(window).scroll(function() {
+        if ($(this).scrollTop() > offset) {
+            backToTopDiv.fadeIn(duration);
         } else {
-            jQuery('#back-to-top-div').fadeOut(duration);
+            backToTopDiv.fadeOut(duration);
         }
     });
 
-    $("#back-to-top-div").click(function() {
+    backToTopDiv.click(function() {
         $("html, body").animate({ scrollTop: 0 }, "slow");
         return false;
     });

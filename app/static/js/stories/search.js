@@ -93,8 +93,8 @@ $(function () {
     });
 
     searchTag.click(function () {
-        $(this).toggleClass('search-tag-inactive');
-        $(this).toggleClass('search-tag-active');
+        $(this).toggleClass("search-tag-inactive");
+        $(this).toggleClass("search-tag-active");
         var index = selectedTags.indexOf(this.value);
         // Append values of active buttons to array, remove if inactive
         if(index > -1) {

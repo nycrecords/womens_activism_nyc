@@ -1,4 +1,7 @@
-from . import stories
+"""
+View functions for story functionality
+"""
+from app.stories import stories
 from flask import render_template
 
 from app.constants.video_url import (

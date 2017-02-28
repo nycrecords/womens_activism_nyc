@@ -141,7 +141,6 @@ def search_stories(query,
     if query is not None:
         query = query.strip()
 
-    # TODO: tags from search
     tags = search_tags if search_tags else tag.tags
 
     # set matching type (full-text or phrase matching)

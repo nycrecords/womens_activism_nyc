@@ -6,11 +6,8 @@
             <div class="col-md-12">
                 <h1>{{ story.activist_first }} {{ story.activist_last }}</h1>
 
-                {% if story.activist_start %}
+                {% if story.activist_start and story.activist_end %}
                     <p id="story-subheading">{{ story.activist_start }} - {% if story.activist_end %}
-                        {{ story.activist_end if story.activist_end != 9999 else 'Today' }}{% endif %}</p>
-                {% else %}
-                    <p id="story-subheading">{% if story.activist_end %}
                         {{ story.activist_end if story.activist_end != 9999 else 'Today' }}{% endif %}</p>
                 {% endif %}
 
@@ -61,7 +58,7 @@
                target="_blank">
                 <img src="{{ url_for('static', filename='img/twitter_icon.png') }}"/>
             </a>
-            <a href="http://www.facebook.com/sharer.php?u={{ url_for('stories.view', story_id=story_id, _external=True) }}"
+            <a href="http://www.facebook.com/sharer.php?u={{ url_for('stories.view', story_id=story.id, _external=True) }}"
                target="_blank">
                 <img src="{{ url_for('static', filename='img/facebook_icon.png') }}"/>
             </a>

@@ -9,7 +9,7 @@
                     {% else %}
                         <p>{{ story['_source']['content'][:50] }}</p>
                     {% endif %}
-                    <div class="img-mask" style="background-image: url({{ story['image_url'] }});">
+                    <div class="img-mask" style="background-image: url({{ story['_source']['image_url'] }});">
                 {% else %}
                     {% if story['_source']['content']|length < 150 %}
                         <p>{{ story['_source']['content'] }}</p>

@@ -7,22 +7,54 @@
                 <h1>{{ story.activist_first }} {{ story.activist_last }}</h1>
 
                 {% if story.activist_start %}
-                    <p id="story-subheading">{{ story.activist_start }} - {% if story.activist_end %}{{ story.activist_end if story.activist_end != 9999 else 'Today'}}{% endif %}</p>
+                    <p id="story-subheading">{{ story.activist_start }} - {% if story.activist_end %}
+                        {{ story.activist_end if story.activist_end != 9999 else 'Today' }}{% endif %}</p>
                 {% else %}
-                    <p id="story-subheading">{% if story.activist_end %}{{ story.activist_end if story.activist_end != 9999 else 'Today'}}{% endif %}</p>
+                    <p id="story-subheading">{% if story.activist_end %}
+                        {{ story.activist_end if story.activist_end != 9999 else 'Today' }}{% endif %}</p>
                 {% endif %}
 
-                {% if user.first_name and user.last_name %}
-                <p id="story-subheading">By {{ user.first_name }} {{ user.last_name }}{% endif %} | {{ moment(story.date_created).format('MMMM D, YYYY') }}</p>
-                {% if image_url %}
-                    {%  include 'stories/view-story-image.html' %}
-                {% elif image_url %}
-                    {%  include 'stories/view-story-image-short.html' %}
-                {% elif video_url %}
-                    {%  include 'stories/view-story-video.html' %}
+                <p id="story-subheading">{% if user %}
+                    By {% if user.first_name and user.last_name %}
+                        {{ user.first_name }} {{ user.last_name }}
+                        {% elif user.first_name %}{{ user.first_name }}
+                        {% elif user.last_name %}{{ user.last_name }}
+                    {% endif %}| {% endif %}
+                    {{ moment(story.date_created).format('MMMM D, YYYY') }}</p>
+
+                {% if image_url and story.content|length < 1500 %}
+                    <div id="story-content-container-short">
                 {% else %}
-                    {%  include 'stories/view-story-none.html' %}
+                    <div id="story-content-container">
                 {% endif %}
+                    {% if story.image_url and story.content|length > 1500 %}
+                        <img src="{{ story.image_url }}" id="view-story-img" />
+                        <p>{{ story.content }}</p>
+                    {% elif story.image_url and story.content|length < 1500 %}
+                        <img src="{{ story.image_url }}" id="view-story-img-short" />
+                        <p>{{ story.content }}</p>
+                    {% elif video_url %}
+                        <iframe class="youtube-player" type="text/html" src="{{ video_url }}" frameborder="0" allowFullScreen></iframe>
+                        <p>{{ story.content }}</p>
+                    {% else %}
+                        <p>{{ story.content }}</p>
+                    {% endif %}
+
+                    {% if story.activist_url %}
+                    <p id="learn-more">To learn more, <a href="{{ story.activist_url }}" id="learn-more-link">click
+                        here</a>.</p>
+                    {% endif %}
+
+                    <div id="view-story-social">
+                        <a href="https://twitter.com/share?url={{ url_for('stories.view', story_id=story.id, _external=True) }}&text=I just posted a story about a woman activist who inspires me, you should too!&hashtags=20000By2020"
+                        target="_blank">
+                            <img src="{{ url_for('static', filename='img/twitter_icon.png') }}"/>
+                        </a>
+                        <a href="http://www.facebook.com/sharer.php?u={{ url_for('stories.view', story_id=story_id, _external=True) }}" target="_blank">
+                            <img src="{{ url_for('static', filename='img/facebook_icon.png') }}"/>
+                        </a>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -30,7 +62,8 @@
     <div class="container-fluid" id="view-story-footer">
         <div class="row">
             <div class="col-md-12">
-                <p>We strive for accuracy and fairness. If you see something that doesn't look right, <a href="mailto:womensactivism@records.nyc.gov" id="view-story-contact-link" >contact us</a>!</p>
+                <p>We strive for accuracy and fairness. If you see something that doesn't look right, <a
+                        href="mailto:womensactivism@records.nyc.gov" id="view-story-contact-link">contact us</a>!</p>
             </div>
         </div>
     </div>

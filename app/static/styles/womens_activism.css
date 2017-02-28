@@ -193,6 +193,10 @@ p, div {
     color: inherit;
 }
 
+#home-stories a:hover {
+    text-decoration: none;
+}
+
 .home-story {
     margin: 15px 0;
 }

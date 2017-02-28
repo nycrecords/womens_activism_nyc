@@ -2,7 +2,8 @@
 View functions for story functionality
 """
 from app.stories import stories
-from flask import render_template
+from flask import render_template, abort
+from sqlalchemy.orm.exc import NoResultFound
 
 from app.constants.video_url import (
     YOUTUBE_FULL_URL,
@@ -28,7 +29,15 @@ def catalog():
 @stories.route('/catalog/<story_id>', methods=['GET'])
 @stories.route('/stories/<story_id>', methods=['GET'])
 def view(story_id):
-    story = Stories.query.filter_by(id=story_id).one()
+    try:
+        story = Stories.query.filter_by(id=story_id).one()
+        assert story.is_visible
+    except NoResultFound:
+        print("Story does not exist")
+        return abort(404)
+    except AssertionError:
+        print("Story is not visible")
+        return abort(404)
 
     if story.is_visible:
         user = Users.query.filter_by(guid=story.user_guid).one() if story.user_guid else None

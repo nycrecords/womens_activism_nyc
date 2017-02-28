@@ -107,8 +107,19 @@ $(function () {
         resetAndSearch();
     });
 
+    //Back to top functionality
+    var offset = 220;
+    var duration = 100;
+    jQuery(window).scroll(function() {
+        if (jQuery(this).scrollTop() > offset) {
+            jQuery('#back-to-top-div').fadeIn(duration);
+        } else {
+            jQuery('#back-to-top-div').fadeOut(duration);
+        }
+    });
+
     $("#back-to-top-div").click(function() {
-    $("html, body").animate({ scrollTop: 0 }, "slow");
+        $("html, body").animate({ scrollTop: 0 }, "slow");
         return false;
     });
 });

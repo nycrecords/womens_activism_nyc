@@ -1444,6 +1444,9 @@ p, div {
 #view-story-contact-link:hover {
     color: black;
 }
+#search-no-results {
+    font-size: 22px;
+}
 #learn-more {
     text-align: center;
     font-size: 18px;
@@ -1459,12 +1462,75 @@ p, div {
     color: black;
 }
 
+#view-story-social-div {
+    text-align: center;
+    margin: 40px 0;
+}
+#view-story-social-div p {
+    font-size: 20px;
+    margin: 20px 0;
+}
 #view-story-social {
     width: 50px;
-    margin: 30px auto 0 auto;
+    margin: 0 auto 0 auto;
     display: flex;
     justify-content: space-between;
 }
-#search-no-results {
+#no-results-text {
+    text-align: center;
     font-size: 22px;
+    margin: 0;
+}
+#view-story-feedback-jumbotron {
+    background-color: #59315f;
+    min-height: 380px;
+    text-align: center;
+    color: #ffffff;
+    height: 100%;
+    width: 100%;
+    display: table;
+    margin: 0;
+}
+#view-story-feedback-jumbotron h1 {
+    padding: 0 20px;
+    font-size: 50px;
+}
+@media (min-width:768px) {
+    #view-story-feedback-jumbotron {
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+@media (min-width: 1170px) {
+    #view-story-feedback-jumbotron h1 {
+        padding: 0 200px;
+    }
+}
+#view-story-feedback-btn {
+    background: none;
+    font-size: 20px;
+    color: white;
+    border-radius: 0;
+    border-width: 2px;
+    margin-top: 40px;
+    border-color: white;
+    padding: 12px 80px;
+    transition: background 0.2s ease;
+}
+
+#view-story-feedback-btn:hover {
+    background: #ffffff;
+    color: rgb(89, 49, 95);
+}
+#view-story-feedback-content {
+    height: 100%;
+    display: table-cell;
+    vertical-align: middle;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+#view-story-feedback-content p {
+    margin-top: 20px;
 }

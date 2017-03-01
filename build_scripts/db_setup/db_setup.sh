@@ -48,6 +48,14 @@ cp /vagrant/build_scripts/db_setup/server.key /data/postgres
 chmod 600 /data/postgres/server.key
 chown postgres:postgres /data/postgres/server.key
 
+if [ "$1" = single_server ]; then
+  # 8a. Setup Client Certificates for App Server
+  mkdir -p /home/vagrant/.postgresql
+  openssl req -new -nodes -keyout /home/vagrant/.postgresql/client.key -out /home/vagrant/.postgresql/client.csr -subj "/C=US/ST=New York/L=New York/O=NYC Department of Records and Information Services/OU=IT/CN=womensactivism.nyc"
+  openssl x509 -req -CAcreateserial -in /home/vagrant/.postgresql/client.csr -CA /data/postgres/root.crt -CAkey /data/postgres/server.key -out /home/vagrant/.postgresql/client.crt
+  chown -R vagrant:vagrant /home/vagrant/.postgresql/
+fi
+
 ln -s /opt/rh/rh-postgresql95/root/usr/lib64/libpq.so.rh-postgresql95-5 /usr/lib64/libpq.so.rh-postgresql95-5
 ln -s /opt/rh/rh-postgresql95/root/usr/lib64/libpq.so.rh-postgresql95-5 /usr/lib/libpq.so.rh-postgresql95-5
 
@@ -55,10 +63,11 @@ sudo service rh-postgresql95-postgresql start
 
 # 9. Create postgres users
 sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createuser -s -e developer
+sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createuser -s -e vagrant
 sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createuser -s -e womens_activism_db
 
 # 10. Create database
-sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createdb womens_activism
+sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createdb womens_activism_dev
 
 # 6. Add the following lines to /etc/sudoers file (allows running postgres commands without sudo access)
 #womens_activism   ALL=(ALL) NOPASSWD: /etc/init.d/rh-postgresql95-postgresql start

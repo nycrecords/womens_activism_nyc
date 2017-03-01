@@ -1,12 +1,11 @@
 """
 WTForms used for Stories
 """
-from flask_wtf import Form
+from flask_wtf import Form, RecaptchaField
 from wtforms import (
     TextAreaField,
     StringField,
-    SubmitField,
-    BooleanField,
+    SubmitField
 )
 from wtforms.validators import (
     DataRequired,
@@ -40,4 +39,5 @@ class StoryForm(Form):
     user_first = StringField("User first name", validators=[Optional(), Length(1, 128)])
     user_last = StringField("User last name", validators=[Optional(), Length(1, 128)])
     user_email = StringField("User email", validators=[Optional(), Email(), Length(1, 254)])
+    recaptcha = RecaptchaField()
     submit = SubmitField('Submit')

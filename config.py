@@ -26,6 +26,9 @@ class Config:
                                if ELASTICSEARCH_USERNAME and ELASTICSEARCH_PASSWORD
                                else None)
 
+    RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAPTCHA_PUBLIC_KEY')
+    RECAPTCHA_PRIVATE_KEY = os.environ.get('RECAPTCHA_PRIVATE_KEY')
+
     @staticmethod
     def init_app(app):
         pass

@@ -41,6 +41,8 @@ def new():
             return redirect(url_for('stories.view', story_id=story_id))
         else:
             for field, error in form.errors.items():
+                if form.errors[field][0] == 'The response parameter is missing.':
+                    form.errors[field][0] = 'Please complete the reCAPTCHA.'
                 flash(form.errors[field][0], category="danger")
             return render_template('share/share.html', form=form, tags=Tags.query.all())
     return render_template('share/share.html', form=form, tags=Tags.query.all())

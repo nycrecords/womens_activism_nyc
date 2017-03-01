@@ -1579,3 +1579,8 @@ p, div {
     font-weight: bold;
     padding: 0 3px;
 }
+
+#recaptcha {
+    padding-top: 75px;
+    display: inline-block;
+}

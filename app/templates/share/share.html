@@ -113,6 +113,9 @@
                     <div class="who-input-group">
                         {{ form.user_email (id="user-email-field", class="share-you-email-input", placeholder="msmith@gmail.com", maxlength=254, type="email") }}
                     </div>
+                    <div class="who-input-group" id="recaptcha">
+                        {{ form.recaptcha }}
+                    </div>
                     <div class="who-input-group">
                         {{ form.submit (id="share-story-btn") }}
                     </div>

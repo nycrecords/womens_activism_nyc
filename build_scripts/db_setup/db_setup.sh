@@ -28,9 +28,14 @@ mv /data/postgres/postgresql.conf /data/postgres/postgresql.conf.orig
 mv /data/postgres/pg_hba.conf /data/postgres/pg_hba.conf.orig
 
 # 7. Copy configuration files from home directory (vagrant for vagrant, /export/local/project_name/ for DOITT)
-cp /vagrant/build_scripts/db_setup/postgresql.conf /data/postgres/
-cp /vagrant/build_scripts/db_setup/pg_hba.conf /data/postgres/
-chown -R posgres:postgres /data/postgres
+if [ "$1" != single_server ]; then
+  ln -s /vagrant/build_scripts/db_setup/postgresql.conf /data/postgres/
+  ln -s /vagrant/build_scripts/db_setup/pg_hba.conf /data/postgres/
+else
+  ln -s /vagrant/build_scripts/default/postgresql.conf /data/postgres/
+  ln -s /vagrant/build_scripts/default/pg_hba.conf /data/postgres/
+fi
+chown -R postgres:postgres /data/postgres
 
 # 8. Create postgres key and certificates
 openssl req \
@@ -64,7 +69,6 @@ sudo service rh-postgresql95-postgresql start
 # 9. Create postgres users
 sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createuser -s -e womens_activism_db
 sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createuser -s -e developer
-sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createuser -s -e vagrant
 
 # 10. Create database
 sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createdb womens_activism_dev

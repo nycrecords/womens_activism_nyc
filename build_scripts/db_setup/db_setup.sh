@@ -62,9 +62,9 @@ ln -s /opt/rh/rh-postgresql95/root/usr/lib64/libpq.so.rh-postgresql95-5 /usr/lib
 sudo service rh-postgresql95-postgresql start
 
 # 9. Create postgres users
+sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createuser -s -e womens_activism_db
 sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createuser -s -e developer
 sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createuser -s -e vagrant
-sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createuser -s -e womens_activism_db
 
 # 10. Create database
 sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createdb womens_activism_dev
@@ -80,3 +80,5 @@ sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createdb womens_activism_d
 #womens_activism   ALL=(ALL) NOPASSWD: /etc/init.d/rh-postgresql95-postgresql force-reload
 #womens_activism   ALL=(ALL) NOPASSWD: /etc/init.d/rh-postgresql95-postgresql initdb
 #womens_activism   ALL=(ALL) NOPASSWD: /etc/init.d/rh-postgresql95-postgresql upgrade
+
+#psql -U developer -h 127.0.0.1 -d womens_activism_dev

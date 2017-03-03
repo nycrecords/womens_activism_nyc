@@ -17,7 +17,7 @@ import csv
 from app.constants.module import FEATURED
 from app.db_utils import create_object
 from app.constants.event import EDIT_FEATURED_STORY
-
+from sqlalchemy.orm.exc import NoResultFound
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
@@ -67,7 +67,11 @@ def modules(featured=False):
             quote = row[1]
 
             # disables the current featured story
-            current_featured = Modules.query.filter_by(type=FEATURED, is_active=True).one()
+            current_featured = None
+            try:
+                current_featured = Modules.query.filter_by(type=FEATURED, is_active=True).one()
+            except NoResultFound:
+                print("No featured module set")
             if current_featured is not None:
                 current_featured.is_active = False
                 db.session.commit()

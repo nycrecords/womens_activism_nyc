@@ -2,6 +2,7 @@ from flask import render_template
 from app.main import main
 from app.models import Stories, Modules
 from app.constants import module
+from sqlalchemy.orm.exc import NoResultFound
 
 
 @main.route('/', methods=['GET'])
@@ -16,7 +17,11 @@ def index():
 
     stories = Stories.query.filter_by(is_visible=True).order_by(Stories.date_created.desc()).limit(8)
 
-    featured_story = Modules.query.filter_by(type=module.FEATURED, is_active=True).one()
+    featured_story = None
+    try:
+        featured_story = Modules.query.filter_by(type=module.FEATURED, is_active=True).one()
+    except NoResultFound:
+        print("No featured module set")
 
     return render_template('main/home.html',
                            visible_stories=visible_stories,

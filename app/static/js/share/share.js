@@ -117,7 +117,7 @@ $(function () {
         videoInput.hide();
         imageButton.show();
         videoButton.show();
-        // $("#story-image-input-box, #story-video-input-box").val("");
+        $("#story-image-input-box, #story-video-input-box").val("");
     });
 
     $("#share-form").submit(function () {

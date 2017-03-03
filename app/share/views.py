@@ -1,5 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request, Markup
 
+from app.constants import RECAPTCHA_STRING
 from app.models import Tags
 from app.share import share
 from app.share.forms import StoryForm
@@ -41,6 +42,9 @@ def new():
             return redirect(url_for('stories.view', story_id=story_id))
         else:
             for field, error in form.errors.items():
-                flash(form.errors[field][0], category="danger")
+                if field == RECAPTCHA_STRING:
+                    flash('Please complete the Recaptcha to submit your story.', category="danger")
+                else:
+                    flash(form.errors[field][0], category="danger")
             return render_template('share/share.html', form=form, tags=Tags.query.all())
     return render_template('share/share.html', form=form, tags=Tags.query.all())

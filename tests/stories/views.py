@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-from app.tests.utils import BaseTestCase
+from tests.lib.base import BaseTestCase
 
 SHARE_STORY_TEMPLATE = 'stories/share_a_story.html'
 

@@ -2,12 +2,13 @@
 Utility functions used for view functions involving stories
 """
 import uuid
+
 from flask import current_app
 
-from app.constants.user_type_auth import ANONYMOUS_USER
 from app.constants.event import STORY_CREATED, USER_CREATED
+from app.constants.user_type_auth import ANONYMOUS_USER
+from app.lib.db_utils import create_object
 from app.models import Stories, Users, Events
-from app.db_utils import create_object
 
 
 def create_story(activist_first,
@@ -91,7 +92,7 @@ def create_user(user_first,
         field.strip()
 
     # Create Users object
-    user = Users(guid=str(uuid.uuid4()),
+    user = Users(guid=generate_guid(),
                  first_name=user_first if user_first else None,
                  last_name=user_last if user_last else None,
                  auth_user_type=ANONYMOUS_USER,
@@ -106,3 +107,11 @@ def create_user(user_first,
     ))
 
     return user.guid
+
+
+def generate_guid():
+    """
+    Generates a GUID for an anonymous user.
+    :return: the generated id
+    """
+    return str(uuid.uuid4())

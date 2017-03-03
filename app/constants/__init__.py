@@ -1,0 +1,1 @@
+RECAPTCHA_STRING = 'recaptcha'

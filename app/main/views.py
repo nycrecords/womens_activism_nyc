@@ -1,6 +1,7 @@
 from flask import render_template
 from app.main import main
-from app.models import Stories
+from app.models import Stories, Modules
+from app.constants import module
 
 
 @main.route('/', methods=['GET'])
@@ -15,10 +16,13 @@ def index():
 
     stories = Stories.query.filter_by(is_visible=True).order_by(Stories.date_created.desc()).limit(8)
 
+    featured_story = Modules.query.filter_by(type=module.FEATURED, is_active=True).one()
+
     return render_template('main/home.html',
                            visible_stories=visible_stories,
                            remaining_stories=remaining_stories,
-                           stories=stories)
+                           stories=stories,
+                           featured_story=featured_story)
 
 
 @main.route('/about', methods=['GET'])

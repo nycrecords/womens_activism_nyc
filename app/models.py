@@ -434,6 +434,7 @@ class Modules(db.Model):
     media_url - a string that contains the URL of the image or video associated with the module
     event_date - the date associated with the "Event" module
     activist_year - a string that contains the birth year of an activist (for then and now module)
+    is_active - a boolean that to determine if this is the current module displayed on the site
     """
     __tablename__ = "modules"
     id = db.Column(db.Integer, primary_key=True)
@@ -452,12 +453,12 @@ class Modules(db.Model):
     media_url = db.Column(db.String(254))
     event_date = db.Column(db.DateTime)
     activist_year = db.Column(db.String(4))
+    is_active = db.Column(db.Boolean, nullable=False)
 
     def __repr__(self):
-        return '<Modules %r' % self.id
+        return '<Modules %r>' % self.id
 
     def __init__(self,
-                 id,
                  story_id,
                  type,
                  title1,
@@ -467,9 +468,9 @@ class Modules(db.Model):
                  content,
                  media_url,
                  event_date,
-                 activist_year
+                 activist_year,
+                 is_active=True
                  ):
-        self.id = id
         self.story_id = story_id
         self.type = type
         self.title1 = title1
@@ -480,6 +481,7 @@ class Modules(db.Model):
         self.media_url = media_url
         self.event_date = event_date
         self.activist_year = activist_year
+        self.is_active = is_active
 
 
 class Flags(db.Model):

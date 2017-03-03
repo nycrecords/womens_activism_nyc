@@ -455,6 +455,26 @@ class Modules(db.Model):
     activist_year = db.Column(db.String(4))
     is_active = db.Column(db.Boolean, nullable=False)
 
+    @property
+    def val_for_events(self):
+        """
+        JSON to store in Events 'new_value' field.
+        """
+        return {
+            'id': self.id,
+            'story_id': self.story_id,
+            'type': self.type,
+            'title1': self.title1,
+            'title2': self.title2,
+            'activist_first': self.activist_first,
+            'activist_last': self.activist_last,
+            'content': self.content,
+            'media_url': self.media_url,
+            'event_date': self.event_date,
+            'activist_year': self.activist_year,
+            'is_active': self.is_active
+        }
+
     def __repr__(self):
         return '<Modules %r>' % self.id
 

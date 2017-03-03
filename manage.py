@@ -14,8 +14,10 @@ from app.models import (
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
 import csv
-from app.constants import module
+from app.constants.module import FEATURED
 from app.db_utils import create_object
+from app.constants.event import EDIT_FEATURED_STORY
+
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
@@ -65,9 +67,10 @@ def modules(featured=False):
             quote = row[1]
 
             # disables the current featured story
-            current_featured = Modules.query.filter_by(type=module.FEATURED, is_active=True).one()
-            current_featured.is_active = False
-            db.session.commit()
+            current_featured = Modules.query.filter_by(type=FEATURED, is_active=True).one()
+            if current_featured is not None:
+                current_featured.is_active = False
+                db.session.commit()
 
             featured_story = Stories.query.filter_by(id=story_id).one()
             activist_first = featured_story.activist_first
@@ -75,7 +78,7 @@ def modules(featured=False):
             media_url = featured_story.image_url
 
             featured_module = Modules(story_id=story_id,
-                                      type=module.FEATURED,
+                                      type=FEATURED,
                                       title1=None,
                                       title2=None,
                                       activist_first=activist_first,
@@ -86,6 +89,17 @@ def modules(featured=False):
                                       activist_year=None,
                                       is_active=True)
             create_object(featured_module)
+
+            if current_featured is None:
+                edit_featured_event = Events(_type=EDIT_FEATURED_STORY,
+                                        module_id=featured_module.id,
+                                        new_value=featured_module.val_for_events)
+            else:
+                edit_featured_event = Events(_type=EDIT_FEATURED_STORY,
+                                             module_id=featured_module.id,
+                                             previous_value=current_featured.val_for_events,
+                                             new_value=featured_module.val_for_events)
+            create_object(edit_featured_event)
             print("New featured story module set")
         csvfile.close()
 

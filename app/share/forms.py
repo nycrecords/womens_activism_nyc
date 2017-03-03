@@ -1,7 +1,7 @@
 """
 WTForms used for Stories
 """
-from flask_wtf import Form, RecaptchaField
+from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import (
     TextAreaField,
     StringField,
@@ -21,7 +21,7 @@ from app.share.validators import (validate_end_year,
                                   validate_video)
 
 
-class StoryForm(Form):
+class StoryForm(FlaskForm):
     """
     The WTForm used to create a new Story
     """
@@ -39,5 +39,5 @@ class StoryForm(Form):
     user_first = StringField("User first name", validators=[Optional(), Length(1, 128)])
     user_last = StringField("User last name", validators=[Optional(), Length(1, 128)])
     user_email = StringField("User email", validators=[Optional(), Email(), Length(1, 254)])
-    recaptcha = RecaptchaField()
+    recaptcha = RecaptchaField(validators=[DataRequired("Please complete the reCAPTCHA.")])
     submit = SubmitField('Submit')

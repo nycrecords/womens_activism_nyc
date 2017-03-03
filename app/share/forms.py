@@ -39,5 +39,5 @@ class StoryForm(FlaskForm):
     user_first = StringField("User first name", validators=[Optional(), Length(1, 128)])
     user_last = StringField("User last name", validators=[Optional(), Length(1, 128)])
     user_email = StringField("User email", validators=[Optional(), Email(), Length(1, 254)])
-    recaptcha = RecaptchaField(validators=[DataRequired("Please complete the reCAPTCHA.")])
+    recaptcha = RecaptchaField()
     submit = SubmitField('Submit')

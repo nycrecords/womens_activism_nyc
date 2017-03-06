@@ -53,6 +53,7 @@ class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = (os.environ.get('TEST_DATABASE_URL') or
                                'postgresql://localhost:5432/womens_activism_test')
+    ELASTICSEARCH_INDEX = os.environ.get('TEST_ELASTICSEARCH_INDEX') or 'test_stories'
 
 
 class ProductionConfig(Config):

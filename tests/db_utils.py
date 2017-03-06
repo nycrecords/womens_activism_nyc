@@ -22,7 +22,7 @@ class CreateObjectTests(BaseTestCase):
         try:
             create_user()
         except AttributeError:
-            self.fail('es_created method called when it should not have been.')
+            self.fail('es_create method called when it should not have been.')
 
     @patch('app.models.Stories.es_create')
     def test_story_es_doc_not_created(self, es_create_patch):

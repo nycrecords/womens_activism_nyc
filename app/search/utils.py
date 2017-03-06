@@ -84,7 +84,7 @@ def create_index():
 
 def create_docs():
     """
-    Create elasticsearch request docs for every request stored in our db.
+    Create elasticsearch story docs for every request stored in our db.
     """
     stories = Stories.query.filter_by(is_visible=True).all()
 
@@ -108,9 +108,11 @@ def create_docs():
         index=current_app.config["ELASTICSEARCH_INDEX"],
         doc_type='story',
         chunk_size=ALL_RESULTS_CHUNKSIZE,
-        raise_on_error=True
+        raise_on_error=True,
+        refresh=True
     )
     print("Successfully created %s docs." % num_success)
+    return num_success
 
 
 def update_docs():

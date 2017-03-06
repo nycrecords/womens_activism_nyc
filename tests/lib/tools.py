@@ -1,5 +1,4 @@
 import random
-from random import randint
 from itertools import product
 
 from string import (
@@ -7,7 +6,9 @@ from string import (
     digits
 )
 
-from tests.lib.constants import NON_ANON_USER_GUID_LEN
+from tests.lib.constants import (
+    NON_ANON_USER_GUID_LEN,
+)
 
 from app import db
 from app.constants import tag, user_type_auth

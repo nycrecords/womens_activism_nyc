@@ -427,7 +427,7 @@ p, div {
     font-size: 22px;
 }
 #tweetsRow .col-md-4 {
-    padding: 0 30px 30px 30px;
+    padding: 0 30px 35px 30px;
     overflow-wrap: break-word;
 }
 #home-view-tweets-btn {
@@ -449,6 +449,9 @@ p, div {
     color: #6c6c6c !important;
     font-weight: normal !important;
     font-size: 18px !important;
+}
+.timePosted {
+    margin-top: 20px;
 }
 /* Then & Now Section */
 

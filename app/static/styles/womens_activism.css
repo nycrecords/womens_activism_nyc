@@ -413,9 +413,13 @@ p, div {
 #twitter-section {
     text-align: center;
     background-color: #f0eee9;
-    color: #34294f;
+    color: #0c0b41;
     padding-top: 60px;
     padding-bottom: 60px;
+}
+#twitter-section a {
+    color: #59315f;
+    font-weight: 600;
 }
 #tweetsRow {
     margin: 60px auto 0 auto;
@@ -423,7 +427,7 @@ p, div {
     font-size: 22px;
 }
 #tweetsRow .col-md-4 {
-    padding: 0 30px;
+    padding: 0 30px 30px 30px;
     overflow-wrap: break-word;
 }
 #home-view-tweets-btn {
@@ -437,10 +441,14 @@ p, div {
     padding: 12px 40px;
     transition: background 0.2s ease;
 }
-
 #home-view-tweets-btn:hover {
     background: #59315f;
     color: #ffffff;
+}
+.timeago {
+    color: #6c6c6c !important;
+    font-weight: normal !important;
+    font-size: 18px !important;
 }
 /* Then & Now Section */
 

@@ -65,7 +65,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <a class="btn btn-default btn-lg" id="home-view-tweets-btn" href="#" role="button">All Tweets</a>
+                <a class="btn btn-default btn-lg" id="home-view-tweets-btn" href="https://twitter.com/WomensActivism" role="button" target="_blank">All Tweets</a>
             </div>
         </div>
     </div>
@@ -75,6 +75,7 @@
             <h1>Then &amp; Now: Civil Rights</h1>
             <div class="container">
                 <div class="row">
+                    <div id="example4"></div>
                     <div class="col-md-6" id="left-col-6">
                         <div class="row then-now-sub-row">
                             <div class="col-md-4">
@@ -108,6 +109,7 @@
 {% endblock %}
 
 {% block custom_script %}
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/plugins/jquery.timeago.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename = 'js/plugins/twitterFetcher_min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename = 'js/plugins/twitterFetchInfo.js') }}"></script>
 {% endblock %}

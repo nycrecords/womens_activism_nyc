@@ -444,15 +444,15 @@ class Modules(db.Model):
                 module.THEN,
                 module.NOW,
                 module.EVENT,
-                name='module_type'))
-    title1 = db.Column(db.String(50))
-    title2 = db.Column(db.String(50))
+                name='module_type'), nullable=False)
+    title = db.Column(db.String(50))
+    subtitle = db.Column(db.String(50))
     activist_first = db.Column(db.String(128))
     activist_last = db.Column(db.String(128))
     content = db.Column(db.String(500))  # short description or quote
     media_url = db.Column(db.String(254))
     event_date = db.Column(db.DateTime)
-    activist_year = db.Column(db.String(4))
+    activist_year = db.Column(db.Integer)
     is_active = db.Column(db.Boolean, nullable=False)
 
     @property
@@ -464,8 +464,8 @@ class Modules(db.Model):
             'id': self.id,
             'story_id': self.story_id,
             'type': self.type,
-            'title1': self.title1,
-            'title2': self.title2,
+            'title': self.title,
+            'subtitle': self.subtitle,
             'activist_first': self.activist_first,
             'activist_last': self.activist_last,
             'content': self.content,
@@ -479,22 +479,22 @@ class Modules(db.Model):
         return '<Modules %r>' % self.id
 
     def __init__(self,
-                 story_id,
                  type,
-                 title1,
-                 title2,
-                 activist_first,
-                 activist_last,
-                 content,
-                 media_url,
-                 event_date,
-                 activist_year,
-                 is_active=True
+                 story_id=None,
+                 title=None,
+                 subtitle=None,
+                 activist_first=None,
+                 activist_last=None,
+                 content=None,
+                 media_url=None,
+                 event_date=None,
+                 activist_year=None,
+                 is_active=False
                  ):
         self.story_id = story_id
         self.type = type
-        self.title1 = title1
-        self.title2 = title2
+        self.title = title
+        self.subtitle = subtitle
         self.activist_first = activist_first
         self.activist_last = activist_last
         self.content = content

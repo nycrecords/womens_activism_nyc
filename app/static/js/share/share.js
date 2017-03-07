@@ -62,6 +62,7 @@ $(function () {
 
     userEmail.attr("data-parsley-type", "email");
 
+
     // Scroll fix for Parsley.js
     var errorList = [];
     window.Parsley.on('field:error', function () {
@@ -78,19 +79,9 @@ $(function () {
         }
     });
 
-    // Numbers only in year input
-    activistStart.keypress(function (e) {
-        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
-            return false;
-        }
-    });
-    activistEnd.keypress(function (e) {
-        if (e.which == 116 || e.which == 84 || e.which == 116 || e.which == 111 || e.which == 79 || e.which == 100 || e.which == 68 || e.which == 116 || e.which == 97 || e.which == 65 || e.which == 121 || e.which == 89) {
-            return true;
-        } else if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
-            return false;
-        }
-    });
+    // Numbers only in year input or 'today' (case-insensitive)
+    activistEnd.attr("pattern", "\\b[Tt][Oo][Dd][Aa][Yy]\\b|^[0-9]{1,4}$");
+    activistEnd.attr("data-parsley-pattern", "\\b[Tt][Oo][Dd][Aa][Yy]\\b|^[0-9]{1,4}$");
 
     $("#first-name-field, #last-name-field, #user-first-name-field, #user-last-name-field").on('keyup', function () {
         capitalize(this.id, this.value)

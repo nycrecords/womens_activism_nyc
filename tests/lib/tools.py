@@ -60,3 +60,18 @@ def generate_user_guid(auth_type):
     else:
         return ''.join(random.choice(ascii_lowercase + digits)
                        for _ in range(NON_ANON_USER_GUID_LEN))
+
+
+def create_sample_stories():
+    objects = [
+        Stories(activist_first='Jane',
+                activist_last='Doe',
+                content='The story of Jane.',
+                tags=[random.choice(tag.tags)]),
+        Stories(activist_first='Mary',
+                activist_last='Smith',
+                content='The story of Mary.',
+                tags=[random.choice(tag.tags)]),
+    ]
+    db.session.add_all(objects)
+    db.session.commit()

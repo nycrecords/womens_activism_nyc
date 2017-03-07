@@ -440,6 +440,7 @@ p, div {
     color: #59315f;
     border-radius: 0;
     border-width: 2px;
+    margin-top: 40px;
     border-color: #59315f;
     padding: 12px 40px;
     transition: background 0.2s ease;

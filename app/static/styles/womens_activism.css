@@ -427,8 +427,12 @@ p, div {
     font-size: 22px;
 }
 #tweetsRow .col-md-4 {
-    padding: 0 30px 35px 30px;
+    padding: 0 30px;
     overflow-wrap: break-word;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 #home-view-tweets-btn {
     background: none;
@@ -436,7 +440,6 @@ p, div {
     color: #59315f;
     border-radius: 0;
     border-width: 2px;
-    margin-top: 40px;
     border-color: #59315f;
     padding: 12px 40px;
     transition: background 0.2s ease;

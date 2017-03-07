@@ -1,6 +1,8 @@
 from flask import render_template
 from app.main import main
-from app.models import Stories
+from app.models import Stories, Modules
+from app.constants import module, STORY_GOAL_NUMBER
+from sqlalchemy.orm.exc import NoResultFound
 
 
 @main.route('/', methods=['GET'])
@@ -11,14 +13,21 @@ def index():
     :return: renders the 'index.html' template with parameters for the current story count and recent stories
     """
     visible_stories = len(Stories.query.filter_by(is_visible=True).all())
-    remaining_stories = 20000 - visible_stories
+    remaining_stories = STORY_GOAL_NUMBER - visible_stories
 
     stories = Stories.query.filter_by(is_visible=True).order_by(Stories.date_created.desc()).limit(8)
+
+    try:
+        featured_story = Modules.query.filter_by(type=module.FEATURED, is_active=True).one()
+    except NoResultFound:
+        featured_story = None
+        print("No featured module set")
 
     return render_template('main/home.html',
                            visible_stories=visible_stories,
                            remaining_stories=remaining_stories,
-                           stories=stories)
+                           stories=stories,
+                           featured_story=featured_story)
 
 
 @main.route('/about', methods=['GET'])

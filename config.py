@@ -14,7 +14,11 @@ class Config:
     # Flask-SQLAlchemy
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # remove once this becomes the default
 
-    # Elasticsearch settings
+    # Data Path to Files
+    FEATURED_DATA = (os.environ.get('FEATURED_DATA') or
+                     os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data', 'featured.csv'))
+
+    # Elasticsearch Settings
     ELASTICSEARCH_HOST = os.environ.get('ELASTICSEARCH_HOST') or 'localhost:9200'
     ELASTICSEARCH_ENABLED = os.environ.get('ELASTICSEARCH_ENABLED') == "True"
     ELASTICSEARCH_INDEX = os.environ.get('ELASTICSEARCH_INDEX') or 'stories'
@@ -25,7 +29,7 @@ class Config:
                                 ELASTICSEARCH_PASSWORD)
                                if ELASTICSEARCH_USERNAME and ELASTICSEARCH_PASSWORD
                                else None)
-
+    # Recatpcha Keys
     RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAPTCHA_PUBLIC_KEY')
     RECAPTCHA_PRIVATE_KEY = os.environ.get('RECAPTCHA_PRIVATE_KEY')
 

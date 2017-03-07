@@ -9,6 +9,7 @@
             <a class="btn btn-default btn-lg" href="{{ url_for('share.new') }}" role="button">Share Your Story</a>
         </div>
     </div>
+
     <div class="home-wrapper">
         <div class="container" id="home-stories">
             <h1><span id="collected-count" class="home-count">{{ visible_stories }}</span> Stories Collected, <span
@@ -16,6 +17,7 @@
                 More By 2020</h1>
             <h2>#20000By2020</h2>
 
+            <!-- Story Cards -->
             {% for story in stories %}
                 <a href="{{ url_for('stories.view', story_id=story.id) }}">
                     <div class="home-story col-lg-3 col-md-4">
@@ -35,6 +37,8 @@
         <a class="btn btn-default btn-lg" id="home-view-all-btn" href="{{ url_for('stories.catalog') }}" role="button">View
             All Stories</a>
     </div>
+
+    <!-- Give Module -->
     <div class="jumbotron" id="give-jumbotron">
         <div id="give-content">
             <h1>Help us elevate and fuel New York City’s women activists and inspire activism</h1>
@@ -43,18 +47,23 @@
         </div>
     </div>
 
-    <div class="container" id="bws-jumbotron">
-        <div class="row" id="bws-content">
-            <div id="bws-image" class="col-md-5">
-                <div id="bws-image-mask" style="background-image: url('./static/img/bws.jpg')"></div>
-            </div>
-            <div id="bws-text" class="col-md-7">
-                <h2 id="bws-h1">Charlotte Ray</h2>
-                <p id="bws-quote">"Proin tristique vitae est quis lacinia duis cursus ligula nec."</p>
+    <!-- Featured Story -->
+    {% if featured_story %}
+        <div class="container" id="bws-jumbotron">
+            <div class="row" id="bws-content">
+                <div id="bws-image" class="col-md-5">
+                    <div id="bws-image-mask" style="background-image: url({{ featured_story.media_url }})">
+                    </div>
+                </div>
+                <div id="bws-text" class="col-md-7">
+                    <h2 id="bws-h1">{{ featured_story.activist_first }} {{ featured_story.activist_last }}</h2>
+                    <p id="bws-quote">"{{ featured_story.content }}"</p>
+                </div>
             </div>
         </div>
-    </div>
+    {% endif %}
 
+    <!-- Twitter Module -->
     <div class="container-fluid" id="twitter-section">
         <div class="row">
             <div class="col-md-12">
@@ -70,6 +79,7 @@
         </div>
     </div>
 
+    <!-- Then and Now Module -->
     <div class="jumbotron" id="then-now-jumbotron">
         <div id="then-now-content">
             <h1>Then &amp; Now: Civil Rights</h1>

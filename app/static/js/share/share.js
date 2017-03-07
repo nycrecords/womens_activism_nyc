@@ -80,6 +80,7 @@ $(function () {
     });
 
     // Numbers only in year input or 'today' (case-insensitive)
+    activistEnd.attr("data-parsley-error-message", "Please enter 'Today' or a numerical year.");
     activistEnd.attr("pattern", "\\b[Tt][Oo][Dd][Aa][Yy]\\b|^[0-9]{1,4}$");
     activistEnd.attr("data-parsley-pattern", "\\b[Tt][Oo][Dd][Aa][Yy]\\b|^[0-9]{1,4}$");
 

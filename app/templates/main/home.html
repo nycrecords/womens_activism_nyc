@@ -65,40 +65,62 @@
         </a>
     {% endif %}
 
-    <!--TODO: Then and Now -->
-    <!--<div class="jumbotron" id="then-now-jumbotron">-->
-    <!--<div id="then-now-content">-->
-    <!--<h1>Then &amp; Now: Civil Rights</h1>-->
-    <!--<div class="container">-->
-    <!--<div class="row">-->
-    <!--<div class="col-md-6" id="left-col-6">-->
-    <!--<div class="row then-now-sub-row">-->
-    <!--<div class="col-md-4">-->
-    <!--<div class="then-now-img" style="background-image: url('./static/img/then.jpg')"></div>-->
-    <!--</div>-->
-    <!--<div class="col-md-8 then-now-text">-->
-    <!--<h4 class="then-now-name">Ida B. Wells</h4>-->
-    <!--<span class="then-now-year">1892</span>-->
-    <!--<p class="then-now-bio">Wells worked as a civil-rights activist and journalist. She campaigned for anti-lynching legislation and published her sentiments in "The New York Age" paper in NYC in 1892.</p>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="col-md-6">-->
-    <!--<div class="row then-now-sub-row">-->
-    <!--<div class="col-md-4">-->
-    <!--<div class="then-now-img" style="background-image: url('./static/img/now.jpg')"></div>-->
-    <!--</div>-->
-    <!--<div class="col-md-8 then-now-text">-->
-    <!--<h4 class="then-now-name">Merle Hoffman</h4>-->
-    <!--<span class="then-now-year">1976</span>-->
-    <!--<p class="then-now-bio">Merle Hoffman has been involved in defining and defending women’s human reproductive rights. She is the Co-founder of the National Abortion Federation.</p>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<a class="btn btn-default btn-lg" id="home-then-now-btn" href="#" role="button">Take Action Now</a>-->
-    <!--</div>-->
-    <!--</div>-->
+    <!-- Twitter Module -->
+    <div class="container-fluid" id="twitter-section">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Connect With Us</h1>
+            </div>
+        </div>
+        <div class="row" id="tweetsRow">
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <a class="btn btn-default btn-lg" id="home-view-tweets-btn" href="https://twitter.com/WomensActivism" role="button" target="_blank">All Tweets</a>
+            </div>
+        </div>
+    </div>
 
+    <!-- Then and Now Module -->
+    <div class="jumbotron" id="then-now-jumbotron">
+        <div id="then-now-content">
+            <h1>Then &amp; Now: Civil Rights</h1>
+            <div class="container">
+                <div class="row">
+                    <div id="example4"></div>
+                    <div class="col-md-6" id="left-col-6">
+                        <div class="row then-now-sub-row">
+                            <div class="col-md-4">
+                                <div class="then-now-img" style="background-image: url('./static/img/then.jpg')"></div>
+                            </div>
+                            <div class="col-md-8 then-now-text">
+                                <h4 class="then-now-name">Ida B. Wells</h4>
+                                <span class="then-now-year">1892</span>
+                                <p class="then-now-bio">Wells worked as a civil-rights activist and journalist. She campaigned for anti-lynching legislation and published her sentiments in "The New York Age" paper in NYC in 1892.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row then-now-sub-row">
+                            <div class="col-md-4">
+                                <div class="then-now-img" style="background-image: url('./static/img/now.jpg')"></div>
+                            </div>
+                            <div class="col-md-8 then-now-text">
+                                <h4 class="then-now-name">Merle Hoffman</h4>
+                                <span class="then-now-year">1976</span>
+                                <p class="then-now-bio">Merle Hoffman has been involved in defining and defending women’s human reproductive rights. She is the Co-founder of the National Abortion Federation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="btn btn-default btn-lg" id="home-then-now-btn" href="#" role="button">Take Action Now</a>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block custom_script %}
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/plugins/twitterFetcher_min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/plugins/twitterFetchInfo.js') }}"></script>
 {% endblock %}

@@ -408,6 +408,56 @@ p, div {
     padding: 15px 0;
 }
 
+/* Twitter Feed Section */
+
+#twitter-section {
+    text-align: center;
+    background-color: #f0eee9;
+    color: #0c0b41;
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+#twitter-section a {
+    color: #59315f;
+    font-weight: 600;
+}
+#tweetsRow {
+    margin: 60px auto 0 auto;
+    max-width: 1170px;
+    font-size: 22px;
+}
+#tweetsRow .col-md-4 {
+    padding: 0 30px;
+    overflow-wrap: break-word;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+#home-view-tweets-btn {
+    background: none;
+    font-size: 20px;
+    color: #59315f;
+    border-radius: 0;
+    border-width: 2px;
+    margin-top: 40px;
+    border-color: #59315f;
+    padding: 12px 40px;
+    transition: background 0.2s ease;
+}
+#home-view-tweets-btn:hover {
+    background: #59315f;
+    color: #ffffff;
+}
+.timeago {
+    color: #6c6c6c !important;
+    font-weight: normal !important;
+    font-size: 18px !important;
+}
+.timePosted {
+    margin-top: 20px;
+}
+
 /* Then & Now Section */
 
 #then-now-jumbotron {
@@ -1578,4 +1628,9 @@ p, div {
     font-size: 10px;
     font-weight: bold;
     padding: 0 3px;
+}
+
+#recaptcha {
+    padding-top: 75px;
+    display: inline-block;
 }

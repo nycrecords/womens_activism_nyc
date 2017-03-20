@@ -3,7 +3,7 @@
 {% block content %}
     <div class="jumbotron" id="hero">
         <div id="hero-content">
-            <h1>Celebrate Women's Equality Day</h1>
+            <h1>Celebrate Women's Activism</h1>
             <p>Help build NYC's first permanent catalog of women activists. Share a story that inspires you.</p>
             <p id="hero-collect">Collecting #20000By2020</p>
             <a class="btn btn-default btn-lg" href="{{ url_for('share.new') }}" role="button">Share Your Story</a>
@@ -22,12 +22,12 @@
                 <a href="{{ url_for('stories.view', story_id=story.id) }}">
                     <div class="home-story col-lg-3 col-md-4">
                         <div class="home-story-content">
-                            <h4 style="word-break: break-all">{{ story.activist_first }} {{ story.activist_last }}</h4>
+                            <h4>{{ story.activist_first }} {{ story.activist_last }}</h4>
                             {% if story.image_url %}
-                                <p style="word-break: break-all">{{ story.content[:10] }}</p>
+                                <p>{{ story.content|truncate(10) }}</p>
                                 <div class="img-mask" style="background-image: url('{{ story.image_url }}');"></div>
                             {% else %}
-                                <p style="word-break: break-all">{{ story.content[:150] }}</p>
+                                <p>{{ story.content|truncate(150) }}</p>
                             {% endif %}
                         </div>
                     </div>

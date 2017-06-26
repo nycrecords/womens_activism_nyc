@@ -9,7 +9,7 @@
 4. Copy `Vagrantfile.example` into `Vagrantfile`
 5. Add your RedHat Developer credentials to `Vagrantfile`
     - If you do not have a developer account, [create one](https://www.redhat.com/en/developers).
-6. Run `vagrant plugin install vagrant-reload vagrant-vaguest`
+6. Run `vagrant plugin install vagrant-reload vagrant-vbguest`
 7. Run `vagrant up`
     - If there is an error during this process, try running `vagrant provision`
 8. Run `vagrant ssh` to connect to your development environment.

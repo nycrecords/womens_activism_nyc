@@ -1,6 +1,6 @@
 # Womens Activism #
 ## Development Environment Setup ##
-*Make sure you have the latest version of VirtualBox.*
+*Make sure your version of VirtualBox matches the version used to create the vagrant box.*
 
 1. Copy `rhel-6.8.virtualbox.box` from the repository into your desired directory.
 2. Run `vagrant box add rhel-6.8 <path-to-box-file>`

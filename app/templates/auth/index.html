@@ -1,0 +1,19 @@
+{# checking if user is logged in or out #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    Hello,
+    {% if current_user.is_authenticated %}
+        {{ current_user.username }}
+    {% else %}
+        Stranger
+    {% endif %}!
+
+</head>
+<body>
+
+</body>
+</html>

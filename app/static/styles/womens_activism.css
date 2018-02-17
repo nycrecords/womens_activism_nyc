@@ -265,6 +265,7 @@ p, div {
 }
 #flash-messages {
     background-color: #673c74;
+    color: white;
 }
 #flash-messages .alert {
     margin: 20px auto;
@@ -1634,3 +1635,4 @@ p, div {
     padding-top: 75px;
     display: inline-block;
 }
+

@@ -66,6 +66,15 @@
         </div>
     </div>
 
+
+    {# ONLY LET WHEN ADMIN IS LOGGED IN!!! #}
+    <div id="view-edit-delete-div">
+        <a class="btn btn-default btn-lg" id="view-edit-delete-btn"
+               href="{{ url_for('edit.test', story_id=story.id) }}" role="button">Edit</a>
+        <a class="btn btn-default btn-lg" id="view-edit-delete-btn"
+               href="{{ url_for('edit.test', story_id=story.id) }}" role="button">Delete</a>
+    </div>
+
     <div id="view-story-social-div">
         <p>Share This Story</p>
         <div id="view-story-social">

@@ -43,7 +43,7 @@ def new():
         else:
             for field, error in form.errors.items():
                 if field == RECAPTCHA_STRING:
-                    flash('Please complete the Recaptcha to submit your story.', category="danger")
+                    flash('Please complete the RECAPTCHA to submit your story.', category="danger")
                 else:
                     flash(form.errors[field][0], category="danger")
             return render_template('share/share.html', form=form, tags=Tags.query.all())

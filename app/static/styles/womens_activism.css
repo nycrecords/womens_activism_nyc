@@ -1526,6 +1526,28 @@ p, div {
     color: black;
 }
 
+#view-edit-delete-div {
+    text-align: center;
+    margin: 40px 0;
+}
+
+#view-edit-delete-btn {
+    background: none;
+    font-size: 20px;
+    color: black;
+    border-radius: 0;
+    border-width: 2px;
+    margin-top: 40px;
+    border-color: black;
+    padding: 12px 80px;
+    transition: background 0.2s ease;
+}
+
+#view-edit-delete-btn:hover {
+    background: rgb(89, 49, 95);
+    color: white;
+}
+
 #view-story-social-div {
     text-align: center;
     margin: 40px 0;
@@ -1588,6 +1610,7 @@ p, div {
     background: #ffffff;
     color: rgb(89, 49, 95);
 }
+
 #view-story-feedback-content {
     height: 100%;
     display: table-cell;

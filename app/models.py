@@ -15,6 +15,9 @@ from flask_login import UserMixin, AnonymousUserMixin
 from datetime import datetime
 from sqlalchemy.dialects.postgresql import JSON, ARRAY
 
+from . import login_manager
+from werkzeug.security import generate_password_hash, check_password_hash
+
 
 class Roles(db.Model):
     """
@@ -87,6 +90,7 @@ class Users(UserMixin, db.Model):
     middle_initial - a string the contains the middle initial of the user
     last_name - a string that contains the last name of the user
     email - a string that contains the email of the user
+    password_hash - a string that contains the password of the user
     """
     __tablename__ = "users"
     guid = db.Column(db.String(64), primary_key=True)
@@ -110,6 +114,8 @@ class Users(UserMixin, db.Model):
     email_validated = db.Column(db.Boolean, nullable=False)
     terms_of_use_accepted = db.Column(db.Boolean, nullable=False)
 
+    password_hash = db.Column(db.String(128))
+
     def __init__(
             self,
             guid,
@@ -121,7 +127,8 @@ class Users(UserMixin, db.Model):
             last_name=None,
             email=None,
             email_validated=False,
-            terms_of_use_accepted=False
+            terms_of_use_accepted=False,
+            password_hash=None
     ):
         self.guid = guid
         self.auth_user_type = auth_user_type
@@ -133,6 +140,7 @@ class Users(UserMixin, db.Model):
         self.email = email
         self.email_validated = email_validated
         self.terms_of_use_accepted = terms_of_use_accepted
+        self.password_hash = password_hash
 
     @property
     def val_for_events(self):
@@ -146,8 +154,21 @@ class Users(UserMixin, db.Model):
             'last_name': self.last_name,
             'email': self.email,
             'email_validated': self.email_validated,
-            'terms_of_use_accepted': self.terms_of_use_accepted
+            'terms_of_use_accepted': self.terms_of_use_accepted,
+            'password_hash': self.password_hash
         }
+
+    # added from the book page 91 about password
+    @property
+    def password(self):
+        raise AttributeError('Password is not a readable attribute')
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
         return '<User %r>' % self.guid
@@ -588,3 +609,8 @@ class Feedback(db.Model):
         self.message = message
         self.timestamp = datetime.utcnow()
         self.addressed = addressed
+
+# flask requires the application to set up a callback function that loads a user, given the identifier
+@login_manager.user_loader
+def load_user(user_id):
+    return Users.query.get(int(user_id))

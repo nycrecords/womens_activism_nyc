@@ -84,9 +84,10 @@ def create_user(user_first,
     :param user_first: the poster's first name
     :param user_last: the poster's last name
     :param user_email: the poster's email
+    :param user_email: the poster's password (default = None)
     :return: no return value, a Poster object will be created
     """
-    strip_fields = ['user_first', 'user_last', 'user_email']
+    strip_fields = ['user_first', 'user_last', 'user_email', 'password_hash']
     for field in strip_fields:
         field.strip()
 
@@ -95,7 +96,8 @@ def create_user(user_first,
                  first_name=user_first if user_first else None,
                  last_name=user_last if user_last else None,
                  auth_user_type=ANONYMOUS_USER,
-                 email=user_email if user_email else None)
+                 email=user_email if user_email else None,
+                 password_hash=None)
     create_object(user)
 
     # Create Events object

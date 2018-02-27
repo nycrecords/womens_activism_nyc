@@ -146,13 +146,5 @@
 
 {% block custom_script %}
     <script type="text/javascript" src="{{ url_for('static', filename = 'js/plugins/parsley.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename = 'js/share/share.js') }}"></script>
-{##}
-{#    <script>#}
-{#        $( document ).ready(function() {#}
-{#            $('#story-content').on('change', function() {#}
-{#              $('#story-content').val($("#story-content").val());#}
-{#            })#}
-{#        });#}
-{#    </script>#}
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/edit/edit.js') }}"></script>
 {% endblock %}

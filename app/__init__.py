@@ -4,11 +4,11 @@ from flask_elasticsearch import FlaskElasticsearch
 from flask_login import LoginManager
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
-from flask_wtf import CsrfProtect
+from flask_wtf import CSRFProtect
 from config import config
 
 bootstrap = Bootstrap()
-csrf = CsrfProtect()
+csrf = CSRFProtect()
 db = SQLAlchemy()
 es = FlaskElasticsearch()
 moment = Moment()

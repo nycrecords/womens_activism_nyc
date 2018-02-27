@@ -29,3 +29,19 @@ def create_object(obj):
             and current_app.config['ELASTICSEARCH_ENABLED']):
               obj.es_create()
         return str(obj)
+
+
+def edit_object(obj):
+    try:
+        db.session.commit()
+    except Exception as e:
+        print("Failed to EDIT {} : {}".format(obj, e))
+        print(sys.exc_info())
+        db.session.rollback()
+    else:
+        # create elasticsearch doc
+        if (not isinstance(obj, Stories)
+            and hasattr(obj, 'es_create')
+            and current_app.config['ELASTICSEARCH_ENABLED']):
+              obj.es_create()
+        return str(obj)

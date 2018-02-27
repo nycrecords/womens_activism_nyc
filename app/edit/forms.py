@@ -1,6 +1,8 @@
 """
 WTForms used for Edit Stories
 """
+# from app.
+
 from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import (
     TextAreaField,
@@ -40,3 +42,5 @@ class StoryForm(FlaskForm):
     user_last = StringField("User last name", validators=[Optional(), Length(1, 128)])
     user_email = StringField("User email", validators=[Optional(), Email(), Length(1, 254)])
     submit = SubmitField('Submit')
+
+

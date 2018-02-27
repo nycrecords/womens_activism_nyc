@@ -1659,3 +1659,29 @@ p, div {
     display: inline-block;
 }
 
+#edit-reason {
+    background: #59315f;
+    text-align: center;
+    color: white;
+    padding-top: 90px;
+    padding-bottom: 90px;
+}
+
+#edit-reason-heading {
+    margin-top: 0px;
+}
+
+.edit-reason-text {
+    font-size: 30px;
+    vertical-align: top;
+    margin-top: 60px;
+    background: none;
+    width: 90%;
+    max-width: 768px;
+    border: 0;
+    border-top: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    outline: 0;
+    min-height: 340px;
+    padding: 20px 10px;
+}

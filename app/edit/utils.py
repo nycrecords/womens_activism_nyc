@@ -5,25 +5,27 @@ import uuid
 from flask import current_app
 
 from app.constants.user_type_auth import ANONYMOUS_USER
-from app.constants.event import STORY_CREATED, USER_CREATED
+from app.constants.event import STORY_CREATED, USER_CREATED, EDIT_STORY
 from app.models import Stories, Users, Events
-from app.db_utils import create_object
+from app.db_utils import edit_object, create_object
 
 
-def edit_story(activist_first,
-                 activist_last,
-                 activist_start,
-                 activist_end,
-                 tags,
-                 content,
-                 activist_url,
-                 image_url,
-                 video_url,
-                 user_guid):
+def edit_story(story_id,
+                activist_first,
+                activist_last,
+                activist_start,
+                activist_end,
+                tags,
+                content,
+                activist_url,
+                image_url,
+                video_url,
+                user_guid):
     """
-    A utility function to create a Story object and convert parameters to the correct data types. After the Story object
-    is created it will be added and committed to the database
+    A utility function to edit a Story object and convert parameters to the correct data types. After the Story object
+    is edited, it will be added and committed to the database
 
+    :param story_id: the story_id you are editing
     :param activist_first: the activist's first name
     :param activist_last: the activist's last name
     :param activist_start: the activist's birth year
@@ -47,26 +49,31 @@ def edit_story(activist_first,
     else:
         activist_end = None
 
-    # Create Stories object
-    story = Stories(activist_first=activist_first.title(),
-                    activist_last=activist_last.title(),
-                    activist_start=int(activist_start) if activist_start else None,
-                    activist_end=activist_end,
-                    content=content,
-                    activist_url=activist_url if activist_url else None,
-                    image_url=image_url if image_url else None,
-                    video_url=video_url if video_url else None,
-                    user_guid=user_guid,
-                    tags=tags)
-    create_object(story)
+    # Retrieving the story using story_id to edit
+    story = Stories.query.filter_by(id=story_id).one()
+    story.activist_first = activist_first.title()
+    story.activist_last = activist_last.title()
+    story.activist_start = int(activist_start) if activist_start else None
+    story.activist_end = activist_end if activist_start and activist_last else None
+    story.content = content
+    story.activist_url = activist_url if activist_url else None
+    story.image_url = image_url if image_url else None
+    story.video_url = video_url if video_url else None
+    story.user_guid = user_guid
+    story.tags = tags
+    story.is_edited = True
 
+    edit_object(story)
+
+    # We should keep the same code for this one, since we need to create a new audit trail anyways in Events table
     # Create Events object
     create_object(Events(
-        _type=STORY_CREATED,
+        _type=EDIT_STORY,
         story_id=story.id,
         new_value=story.val_for_events
     ))
 
+    # Not sure what this is
     # Create the elasticsearch story doc
     if current_app.config['ELASTICSEARCH_ENABLED']:
         story.es_create()
@@ -74,7 +81,8 @@ def edit_story(activist_first,
     return story.id
 
 
-def edit_user(user_first,
+def edit_user(story_id,
+                user_first,
                 user_last,
                 user_email):
     """
@@ -84,19 +92,35 @@ def edit_user(user_first,
     :param user_first: the poster's first name
     :param user_last: the poster's last name
     :param user_email: the poster's email
+    :param user_email: the poster's password (default = None)
     :return: no return value, a Poster object will be created
     """
-    strip_fields = ['user_first', 'user_last', 'user_email']
+    strip_fields = ['user_first', 'user_last', 'user_email', 'password_hash']
     for field in strip_fields:
         field.strip()
 
-    # Create Users object
-    user = Users(guid=str(uuid.uuid4()),
-                 first_name=user_first if user_first else None,
-                 last_name=user_last if user_last else None,
-                 auth_user_type=ANONYMOUS_USER,
-                 email=user_email if user_email else None)
-    create_object(user)
+    # Find out who the poster is from Stories (user_guid)
+    story = Stories.query.filter_by(id=story_id).one()
+    if story.user_guid is None:
+        # create a new user if it didn't exist before
+        user = Users(guid=str(uuid.uuid4()),
+                     first_name=user_first if user_first else None,
+                     last_name=user_last if user_last else None,
+                     auth_user_type=ANONYMOUS_USER,
+                     email=user_email if user_email else None,
+                     password_hash=None)
+        create_object(user)
+
+    else:
+    # Find the difference and update them
+        user = Users.query.filter_by(guid=story.user_guid).one()
+        if user.first_name != user_first:
+            user.first_name = user_first
+        if user.last_name != user_last:
+            user.last_name = user_last
+        if user.email != user_email:
+            user.email = user_email
+        edit_object(user)
 
     # Create Events object
     create_object(Events(

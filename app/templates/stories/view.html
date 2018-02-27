@@ -19,6 +19,13 @@
                     {% endif %}| {% endif %}
                     <strong>Date Added: </strong>{{ moment(story.date_created).format('MMMM D, YYYY') }}</p>
 
+                <p id="story-user-date-subheading">
+                    {% if story.is_edited %}
+                         Edited
+                    {% else %}
+                    {% endif %}
+                </p>
+
                 <div id="story-content-container">
                     {% if story.image_url and video_url %}
                         <div id="view-story-center-wrap">
@@ -71,6 +78,8 @@
     <div id="view-edit-delete-div">
         <a class="btn btn-default btn-lg" id="view-edit-delete-btn"
                href="{{ url_for('edit.test', story_id=story.id) }}" role="button">Edit</a>
+
+        {# Chang this to delete.test       #}
         <a class="btn btn-default btn-lg" id="view-edit-delete-btn"
                href="{{ url_for('edit.test', story_id=story.id) }}" role="button">Delete</a>
     </div>

@@ -21,7 +21,13 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
+        {% if current_user.is_authenticated %}
+          <ul class="nav navbar-nav-admin">
+        {% else %}
+          <ul class="nav navbar-nav">
+        {% endif %}
+
+{#      <ul class="nav navbar-nav">#}
         <li id="nav-home"><a href="{{ url_for('main.index') }}">Home <span class="sr-only">(current)</span></a></li>
         <li id="nav-share"><a href="{{ url_for('share.new') }}">Share a Story</a></li>
         <li id="nav-about"><a href="{{ url_for('main.about') }}">About</a></li>

@@ -171,7 +171,10 @@ class Users(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return '<User %r>' % self.guid
+        return '<User %r>' % self.get_id()
+
+    def get_id(self):
+        return str(self.guid)
 
 
 class Anonymous(AnonymousUserMixin):
@@ -554,16 +557,16 @@ class Flags(db.Model):
         return '<Flags %r>' % self.id
 
     def __init__(self,
-                 id,
+                 # id,
                  story_id,
-                 comment_id,
+                 # comment_id,
                  type,
                  reason,
                  addressed=False
                  ):
-        self.id = id
+        # self.id = id
         self.story_id = story_id
-        self.comment_id = comment_id
+        # self.comment_id = None # No comment functionality established yet
         self.type = type
         self.reason = reason
         self.timestamp = datetime.utcnow()
@@ -610,7 +613,8 @@ class Feedback(db.Model):
         self.timestamp = datetime.utcnow()
         self.addressed = addressed
 
+
 # flask requires the application to set up a callback function that loads a user, given the identifier
 @login_manager.user_loader
 def load_user(user_id):
-    return Users.query.get(int(user_id))
+    return Users.query.get(user_id)

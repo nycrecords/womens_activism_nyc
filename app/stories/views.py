@@ -2,7 +2,9 @@
 View functions for story functionality
 """
 from app.stories import stories
-from flask import render_template, abort
+from app.edit.utils import hide_story
+from app.edit.forms import HideForm
+from flask import render_template, abort, request, flash, redirect, url_for
 from sqlalchemy.orm.exc import NoResultFound
 
 from app.constants.video_url import (
@@ -26,9 +28,18 @@ def catalog():
     )
 
 
-@stories.route('/catalog/<story_id>', methods=['GET'])
-@stories.route('/stories/<story_id>', methods=['GET'])
+@stories.route('/catalog/<story_id>', methods=['GET', 'POST'])
+@stories.route('/stories/<story_id>', methods=['GET', 'POST'])
 def view(story_id):
+
+    form = HideForm(request.form)
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            hide_story(story_id)
+            flash('Story Hidden!', category='success')
+            return redirect(url_for('stories.catalog'))
+
     try:
         story = Stories.query.filter_by(id=story_id).one()
         assert story.is_visible
@@ -54,4 +65,5 @@ def view(story_id):
             elif VIMEO_STRING in video_url:
                 split = video_url.split(VIMEO_URL, 1)
                 video_url = VIMEO_EMBED_URL.format(split[1])
-        return render_template('stories/view.html', story=story, user=user, video_url=video_url)
+        return render_template('stories/view.html', story=story, user=user, video_url=video_url, form=form)
+

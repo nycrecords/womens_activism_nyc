@@ -3,6 +3,19 @@
 {% block content %}
     <form data-parsley-validate id="share-form" data-parsley-focus="none" method="post">
         {{ form.csrf_token }}
+
+        <div class="container-fluid" id="edit-reason">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="edit-reason-heading">Edit Story</h1>
+                    <p class="share-subheading">Explain your reason for editing this story.</p>
+                    <div>
+                        {{ form.reason (id="story-content", class="edit-story-text", placeholder="Enter your reason here", required=true) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container-fluid" id="share-who">
             <div class="row">
                 <div class="col-md-12">

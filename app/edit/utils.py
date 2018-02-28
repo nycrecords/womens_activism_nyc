@@ -3,11 +3,37 @@ Utility functions used for view functions involving stories
 """
 import uuid
 from flask import current_app
-
 from app.constants.user_type_auth import ANONYMOUS_USER
-from app.constants.event import STORY_CREATED, USER_CREATED, EDIT_STORY
-from app.models import Stories, Users, Events
+from app.constants.event import STORY_CREATED, USER_CREATED, EDIT_STORY, DELETE_STORY
+from app.constants.flag import INCORRECT_INFORMATION
+from app.models import Stories, Users, Events, Flags
 from app.db_utils import edit_object, create_object
+
+def hide_story(story_id):
+    '''
+    A utility function to hide/delete a Story object.
+    :param story_id: the story_id you would like to hide
+    :return: no return value
+    '''
+    story = Stories.query.filter_by(id=story_id).one()
+    story.is_visible = False
+    edit_object(story)
+
+    # We should keep the same code for this one, since we need to create a new audit trail anyways in Events table for
+    # hiding
+    # Create Events object
+    create_object(Events(
+        _type=DELETE_STORY,
+        story_id=story.id,
+        new_value=story.val_for_events
+    ))
+
+    # Not sure what this is
+    # Create the elasticsearch story doc
+    if current_app.config['ELASTICSEARCH_ENABLED']:
+        story.es_create()
+
+    return story.id
 
 
 def edit_story(story_id,
@@ -20,7 +46,8 @@ def edit_story(story_id,
                 activist_url,
                 image_url,
                 video_url,
-                user_guid):
+                user_guid,
+                reason):
     """
     A utility function to edit a Story object and convert parameters to the correct data types. After the Story object
     is edited, it will be added and committed to the database
@@ -36,6 +63,7 @@ def edit_story(story_id,
     :param image_url: a url containing an image link
     :param video_url: a url containing a
     :param user_guid: the guid of the user who created the story
+    :param reason: the reason for editing this post
     :return: no return value, a Story object will be created
     """
     strip_fields = ['activist_first', 'activist_last', 'activist_start', 'activist_end', 'content', 'activist_url',
@@ -62,6 +90,18 @@ def edit_story(story_id,
     story.user_guid = user_guid
     story.tags = tags
     story.is_edited = True
+
+    # bring the Flags table here
+    flag = Flags.query.filter_by(story_id=story_id).first()
+    # if flag is None:
+    flag = Flags(story_id=story_id,
+                 type=INCORRECT_INFORMATION,
+                 reason=reason)
+    create_object(flag)
+    # else:
+    #     flag.type=flag.INCORRECT_INFORMATION
+    #     flag.reason=reason
+    #     edit_object(flag)
 
     edit_object(story)
 
@@ -109,7 +149,15 @@ def edit_user(story_id,
                      auth_user_type=ANONYMOUS_USER,
                      email=user_email if user_email else None,
                      password_hash=None)
+
         create_object(user)
+        # Create Events object
+        create_object(Events(
+            _type=USER_CREATED,
+            user_guid=user.guid,
+            new_value=user.val_for_events
+        ))
+
 
     else:
     # Find the difference and update them
@@ -121,12 +169,10 @@ def edit_user(story_id,
         if user.email != user_email:
             user.email = user_email
         edit_object(user)
-
-    # Create Events object
-    create_object(Events(
-        _type=USER_CREATED,
-        user_guid=user.guid,
-        new_value=user.val_for_events
-    ))
+        create_object(Events(
+            _type=USER_EDITED,
+            user_guid=story.user_guid,
+            new_value=user.val_for_events
+        ))
 
     return user.guid

@@ -20,7 +20,18 @@ $(function () {
 
     // share-active buttons id should be in selected tags
     $(".share-active").each(function() {
-        selectedTags.push($(this).val());
+        $(this).toggleClass("share-inactive");
+        $(this).toggleClass("share-active");
+        var index = selectedTags.indexOf(this.value);
+        // Append value of active buttons to array, remove if inactive
+        if(index > -1) {
+            selectedTags.splice(index, 1);
+        }
+        else {
+            selectedTags.push(this.value);
+        }
+        // Append array to hidden share tag input
+        hiddenTagInput.val(selectedTags);
     });
 
     shareTag.click(function () {

@@ -4,7 +4,7 @@ Utility functions used for view functions involving stories
 import uuid
 from flask import current_app
 from app.constants.user_type_auth import ANONYMOUS_USER
-from app.constants.event import STORY_CREATED, USER_CREATED, EDIT_STORY, DELETE_STORY
+from app.constants.event import USER_CREATED, EDIT_STORY, DELETE_STORY, USER_EDITED
 from app.constants.flag import INCORRECT_INFORMATION
 from app.models import Stories, Users, Events, Flags
 from app.db_utils import edit_object, create_object

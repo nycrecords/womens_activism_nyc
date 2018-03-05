@@ -416,6 +416,9 @@ class Events(db.Model):
                 event.EDIT_FEATURED_STORY,
                 event.EDIT_THEN_AND_NOW,
                 event.STORY_FLAGGED,
+                event.USER_EDITED,
+                event.LOGIN_FAILED,
+                event.LOGIN_SUCCESS,
                 name='event_type'), nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
     previous_value = db.Column(JSON)

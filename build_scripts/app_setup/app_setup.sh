@@ -42,3 +42,4 @@ yum -y install telnet
 #womens_activism   ALL=(ALL) NOPASSWD: /etc/init.d/rh-redis32-redis restart
 #womens_activism   ALL=(ALL) NOPASSWD: /etc/init.d/rh-redis32-redis condrestart
 #womens_activism   ALL=(ALL) NOPASSWD: /etc/init.d/rh-redis32-redis try-restart
+

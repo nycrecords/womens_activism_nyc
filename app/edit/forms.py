@@ -1,8 +1,6 @@
 """
 WTForms used for Edit Stories
 """
-# from app.
-
 from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import (
     TextAreaField,

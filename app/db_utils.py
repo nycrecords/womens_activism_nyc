@@ -10,7 +10,7 @@ import sys
 
 def create_object(obj):
     """
-    A utility function to add objects to the database
+    A utility function to add an object to the database
 
     :param obj: the object that is being added to the database
     :return: no return value, an object will be added to the database
@@ -31,8 +31,16 @@ def create_object(obj):
         return str(obj)
 
 
-def edit_object(obj):
+def update_object(obj):
+    """
+    A utility function to update an object to the database
+    (same code as the create_object function)
+
+    :param obj: the object that is being updated to the database
+    :return: no return value, an object will be updated to the database
+    """
     try:
+        db.session.add(obj)
         db.session.commit()
     except Exception as e:
         print("Failed to EDIT {} : {}".format(obj, e))

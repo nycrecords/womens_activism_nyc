@@ -155,7 +155,6 @@ class Users(UserMixin, db.Model):
             'email': self.email,
             'email_validated': self.email_validated,
             'terms_of_use_accepted': self.terms_of_use_accepted,
-            'password_hash': self.password_hash
         }
 
     # added from the book page 91 about password

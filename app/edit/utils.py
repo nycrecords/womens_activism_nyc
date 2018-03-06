@@ -7,7 +7,7 @@ from app.constants.user_type_auth import ANONYMOUS_USER
 from app.constants.event import USER_CREATED, EDIT_STORY, DELETE_STORY, USER_EDITED
 from app.constants.flag import INCORRECT_INFORMATION
 from app.models import Stories, Users, Events, Flags
-from app.db_utils import edit_object, create_object
+from app.db_utils import update_object, create_object
 
 def hide_story(story_id):
     '''
@@ -18,7 +18,7 @@ def hide_story(story_id):
     story = Stories.query.filter_by(id=story_id).one()
     old_json_value = story.val_for_events
     story.is_visible = False
-    edit_object(story)
+    update_object(story)
 
     # We should keep the same code for this one, since we need to create a new audit trail anyways in Events table for
     # hiding
@@ -30,26 +30,24 @@ def hide_story(story_id):
         new_value=story.val_for_events
     ))
 
-    # Not sure what this is
-    # Create the elasticsearch story doc
     if current_app.config['ELASTICSEARCH_ENABLED']:
         story.es_create()
 
     return story.id
 
 
-def edit_story(story_id,
-                activist_first,
-                activist_last,
-                activist_start,
-                activist_end,
-                tags,
-                content,
-                activist_url,
-                image_url,
-                video_url,
-                user_guid,
-                reason):
+def update_story(story_id,
+                 activist_first,
+                 activist_last,
+                 activist_start,
+                 activist_end,
+                 tags,
+                 content,
+                 activist_url,
+                 image_url,
+                 video_url,
+                 user_guid,
+                 reason):
     """
     A utility function to edit a Story object and convert parameters to the correct data types. After the Story object
     is edited, it will be added and committed to the database
@@ -95,21 +93,13 @@ def edit_story(story_id,
     story.is_edited = True
 
     # bring the Flags table here
-    flag = Flags.query.filter_by(story_id=story_id).first()
-    # if flag is None:
     flag = Flags(story_id=story_id,
                  type=INCORRECT_INFORMATION,
                  reason=reason)
     create_object(flag)
-    # else:
-    #     flag.type=flag.INCORRECT_INFORMATION
-    #     flag.reason=reason
-    #     edit_object(flag)
 
-    edit_object(story)
+    update_object(story)
 
-    # We should keep the same code for this one, since we need to create a new audit trail anyways in Events table
-    # Create Events object
     create_object(Events(
         _type=EDIT_STORY,
         story_id=story.id,
@@ -117,15 +107,13 @@ def edit_story(story_id,
         new_value=story.val_for_events
     ))
 
-    # Not sure what this is
-    # Create the elasticsearch story doc
     if current_app.config['ELASTICSEARCH_ENABLED']:
         story.es_create()
 
     return story.id
 
 
-def edit_user(story_id,
+def update_user(user,
                 user_first,
                 user_last,
                 user_email):
@@ -133,54 +121,25 @@ def edit_user(story_id,
     A utility function used to create a User object.
     If any of the fields are left blank then convert them to None types
 
-    :param user_first: the poster's first name
-    :param user_last: the poster's last name
-    :param user_email: the poster's email
-    :param user_email: the poster's password (default = None)
+    :param user: the user that will be updated
+    :param user_first: the new updated version of poster's first name
+    :param user_last: the new updated version of poster's last name
+    :param user_email: the new updated version of poster's email
     :return: no return value, a Poster object will be created
     """
-    strip_fields = ['user_first', 'user_last', 'user_email', 'password_hash']
-    for field in strip_fields:
-        field.strip()
+    old_json_value = user.val_for_events
+    user.first_name = user_first if user_first else None
+    user.last_name = user_last if user_last else None
+    user.auth_user_type = ANONYMOUS_USER
+    user.email = user_email if user_email else None
 
-    # Find out who the poster is from Stories (user_guid)
-    story = Stories.query.filter_by(id=story_id).one()
-    if story.user_guid is None:
-        # create a new user if it didn't exist before
-        user = Users(guid=str(uuid.uuid4()),
-                     first_name=user_first if user_first else None,
-                     last_name=user_last if user_last else None,
-                     auth_user_type=ANONYMOUS_USER,
-                     email=user_email if user_email else None,
-                     password_hash=None)
-        old_json_value = user.val_for_events
-
-        create_object(user)
-        # Create Events object
-        create_object(Events(
-            _type=USER_CREATED,
-            user_guid=user.guid,
-            previous_value=old_json_value,
-            new_value=user.val_for_events
-        ))
-
-
-    else:
-    # Find the difference and update them
-        user = Users.query.filter_by(guid=story.user_guid).one()
-        old_json_value = user.val_for_events
-        if user.first_name != user_first:
-            user.first_name = user_first
-        if user.last_name != user_last:
-            user.last_name = user_last
-        if user.email != user_email:
-            user.email = user_email
-        edit_object(user)
-        create_object(Events(
-            _type=USER_EDITED,
-            user_guid=story.user_guid,
-            previous_value=old_json_value,
-            new_value=user.val_for_events
-        ))
+    update_object(user)
+    # Create Events object
+    create_object(Events(
+        _type=USER_EDITED,
+        user_guid=user.guid,
+        previous_value=old_json_value,
+        new_value=user.val_for_events
+    ))
 
     return user.guid

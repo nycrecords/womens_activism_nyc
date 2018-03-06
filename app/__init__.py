@@ -66,6 +66,6 @@ def create_app(config_name):
     app.register_blueprint(auth_blueprint)
 
     from .edit import edit as edit
-    app.register_blueprint(edit)
+    app.register_blueprint(edit, url_prefix="/edit")
 
     return app

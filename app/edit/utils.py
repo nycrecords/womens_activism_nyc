@@ -16,6 +16,7 @@ def hide_story(story_id):
     :return: no return value
     '''
     story = Stories.query.filter_by(id=story_id).one()
+    old_json_value = story.val_for_events
     story.is_visible = False
     edit_object(story)
 
@@ -25,6 +26,7 @@ def hide_story(story_id):
     create_object(Events(
         _type=DELETE_STORY,
         story_id=story.id,
+        previous_value=old_json_value,
         new_value=story.val_for_events
     ))
 
@@ -79,6 +81,7 @@ def edit_story(story_id,
 
     # Retrieving the story using story_id to edit
     story = Stories.query.filter_by(id=story_id).one()
+    old_json_value = story.val_for_events
     story.activist_first = activist_first.title()
     story.activist_last = activist_last.title()
     story.activist_start = int(activist_start) if activist_start else None
@@ -110,6 +113,7 @@ def edit_story(story_id,
     create_object(Events(
         _type=EDIT_STORY,
         story_id=story.id,
+        previous_value=old_json_value,
         new_value=story.val_for_events
     ))
 
@@ -149,12 +153,14 @@ def edit_user(story_id,
                      auth_user_type=ANONYMOUS_USER,
                      email=user_email if user_email else None,
                      password_hash=None)
+        old_json_value = user.val_for_events
 
         create_object(user)
         # Create Events object
         create_object(Events(
             _type=USER_CREATED,
             user_guid=user.guid,
+            previous_value=old_json_value,
             new_value=user.val_for_events
         ))
 
@@ -162,6 +168,7 @@ def edit_user(story_id,
     else:
     # Find the difference and update them
         user = Users.query.filter_by(guid=story.user_guid).one()
+        old_json_value = user.val_for_events
         if user.first_name != user_first:
             user.first_name = user_first
         if user.last_name != user_last:
@@ -172,6 +179,7 @@ def edit_user(story_id,
         create_object(Events(
             _type=USER_EDITED,
             user_guid=story.user_guid,
+            previous_value=old_json_value,
             new_value=user.val_for_events
         ))
 

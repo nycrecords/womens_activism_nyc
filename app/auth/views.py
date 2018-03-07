@@ -5,6 +5,7 @@ from app.models import Users
 from .forms import LoginForm
 from app.auth.utils import create_login_log
 
+
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     """
@@ -29,7 +30,7 @@ def login():
         if user is not None and user.verify_password(form.password.data):
             login_user(user)
             create_login_log(user, login_validation=True)
-            return redirect(request.args.get('next') or url_for('main.index'))
+            return redirect(url_for('main.index'))
 
         flash('Invalid username or password.')
         create_login_log(user, login_validation=False, emailAttempted=form.email.data)

@@ -315,6 +315,53 @@ class Stories(db.Model):
         return '<Stories %r>' % self.id
 
 
+class FeaturedStories(db.Model):
+    """
+    Define the FeaturedStories class with the following columns and relationships:
+    Events are used to create an audit trail of new featured story
+
+    id - an integer that contains the featured story id
+    story_id - an integer that contains the story id
+    left_right - a boolean that contains whether to have picture on left OR right hand side
+    timestamp - the date that the event was created
+    """
+    __tablename__ = "featuredstories"
+    id = db.Column(db.Integer, primary_key=True)
+    story_id = db.Column(db.Integer, db.ForeignKey('stories.id'), nullable=False)
+    # left is true, right is false
+    left_right = db.Column(db.Boolean, nullable=False)
+    is_visible = db.Column(db.Boolean, nullable=False)
+    quote = db.Column(db.Text, nullable=False)
+
+    def __init__(
+            self,
+            story_id,
+            left_right=False,
+            is_visible=False,
+            quote=None
+    ):
+        self.story_id = story_id
+        self.left_right = left_right
+        self.is_visible = is_visible
+        self.quote = quote
+
+    def __repr__(self):
+        return '<FeaturedStories %r>' % self.id
+
+    @property
+    def val_for_events(self):
+        """
+        JSON to store in Events 'new_value' field.
+        """
+        return {
+            'id': self.id,
+            'story_id': self.story_id,
+            'left_right': self.left_right,
+            'is_visible': self.is_visible,
+            'quote': self.quote
+        }
+
+
 class Tags(db.Model):
     """
     Define the Stories class with the following columns:
@@ -412,7 +459,9 @@ class Events(db.Model):
                 event.DELETE_STORY,
                 event.EDIT_COMMENT,
                 event.DELETE_COMMENT,
+                event.ADD_FEATURED_STORY,
                 event.EDIT_FEATURED_STORY,
+                event.DELETE_FEATURED_STORY,
                 event.EDIT_THEN_AND_NOW,
                 event.STORY_FLAGGED,
                 event.USER_EDITED,

@@ -64,6 +64,7 @@ def create_story(activist_first,
     create_object(Events(
         _type=STORY_CREATED,
         story_id=story.id,
+        user_guid=user_guid,
         new_value=story.val_for_events
     ))
 

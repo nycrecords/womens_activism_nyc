@@ -14,11 +14,11 @@ def test(story_id):
     view function for editing a story
     :param story_id - a story id that has been selected
     '''
-    story = Stories.query.filter_by(id=story_id).one()
-    user = Users.query.filter_by(guid=story.user_guid).one_or_none()
-    form = StoryForm(request.form, content=story.content)
 
     if request.method == 'POST':
+        story = Stories.query.filter_by(id=story_id).one()
+        user = Users.query.filter_by(guid=story.user_guid).one_or_none()
+        form = StoryForm(request.form, content=story.content)
         if form.validate_on_submit():
             if user is not None:
                 if form.user_first.data != user.first_name or form.user_last.data != user.last_name or \
@@ -65,6 +65,7 @@ def test(story_id):
             return render_template('edit/edit.html', story=story, user=user, form=form, tags=Tags.query.all())
 
     try:
+        story = Stories.query.filter_by(id=story_id).one()
         assert story.is_visible
     except NoResultFound:
         print("Story does not exist")
@@ -72,6 +73,9 @@ def test(story_id):
     except AssertionError:
         print("Story is not visible")
         return abort(404)
+
+    user = Users.query.filter_by(guid=story.user_guid).one_or_none()
+    form = StoryForm(request.form, content=story.content)
 
     if story.is_visible:
         return render_template('edit/edit.html', story=story, user=user, form=form, tags=Tags.query.all())

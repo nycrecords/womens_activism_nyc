@@ -47,23 +47,38 @@
 {#        </div>#}
 {#    </div>#}
 {##}
-{#    <!-- Featured Story -->#}
-{#    {% if featured_story %}#}
-{#        <a href="{{ url_for('stories.view', story_id=featured_story.story_id) }}">#}
-{#            <div class="container" id="bws-jumbotron">#}
-{#                <div class="row" id="bws-content">#}
-{#                    <div id="bws-image" class="col-md-5">#}
-{#                        <div id="bws-image-mask" style="background-image: url({{ featured_story.media_url }})">#}
-{#                        </div>#}
-{#                    </div>#}
-{#                    <div id="bws-text" class="col-md-7">#}
-{#                        <h2 id="bws-h1">{{ featured_story.activist_first }} {{ featured_story.activist_last }}</h2>#}
-{#                        <p id="bws-quote">"{{ featured_story.content }}"</p>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </a>#}
-{#    {% endif %}#}
+    <!-- Featured Story -->
+    {% if featured_story != None %}
+        {% for eachstory in featured_story %}
+            <a href="{{ url_for('stories.view', story_id=eachstory[0].id) }}">
+                <div class="container" id="bws-jumbotron">
+                    {% if eachstory[1].left_right %}
+                        <div class="row" id="bws-content">
+                            <div id="bws-image" class="col-md-5">
+                                <div id="bws-image-mask" style="background-image: url({{ eachstory[0].image_url }})">
+                                </div>
+                            </div>
+                            <div id="bws-text" class="col-md-7">
+                                <h2 id="bws-h1">{{ eachstory[0].activist_first }} {{ eachstory[0].activist_last }}</h2>
+                                <p id="bws-quote">"{{ eachstory[1].quote }}"</p>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="row" id="bws-content">
+                            <div id="bws-text" class="col-md-5 col-md-offset-2">
+                                <h2 id="bws-h1">{{ eachstory[0].activist_first }} {{ eachstory[0].activist_last }}</h2>
+                                <p id="bws-quote">"{{ eachstory[1].quote }}"</p>
+                            </div>
+                            <div id="bws-image" class="col-md-5">
+                                <div id="bws-image-mask" style="background-image: url({{ eachstory[0].image_url }})">
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </a>
+        {% endfor %}
+    {% endif %}
 {##}
 {#    <!-- Twitter Module -->#}
 {#    <div class="container-fluid" id="twitter-section">#}

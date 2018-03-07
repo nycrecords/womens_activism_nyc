@@ -26,6 +26,7 @@ def hide_story(story_id):
     create_object(Events(
         _type=DELETE_STORY,
         story_id=story.id,
+        user_guid=story.user_guid,
         previous_value=old_json_value,
         new_value=story.val_for_events
     ))

@@ -2,7 +2,7 @@
 View functions for story functionality
 """
 from app.feature import feature
-from app.feature.forms import FeaturedStoryForm, ModifyFeatureForm
+from app.feature.forms import FeaturedStoryForm, ModifyFeatureForm, RankFeatureForm
 from app.feature.utils import create_featuredstory, update_featuredstory
 from flask import render_template, request, flash, redirect, url_for
 from app.models import Stories, FeaturedStories
@@ -10,7 +10,7 @@ from flask_login import login_required
 from sqlalchemy import func
 
 
-@feature.route('/', methods=['GET', 'POST'])
+@feature.route('/', methods=['GET'])
 @login_required
 def listing():
     """
@@ -29,6 +29,38 @@ def listing():
 
     return render_template('feature/feature.html', story_list=story_list)
 
+
+@feature.route('/rank', methods=['GET'])
+@login_required
+def rank():
+    """
+    View function for modifying the display of the Featured Stories in home page.
+    This function allows user to change the ranking of the Feature Stories
+
+    :return: renders the 'rank.html' template with the current ranking
+    """
+    form = RankFeatureForm(request.form)
+    # NEED TO WORK ON THIS POST REQUEST. THE BUTTON DOES NOT WORK AT THE MOMENT
+    # THE BUTTON FAILS
+    if request.method == 'POST':
+        print("hello")
+        if request.form['submit'] == "Rerank this Featured Story":
+            flash("Reranked Featured Stories!", category='success')
+            return redirect(url_for('stories.catalog'))
+        else:
+            return redirect(url_for('main.index'))
+
+    story_list = []
+    featuredstory = FeaturedStories.query.filter_by(is_visible=True).order_by(FeaturedStories.rank.asc()).all()
+    # for each featured story in all featured stories
+    rank = 1
+    for each in featuredstory:
+        story = Stories.query.filter_by(id=each.story_id).one()
+        update_featuredstory(story=story, rank=rank)
+        rank = rank + 1
+        story_list.append((story, each))
+
+    return render_template('feature/rank.html', story_list=story_list, form=form)
 
 @feature.route('/<story_id>', methods=['GET', 'POST'])
 @login_required
@@ -65,6 +97,7 @@ def add(story_id):
 
 
 @feature.route('/modify/<story_id>', methods=['GET', 'POST'])
+@login_required
 def modify(story_id):
     """
     This view function is used for modifying/editing the featured story.

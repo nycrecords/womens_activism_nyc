@@ -36,3 +36,9 @@ class ModifyFeatureForm(FlaskForm):
                             validators=[DataRequired()], default='True')
 
     submit = SubmitField('Submit')
+
+class RankFeatureForm(FlaskForm):
+    """
+    The WTForm used to rank featured stories
+    """
+    change = SubmitField('Change')

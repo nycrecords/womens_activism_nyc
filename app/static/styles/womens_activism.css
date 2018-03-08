@@ -1705,3 +1705,9 @@ p, div {
 #feature-header {
     text-align: center;
 }
+
+#subscription-heading {
+    font-size: 20px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}

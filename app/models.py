@@ -91,6 +91,7 @@ class Users(UserMixin, db.Model):
     last_name - a string that contains the last name of the user
     email - a string that contains the email of the user
     password_hash - a string that contains the password of the user
+    subscription - a boolean that indicates whether the user is subscribed or not
     """
     __tablename__ = "users"
     guid = db.Column(db.String(64), primary_key=True)
@@ -113,8 +114,8 @@ class Users(UserMixin, db.Model):
     email = db.Column(db.String(254))
     email_validated = db.Column(db.Boolean, nullable=False)
     terms_of_use_accepted = db.Column(db.Boolean, nullable=False)
-
     password_hash = db.Column(db.String(128))
+    subscription = db.Column(db.Boolean)
 
     def __init__(
             self,
@@ -128,7 +129,8 @@ class Users(UserMixin, db.Model):
             email=None,
             email_validated=False,
             terms_of_use_accepted=False,
-            password_hash=None
+            password_hash=None,
+            subscription=False
     ):
         self.guid = guid
         self.auth_user_type = auth_user_type
@@ -141,6 +143,7 @@ class Users(UserMixin, db.Model):
         self.email_validated = email_validated
         self.terms_of_use_accepted = terms_of_use_accepted
         self.password_hash = password_hash
+        self.subscription = subscription
 
     @property
     def val_for_events(self):
@@ -155,6 +158,7 @@ class Users(UserMixin, db.Model):
             'email': self.email,
             'email_validated': self.email_validated,
             'terms_of_use_accepted': self.terms_of_use_accepted,
+            'subscription': self.subscription
         }
 
     # added from the book page 91 about password

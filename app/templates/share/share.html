@@ -113,6 +113,10 @@
                     <div class="who-input-group">
                         {{ form.user_email (id="user-email-field", class="share-you-email-input", placeholder="msmith@gmail.com", maxlength=254, type="email") }}
                     </div>
+                   <div class="who-input-group">
+                       <h1 id="subscription-heading">Subscribe to WomensActivism Email Notification</h1>
+                        {{ form.subscription(id="user-subscription-btn") }}
+                    </div>
                     <div class="who-input-group">
                         {{ form.submit (id="share-story-btn") }}
                     </div>

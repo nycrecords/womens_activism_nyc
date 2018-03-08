@@ -19,7 +19,7 @@ def index():
 
     try:
         story_list = []
-        featured_story = FeaturedStories.query.filter_by(is_visible=True).all()
+        featured_story = FeaturedStories.query.filter_by(is_visible=True).order_by(FeaturedStories.rank.asc()).all()
         # for each featured story in all featured stories
         for each in featured_story:
             story = Stories.query.filter_by(id=each.story_id).one()

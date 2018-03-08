@@ -76,7 +76,11 @@
     {% if current_user.is_authenticated %}
         <div id="view-edit-delete-div">
             <a class="btn btn-default btn-lg" id="view-edit-delete-btn"
-                   href="{{ url_for('edit.test', story_id=story.id) }}" role="button">Edit</a>
+                   href="{{ url_for('edit.test', story_id=story.id) }}" role="button">Edit this Story</a>
+            {% if feature != None %}
+            <a class="btn btn-default btn-lg" id="view-edit-delete-btn"
+                   href="{{ url_for('feature.modify', story_id=story.id) }}" role="button">Modify this Featured Story</a>
+            {% endif %}
             <form data-parsley-validate data-parsley="none" method="post">
                 {{ form.csrf_token }}
                 <input class="btn btn-default btn-lg" id="view-edit-delete-btn" value="Hide this Story" name="submit" type="submit">

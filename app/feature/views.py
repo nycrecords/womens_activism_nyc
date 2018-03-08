@@ -4,9 +4,10 @@ View functions for story functionality
 from app.feature import feature
 from app.feature.forms import FeaturedStoryForm, ModifyFeatureForm
 from app.feature.utils import create_featuredstory, update_featuredstory
-from flask import render_template, abort, request, flash, redirect, url_for
+from flask import render_template, request, flash, redirect, url_for
 from app.models import Stories, FeaturedStories
 from flask_login import login_required
+from sqlalchemy import func
 
 
 @feature.route('/', methods=['GET', 'POST'])
@@ -85,7 +86,7 @@ def modify(story_id):
         if form.validate_on_submit():
             new_quote = form.quote.data.strip("\"")
             update_featuredstory(story=story, left_right=form.left_right.data, quote=new_quote,
-                                 is_visible=form.is_visible.data)
+                                 is_visible=form.is_visible.data, rank=featurestory.rank)
             flash("Story is now Modified!", category='success')
             return redirect(url_for('main.index'))
 

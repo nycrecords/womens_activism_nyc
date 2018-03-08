@@ -340,7 +340,7 @@ class FeaturedStories(db.Model):
             left_right=False,
             is_visible=False,
             quote=None,
-            rank=None
+            rank=0
     ):
         self.story_id = story_id
         self.left_right = left_right

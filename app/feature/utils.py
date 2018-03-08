@@ -7,6 +7,18 @@ from app.constants.event import ADD_FEATURED_STORY, DELETE_FEATURED_STORY, EDIT_
 from app.models import Stories, Users, Events, Flags, FeaturedStories
 from app.db_utils import update_object, create_object
 
+def find_max_rank():
+    """
+    A function that finds the largest number in FeaturedStories table
+    :return: largest number in rank's column in Featured Stories
+    """
+    feature = FeaturedStories.query.order_by(FeaturedStories.rank.desc()).first()
+    new_rank = 1
+    if feature.rank is not None:
+        new_rank = feature.rank + 1
+
+    return new_rank
+
 
 def create_featuredstory(story, left_right, quote):
     """
@@ -16,12 +28,16 @@ def create_featuredstory(story, left_right, quote):
     :param quote: a famous quote that was once said by this activist
     :return: None
     """
+    # taking the largest rank value in the FeaturedStories table
+
+    new_rank = find_max_rank()
 
     featuredStory = FeaturedStories(
         story_id=story.id,
         left_right=True if left_right == 'left' else False,
         is_visible=True,
-        quote=quote
+        quote=quote,
+        rank=new_rank
     )
 
     create_object(featuredStory)
@@ -38,7 +54,7 @@ def create_featuredstory(story, left_right, quote):
         story.es_create()
 
 
-def update_featuredstory(story, left_right=None, quote=None, is_visible=None):
+def update_featuredstory(story, left_right=None, quote=None, is_visible=None, rank=None):
     """
     A utility function to update a featured story.
     Updating attributes such as the following:
@@ -46,6 +62,7 @@ def update_featuredstory(story, left_right=None, quote=None, is_visible=None):
     :param left_right: left or right side where the image will go
     :param quote: a famous quote that was once said by this activist
     :param is_visible: the visibility of the featured story
+    :param rank: the rank of the Featured Stories in the home page
     :return: None
     """
 
@@ -57,6 +74,9 @@ def update_featuredstory(story, left_right=None, quote=None, is_visible=None):
         featuredStory.quote = quote
     if is_visible is not None:
         featuredStory.is_visible = is_visible
+    if rank is None:
+        rank = find_max_rank()
+    featuredStory.rank = rank
 
     update_object(featuredStory)
 
@@ -65,7 +85,7 @@ def update_featuredstory(story, left_right=None, quote=None, is_visible=None):
         user_guid=story.user_guid,
         _type=EDIT_FEATURED_STORY,
         previous_value=old_featuredStory_json,
-        new_value=featuredStory.val_for_events
+        new_value=featuredStory.val_for_events,
     ))
 
     # Create the elasticsearch story doc
@@ -84,6 +104,7 @@ def remove_featuredstory(story_id):
     featuredStory = FeaturedStories.query.filter_by(story_id=story_id).one()
     old_json = featuredStory.val_for_events
     featuredStory.is_visible = False
+    featuredStory.rank = 0
     update_object(featuredStory)
     create_object(Events(
         story_id=story_id,

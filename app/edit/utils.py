@@ -9,12 +9,14 @@ from app.constants.flag import INCORRECT_INFORMATION
 from app.models import Stories, Users, Events, Flags
 from app.db_utils import update_object, create_object
 
+
 def hide_story(story_id):
-    '''
+    """
     A utility function to hide/delete a Story object.
+
     :param story_id: the story_id you would like to hide
     :return: no return value
-    '''
+    """
     story = Stories.query.filter_by(id=story_id).one()
     old_json_value = story.val_for_events
     story.is_visible = False
@@ -29,9 +31,6 @@ def hide_story(story_id):
         previous_value=old_json_value,
         new_value=story.val_for_events
     ))
-
-    if current_app.config['ELASTICSEARCH_ENABLED']:
-        story.es_create()
 
     return story.id
 

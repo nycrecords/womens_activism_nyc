@@ -48,8 +48,6 @@ def update_object(obj):
         db.session.rollback()
     else:
         # create elasticsearch doc
-        if (not isinstance(obj, Stories)
-            and hasattr(obj, 'es_create')
-            and current_app.config['ELASTICSEARCH_ENABLED']):
-              obj.es_create()
+        if hasattr(obj, 'es_update') and current_app.config['ELASTICSEARCH_ENABLED']:
+              obj.es_update()
         return str(obj)

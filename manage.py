@@ -39,6 +39,8 @@ def make_shell_context():
                 Modules=Modules,
                 Flags=Flags,
                 Feedback=Feedback)
+
+
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 
@@ -108,6 +110,6 @@ def modules(featured=False):
             print("New featured story module set")
         csvfile.close()
 
+
 if __name__ == '__main__':
     manager.run()
-

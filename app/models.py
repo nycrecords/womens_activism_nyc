@@ -311,6 +311,23 @@ class Stories(db.Model):
             }
         )
 
+    def es_update(self):
+        es.update(
+            index=current_app.config["ELASTICSEARCH_INDEX"],
+            doc_type='story',
+            id=self.id,
+            body={
+                'doc': {
+                    'activist_first': self.activist_first,
+                    'activist_last': self.activist_last,
+                    'content': self.content,
+                    'image_url': self.image_url,
+                    'tag': self.tags,
+                }
+            },
+            # refresh='wait_for'
+        )
+
     def __repr__(self):
         return '<Stories %r>' % self.id
 

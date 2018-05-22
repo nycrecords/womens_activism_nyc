@@ -7,13 +7,14 @@ from app.share.utils import create_user
 from sqlalchemy.orm.exc import NoResultFound
 from flask_login import login_required
 
+
 @edit.route('/<story_id>', methods=['GET', 'POST'])
 @login_required
 def test(story_id):
-    '''
+    """
     view function for editing a story
     :param story_id - a story id that has been selected
-    '''
+    """
     story = Stories.query.filter_by(id=story_id).one()
     user = Users.query.filter_by(guid=story.user_guid).one_or_none()
     form = StoryForm(request.form, content=story.content)
@@ -45,17 +46,17 @@ def test(story_id):
                 tags.append(Tags.query.filter_by(id=t).one().name)
 
             story_id = update_story(story_id=story_id,
-                                  activist_first=form.activist_first.data,
-                                  activist_last=form.activist_last.data,
-                                  activist_start=form.activist_start.data,
-                                  activist_end=form.activist_end.data,
-                                  tags=tags,
-                                  content=form.content.data,
-                                  activist_url=form.activist_url.data,
-                                  image_url=form.image_url.data,
-                                  video_url=form.video_url.data,
-                                  user_guid=user_guid,
-                                  reason=form.reason.data)
+                                    activist_first=form.activist_first.data,
+                                    activist_last=form.activist_last.data,
+                                    activist_start=form.activist_start.data,
+                                    activist_end=form.activist_end.data,
+                                    tags=tags,
+                                    content=form.content.data,
+                                    activist_url=form.activist_url.data,
+                                    image_url=form.image_url.data,
+                                    video_url=form.video_url.data,
+                                    user_guid=user_guid,
+                                    reason=form.reason.data)
 
             flash(Markup('Story Edited!'), category='success')
             return redirect(url_for('stories.view', story_id=story_id))

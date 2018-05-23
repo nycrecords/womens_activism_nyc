@@ -421,7 +421,7 @@ class Events(db.Model):
     story_id = db.Column(db.Integer, db.ForeignKey('stories.id'))
     comment_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
     module_id = db.Column(db.Integer, db.ForeignKey('modules.id'))
-    user_guid = db.Column(db.String(64), db.ForeignKey('users.guid'))
+    user_guid = db.Column(db.String(64))
     type = db.Column(
         db.Enum(event.STORY_CREATED,
                 event.USER_CREATED,

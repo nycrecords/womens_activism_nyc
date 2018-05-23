@@ -46,6 +46,21 @@ manager.add_command('db', MigrateCommand)
 
 
 @manager.command
+def deploy():
+    """Run deployment tasks"""
+    from flask_migrate import upgrade
+    from app.models import Tags
+
+    # migrate database to latest revision
+    upgrade()
+
+    # pre-populate
+    Tags.populate()
+
+    es_recreate()
+
+
+@manager.command
 def es_recreate():
     """Recreate elasticsearch index and request docs."""
     from app.search.utils import recreate

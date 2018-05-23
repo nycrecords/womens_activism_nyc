@@ -26,5 +26,5 @@ def create_login_event(user, login_validation, email=None):
         create_object(Events(
             _type=LOGIN_FAILED,
             user_guid=guid,
-            new_value={'attempted_email': email}
+            new_value={'email': email}
         ))

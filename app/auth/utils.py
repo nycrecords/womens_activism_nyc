@@ -22,9 +22,7 @@ def create_login_event(user, login_validation, email=None):
         ))
     else:
         # the attempted login email will be stored in new_value column
-        guid = 0
         create_object(Events(
             _type=LOGIN_FAILED,
-            user_guid=guid,
             new_value={'email': email}
         ))

@@ -8,17 +8,25 @@ from app.constants.event import USER_CREATED, EDIT_STORY, DELETE_STORY, USER_EDI
 from app.constants.flag import INCORRECT_INFORMATION
 from app.models import Stories, Users, Events, Flags
 from app.db_utils import update_object, create_object
+from app.search.utils import delete_doc
+
 
 def hide_story(story_id):
-    '''
+    """
     A utility function to hide/delete a Story object.
+
     :param story_id: the story_id you would like to hide
     :return: no return value
-    '''
+    """
     story = Stories.query.filter_by(id=story_id).one()
-    old_json_value = story.val_for_events
+
+    old_json_value = {"is_visible": story.is_visible}
+
     story.is_visible = False
-    update_object(story)
+    new_json_value = {"is_visible": False}
+
+    update_object(new_json_value, Stories, story.id)
+    delete_doc(story.id)
 
     # We should keep the same code for this one, since we need to create a new audit trail anyways in Events table for
     # hiding
@@ -28,11 +36,8 @@ def hide_story(story_id):
         story_id=story.id,
         user_guid=story.user_guid,
         previous_value=old_json_value,
-        new_value=story.val_for_events
+        new_value=new_json_value
     ))
-
-    if current_app.config['ELASTICSEARCH_ENABLED']:
-        story.es_create()
 
     return story.id
 
@@ -80,67 +85,116 @@ def update_story(story_id,
 
     # Retrieving the story using story_id to edit
     story = Stories.query.filter_by(id=story_id).one()
-    old_json_value = story.val_for_events
-    story.activist_first = activist_first.title()
-    story.activist_last = activist_last.title()
-    story.activist_start = int(activist_start) if activist_start else None
-    story.activist_end = activist_end if activist_start and activist_last else None
-    story.content = content
-    story.activist_url = activist_url if activist_url else None
-    story.image_url = image_url if image_url else None
-    story.video_url = video_url if video_url else None
-    story.user_guid = user_guid
-    story.tags = tags
-    story.is_edited = True
 
-    # bring the Flags table here
-    flag = Flags(story_id=story_id,
-                 type=INCORRECT_INFORMATION,
-                 reason=reason)
-    create_object(flag)
+    story_fields = {
+        'activist_first',
+        'activist_last',
+        'activist_start',
+        'activist_end',
+        'content',
+        'activist_url',
+        'image_url',
+        'video_url',
+        'user_guid',
+        'tags'
+    }
 
-    update_object(story)
+    story_field_vals = {
+        'activist_first': activist_first,
+        'activist_last': activist_last,
+        'activist_start': int(activist_start),
+        'activist_end': activist_end,
+        'content': content,
+        'activist_url': activist_url,
+        'image_url': image_url,
+        'video_url': video_url,
+        'user_guid': user_guid,
+        'tags': tags
+    }
 
-    create_object(Events(
-        _type=EDIT_STORY,
-        story_id=story.id,
-        previous_value=old_json_value,
-        new_value=story.val_for_events
-    ))
+    old = {}
+    new = {}
 
-    if current_app.config['ELASTICSEARCH_ENABLED']:
-        story.es_create()
+    for field in story_fields:
+        val = story_field_vals[field]
+        if val is not None:
+            if val == '':
+                story_field_vals[field] = None  # null in db, not empty string
+            cur_val = getattr(story, field)
+            new_val = story_field_vals[field]
+            if cur_val != new_val:
+                old[field] = cur_val
+                new[field] = new_val
+
+    if new:
+        story.is_edited = True
+        update_object(new, Stories, story.id)
+
+        create_object(Events(
+            _type=EDIT_STORY,
+            story_id=story.id,
+            previous_value=old,
+            new_value=new
+        ))
+
+        # bring the Flags table here
+        flag = Flags(story_id=story_id,
+                     type=INCORRECT_INFORMATION,
+                     reason=reason)
+        create_object(flag)
 
     return story.id
 
 
 def update_user(user,
-                user_first,
-                user_last,
-                user_email):
+                first_name,
+                last_name,
+                email):
     """
     A utility function used to create a User object.
     If any of the fields are left blank then convert them to None types
 
     :param user: the user that will be updated
-    :param user_first: the new updated version of poster's first name
-    :param user_last: the new updated version of poster's last name
-    :param user_email: the new updated version of poster's email
+    :param first_name: the new updated version of poster's first name
+    :param last_name: the new updated version of poster's last name
+    :param email: the new updated version of poster's email
     :return: no return value, a Poster object will be created
     """
-    old_json_value = user.val_for_events
-    user.first_name = user_first if user_first else None
-    user.last_name = user_last if user_last else None
-    user.auth_user_type = ANONYMOUS_USER
-    user.email = user_email if user_email else None
+    user_fields = {
+        'first_name',
+        'last_name',
+        'email'
+    }
 
-    update_object(user)
-    # Create Events object
-    create_object(Events(
-        _type=USER_EDITED,
-        user_guid=user.guid,
-        previous_value=old_json_value,
-        new_value=user.val_for_events
-    ))
+    user_field_vals = {
+        'first_name': first_name,
+        'last_name': last_name,
+        'email': email
+    }
+
+    old = {}
+    new = {}
+
+    for field in user_fields:
+        val = user_field_vals[field]
+        if val is not None:
+            if val == '':
+                user_field_vals[field] = None  # null in db, not empty string
+            cur_val = getattr(user, field)
+            new_val = user_field_vals[field]
+            if cur_val != new_val:
+                old[field] = cur_val
+                new[field] = new_val
+
+    if new:
+        update_object(new, user, user.guid)
+
+        # Create Events object
+        create_object(Events(
+            _type=USER_EDITED,
+            user_guid=user.guid,
+            previous_value=old,
+            new_value=new
+        ))
 
     return user.guid

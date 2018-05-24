@@ -32,11 +32,11 @@ def catalog():
 @stories.route('/catalog/<story_id>', methods=['GET', 'POST'])
 @stories.route('/stories/<story_id>', methods=['GET', 'POST'])
 def view(story_id):
-
     form = HideForm(request.form)
 
     if request.method == 'POST':
-        if request.form['submit'] == "Hide this Story":
+        # if request.form['submit'] == "Hide this Story":
+        if form.validate_on_submit():
             hide_story(story_id)
             flash("Story Hidden!", category='success')
             return redirect(url_for('stories.catalog'))
@@ -45,16 +45,17 @@ def view(story_id):
             flash("This story is now hidden from the Featured Stories")
             return redirect(url_for('stories.catalog'))
 
-    try:
-        story = Stories.query.filter_by(id=story_id).one()
-        assert story.is_visible
-    except NoResultFound:
-        print("Story does not exist")
-        return abort(404)
-    except AssertionError:
-        print("Story is not visible")
-        return abort(404)
-    if story.is_visible:
+    else:
+        try:
+            story = Stories.query.filter_by(id=story_id).one()
+            assert story.is_visible
+        except NoResultFound:
+            print("Story does not exist")
+            return abort(404)
+        except AssertionError:
+            print("Story is not visible")
+            return abort(404)
+
         user = Users.query.filter_by(guid=story.user_guid).one() if story.user_guid else None
         feature = FeaturedStories.query.filter_by(story_id=story.id).one_or_none()
 

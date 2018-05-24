@@ -38,100 +38,85 @@
             All Stories</a>
     </div>
 
-{#    <!-- Give Module -->#}
-{#    <div class="jumbotron" id="give-jumbotron">#}
-{#        <div id="give-content">#}
-{#            <h1>Help us elevate and fuel New York City�s women activists and inspire activism</h1>#}
-{#            <a class="btn btn-default btn-lg" id="home-give-btn"#}
-{#               href="https://web.ovationtix.com/trs/store/34600/alldonations/23831" role="button">Give</a>#}
-{#        </div>#}
-{#    </div>#}
-{##}
+    <!-- Give Module -->
+    <div class="jumbotron" id="give-jumbotron">
+        <div id="give-content">
+            <h1>Help us elevate and fuel New York City&#8217;s women activists and inspire activism</h1>
+            <a class="btn btn-default btn-lg" id="home-give-btn"
+               href="https://web.ovationtix.com/trs/store/34600/alldonations/23831" role="button">Give</a>
+        </div>
+    </div>
+
     <!-- Featured Story -->
-    {% if featured_story != None %}
-        {% for eachstory in featured_story %}
-            <a href="{{ url_for('stories.view', story_id=eachstory[0].id) }}">
-                <div class="container" id="bws-jumbotron">
-                    {% if eachstory[1].left_right %}
-                        <div class="row" id="bws-content">
-                            <div id="bws-image" class="col-md-5">
-                                <div id="bws-image-mask" style="background-image: url({{ eachstory[0].image_url }})">
-                                </div>
-                            </div>
-                            <div id="bws-text" class="col-md-7">
-                                <h2 id="bws-h1">{{ eachstory[0].activist_first }} {{ eachstory[0].activist_last }}</h2>
-                                <p id="bws-quote">"{{ eachstory[1].quote }}"</p>
-                            </div>
+    {% if featured_story %}
+        <a href="{{ url_for('stories.view', story_id=featured_story.story_id) }}">
+            <div class="container" id="bws-jumbotron">
+                <div class="row" id="bws-content">
+                    <div id="bws-image" class="col-md-5">
+                        <div id="bws-image-mask" style="background-image: url({{ featured_story.media_url }})">
                         </div>
-                    {% else %}
-                        <div class="row" id="bws-content">
-                            <div id="bws-text" class="col-md-5 col-md-offset-2">
-                                <h2 id="bws-h1">{{ eachstory[0].activist_first }} {{ eachstory[0].activist_last }}</h2>
-                                <p id="bws-quote">"{{ eachstory[1].quote }}"</p>
-                            </div>
-                            <div id="bws-image" class="col-md-5">
-                                <div id="bws-image-mask" style="background-image: url({{ eachstory[0].image_url }})">
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
+                    </div>
+                    <div id="bws-text" class="col-md-7">
+                        <h2 id="bws-h1">{{ featured_story.activist_first }} {{ featured_story.activist_last }}</h2>
+                        <p id="bws-quote">"{{ featured_story.content }}"</p>
+                    </div>
                 </div>
-            </a>
-        {% endfor %}
+            </div>
+        </a>
     {% endif %}
-{##}
-{#    <!-- Twitter Module -->#}
-{#    <div class="container-fluid" id="twitter-section">#}
-{#        <div class="row">#}
-{#            <div class="col-md-12">#}
-{#                <h1>Connect With Us</h1>#}
-{#            </div>#}
-{#        </div>#}
-{#        <div class="row" id="tweetsRow">#}
-{#        </div>#}
-{#        <div class="row">#}
-{#            <div class="col-md-12">#}
-{#                <a class="btn btn-default btn-lg" id="home-view-tweets-btn" href="https://twitter.com/WomensActivism" role="button" target="_blank">All Tweets</a>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-{##}
-{#    <!-- Then and Now Module -->#}
-{#    <div class="jumbotron" id="then-now-jumbotron">#}
-{#        <div id="then-now-content">#}
-{#            <h1>Then &amp; Now: Civil Rights</h1>#}
-{#            <div class="container">#}
-{#                <div class="row">#}
-{#                    <div id="example4"></div>#}
-{#                    <div class="col-md-6" id="left-col-6">#}
-{#                        <div class="row then-now-sub-row">#}
-{#                            <div class="col-md-4">#}
-{#                                <div class="then-now-img" style="background-image: url('./static/img/then.jpg')"></div>#}
-{#                            </div>#}
-{#                            <div class="col-md-8 then-now-text">#}
-{#                                <h4 class="then-now-name">Ida B. Wells</h4>#}
-{#                                <span class="then-now-year">1892</span>#}
-{#                                <p class="then-now-bio">Wells worked as a civil-rights activist and journalist. She campaigned for anti-lynching legislation and published her sentiments in "The New York Age" paper in NYC in 1892.</p>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                    <div class="col-md-6">#}
-{#                        <div class="row then-now-sub-row">#}
-{#                            <div class="col-md-4">#}
-{#                                <div class="then-now-img" style="background-image: url('./static/img/now.jpg')"></div>#}
-{#                            </div>#}
-{#                            <div class="col-md-8 then-now-text">#}
-{#                                <h4 class="then-now-name">Merle Hoffman</h4>#}
-{#                                <span class="then-now-year">1976</span>#}
-{#                                <p class="then-now-bio">Merle Hoffman has been involved in defining and defending women�s human reproductive rights. She is the Co-founder of the National Abortion Federation.</p>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#            <a class="btn btn-default btn-lg" id="home-then-now-btn" href="#" role="button">Take Action Now</a>#}
-{#        </div>#}
-{#    </div>#}
+
+    <!-- Twitter Module -->
+    <div class="container-fluid" id="twitter-section">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Connect With Us</h1>
+            </div>
+        </div>
+        <div class="row" id="tweetsRow">
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <a class="btn btn-default btn-lg" id="home-view-tweets-btn" href="https://twitter.com/WomensActivism" role="button" target="_blank">All Tweets</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Then and Now Module -->
+    <div class="jumbotron" id="then-now-jumbotron">
+        <div id="then-now-content">
+            <h1>Then &amp; Now: Civil Rights</h1>
+            <div class="container">
+                <div class="row">
+                    <div id="example4"></div>
+                    <div class="col-md-6" id="left-col-6">
+                        <div class="row then-now-sub-row">
+                            <div class="col-md-4">
+                                <div class="then-now-img" style="background-image: url('./static/img/then.jpg')"></div>
+                            </div>
+                            <div class="col-md-8 then-now-text">
+                                <h4 class="then-now-name">Ida B. Wells</h4>
+                                <span class="then-now-year">1892</span>
+                                <p class="then-now-bio">Wells worked as a civil-rights activist and journalist. She campaigned for anti-lynching legislation and published her sentiments in "The New York Age" paper in NYC in 1892.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row then-now-sub-row">
+                            <div class="col-md-4">
+                                <div class="then-now-img" style="background-image: url('./static/img/now.jpg')"></div>
+                            </div>
+                            <div class="col-md-8 then-now-text">
+                                <h4 class="then-now-name">Merle Hoffman</h4>
+                                <span class="then-now-year">1976</span>
+                                <p class="then-now-bio">Merle Hoffman has been involved in defining and defending women�s human reproductive rights. She is the Co-founder of the National Abortion Federation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="btn btn-default btn-lg" id="home-then-now-btn" href="#" role="button">Take Action Now</a>
+        </div>
+    </div>
 
 {% endblock %}
 

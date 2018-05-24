@@ -14,7 +14,7 @@ from wtforms.validators import (
     Email
 )
 
-from app.edit.validators import (validate_end_year,
+from app.share.validators import (validate_end_year,
                                   validate_image,
                                   validate_start_year,
                                   validate_url,
@@ -25,7 +25,8 @@ class StoryForm(FlaskForm):
     """
     The WTForm used to create a new Story
     """
-    reason = TextAreaField("Please state your reason for editing this story", validators=[DataRequired()])
+    reason = TextAreaField("Please state your reason for editing this story",
+                           validators=[DataRequired()])
     activist_first = StringField("Activist first name", validators=[DataRequired(), Length(1, 64)])
     activist_last = StringField("Activist last name", validators=[DataRequired(), Length(1, 64)])
     activist_start = StringField("Activist birth year", validators=[Optional(), Length(1, 4), validate_start_year])
@@ -46,7 +47,5 @@ class StoryForm(FlaskForm):
 class HideForm(FlaskForm):
     """
     The WTForm used to hide an existing story
-
     """
-    hide = SubmitField('Hide this Story')
-
+    submit = SubmitField('Hide')

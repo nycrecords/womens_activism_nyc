@@ -15,7 +15,7 @@ def validate_start_year(form, year):
     activist_start = year.data
     activist_start.strip()
     if not activist_start.isdigit():
-        raise ValidationError()
+        raise ValidationError('Invalid Year Input, please enter the numerical year')
 
 
 def validate_end_year(form, year):
@@ -27,7 +27,7 @@ def validate_end_year(form, year):
     activist_end = year.data
     activist_end.strip()
     if activist_end.lower() != "today" and not activist_end.isdigit():
-        raise ValidationError('Invalid Death Year, please enter "Today" or the year')
+        raise ValidationError('Invalid Year Input, please enter "Today" or the year')
 
 
 def validate_url(form, url):

@@ -161,13 +161,7 @@ class Users(UserMixin, db.Model):
             'subscription': self.subscription
         }
 
-    # added from the book page 91 about password
-    @property
-    def password(self):
-        raise AttributeError('Password is not a readable attribute')
-
-    @password.setter
-    def password(self, password):
+    def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
     def verify_password(self, password):
@@ -315,6 +309,22 @@ class Stories(db.Model):
             }
         )
 
+    def es_update(self):
+        es.update(
+            index=current_app.config["ELASTICSEARCH_INDEX"],
+            doc_type='story',
+            id=self.id,
+            body={
+                'doc': {
+                    'activist_first': self.activist_first,
+                    'activist_last': self.activist_last,
+                    'content': self.content,
+                    'image_url': self.image_url,
+                    'tag': self.tags,
+                }
+            }
+        )
+
     def __repr__(self):
         return '<Stories %r>' % self.id
 
@@ -329,7 +339,7 @@ class FeaturedStories(db.Model):
     left_right - a boolean that contains whether to have picture on left OR right hand side
     timestamp - the date that the event was created
     """
-    __tablename__ = "featuredstories"
+    __tablename__ = "featured_stories"
     id = db.Column(db.Integer, primary_key=True)
     story_id = db.Column(db.Integer, db.ForeignKey('stories.id'), nullable=False)
     # left is true, right is false
@@ -459,7 +469,7 @@ class Events(db.Model):
     story_id = db.Column(db.Integer, db.ForeignKey('stories.id'))
     comment_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
     module_id = db.Column(db.Integer, db.ForeignKey('modules.id'))
-    user_guid = db.Column(db.String(64), db.ForeignKey('users.guid'))
+    user_guid = db.Column(db.String(64))
     type = db.Column(
         db.Enum(event.STORY_CREATED,
                 event.USER_CREATED,

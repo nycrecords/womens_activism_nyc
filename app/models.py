@@ -15,6 +15,9 @@ from flask_login import UserMixin, AnonymousUserMixin
 from datetime import datetime
 from sqlalchemy.dialects.postgresql import JSON, ARRAY
 
+from . import login_manager
+from werkzeug.security import generate_password_hash, check_password_hash
+
 
 class Roles(db.Model):
     """
@@ -87,6 +90,7 @@ class Users(UserMixin, db.Model):
     middle_initial - a string the contains the middle initial of the user
     last_name - a string that contains the last name of the user
     email - a string that contains the email of the user
+    password_hash - a string that contains the password of the user
     """
     __tablename__ = "users"
     guid = db.Column(db.String(64), primary_key=True)
@@ -110,6 +114,8 @@ class Users(UserMixin, db.Model):
     email_validated = db.Column(db.Boolean, nullable=False)
     terms_of_use_accepted = db.Column(db.Boolean, nullable=False)
 
+    password_hash = db.Column(db.String(128))
+
     def __init__(
             self,
             guid,
@@ -121,7 +127,8 @@ class Users(UserMixin, db.Model):
             last_name=None,
             email=None,
             email_validated=False,
-            terms_of_use_accepted=False
+            terms_of_use_accepted=False,
+            password_hash=None
     ):
         self.guid = guid
         self.auth_user_type = auth_user_type
@@ -133,6 +140,7 @@ class Users(UserMixin, db.Model):
         self.email = email
         self.email_validated = email_validated
         self.terms_of_use_accepted = terms_of_use_accepted
+        self.password_hash = password_hash
 
     @property
     def val_for_events(self):
@@ -146,11 +154,20 @@ class Users(UserMixin, db.Model):
             'last_name': self.last_name,
             'email': self.email,
             'email_validated': self.email_validated,
-            'terms_of_use_accepted': self.terms_of_use_accepted
+            'terms_of_use_accepted': self.terms_of_use_accepted,
         }
 
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
     def __repr__(self):
-        return '<User %r>' % self.guid
+        return '<User %r>' % self.get_id()
+
+    def get_id(self):
+        return str(self.guid)
 
 
 class Anonymous(AnonymousUserMixin):
@@ -288,6 +305,22 @@ class Stories(db.Model):
             }
         )
 
+    def es_update(self):
+        es.update(
+            index=current_app.config["ELASTICSEARCH_INDEX"],
+            doc_type='story',
+            id=self.id,
+            body={
+                'doc': {
+                    'activist_first': self.activist_first,
+                    'activist_last': self.activist_last,
+                    'content': self.content,
+                    'image_url': self.image_url,
+                    'tag': self.tags,
+                }
+            }
+        )
+
     def __repr__(self):
         return '<Stories %r>' % self.id
 
@@ -381,7 +414,7 @@ class Events(db.Model):
     story_id = db.Column(db.Integer, db.ForeignKey('stories.id'))
     comment_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
     module_id = db.Column(db.Integer, db.ForeignKey('modules.id'))
-    user_guid = db.Column(db.String(64), db.ForeignKey('users.guid'))
+    user_guid = db.Column(db.String(64))
     type = db.Column(
         db.Enum(event.STORY_CREATED,
                 event.USER_CREATED,
@@ -392,6 +425,9 @@ class Events(db.Model):
                 event.EDIT_FEATURED_STORY,
                 event.EDIT_THEN_AND_NOW,
                 event.STORY_FLAGGED,
+                event.USER_EDITED,
+                event.LOGIN_FAILED,
+                event.LOGIN_SUCCESS,
                 name='event_type'), nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
     previous_value = db.Column(JSON)
@@ -533,16 +569,16 @@ class Flags(db.Model):
         return '<Flags %r>' % self.id
 
     def __init__(self,
-                 id,
+                 # id,
                  story_id,
-                 comment_id,
+                 # comment_id,
                  type,
                  reason,
                  addressed=False
                  ):
-        self.id = id
+        # self.id = id
         self.story_id = story_id
-        self.comment_id = comment_id
+        # self.comment_id = None # No comment functionality established yet
         self.type = type
         self.reason = reason
         self.timestamp = datetime.utcnow()
@@ -588,3 +624,9 @@ class Feedback(db.Model):
         self.message = message
         self.timestamp = datetime.utcnow()
         self.addressed = addressed
+
+
+# flask requires the application to set up a callback function that loads a user, given the identifier
+@login_manager.user_loader
+def load_user(user_id):
+    return Users.query.get(user_id)

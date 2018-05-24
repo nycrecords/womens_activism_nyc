@@ -1,16 +1,22 @@
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from flask_elasticsearch import FlaskElasticsearch
+from flask_login import LoginManager
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
-from flask_wtf import CsrfProtect
+from flask_wtf import CSRFProtect
 from config import config
 
 bootstrap = Bootstrap()
-csrf = CsrfProtect()
+csrf = CSRFProtect()
 db = SQLAlchemy()
 es = FlaskElasticsearch()
 moment = Moment()
+
+# for auth admin login (page 95 from the book for reference)
+login_manager = LoginManager()
+login_manager.session_protection = 'strong'
+login_manager.login_view = 'auth.login'
 
 
 def create_app(config_name):
@@ -24,6 +30,7 @@ def create_app(config_name):
     db.init_app(app)
     csrf.init_app(app)
     moment.init_app(app)
+    login_manager.init_app(app)
 
     # Error Handlers
     @app.errorhandler(400)
@@ -54,5 +61,11 @@ def create_app(config_name):
 
     from .search import search as search
     app.register_blueprint(search, url_prefix="/search")
+
+    from .auth import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint)
+
+    from .edit import edit as edit
+    app.register_blueprint(edit, url_prefix="/edit")
 
     return app

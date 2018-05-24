@@ -1,5 +1,5 @@
 """
-WTForms used for Stories
+WTForms used for Edit Stories
 """
 from flask_wtf import FlaskForm
 from wtforms import (
@@ -25,6 +25,8 @@ class StoryForm(FlaskForm):
     """
     The WTForm used to create a new Story
     """
+    reason = TextAreaField("Please state your reason for editing this story",
+                           validators=[DataRequired()])
     activist_first = StringField("Activist first name", validators=[DataRequired(), Length(1, 64)])
     activist_last = StringField("Activist last name", validators=[DataRequired(), Length(1, 64)])
     activist_start = StringField("Activist birth year", validators=[Optional(), Length(1, 4), validate_start_year])
@@ -40,3 +42,10 @@ class StoryForm(FlaskForm):
     user_last = StringField("User last name", validators=[Optional(), Length(1, 128)])
     user_email = StringField("User email", validators=[Optional(), Email(), Length(1, 254)])
     submit = SubmitField('Submit')
+
+
+class HideForm(FlaskForm):
+    """
+    The WTForm used to hide an existing story
+    """
+    submit = SubmitField('Hide')

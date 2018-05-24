@@ -22,6 +22,13 @@ h1 {
     text-align: center;
     background: #d29f13;
 }
+
+.navbar-nav-admin {
+    width: 100%;
+    text-align: center;
+    background: red;
+}
+
 .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
     background-color: #e0b040 !important;
 }
@@ -265,6 +272,7 @@ p, div {
 }
 #flash-messages {
     background-color: #673c74;
+    color: white;
 }
 #flash-messages .alert {
     margin: 20px auto;
@@ -810,6 +818,21 @@ p, div {
 
 #share-her-story-heading {
     margin-top: 80px;
+}
+
+.edit-story-text {
+    font-size: 30px;
+    vertical-align: top;
+    margin-top: 60px;
+    background: none;
+    width: 90%;
+    max-width: 768px;
+    border: 0;
+    border-top: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    outline: 0;
+    min-height: 340px;
+    padding: 20px 10px;
 }
 
 .her-story-text {
@@ -1525,6 +1548,28 @@ p, div {
     color: black;
 }
 
+#view-edit-delete-div {
+    text-align: center;
+    margin: 40px 0;
+}
+
+#view-edit-delete-btn {
+    background: none;
+    font-size: 20px;
+    color: black;
+    border-radius: 0;
+    border-width: 2px;
+    margin-top: 40px;
+    border-color: #59315f;
+    padding: 12px 80px;
+    transition: background 0.2s ease;
+}
+
+#view-edit-delete-btn:hover {
+    background: rgb(89, 49, 95);
+    color: white;
+}
+
 #view-story-social-div {
     text-align: center;
     margin: 40px 0;
@@ -1587,6 +1632,7 @@ p, div {
     background: #ffffff;
     color: rgb(89, 49, 95);
 }
+
 #view-story-feedback-content {
     height: 100%;
     display: table-cell;
@@ -1633,4 +1679,31 @@ p, div {
 #recaptcha {
     padding-top: 75px;
     display: inline-block;
+}
+
+#edit-reason {
+    background: #59315f;
+    text-align: center;
+    color: white;
+    padding-top: 90px;
+    padding-bottom: 90px;
+}
+
+#edit-reason-heading {
+    margin-top: 0px;
+}
+
+.edit-reason-text {
+    font-size: 30px;
+    vertical-align: top;
+    margin-top: 60px;
+    background: none;
+    width: 90%;
+    max-width: 768px;
+    border: 0;
+    border-top: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    outline: 0;
+    min-height: 340px;
+    padding: 20px 10px;
 }

@@ -39,8 +39,25 @@ def make_shell_context():
                 Modules=Modules,
                 Flags=Flags,
                 Feedback=Feedback)
+
+
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
+
+
+@manager.command
+def deploy():
+    """Run deployment tasks"""
+    from flask_migrate import upgrade
+    from app.models import Tags
+
+    # migrate database to latest revision
+    upgrade()
+
+    # pre-populate
+    Tags.populate()
+
+    es_recreate()
 
 
 @manager.command
@@ -108,6 +125,6 @@ def modules(featured=False):
             print("New featured story module set")
         csvfile.close()
 
+
 if __name__ == '__main__':
     manager.run()
-

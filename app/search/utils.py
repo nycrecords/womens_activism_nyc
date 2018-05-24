@@ -99,7 +99,7 @@ def create_docs():
             'content': s.content,
             'image_url': s.image_url,
             'tag': s.tags,
-            'date_created': s.date_created.strftime(ES_DATETIME_FORMAT)
+            'date_created': s.date_created.strftime(ES_DATETIME_FORMAT),
         })
 
     num_success, _ = bulk(
@@ -118,6 +118,13 @@ def update_docs():
     stories = Stories.query.filter_by(is_visible=True).all()
     for s in stories:
         s.es_update()
+
+
+def delete_doc(story_id):
+    """Delete a specific doc in the index"""
+    es.delete(index=current_app.config['ELASTICSEARCH_INDEX'],
+              doc_type='story',
+              id=story_id)
 
 
 def search_stories(query,
@@ -174,7 +181,8 @@ def search_stories(query,
                  'activist_last',
                  'content',
                  'image_url',
-                 'tag'],
+                 'tag',
+                 'is_visible'],
         size=size,
         from_=start,
         sort=sort

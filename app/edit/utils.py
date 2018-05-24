@@ -94,6 +94,7 @@ def update_story(story_id,
         'activist_url',
         'image_url',
         'video_url',
+        'user_guid',
         'tags'
     }
 
@@ -106,6 +107,7 @@ def update_story(story_id,
         'activist_url': activist_url,
         'image_url': image_url,
         'video_url': video_url,
+        'user_guid': user_guid,
         'tags': tags
     }
 
@@ -124,6 +126,7 @@ def update_story(story_id,
                 new[field] = new_val
 
     if new:
+        story.is_edited = True
         update_object(new, Stories, story.id)
 
         create_object(Events(
@@ -133,42 +136,64 @@ def update_story(story_id,
             new_value=new
         ))
 
-    # bring the Flags table here
-    # flag = Flags(story_id=story_id,
-    #              type=INCORRECT_INFORMATION,
-    #              reason=reason)
-    # create_object(flag)
+        # bring the Flags table here
+        flag = Flags(story_id=story_id,
+                     type=INCORRECT_INFORMATION,
+                     reason=reason)
+        create_object(flag)
 
     return story.id
 
 
 def update_user(user,
-                user_first,
-                user_last,
-                user_email):
+                first_name,
+                last_name,
+                email):
     """
     A utility function used to create a User object.
     If any of the fields are left blank then convert them to None types
 
     :param user: the user that will be updated
-    :param user_first: the new updated version of poster's first name
-    :param user_last: the new updated version of poster's last name
-    :param user_email: the new updated version of poster's email
+    :param first_name: the new updated version of poster's first name
+    :param last_name: the new updated version of poster's last name
+    :param email: the new updated version of poster's email
     :return: no return value, a Poster object will be created
     """
-    old_json_value = user.val_for_events
-    user.first_name = user_first if user_first else None
-    user.last_name = user_last if user_last else None
-    user.auth_user_type = ANONYMOUS_USER
-    user.email = user_email if user_email else None
+    user_fields = {
+        'first_name',
+        'last_name',
+        'email'
+    }
 
-    update_object(user)
-    # Create Events object
-    create_object(Events(
-        _type=USER_EDITED,
-        user_guid=user.guid,
-        previous_value=old_json_value,
-        new_value=user.val_for_events
-    ))
+    user_field_vals = {
+        'first_name': first_name,
+        'last_name': last_name,
+        'email': email
+    }
+
+    old = {}
+    new = {}
+
+    for field in user_fields:
+        val = user_field_vals[field]
+        if val is not None:
+            if val == '':
+                user_field_vals[field] = None  # null in db, not empty string
+            cur_val = getattr(user, field)
+            new_val = user_field_vals[field]
+            if cur_val != new_val:
+                old[field] = cur_val
+                new[field] = new_val
+
+    if new:
+        update_object(new, user, user.guid)
+
+        # Create Events object
+        create_object(Events(
+            _type=USER_EDITED,
+            user_guid=user.guid,
+            previous_value=old,
+            new_value=new
+        ))
 
     return user.guid

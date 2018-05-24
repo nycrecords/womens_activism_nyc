@@ -22,23 +22,17 @@ def test(story_id):
     if request.method == 'POST':
         if form.validate_on_submit():
             if user is not None:
-                if form.user_first.data != user.first_name or form.user_last.data != user.last_name or \
-                        form.user_email.data != user.email:
-
-                    user_guid = update_user(user=user,
-                                            user_first=form.user_first.data,
-                                            user_last=form.user_last.data,
-                                            user_email=form.user_email.data)
-                else:
-                    user_guid = None
+                user_guid = update_user(user,
+                                        form.user_first.data,
+                                        form.user_last.data,
+                                        form.user_email.data)
 
             else:
+                user_guid = None
                 if form.user_first.data or form.user_last.data or form.user_email.data:
                     user_guid = create_user(user_first=form.user_first.data,
                                             user_last=form.user_last.data,
                                             user_email=form.user_email.data)
-                else:
-                    user_guid = None
 
             tag_string = form.tags.data
             tags = []

@@ -17,13 +17,8 @@
                         {% elif user.first_name %}{{ user.first_name }}
                         {% elif user.last_name %}{{ user.last_name }}
                     {% endif %}| {% endif %}
-                    <strong>Date Added: </strong>{{ moment(story.date_created).format('MMMM D, YYYY') }}</p>
-
-                <p id="story-user-date-subheading">
-                    {% if story.is_edited %}
-                         Edited
-                    {% else %}
-                    {% endif %}
+                    <strong>Date Added: </strong>{{ moment(story.date_created).format('MMMM D, YYYY') }}
+                    {% if story.is_edited %}<br />Edited{% endif %}
                 </p>
 
                 <div id="story-content-container">

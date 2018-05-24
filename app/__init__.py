@@ -63,7 +63,7 @@ def create_app(config_name):
     app.register_blueprint(search, url_prefix="/search")
 
     from .auth import auth as auth_blueprint
-    app.register_blueprint(auth_blueprint, url_prefix="")
+    app.register_blueprint(auth_blueprint)
 
     from .edit import edit as edit
     app.register_blueprint(edit, url_prefix="/edit")

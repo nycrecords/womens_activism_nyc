@@ -40,17 +40,17 @@ def view(story_id):
             flash('Story Hidden!', category='success')
             return redirect(url_for('stories.catalog'))
 
-    try:
-        story = Stories.query.filter_by(id=story_id).one()
-        assert story.is_visible
-    except NoResultFound:
-        print("Story does not exist")
-        return abort(404)
-    except AssertionError:
-        print("Story is not visible")
-        return abort(404)
+    else:
+        try:
+            story = Stories.query.filter_by(id=story_id).one()
+            assert story.is_visible
+        except NoResultFound:
+            print("Story does not exist")
+            return abort(404)
+        except AssertionError:
+            print("Story is not visible")
+            return abort(404)
 
-    if story.is_visible:
         user = Users.query.filter_by(guid=story.user_guid).one() if story.user_guid else None
 
         video_url = None

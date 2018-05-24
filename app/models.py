@@ -157,13 +157,7 @@ class Users(UserMixin, db.Model):
             'terms_of_use_accepted': self.terms_of_use_accepted,
         }
 
-    # added from the book page 91 about password
-    @property
-    def password(self):
-        raise AttributeError('Password is not a readable attribute')
-
-    @password.setter
-    def password(self, password):
+    def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
     def verify_password(self, password):
@@ -324,8 +318,7 @@ class Stories(db.Model):
                     'image_url': self.image_url,
                     'tag': self.tags,
                 }
-            },
-            # refresh='wait_for'
+            }
         )
 
     def __repr__(self):

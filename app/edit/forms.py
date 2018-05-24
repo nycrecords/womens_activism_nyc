@@ -14,11 +14,11 @@ from wtforms.validators import (
     Email
 )
 
-from app.edit.validators import (validate_end_year,
-                                 validate_image,
-                                 validate_start_year,
-                                 validate_url,
-                                 validate_video)
+from app.share.validators import (validate_end_year,
+                                  validate_image,
+                                  validate_start_year,
+                                  validate_url,
+                                  validate_video)
 
 
 class StoryForm(FlaskForm):

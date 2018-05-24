@@ -74,9 +74,6 @@ def create_index():
                         "date_created": {
                             "type": "date",
                             "format": "strict_date_hour_minute_second",
-                        },
-                        "is_visible": {
-                            "type": "boolean"
                         }
                     }
                 }
@@ -103,7 +100,6 @@ def create_docs():
             'image_url': s.image_url,
             'tag': s.tags,
             'date_created': s.date_created.strftime(ES_DATETIME_FORMAT),
-            'is_visible': s.is_visible
         })
 
     num_success, _ = bulk(

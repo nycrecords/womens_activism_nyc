@@ -16,7 +16,9 @@ depends_on = None
 
 old_options = ('story_created', 'user_created', 'story_edited', 'story_deleted', 'comment_edited', 'comment_deleted',
                'feature_story_edited')
-new_options = old_options + ('then_and_now_edited', 'story_flagged', 'user_edited', 'login_failed', 'login_success')
+new_options = old_options + (
+    'then_and_now_edited', 'story_flagged', 'user_edited', 'login_failed', 'login_success', 'featured_story_added',
+    'featured_story_edited', 'featured_story_hidden')
 
 old_type = sa.Enum(*old_options, name='event_type')
 new_type = sa.Enum(*new_options, name='event_type')

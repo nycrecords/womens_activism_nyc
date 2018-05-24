@@ -71,7 +71,7 @@
     {% if current_user.is_authenticated %}
         <div id="view-edit-delete-div">
             <a class="btn btn-default btn-lg" id="view-edit-delete-btn"
-                   href="{{ url_for('edit.test', story_id=story.id) }}" role="button">Edit this Story</a>
+                   href="{{ url_for('edit.edit', story_id=story.id) }}" role="button">Edit this Story</a>
             {% if feature != None %}
             <a class="btn btn-default btn-lg" id="view-edit-delete-btn"
                    href="{{ url_for('feature.modify', story_id=story.id) }}" role="button">Modify this Featured Story</a>
@@ -79,16 +79,11 @@
             <form data-parsley-validate data-parsley="none" method="post">
                 {{ form.csrf_token }}
                 <input class="btn btn-default btn-lg" id="view-edit-delete-btn" value="Hide this Story" name="submit" type="submit">
-                {% if feature != None %}
-                    {% if feature.is_visible %}
-                        <input class="btn btn-default btn-lg" id="view-edit-delete-btn" value="Remove this Featured Story" name="submit" type="submit">
-                    {% else %}
-                        <a class="btn btn-default btn-lg" id="view-edit-delete-btn"
-                           href="{{ url_for('feature.add', story_id=story.id) }}" role="button">Feature this Story</a>
-                    {% endif %}
+                {% if feature != None and feature.is_visible%}
+                    <input class="btn btn-default btn-lg" id="view-edit-delete-btn" value="Remove this Featured Story" name="submit" type="submit">
                 {% else %}
                     <a class="btn btn-default btn-lg" id="view-edit-delete-btn"
-                       href="{{ url_for('feature.add', story_id=story.id) }}" role="button">Feature this Story</a>
+                       href="{{ url_for('feature.set_featured_story', story_id=story.id) }}" role="button">Feature this Story</a>
                 {% endif %}
             </form>
 

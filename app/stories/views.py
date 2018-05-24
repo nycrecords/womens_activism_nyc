@@ -3,7 +3,7 @@ View functions for story functionality
 """
 from app.stories import stories
 from app.edit.utils import hide_story
-from app.feature.utils import remove_featuredstory
+from app.feature.utils import hide_current_featured_story
 from flask import render_template, abort, request, flash, redirect, url_for
 from sqlalchemy.orm.exc import NoResultFound
 from app.edit.forms import HideForm
@@ -35,15 +35,14 @@ def view(story_id):
     form = HideForm(request.form)
 
     if request.method == 'POST':
-        # if request.form['submit'] == "Hide this Story":
-        if form.validate_on_submit():
+        if request.form['submit'] == "Hide this Story":
             hide_story(story_id)
             flash("Story Hidden!", category='success')
             return redirect(url_for('stories.catalog'))
         elif request.form['submit'] == "Remove this Featured Story":
-            remove_featuredstory(story_id)
+            hide_current_featured_story()
             flash("This story is now hidden from the Featured Stories")
-            return redirect(url_for('stories.catalog'))
+            return redirect(url_for('main.index'))
 
     else:
         try:

@@ -1,8 +1,7 @@
 from flask import render_template
 from app.main import main
 from app.models import Stories, FeaturedStories
-from app.constants import module, STORY_GOAL_NUMBER
-from sqlalchemy.orm.exc import NoResultFound
+from app.constants import STORY_GOAL_NUMBER
 
 
 @main.route('/', methods=['GET'])
@@ -17,23 +16,13 @@ def index():
 
     stories = Stories.query.filter_by(is_visible=True).order_by(Stories.date_created.desc()).limit(8)
 
-    try:
-        story_list = []
-        featured_story = FeaturedStories.query.filter_by(is_visible=True).order_by(FeaturedStories.rank.asc()).all()
-        # for each featured story in all featured stories
-        for each in featured_story:
-            story = Stories.query.filter_by(id=each.story_id).one()
-            story_list.append((story, each))
-
-    except NoResultFound:
-        featured_story = None
-        print("No featured module set")
+    featured_story = FeaturedStories.query.filter_by(is_visible=True).one_or_none()
 
     return render_template('main/home.html',
                            visible_stories=visible_stories,
                            remaining_stories=remaining_stories,
                            stories=stories,
-                           featured_story=story_list)
+                           featured_story=featured_story)
 
 
 @main.route('/about', methods=['GET'])

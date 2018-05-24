@@ -1,26 +1,14 @@
 """
 Utility functions used for view functions involving featured stories
 """
-import uuid
-from flask import current_app
-from app.constants.event import ADD_FEATURED_STORY, DELETE_FEATURED_STORY, EDIT_FEATURED_STORY
-from app.models import Stories, Users, Events, Flags, FeaturedStories
+from flask_login import current_user
+
+from app.constants.event import ADD_FEATURED_STORY, HIDE_FEATURED_STORY, EDIT_FEATURED_STORY
 from app.db_utils import update_object, create_object
-
-def find_max_rank():
-    """
-    A function that finds the largest number in FeaturedStories table
-    :return: largest number in rank's column in Featured Stories
-    """
-    feature = FeaturedStories.query.order_by(FeaturedStories.rank.desc()).first()
-    new_rank = 1
-    if feature.rank is not None:
-        new_rank = feature.rank + 1
-
-    return new_rank
+from app.models import Events, FeaturedStories
 
 
-def create_featuredstory(story, left_right, quote):
+def create_featured_story(story, left_right, quote):
     """
     A utility function to create a featured story.
     :param story: the story object you would like to create in Featured Story
@@ -28,92 +16,95 @@ def create_featuredstory(story, left_right, quote):
     :param quote: a famous quote that was once said by this activist
     :return: None
     """
-    # taking the largest rank value in the FeaturedStories table
+    #
+    current_featured_story = FeaturedStories.query.filter_by(is_visible=True).one_or_none()
+    if current_featured_story is not None:
+        update_object({"is_visible": False}, FeaturedStories, current_featured_story.id)
 
-    new_rank = find_max_rank()
-
-    featuredStory = FeaturedStories(
+    featured_story = FeaturedStories(
         story_id=story.id,
         left_right=True if left_right == 'left' else False,
         is_visible=True,
         quote=quote,
-        rank=new_rank
     )
 
-    create_object(featuredStory)
+    create_object(featured_story)
 
     create_object(Events(
         story_id=story.id,
         user_guid=story.user_guid,
         _type=ADD_FEATURED_STORY,
-        new_value=featuredStory.val_for_events
+        new_value=featured_story.val_for_events
     ))
 
-    # Create the elasticsearch story doc
-    if current_app.config['ELASTICSEARCH_ENABLED']:
-        story.es_create()
 
-
-def update_featuredstory(story, left_right=None, quote=None, is_visible=None, rank=None):
+def update_featured_story(featured_story, left_right, is_visible, quote):
     """
     A utility function to update a featured story.
     Updating attributes such as the following:
-    :param story: the story object you would like to update in Featured Story
+    :param featured_story:
     :param left_right: left or right side where the image will go
-    :param quote: a famous quote that was once said by this activist
     :param is_visible: the visibility of the featured story
-    :param rank: the rank of the Featured Stories in the home page
+    :param quote: a famous quote that was once said by this activist
+
     :return: None
     """
+    featured_story_fields = {
+        "left_right",
+        "is_visible",
+        "quote"
+    }
 
-    featuredStory = FeaturedStories.query.filter_by(story_id=story.id).one()
-    old_featuredStory_json = featuredStory.val_for_events
-    if left_right is not None:
-        featuredStory.left_right = left_right
-    if quote is not None:
-        featuredStory.quote = quote
-    if is_visible is not None:
-        featuredStory.is_visible = is_visible
-    if rank is None:
-        rank = find_max_rank()
-    featuredStory.rank = rank
+    featured_story_field_vals = {
+        "left_right": left_right,
+        "is_visible": is_visible,
+        "quote": quote
+    }
 
-    update_object(featuredStory)
+    old = {}
+    new = {}
 
-    create_object(Events(
-        story_id=story.id,
-        user_guid=story.user_guid,
-        _type=EDIT_FEATURED_STORY,
-        previous_value=old_featuredStory_json,
-        new_value=featuredStory.val_for_events,
-    ))
+    for field in featured_story_fields:
+        val = featured_story_field_vals[field]
+        if val is not None:
+            if val == '':
+                featured_story_field_vals[field] = None  # null in db, not empty string
+            cur_val = getattr(featured_story, field)
+            new_val = featured_story_field_vals[field]
+            if cur_val != new_val:
+                old[field] = cur_val
+                new[field] = new_val
 
-    # Create the elasticsearch story doc
-    if current_app.config['ELASTICSEARCH_ENABLED']:
-        story.es_create()
+    if new:
+        if new.get('is_visible'):
+            hide_current_featured_story()
+
+        update_object(new, FeaturedStories, featured_story.id)
+
+        create_object(Events(
+            _type=EDIT_FEATURED_STORY,
+            story_id=featured_story.story_id,
+            user_guid=current_user.guid,
+            previous_value=old,
+            new_value=new
+        ))
 
 
-def remove_featuredstory(story_id):
+def hide_current_featured_story():
     """
-    A utility function to hide a story from featured story module (main page).
+    A utility function to hide the currently visible featured story (main page).
     Hiding does not *delete* the record from the table, but rather makes it invisible.
-    :param story_id: the story id you would like to hide from the featuredstories table
+
     :return: None
     """
-    story = Stories.query.filter_by(id=story_id).one()
-    featuredStory = FeaturedStories.query.filter_by(story_id=story_id).one()
-    old_json = featuredStory.val_for_events
-    featuredStory.is_visible = False
-    featuredStory.rank = 0
-    update_object(featuredStory)
-    create_object(Events(
-        story_id=story_id,
-        user_guid=story.user_guid,
-        _type=DELETE_FEATURED_STORY,
-        previous_value=old_json,
-        new_value=featuredStory.val_for_events
-    ))
+    current_featured_story = FeaturedStories.query.filter_by(is_visible=True).one_or_none()
+    if current_featured_story is not None:
+        update_object({"is_visible": False}, FeaturedStories, current_featured_story.id)
 
-    # Create the elasticsearch story doc
-    if current_app.config['ELASTICSEARCH_ENABLED']:
-        story.es_create()
+        create_object(Events(
+            _type=HIDE_FEATURED_STORY,
+            story_id=current_featured_story.story_id,
+            user_guid=current_user.guid,
+            previous_value={"is_visible": True},
+            new_value={"is_visible": False}
+        ))

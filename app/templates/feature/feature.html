@@ -21,26 +21,26 @@
             </tr>
         </thead>
         <tbody>
-        {# Rememer that story_list contains a list of tuples       #}
-        {% for story in story_list %}
+        <!-- Remember that story_list contains a list of tuples -->
+        {% for featured_story in featured_stories %}
             <tr>
               <th scope="row">
-                <a class="icon" href="{{ url_for('feature.modify', story_id=story[0].id) }}" title="Edit Record">
+                <a class="icon" href="{{ url_for('feature.modify', story_id=featured_story.story_id) }}" title="Edit Record">
                     <span class="fa fa-pencil glyphicon glyphicon-pencil"></span>
                 </a>
               </th>
-              <td>{{ story[0].id }}</td>
-              <td>{{ story[0].activist_first }}</td>
-              <td>{{ story[0].activist_last }}</td>
+              <td>{{ featured_story.story_id }}</td>
+              <td>{{ featured_story.story.activist_first }}</td>
+              <td>{{ featured_story.story.activist_last }}</td>
               <td>
-                  {% if story[1].left_right == True %}
+                  {% if featured_story.left_right == True %}
                     Left
                   {% else %}
                     Right
                   {% endif %}
               </td>
-              <td>{{ story[1].is_visible }}</td>
-              <td>{{ story[1].quote }}</td>
+              <td>{{ featured_story.is_visible }}</td>
+              <td>{{ featured_story.quote }}</td>
             </tr>
         {% endfor %}
         </tbody>

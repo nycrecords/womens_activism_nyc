@@ -53,12 +53,12 @@
             <div class="container" id="bws-jumbotron">
                 <div class="row" id="bws-content">
                     <div id="bws-image" class="col-md-5">
-                        <div id="bws-image-mask" style="background-image: url({{ featured_story.media_url }})">
+                        <div id="bws-image-mask" style="background-image: url({{ featured_story.story.image_url }})">
                         </div>
                     </div>
                     <div id="bws-text" class="col-md-7">
-                        <h2 id="bws-h1">{{ featured_story.activist_first }} {{ featured_story.activist_last }}</h2>
-                        <p id="bws-quote">"{{ featured_story.content }}"</p>
+                        <h2 id="bws-h1">{{ featured_story.story.activist_first }} {{ featured_story.story.activist_last }}</h2>
+                        <p id="bws-quote">"{{ featured_story.quote }}"</p>
                     </div>
                 </div>
             </div>

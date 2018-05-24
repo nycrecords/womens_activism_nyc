@@ -87,29 +87,29 @@ def update_story(story_id,
     story = Stories.query.filter_by(id=story_id).one()
 
     story_fields = {
-        'activist_first',
-        'activist_last',
-        'activist_start',
-        'activist_end',
-        'content',
-        'activist_url',
-        'image_url',
-        'video_url',
-        'user_guid',
-        'tags'
+        "activist_first",
+        "activist_last",
+        "activist_start",
+        "activist_end",
+        "content",
+        "activist_url",
+        "image_url",
+        "video_url",
+        "user_guid",
+        "tags"
     }
 
     story_field_vals = {
-        'activist_first': activist_first,
-        'activist_last': activist_last,
-        'activist_start': int(activist_start),
-        'activist_end': activist_end,
-        'content': content,
-        'activist_url': activist_url,
-        'image_url': image_url,
-        'video_url': video_url,
-        'user_guid': user_guid,
-        'tags': tags
+        "activist_first": activist_first,
+        "activist_last": activist_last,
+        "activist_start": int(activist_start),
+        "activist_end": activist_end,
+        "content": content,
+        "activist_url": activist_url,
+        "image_url": image_url,
+        "video_url": video_url,
+        "user_guid": user_guid,
+        "tags": tags
     }
 
     old = {}

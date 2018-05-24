@@ -348,6 +348,8 @@ class FeaturedStories(db.Model):
     quote = db.Column(db.Text, nullable=False)
     rank = db.Column(db.Integer)
 
+    story = db.relationship("Stories", backref="featured_stories")
+
     def __init__(
             self,
             story_id,
@@ -479,7 +481,7 @@ class Events(db.Model):
                 event.DELETE_COMMENT,
                 event.ADD_FEATURED_STORY,
                 event.EDIT_FEATURED_STORY,
-                event.DELETE_FEATURED_STORY,
+                event.HIDE_FEATURED_STORY,
                 event.EDIT_THEN_AND_NOW,
                 event.STORY_FLAGGED,
                 event.USER_EDITED,

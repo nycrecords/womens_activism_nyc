@@ -10,7 +10,7 @@ from flask_login import login_required
 
 @edit.route('/<story_id>', methods=['GET', 'POST'])
 @login_required
-def test(story_id):
+def edit(story_id):
     """
     view function for editing a story
     :param story_id - a story id that has been selected
@@ -69,5 +69,4 @@ def test(story_id):
             print("Story is not visible")
             return abort(404)
 
-        if story.is_visible:
-            return render_template('edit/edit.html', story=story, user=user, form=form, tags=Tags.query.all())
+        return render_template('edit/edit.html', story=story, user=user, form=form, tags=Tags.query.all())

@@ -140,13 +140,23 @@
                     <h1 id="about-you-heading">Tell Us About Yourself</h1>
                     <p class="about-you-subheading">If you would like to share your name, enter below. Your email
                         address will not be made public.</p>
-                    <div class="who-input-group">
-                        {{ form.user_first (id="user-first-name-field", class="share-who-input", placeholder="Mary", maxlength=128, value=user.first_name) }}
-                        {{ form.user_last (id="user-last-name-field", class="share-who-input", placeholder="Smith", maxlength=128, value=user.last_name) }}
-                    </div>
-                    <div class="who-input-group">
-                        {{ form.user_email (id="user-email-field", class="share-you-email-input", placeholder="msmith@gmail.com", maxlength=254, type="email", value=user.email) }}
-                    </div>
+                    {% if user != None %}
+                        <div class="who-input-group">
+                            {{ form.user_first (id="user-first-name-field", class="share-who-input", placeholder="Mary", maxlength=128, value=user.first_name) }}
+                            {{ form.user_last (id="user-last-name-field", class="share-who-input", placeholder="Smith", maxlength=128, value=user.last_name) }}
+                        </div>
+                        <div class="who-input-group">
+                            {{ form.user_email (id="user-email-field", class="share-you-email-input", placeholder="msmith@gmail.com", maxlength=254, type="email", value=user.email) }}
+                        </div>
+                    {% else %}
+                        <div class="who-input-group">
+                            {{ form.user_first (id="user-first-name-field", class="share-who-input", placeholder="Mary", maxlength=128) }}
+                            {{ form.user_last (id="user-last-name-field", class="share-who-input", placeholder="Smith", maxlength=128) }}
+                        </div>
+                        <div class="who-input-group">
+                            {{ form.user_email (id="user-email-field", class="share-you-email-input", placeholder="msmith@gmail.com", maxlength=254, type="email") }}
+                        </div>
+                    {% endif %}
                     <div class="who-input-group">
                         {{ form.submit (id="share-story-btn") }}
                     </div>

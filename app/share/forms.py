@@ -3,6 +3,7 @@ WTForms used for Stories
 """
 from flask_wtf import FlaskForm
 from wtforms import (
+    BooleanField,
     TextAreaField,
     StringField,
     SubmitField
@@ -39,4 +40,5 @@ class StoryForm(FlaskForm):
     user_first = StringField("User first name", validators=[Optional(), Length(1, 128)])
     user_last = StringField("User last name", validators=[Optional(), Length(1, 128)])
     user_email = StringField("User email", validators=[Optional(), Email(), Length(1, 254)])
+    subscription = BooleanField("Subscription")
     submit = SubmitField('Submit')

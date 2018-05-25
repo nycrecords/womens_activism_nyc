@@ -41,7 +41,7 @@ def view(story_id):
             return redirect(url_for('stories.catalog'))
         elif request.form['submit'] == "Remove this Featured Story":
             hide_current_featured_story()
-            flash("This story is now hidden from the Featured Stories")
+            flash("This story is now hidden from the Featured Stories", category='success')
             return redirect(url_for('main.index'))
 
     else:

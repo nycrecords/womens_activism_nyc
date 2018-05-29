@@ -23,6 +23,12 @@ h1 {
     background: #d29f13;
 }
 
+.navbar-nav-admin {
+    width: 100%;
+    text-align: center;
+    background: red;
+}
+
 .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
     background-color: #e0b040 !important;
 }
@@ -1700,14 +1706,4 @@ p, div {
     outline: 0;
     min-height: 340px;
     padding: 20px 10px;
-}
-
-#feature-header {
-    text-align: center;
-}
-
-#subscription-heading {
-    font-size: 20px;
-    margin-top: 50px;
-    margin-bottom: 20px;
 }

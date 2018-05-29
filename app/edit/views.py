@@ -10,7 +10,7 @@ from flask_login import login_required
 
 @edit.route('/<story_id>', methods=['GET', 'POST'])
 @login_required
-def edit(story_id):
+def test(story_id):
     """
     view function for editing a story
     :param story_id - a story id that has been selected
@@ -59,14 +59,14 @@ def edit(story_id):
                 flash(form.errors[field][0], category="danger")
             return render_template('edit/edit.html', story=story, user=user, form=form, tags=Tags.query.all())
 
-    else:
-        try:
-            assert story.is_visible
-        except NoResultFound:
-            print("Story does not exist")
-            return abort(404)
-        except AssertionError:
-            print("Story is not visible")
-            return abort(404)
+    try:
+        assert story.is_visible
+    except NoResultFound:
+        print("Story does not exist")
+        return abort(404)
+    except AssertionError:
+        print("Story is not visible")
+        return abort(404)
 
+    if story.is_visible:
         return render_template('edit/edit.html', story=story, user=user, form=form, tags=Tags.query.all())

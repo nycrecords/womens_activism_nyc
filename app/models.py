@@ -91,7 +91,6 @@ class Users(UserMixin, db.Model):
     last_name - a string that contains the last name of the user
     email - a string that contains the email of the user
     password_hash - a string that contains the password of the user
-    subscription - a boolean that indicates whether the user is subscribed or not
     """
     __tablename__ = "users"
     guid = db.Column(db.String(64), primary_key=True)
@@ -114,8 +113,8 @@ class Users(UserMixin, db.Model):
     email = db.Column(db.String(254))
     email_validated = db.Column(db.Boolean, nullable=False)
     terms_of_use_accepted = db.Column(db.Boolean, nullable=False)
+
     password_hash = db.Column(db.String(128))
-    subscription = db.Column(db.Boolean)
 
     def __init__(
             self,
@@ -129,8 +128,7 @@ class Users(UserMixin, db.Model):
             email=None,
             email_validated=False,
             terms_of_use_accepted=False,
-            password_hash=None,
-            subscription=False
+            password_hash=None
     ):
         self.guid = guid
         self.auth_user_type = auth_user_type
@@ -143,7 +141,6 @@ class Users(UserMixin, db.Model):
         self.email_validated = email_validated
         self.terms_of_use_accepted = terms_of_use_accepted
         self.password_hash = password_hash
-        self.subscription = subscription
 
     @property
     def val_for_events(self):
@@ -158,7 +155,6 @@ class Users(UserMixin, db.Model):
             'email': self.email,
             'email_validated': self.email_validated,
             'terms_of_use_accepted': self.terms_of_use_accepted,
-            'subscription': self.subscription
         }
 
     def set_password(self, password):
@@ -329,59 +325,6 @@ class Stories(db.Model):
         return '<Stories %r>' % self.id
 
 
-class FeaturedStories(db.Model):
-    """
-    Define the FeaturedStories class with the following columns and relationships:
-    Events are used to create an audit trail of new featured story
-
-    id - an integer that contains the featured story id
-    story_id - an integer that contains the story id
-    left_right - a boolean that contains whether to have picture on left OR right hand side
-    timestamp - the date that the event was created
-    """
-    __tablename__ = "featured_stories"
-    id = db.Column(db.Integer, primary_key=True)
-    story_id = db.Column(db.Integer, db.ForeignKey('stories.id'), nullable=False)
-    # left is true, right is false
-    left_right = db.Column(db.Boolean, nullable=False)
-    is_visible = db.Column(db.Boolean, nullable=False)
-    quote = db.Column(db.Text, nullable=False)
-    rank = db.Column(db.Integer)
-
-    story = db.relationship("Stories", backref="featured_stories")
-
-    def __init__(
-            self,
-            story_id,
-            left_right=False,
-            is_visible=False,
-            quote=None,
-            rank=0
-    ):
-        self.story_id = story_id
-        self.left_right = left_right
-        self.is_visible = is_visible
-        self.quote = quote
-        self.rank = rank
-
-    def __repr__(self):
-        return '<FeaturedStories %r>' % self.id
-
-    @property
-    def val_for_events(self):
-        """
-        JSON to store in Events 'new_value' field.
-        """
-        return {
-            'id': self.id,
-            'story_id': self.story_id,
-            'left_right': self.left_right,
-            'is_visible': self.is_visible,
-            'quote': self.quote,
-            'rank': self.rank
-        }
-
-
 class Tags(db.Model):
     """
     Define the Stories class with the following columns:
@@ -479,9 +422,7 @@ class Events(db.Model):
                 event.DELETE_STORY,
                 event.EDIT_COMMENT,
                 event.DELETE_COMMENT,
-                event.ADD_FEATURED_STORY,
                 event.EDIT_FEATURED_STORY,
-                event.HIDE_FEATURED_STORY,
                 event.EDIT_THEN_AND_NOW,
                 event.STORY_FLAGGED,
                 event.USER_EDITED,

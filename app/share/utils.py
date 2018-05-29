@@ -64,7 +64,6 @@ def create_story(activist_first,
     create_object(Events(
         _type=STORY_CREATED,
         story_id=story.id,
-        user_guid=user_guid,
         new_value=story.val_for_events
     ))
 
@@ -77,8 +76,7 @@ def create_story(activist_first,
 
 def create_user(user_first,
                 user_last,
-                user_email,
-                subscription):
+                user_email):
     """
     A utility function used to create a User object.
     If any of the fields are left blank then convert them to None types
@@ -97,8 +95,7 @@ def create_user(user_first,
                  first_name=user_first if user_first else None,
                  last_name=user_last if user_last else None,
                  auth_user_type=ANONYMOUS_USER,
-                 email=user_email if user_email else None,
-                 subscription=subscription)
+                 email=user_email if user_email else None)
     create_object(user)
 
     # Create Events object

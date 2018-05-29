@@ -68,4 +68,7 @@ def create_app(config_name):
     from .edit import edit as edit
     app.register_blueprint(edit, url_prefix="/edit")
 
+    from .feature import feature as feature
+    app.register_blueprint(feature, url_prefix="/feature")
+
     return app

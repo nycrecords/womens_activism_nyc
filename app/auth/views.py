@@ -1,9 +1,10 @@
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
-from . import auth
-from app.models import Users
-from .forms import LoginForm
+
 from app.auth.utils import create_login_event
+from app.models import Users
+from . import auth
+from .forms import LoginForm
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -32,7 +33,7 @@ def login():
             create_login_event(user, login_validation=True)
             return redirect(request.args.get('next') or url_for('main.index'))
         else:
-            flash('Invalid username or password.')
+            flash('Invalid username or password.', category='danger')
             create_login_event(user, login_validation=False, email=form.email.data)
             return render_template('auth/login.html', form=form)
 
@@ -43,5 +44,5 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash("You have been logged out.")
+    flash("You have been logged out.", category='success')
     return redirect(url_for('main.index'))

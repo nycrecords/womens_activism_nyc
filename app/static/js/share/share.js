@@ -13,6 +13,7 @@ $(function () {
     var userFirst = $("#user-first-name-field");
     var userLast = $("#user-last-name-field");
     var userEmail = $("#user-email-field");
+    var userPhone = $("#user-phone-field");
 
     // Functionality for tags
     var selectedTags = [];
@@ -35,6 +36,15 @@ $(function () {
     // Nav active state change
     $(".nav li").removeClass("active");
     $('a[href=".' + this.location.pathname + '"]').parents('li,ul').addClass('active');
+
+    // Prevents user from typing non numeric keys
+    $("#user-phone-field").keypress(function (key) {
+        if (key.charCode !== 0) {
+            if (key.charCode < 48 || key.charCode > 57) {
+                key.preventDefault();
+            }
+        }
+    });
 
     // Loop through required fields and apply a data-parsley-required attribute to them
     var requiredFields = ["first-name-field", "last-name-field", "hidden-tag-input", "story-content"];
@@ -59,6 +69,7 @@ $(function () {
     userFirst.attr("data-parsley-maxlength", 128);
     userLast.attr("data-parsley-maxlength", 128);
     userEmail.attr("data-parsley-maxlength", 254);
+    userPhone.attr("data-parsley-maxlength", 5);
 
     userEmail.attr("data-parsley-type", "email");
 

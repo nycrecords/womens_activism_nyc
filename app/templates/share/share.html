@@ -113,6 +113,12 @@
                     <div class="who-input-group">
                         {{ form.user_email (id="user-email-field", class="share-you-email-input", placeholder="msmith@gmail.com", maxlength=254, type="email") }}
                     </div>
+                    <div class ="who-input-group">
+                        {{form.user_phone (id= "user-phone-field", class="share-you-phone-input", placeholder="1234567890", maxlenght=25)}}
+                        <h5 id= "about-you-subheading">Text messages and standard data and messaging rates may apply.
+
+                        </h5>
+                    </div>
                    <div class="who-input-group">
                        <h1 id="subscription-heading">Subscribe to WomensActivism Email Notification</h1>
                         {{ form.subscription(id="user-subscription-btn") }}

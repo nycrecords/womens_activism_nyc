@@ -46,6 +46,9 @@ $(function () {
         }
     });
 
+    ///Format Field for Phone Number
+    $("#user-phone-field").mask("(999) 999-9999");
+
     // Loop through required fields and apply a data-parsley-required attribute to them
     var requiredFields = ["first-name-field", "last-name-field", "hidden-tag-input", "story-content"];
     for (var i = 0; i < requiredFields.length; i++) {
@@ -69,7 +72,7 @@ $(function () {
     userFirst.attr("data-parsley-maxlength", 128);
     userLast.attr("data-parsley-maxlength", 128);
     userEmail.attr("data-parsley-maxlength", 254);
-    userPhone.attr("data-parsley-maxlength", 5);
+    userPhone.attr("data-parsley-maxlength", 25);
 
     userEmail.attr("data-parsley-type", "email");
 

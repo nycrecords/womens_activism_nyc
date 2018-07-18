@@ -1030,6 +1030,23 @@ p, div {
     color: #a373aa;
 }
 
+.share-you-phone-input::-webkit-input-placeholder {
+    color: #a373aa;
+}
+
+.share-you-phone-input:-moz-placeholder {
+    color: #a373aa;
+}
+
+.share-you-phone-input::-moz-placeholder {
+    color: #a373aa;
+}
+
+.share-you-phone-input:-ms-input-placeholder {
+    color: #a373aa;
+}
+
+
 #share-story-btn {
     width: 258px;
     height: 65px;

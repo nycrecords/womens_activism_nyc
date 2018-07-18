@@ -1740,3 +1740,19 @@ p, div {
     margin-top: 50px;
     margin-bottom: 20px;
 }
+
+#subscribe-btn {
+    width: 258px;
+    height: 65px;
+    background: none;
+    outline: none;
+    border: 2px solid #ffffff;
+    font-size: 20px;
+    margin-top: 50px;
+    transition: background 0.2s ease;
+}
+
+#subscribe-btn:hover {
+    background: #ffffff;
+    color: #673c74;
+}

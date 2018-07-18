@@ -1,24 +1,37 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div id="carousel-controls" class="carousel slide" data-ride="carousel">
+    <div id="carousel-controls" class="carousel slide" data-ride="carousel" data-interval=false>
         <div class="jumbotron" id="hero">
             <ol class="carousel-indicators">
-                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                <li data-target="#myCarousel" data-slide-to="1"></li>
-                <li data-target="#myCarousel" data-slide-to="2"></li>
+                <li data-target="#carousel-controls" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-controls" data-slide-to="1"></li>
+                <li data-target="#carousel-controls" data-slide-to="2"></li>
             </ol>
-            <div class="carousel-inner" id="hero-content">
-                <div class="item active">
+            <div class="carousel-inner" style="height: 100%">
+                <div class="item active" id="hero-carousel">
                     <h1>Celebrate Women's Activism</h1>
                     <p>Help build NYC's first permanent catalog of women activists. Share a story that inspires you.</p>
                     <p id="hero-collect">Collecting #20000By2020</p>
                     <a class="btn btn-default btn-lg" href="{{ url_for('share.new') }}" role="button">Share Your Story</a>
                 </div>
-                <div class="item">
-                    <h1>Slide 2</h1>
+                <div class="item" id="hero-carousel">
+                        <a href="{{ url_for('stories.view', story_id=featured_story.story_id) }}">
+                            <div class="container" id="bws-jumbotron">
+                                <div class="row" id="bws-content">
+                                    <div id="bws-image" class="col-md-5">
+                                        <div id="bws-image-mask" style="background-image: url({{ featured_story.story.image_url }})">
+                                        </div>
+                                    </div>
+                                    <div id="bws-text" class="col-md-7">
+                                        <h2 id="bws-h1">{{ featured_story.story.activist_first }} {{ featured_story.story.activist_last }}</h2>
+                                        <p id="bws-quote">"{{ featured_story.quote }}"</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
                 </div>
-                <div class="item">
+                <div class="item" id="hero-carousel">
                     <h1>Slide 3</h1>
                 </div>
             </div>

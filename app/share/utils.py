@@ -78,6 +78,7 @@ def create_story(activist_first,
 def create_user(user_first,
                 user_last,
                 user_email,
+                user_phone,
                 subscription):
     """
     A utility function used to create a User object.
@@ -98,6 +99,7 @@ def create_user(user_first,
                  last_name=user_last if user_last else None,
                  auth_user_type=ANONYMOUS_USER,
                  email=user_email if user_email else None,
+                 phone = user_phone if user_phone else None,
                  subscription=subscription)
     create_object(user)
 

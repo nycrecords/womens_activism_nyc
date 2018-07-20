@@ -45,6 +45,7 @@ def set_featured_story(story_id):
             new_quote = add_featured_form.quote.data.strip("\"")
             create_featured_story(story=story,
                                   left_right=add_featured_form.left_right.data,
+                                  title=add_featured_form.title.data,
                                   quote=new_quote)
             flash("Story is now Featured!", category='success')
             return redirect(url_for('main.index'))
@@ -82,7 +83,7 @@ def modify(story_id):
                 if all the form inputs are validated, it redirects users to the main page 'main.index'
     """
     featured_story = FeaturedStories.query.filter_by(story_id=story_id).one_or_none()
-    form = ModifyFeatureForm(request.form, left_right=featured_story.left_right, quote=featured_story.quote,
+    form = ModifyFeatureForm(request.form, left_right=featured_story.left_right, title=featured_story.title, quote=featured_story.quote,
                              is_visible=featured_story.is_visible)
     story = Stories.query.filter_by(id=story_id).one_or_none()
 
@@ -91,6 +92,7 @@ def modify(story_id):
             new_quote = form.quote.data.strip("\"")
             update_featured_story(featured_story=featured_story,
                                   left_right=form.left_right.data,
+                                  title=form.title.data,
                                   quote=new_quote,
                                   is_visible=form.is_visible.data)
             flash("Story is now Modified!", category='success')

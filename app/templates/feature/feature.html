@@ -17,6 +17,7 @@
             <th scope="col">Last Name</th>
             <th scope="col">Left or Right</th>
             <th scope="col">Visibility</th>
+            <th scope="col">Title</th>
             <th scope="col">Quote</th>
             </tr>
         </thead>
@@ -40,6 +41,7 @@
                   {% endif %}
               </td>
               <td>{{ featured_story.is_visible }}</td>
+              <td>{{ featured_story.title }}</td>
               <td>{{ featured_story.quote }}</td>
             </tr>
         {% endfor %}

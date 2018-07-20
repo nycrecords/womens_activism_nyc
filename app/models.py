@@ -345,6 +345,7 @@ class FeaturedStories(db.Model):
     # left is true, right is false
     left_right = db.Column(db.Boolean, nullable=False)
     is_visible = db.Column(db.Boolean, nullable=False)
+    title = db.Column(db.Text) #ask LaTonya
     quote = db.Column(db.Text, nullable=False)
     rank = db.Column(db.Integer)
 
@@ -355,12 +356,14 @@ class FeaturedStories(db.Model):
             story_id,
             left_right=False,
             is_visible=False,
+            title=None,
             quote=None,
             rank=0
     ):
         self.story_id = story_id
         self.left_right = left_right
         self.is_visible = is_visible
+        self.title = title
         self.quote = quote
         self.rank = rank
 
@@ -377,6 +380,7 @@ class FeaturedStories(db.Model):
             'story_id': self.story_id,
             'left_right': self.left_right,
             'is_visible': self.is_visible,
+            'title': self.title,
             'quote': self.quote,
             'rank': self.rank
         }

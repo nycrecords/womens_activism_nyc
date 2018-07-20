@@ -8,7 +8,7 @@ from app.db_utils import update_object, create_object
 from app.models import Events, FeaturedStories
 
 
-def create_featured_story(story, left_right, quote):
+def create_featured_story(story, left_right, title, quote):
     """
     A utility function to create a featured story.
     :param story: the story object you would like to create in Featured Story
@@ -25,6 +25,7 @@ def create_featured_story(story, left_right, quote):
         story_id=story.id,
         left_right=True if left_right == 'left' else False,
         is_visible=True,
+        title=title,
         quote=quote,
     )
 
@@ -38,7 +39,7 @@ def create_featured_story(story, left_right, quote):
     ))
 
 
-def update_featured_story(featured_story, left_right, is_visible, quote):
+def update_featured_story(featured_story, left_right, title, is_visible, quote):
     """
     A utility function to update a featured story.
     Updating attributes such as the following:
@@ -52,12 +53,14 @@ def update_featured_story(featured_story, left_right, is_visible, quote):
     featured_story_fields = {
         "left_right",
         "is_visible",
+        "title",
         "quote"
     }
 
     featured_story_field_vals = {
         "left_right": left_right,
         "is_visible": is_visible,
+        "title": title,
         "quote": quote
     }
 
@@ -98,6 +101,7 @@ def hide_current_featured_story():
     :return: None
     """
     current_featured_story = FeaturedStories.query.filter_by(is_visible=True).one_or_none()
+    
     if current_featured_story is not None:
         update_object({"is_visible": False}, FeaturedStories, current_featured_story.id)
 

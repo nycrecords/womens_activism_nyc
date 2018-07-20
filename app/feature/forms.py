@@ -5,7 +5,8 @@ from flask_wtf import FlaskForm
 from wtforms import (
     SubmitField,
     TextAreaField,
-    RadioField
+    RadioField,
+    StringField
 )
 from wtforms.validators import (
     DataRequired
@@ -18,6 +19,7 @@ class FeaturedStoryForm(FlaskForm):
     """
     left_right = RadioField("Picture on Left or Right", choices=[('left', "Picture on Left Side"), ('right', "Picture on Right Side")],
                             validators=[DataRequired()], default='left')
+    title = StringField("Title/Position", validators=[DataRequired()])
     quote = TextAreaField("Insert a quote here", validators=[DataRequired()])
     submit = SubmitField('Submit')
 
@@ -29,6 +31,8 @@ class ModifyFeatureForm(FlaskForm):
     left_right = RadioField("Picture on Left or Right", choices=[('True', "Picture on Left Side"),
                                                                  ('False', "Picture on Right Side")],
                             validators=[DataRequired()], default='left')
+
+    title = StringField("Title/Position", validators=[DataRequired()])
 
     quote = TextAreaField("Insert a quote here", validators=[DataRequired()])
 

@@ -100,14 +100,16 @@ def hide_current_featured_story():
 
     :return: None
     """
-    current_featured_story = FeaturedStories.query.filter_by(is_visible=True).one_or_none()
+    featured_story = FeaturedStories.query.filter_by(is_visible=True).one_or_none()
     
-    if current_featured_story is not None:
-        update_object({"is_visible": False}, FeaturedStories, current_featured_story.id)
+    # current_featured_story = FeaturedStories.query.filter_by(is_visible=True).one_or_none()
+    
+    if featured_story is not None:
+        update_object({"is_visible": False}, FeaturedStories, featured_story.id)
 
         create_object(Events(
             _type=HIDE_FEATURED_STORY,
-            story_id=current_featured_story.story_id,
+            story_id=featured_story.story_id,
             user_guid=current_user.guid,
             previous_value={"is_visible": True},
             new_value={"is_visible": False}

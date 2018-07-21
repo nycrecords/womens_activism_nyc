@@ -16,10 +16,10 @@
                     <p id="hero-collect">Collecting #20000By2020</p>
                     <a class="btn btn-default btn-lg" href="{{ url_for('share.new') }}" role="button">Share Your Story</a>
                 </div>
+                {% if featured_story %}
                 <div class="item" id="bws-content">
                     <a href="{{ url_for('stories.view', story_id=featured_story.story_id) }}">
-                        <div class="container" id="bws-jumbotron">
-                            <div class="row" id="bws-jumbotron-carousel">
+                        <div class="container" id="bws-jumbotron-carousel">
                                 {% if featured_story.left_right %}
                                     <div id="bws-image" class="col-md-5" style="width:30%; margin: 0 auto;">
                                         <div id="bws-image-carousel" style="background-image: url({{ featured_story.story.image_url }})">
@@ -41,10 +41,10 @@
                                         </div>
                                     </div>
                                 {% endif %}
-                            </div>
                         </div>
                     </a>
                 </div>
+                {% endif %}
             </div>
             <a class="left carousel-control" href="#carousel-controls" data-slide="prev">
                 <span class="glyphicon glyphicon-chevron-left"></span>
@@ -95,23 +95,22 @@
     </div>
 
     <!-- Featured Story -->
-<!--    {% if featured_story %}
-        <a href="{{ url_for('stories.view', story_id=featured_story.story_id) }}">
-            <div class="container" id="bws-jumbotron">
-                <div class="row" id="bws-content">
-                    <div id="bws-image" class="col-md-5">
-                        <div id="bws-image-mask" style="background-image: url({{ featured_story.story.image_url }})">
-                        </div>
-                    </div>
-                    <div id="bws-text" class="col-md-7">
-                        <h2 id="bws-h1">{{ featured_story.story.activist_first }} {{ featured_story.story.activist_last }}</h2>
-                        <p id="bws-quote">"{{ featured_story.quote }}"</p>
-                    </div>
-                </div>
-            </div>
-        </a>
-    {% endif %}
-    -->
+{#    {% if featured_story %}#}
+{#        <a href="{{ url_for('stories.view', story_id=featured_story.story_id) }}">#}
+{#            <div class="container" id="bws-jumbotron">#}
+{#                <div class="row" id="bws-content">#}
+{#                    <div id="bws-image" class="col-md-5">#}
+{#                        <div id="bws-image-mask" style="background-image: url({{ featured_story.story.image_url }})">#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div id="bws-text" class="col-md-7">#}
+{#                        <h2 id="bws-h1">{{ featured_story.story.activist_first }} {{ featured_story.story.activist_last }}</h2>#}
+{#                        <p id="bws-quote">"{{ featured_story.quote }}"</p>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </a>#}
+{#    {% endif %}#}
 
 {#    <!-- Twitter Module -->#}
 {#    <div class="container-fluid" id="twitter-section">#}

@@ -16,7 +16,7 @@ def index():
 
     stories = Stories.query.filter_by(is_visible=True).order_by(Stories.date_created.desc()).limit(8)
 
-    featured_story = FeaturedStories.query.filter_by(is_visible=True).one_or_none()
+    featured_story = FeaturedStories.query.filter_by(is_visible=True).first()
 
     return render_template('main/home.html',
                            visible_stories=visible_stories,

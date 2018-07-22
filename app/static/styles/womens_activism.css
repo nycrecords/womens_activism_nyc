@@ -1713,23 +1713,16 @@ p, div {
 }
 
 /* Carousel */
-#bws-content .container {
+
+#carousel-content .container {
     padding-left: 115px;
     padding-right: 115px;
-}
-
-.carousel #hero {
-    min-height: 420px;
 }
 
 #hero-carousel {
     height: 100%;
     vertical-align: middle;
     padding: 40px 0px;
-}
-
-#hero .carousel-inner {
-    height: 100%;
 }
 
 .carousel-control.left, .carousel-control.right {
@@ -1745,7 +1738,7 @@ p, div {
     left: 30px;
 }
 
-#bws-jumbotron-carousel {
+#carousel-jumbotron {
     background-color: #59315f;
     text-align: left;
     color: #ffffff;
@@ -1753,12 +1746,19 @@ p, div {
     width: 100%;
 }
 
-.carousel-inner #bws-content{
+#carousel-content{
+    height: 100%;
+    vertical-align: middle;
+    text-align: left;
     min-height: 300px;
     margin: 60px 0;
 }
 
-#bws-image-carousel {
+#carousel-first {
+    text-align: center;
+}
+
+#carousel-image {
     width: 100%;
     height: 250px;
     background-size: cover;
@@ -1767,7 +1767,7 @@ p, div {
     margin: 0 auto;
 }
 
-#bws-quote-carousel {
+#carousel-quote {
     font-size: 28px;
     font-weight: lighter;
     font-style: italic;

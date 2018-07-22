@@ -18,8 +18,8 @@ def create_featured_story(story, left_right, title, quote):
     """
     #
     current_featured_story = FeaturedStories.query.filter_by(is_visible=True).one_or_none()
-    if current_featured_story is not None:
-        update_object({"is_visible": False}, FeaturedStories, current_featured_story.id)
+    #if current_featured_story is not None:
+    #    update_object({"is_visible": False}, FeaturedStories, current_featured_story.id)
 
     featured_story = FeaturedStories(
         story_id=story.id,
@@ -79,8 +79,8 @@ def update_featured_story(featured_story, left_right, title, is_visible, quote):
                 new[field] = new_val
 
     if new:
-        if new.get('is_visible'):
-            hide_current_featured_story()
+        #if new.get('is_visible'):
+        #    hide_current_featured_story()
 
         update_object(new, FeaturedStories, featured_story.id)
 
@@ -93,14 +93,14 @@ def update_featured_story(featured_story, left_right, title, is_visible, quote):
         ))
 
 
-def hide_current_featured_story():
+def hide_current_featured_story(story_id):
     """
     A utility function to hide the currently visible featured story (main page).
     Hiding does not *delete* the record from the table, but rather makes it invisible.
 
     :return: None
     """
-    featured_story = FeaturedStories.query.filter_by(is_visible=True).one_or_none()
+    featured_story = FeaturedStories.query.filter_by(story_id=story_id, is_visible=True).one_or_none()
     
     # current_featured_story = FeaturedStories.query.filter_by(is_visible=True).one_or_none()
     

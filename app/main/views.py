@@ -16,13 +16,18 @@ def index():
 
     stories = Stories.query.filter_by(is_visible=True).order_by(Stories.date_created.desc()).limit(8)
 
-    featured_story = FeaturedStories.query.filter_by(is_visible=True).first()
+    featured_stories = FeaturedStories.query.filter_by(is_visible=True).all()
+
+    visible_featured_stories = []
+    for n in range(len(featured_stories)):
+        visible_featured_stories += str(n+1)
 
     return render_template('main/home.html',
                            visible_stories=visible_stories,
                            remaining_stories=remaining_stories,
                            stories=stories,
-                           featured_story=featured_story)
+                           featured_stories=featured_stories,
+                           visible_featured_stories=visible_featured_stories)
 
 
 @main.route('/about', methods=['GET'])

@@ -1,0 +1,23 @@
+from flask import render_template, redirect, url_for, flash, request, Markup
+
+from app.constants import RECAPTCHA_STRING
+from app.subscribe import subscribe
+from app.subscribe.forms import SubscribeForm
+from app.subscribe.utils import create_user
+
+@subscribe.route('/', methods=['GET', 'POST'])
+def subscribe():
+    # return render_template('subscribe/subscribe.html')
+    form = SubscribeForm(request.form)
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            if form.user_email.data or form.user_phone.data:
+                user_guid = create_user(user_first=form.user_first.data,
+                                        user_last=form.user_last.data,
+                                        user_email=form.user_email.data,
+                                        user_phone=form.user_phone.data)
+            flash(Markup('Story submitted!'), category='success')
+
+            #return render_template('main/subscribe.html', form=form)
+    return render_template('subscribe/subscribe.html', form=form)
+    #return render_template('subscribe/../templates/subscribe/subscribe.html', form=form)

@@ -8,12 +8,12 @@ from app.db_utils import update_object, create_object
 from app.models import Events, FeaturedStories
 
 
-def create_featured_story(story, left_right, title, quote):
+def create_featured_story(story, left_right, title, description):
     """
     A utility function to create a featured story.
     :param story: the story object you would like to create in Featured Story
     :param left_right: left or right side where the image will go
-    :param quote: a famous quote that was once said by this activist
+    :param description: description of the activist
     :return: None
     """
     #
@@ -26,7 +26,7 @@ def create_featured_story(story, left_right, title, quote):
         left_right=True if left_right == 'left' else False,
         is_visible=True,
         title=title,
-        quote=quote,
+        description=description,
     )
 
     create_object(featured_story)
@@ -39,14 +39,14 @@ def create_featured_story(story, left_right, title, quote):
     ))
 
 
-def update_featured_story(featured_story, left_right, title, is_visible, quote):
+def update_featured_story(featured_story, left_right, title, is_visible, description):
     """
     A utility function to update a featured story.
     Updating attributes such as the following:
     :param featured_story:
     :param left_right: left or right side where the image will go
     :param is_visible: the visibility of the featured story
-    :param quote: a famous quote that was once said by this activist
+    :param description: description of the activist
 
     :return: None
     """
@@ -54,14 +54,14 @@ def update_featured_story(featured_story, left_right, title, is_visible, quote):
         "left_right",
         "is_visible",
         "title",
-        "quote"
+        "description"
     }
 
     featured_story_field_vals = {
         "left_right": left_right,
         "is_visible": is_visible,
         "title": title,
-        "quote": quote
+        "description": description
     }
 
     old = {}
@@ -77,6 +77,7 @@ def update_featured_story(featured_story, left_right, title, is_visible, quote):
             if cur_val != new_val:
                 old[field] = cur_val
                 new[field] = new_val
+                print(new_val)
 
     if new:
         #if new.get('is_visible'):

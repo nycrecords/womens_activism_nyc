@@ -42,11 +42,11 @@ def set_featured_story(story_id):
 
     if request.method == 'POST':
         if add_featured_form.validate_on_submit():
-            new_quote = add_featured_form.quote.data.strip("\"")
+            new_description = add_featured_form.description.data
             create_featured_story(story=story,
                                   left_right=add_featured_form.left_right.data,
                                   title=add_featured_form.title.data,
-                                  quote=new_quote)
+                                  description=new_description)
             flash("Story is now Featured!", category='success')
             return redirect(url_for('main.index'))
         else:
@@ -76,25 +76,28 @@ def set_featured_story(story_id):
 def modify(story_id):
     """
     This view function is used for modifying/editing the featured story.
-    Modifying attributes such as left/right image location, visibility, and quote.
+    Modifying attributes such as left/right image location, visibility, and description.
 
     :param story_id: the story_id you would like to modify. this story_id must be in FeaturedStories table
     :return: renders 'modify.html' that contains the form for modifying existing featured story
                 if all the form inputs are validated, it redirects users to the main page 'main.index'
     """
     featured_story = FeaturedStories.query.filter_by(story_id=story_id).one_or_none()
-    form = ModifyFeatureForm(request.form, left_right=featured_story.left_right, title=featured_story.title, quote=featured_story.quote,
+    form = ModifyFeatureForm(request.form, left_right=featured_story.left_right, title=featured_story.title, description=featured_story.description,
                              is_visible=featured_story.is_visible)
     story = Stories.query.filter_by(id=story_id).one_or_none()
 
     if request.method == 'POST':
         if form.validate_on_submit():
-            new_quote = form.quote.data.strip("\"")
+            new_description = form.description.data
+            if len(new_description)>445:
+                flash("The text you entered exceeded 445 characters", category='danger')
+                return redirect('feature/modify/' + story_id)
             update_featured_story(featured_story=featured_story,
                                   left_right=form.left_right.data,
                                   title=form.title.data,
-                                  quote=new_quote,
-                                  is_visible=form.is_visible.data)
+                                  is_visible=form.is_visible.data,
+                                  description=new_description)
             flash("Story is now Modified!", category='success')
             return redirect(url_for('main.index'))
 

@@ -345,8 +345,8 @@ class FeaturedStories(db.Model):
     # left is true, right is false
     left_right = db.Column(db.Boolean, nullable=False)
     is_visible = db.Column(db.Boolean, nullable=False)
-    title = db.Column(db.Text) #ask LaTonya
-    quote = db.Column(db.Text, nullable=False)
+    title = db.Column(db.Text)
+    description = db.Column(db.String(445))
     rank = db.Column(db.Integer)
 
     story = db.relationship("Stories", backref="featured_stories")
@@ -357,14 +357,14 @@ class FeaturedStories(db.Model):
             left_right=False,
             is_visible=False,
             title=None,
-            quote=None,
+            description=None,
             rank=0
     ):
         self.story_id = story_id
         self.left_right = left_right
         self.is_visible = is_visible
         self.title = title
-        self.quote = quote
+        self.description = description
         self.rank = rank
 
     def __repr__(self):
@@ -381,7 +381,7 @@ class FeaturedStories(db.Model):
             'left_right': self.left_right,
             'is_visible': self.is_visible,
             'title': self.title,
-            'quote': self.quote,
+            'description': self.description,
             'rank': self.rank
         }
 

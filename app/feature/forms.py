@@ -20,7 +20,7 @@ class FeaturedStoryForm(FlaskForm):
     left_right = RadioField("Picture on Left or Right", choices=[('left', "Picture on Left Side"), ('right', "Picture on Right Side")],
                             validators=[DataRequired()], default='left')
     title = StringField("Title/Position", validators=[DataRequired()])
-    quote = TextAreaField("Insert a quote here", validators=[DataRequired()])
+    description = TextAreaField("Insert a text here", validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 
@@ -34,7 +34,7 @@ class ModifyFeatureForm(FlaskForm):
 
     title = StringField("Title/Position", validators=[DataRequired()])
 
-    quote = TextAreaField("Insert a quote here", validators=[DataRequired()])
+    description = TextAreaField("Insert a text here", validators=[DataRequired()])
 
     is_visible = RadioField("Visibility", choices=[('True', "Visible"), ('False', "Not Visible")],
                             validators=[DataRequired()], default='True')

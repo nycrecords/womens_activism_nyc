@@ -5,8 +5,8 @@
         <div class="jumbotron" id="hero">
             <ol class="carousel-indicators">
                 <li data-target="#carousel-controls" data-slide-to="0" class="active"></li>
-                {%  for story in visible_featured_stories %}
-                    <li data-target="#carousel-controls" data-slide-to=story></li>
+                {%  for n in visible_featured_stories %}
+                    <li data-target="#carousel-controls" data-slide-to="{{ n }}"></li>
                 {%  endfor %}
             </ol>
             <div class="carousel-inner">
@@ -27,18 +27,18 @@
                                         <div id="carousel-image" style="background-image: url({{ featured_story.story.image_url }})">
                                         </div>
                                     </div>
-                                    <div class="col-md-8">
-                                        <h2 id="bws-h1">{{ featured_story.story.activist_first }} {{ featured_story.story.activist_last }}</h2>
-                                        <h3>{{ featured_story.title }}</h3>
-                                        <p id="carousel-quote">"{{ featured_story.quote }}"</p>
+                                    <div class="col-md-8" id="carousel-space-left">
+                                        <h2 id="carousel-h1">{{ featured_story.story.activist_first }} {{ featured_story.story.activist_last }}</h2>
+                                        <h3 id="carousel-h3">{{ featured_story.title }}</h3>
+                                        <p id="carousel-description">{{ featured_story.description }}...</p>
                                     </div>
                                 {% else %}
-                                    <div class="col-md-8" style="width:70%; padding-right: 0px;">
-                                        <h2 id="bws-h1">{{ featured_story.story.activist_first }} {{ featured_story.story.activist_last }}</h2>
-                                        <h3>{{ featured_story.title }}</h3>
-                                        <p id="carousel-quote">"{{ featured_story.quote }}"</p>
+                                    <div class="col-md-8" id="carousel-space-right">
+                                        <h2 id="carousel-h1">{{ featured_story.story.activist_first }} {{ featured_story.story.activist_last }}</h2>
+                                        <h3 id="carousel-h3">{{ featured_story.title }}</h3>
+                                        <p id="carousel-description">{{ featured_story.description }}...</p>
                                     </div>
-                                    <div class="col-md-4" style="width:30%; margin: 0 auto;">
+                                    <div class="col-md-4">
                                         <div id="carousel-image" style="background-image: url({{ featured_story.story.image_url }})">
                                         </div>
                                     </div>

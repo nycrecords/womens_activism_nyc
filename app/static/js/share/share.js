@@ -38,7 +38,7 @@ $(function () {
     $('a[href=".' + this.location.pathname + '"]').parents('li,ul').addClass('active');
 
     // Prevents user from typing non numeric keys
-    $("#user-phone-field").keypress(function (key) {
+    userPhone.keypress(function (key) {
         if (key.charCode !== 0) {
             if (key.charCode < 48 || key.charCode > 57) {
                 key.preventDefault();
@@ -47,7 +47,7 @@ $(function () {
     });
 
     ///Format Field for Phone Number
-    $("#user-phone-field").mask("(999) 999-9999");
+    userPhone.mask("(999) 999-9999");
 
     // Loop through required fields and apply a data-parsley-required attribute to them
     var requiredFields = ["first-name-field", "last-name-field", "hidden-tag-input", "story-content"];

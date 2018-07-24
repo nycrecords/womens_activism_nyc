@@ -78,6 +78,7 @@ def create_story(activist_first,
 def create_user(user_first,
                 user_last,
                 user_email,
+                user_phone,
                 subscription):
     """
     A utility function used to create a User object.
@@ -86,7 +87,9 @@ def create_user(user_first,
     :param user_first: the poster's first name
     :param user_last: the poster's last name
     :param user_email: the poster's email
-    :return: no return value, a Poster object will be created
+    :param user_phone: the poster's phone
+    :param subscription: boolean, if poster subscribed
+    :return: no return value, a User object will be created
     """
     strip_fields = ['user_first', 'user_last', 'user_email']
     for field in strip_fields:
@@ -98,6 +101,7 @@ def create_user(user_first,
                  last_name=user_last if user_last else None,
                  auth_user_type=ANONYMOUS_USER,
                  email=user_email if user_email else None,
+                 phone=user_phone if user_phone else None,
                  subscription=subscription)
     create_object(user)
 

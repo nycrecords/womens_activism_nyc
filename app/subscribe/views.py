@@ -16,5 +16,9 @@ def subscribe():
                                         user_last=form.user_last.data,
                                         user_email=form.user_email.data,
                                         user_phone=form.user_phone.data)
-            flash(Markup('Thank you for subscribing!'), category='success')
+                flash(Markup('Thank you for subscribing!'), category='success')
+            else:
+                flash(Markup('Please enter an email or phone number.'),category='danger')
+
+
     return render_template('subscribe/subscribe.html', form=form)

@@ -22,6 +22,7 @@ $(function () {
 
     // Loop through required fields and apply a data-parsley-required attribute to them
     var requiredFields = ["user-email-field", "user-phone-field"];
+
     for (var i = 0; i < requiredFields.length; i++) {
         $("#" + requiredFields[i]).attr("data-parsley-required", "");
     }
@@ -34,29 +35,10 @@ $(function () {
 
     userEmail.attr("data-parsley-type", "email");
 
+
     $("#user-first-name-field, #user-last-name-field").on('keyup', function () {
         capitalize(this.id, this.value)
     });
-
-
-    $("#subscribe-form").submit(function () {
-        $("#subscribe-btn").attr("disabled", "disabled");
-    });
-
-    $("#subscribe-form").parsley().on("form:validate", function () {
-
-        if ($("#userPhone").parsley().isValid() ||
-        $("#userEmail").parsley().isValid()
-    ) {
-        // If at least one of the fields are validated then remove required from the rest of the contact fields that aren't being filled out
-        $("#userEmail").removeAttr("data-parsley-required");
-        $("#userPhone").removeAttr("data-parsley-required")
-    }
-    else {
-        // If none of the fields are valid then apply required fields.
-        $("#userPhone").attr("data-parsley-required", "");
-        $("#userEmail").attr("data-parsley-required", "")
-    }
 
     });
 

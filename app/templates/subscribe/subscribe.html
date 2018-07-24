@@ -7,17 +7,23 @@
         <div class="container-fluid" id="about-you">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 id="about-you-heading">Subscribe Here</h1>
-                    <p class="about-you-subheading">Please enter your name, email, and phone number if you would like to recieve notifications</p>
+                    <h1 id="about-you-heading">Subscribe</h1>
+                    <p class="about-you-subheading">Receive news about special events, exhibitions, educational programs and more.</p>
                     <div class="who-input-group">
                         {{ form.user_first (id="user-first-name-field", class="subscribe-who-input", placeholder="Mary", maxlength=128) }}
                         {{ form.user_last (id="user-last-name-field", class="subscribe-who-input", placeholder="Smith", maxlength=128) }}
                     </div>
                     <div class="who-input-group">
-                        {{ form.user_email (id="user-email-field", class="subscribe-you-email-input", placeholder="msmith@gmail.com", maxlength=254, type="email") }}
+                        {{ form.user_email (id="user-email-field", class="subscribe-you-email-input", placeholder="msmith@gmail.com", maxlength=25, type="email") }}
                     </div>
                     <div class ="who-input-group">
-                        {{form.user_phone (id= "user-phone-field", class="subscribe-you-phone-input", placeholder="(555) 555-5555", maxlenght=254)}}
+                        {{form.user_phone (id= "user-phone-field", class="subscribe-you-phone-input", placeholder="(555) 555-5555", maxlenght=25)}}
+
+                    </div>
+                    <br>
+
+                    </br>
+                    <div>
                         <h5 id= "about-you-subheading">Standard data and messaging rates may apply.</h5>
                     </div>
 

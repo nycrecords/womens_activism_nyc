@@ -40,7 +40,25 @@ $(function () {
 
 
     $("#subscribe-form").submit(function () {
-        $("#subscribe-btn").attr("disabled","disabled");
-    })
-    
+        $("#subscribe-btn").attr("disabled", "disabled");
+    });
+
+    $("#subscribe-form").parsley().on("form:validate", function () {
+
+        if ($("#userPhone").parsley().isValid() ||
+        $("#userEmail").parsley().isValid()
+    ) {
+        // If at least one of the fields are validated then remove required from the rest of the contact fields that aren't being filled out
+        $("#userEmail").removeAttr("data-parsley-required");
+        $("#userPhone").removeAttr("data-parsley-required")
+    }
+    else {
+        // If none of the fields are valid then apply required fields.
+        $("#userPhone").attr("data-parsley-required", "");
+        $("#userEmail").attr("data-parsley-required", "")
+    }
+
+    });
+
+
 });

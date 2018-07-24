@@ -16,8 +16,5 @@ def subscribe():
                                         user_last=form.user_last.data,
                                         user_email=form.user_email.data,
                                         user_phone=form.user_phone.data)
-            flash(Markup('Story submitted!'), category='success')
-
-            #return render_template('main/subscribe.html', form=form)
+            flash(Markup('Thank you for subscribing!'), category='success')
     return render_template('subscribe/subscribe.html', form=form)
-    #return render_template('subscribe/../templates/subscribe/subscribe.html', form=form)

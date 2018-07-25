@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash, request, Markup
+from flask import render_template
 from app.main import main
 from app.models import Stories, FeaturedStories
 from app.constants import STORY_GOAL_NUMBER

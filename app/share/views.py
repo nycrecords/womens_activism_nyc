@@ -4,7 +4,7 @@ from app.constants import RECAPTCHA_STRING
 from app.models import Tags
 from app.share import share
 from app.share.forms import StoryForm
-from app.share.utils import create_story, create_user
+from app.lib.utils import create_story, create_user
 
 
 @share.route('/', methods=['GET', 'POST'])

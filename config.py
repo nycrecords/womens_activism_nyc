@@ -48,7 +48,7 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = (
         os.environ.get("DEV_DATABASE_URL")
-        or "postgresql://developer@localhost:5432/womens_activism_dev"
+        or "postgresql://developer@localhost:5432/womens_activism"
     )
 
     # Elasticsearch settings

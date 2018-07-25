@@ -113,6 +113,7 @@ class Users(UserMixin, db.Model):
     last_name = db.Column(db.String(128))
     email = db.Column(db.String(254))
     email_validated = db.Column(db.Boolean, nullable=False)
+    phone = db.Column(db.String(25))
     terms_of_use_accepted = db.Column(db.Boolean, nullable=False)
     password_hash = db.Column(db.String(128))
     subscription = db.Column(db.Boolean)
@@ -128,6 +129,7 @@ class Users(UserMixin, db.Model):
             last_name=None,
             email=None,
             email_validated=False,
+            phone=None,
             terms_of_use_accepted=False,
             password_hash=None,
             subscription=False
@@ -141,6 +143,7 @@ class Users(UserMixin, db.Model):
         self.last_name = last_name
         self.email = email
         self.email_validated = email_validated
+        self.phone = phone
         self.terms_of_use_accepted = terms_of_use_accepted
         self.password_hash = password_hash
         self.subscription = subscription
@@ -157,6 +160,7 @@ class Users(UserMixin, db.Model):
             'last_name': self.last_name,
             'email': self.email,
             'email_validated': self.email_validated,
+            'phone': self.phone,
             'terms_of_use_accepted': self.terms_of_use_accepted,
             'subscription': self.subscription
         }

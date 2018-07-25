@@ -995,6 +995,18 @@ p, div {
     margin: 20px 20px 0 20px;
     padding-bottom: 10px;
 }
+.share-you-phone-input {
+    background: none;
+    outline: none;
+    border: 0px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    text-align: center;
+    font-size: 36px;
+    width: 100%;
+    max-width: 627px;
+    margin: 20px 20px 0 20px;
+    padding-bottom: 10px;
+}
 
 @media (max-width: 712px) {
     .share-you-email-input {
@@ -1017,6 +1029,23 @@ p, div {
 .share-you-email-input:-ms-input-placeholder {
     color: #a373aa;
 }
+
+.share-you-phone-input::-webkit-input-placeholder {
+    color: #a373aa;
+}
+
+.share-you-phone-input:-moz-placeholder {
+    color: #a373aa;
+}
+
+.share-you-phone-input::-moz-placeholder {
+    color: #a373aa;
+}
+
+.share-you-phone-input:-ms-input-placeholder {
+    color: #a373aa;
+}
+
 
 #share-story-btn {
     width: 258px;

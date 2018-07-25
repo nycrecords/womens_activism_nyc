@@ -349,8 +349,8 @@ class FeaturedStories(db.Model):
     # left is true, right is false
     left_right = db.Column(db.Boolean, nullable=False)
     is_visible = db.Column(db.Boolean, nullable=False)
-    title = db.Column(db.Text)
-    description = db.Column(db.String(395))
+    title = db.Column(db.String(90), nullable=False)
+    description = db.Column(db.String(395), nullable=False)
     rank = db.Column(db.Integer)
 
     story = db.relationship("Stories", backref="featured_stories")
@@ -358,10 +358,10 @@ class FeaturedStories(db.Model):
     def __init__(
             self,
             story_id,
+            title,
+            description,
             left_right=False,
             is_visible=False,
-            title=None,
-            description=None,
             rank=None
     ):
         self.story_id = story_id

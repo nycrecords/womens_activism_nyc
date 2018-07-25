@@ -32,7 +32,8 @@ def upgrade():
                     sa.Column('story_id', sa.Integer(), nullable=False),
                     sa.Column('left_right', sa.Boolean(), nullable=False),
                     sa.Column('is_visible', sa.Boolean(), nullable=False),
-                    sa.Column('quote', sa.Text(), nullable=False),
+                    sa.Column('title', sa.String(length=90), nullable=True),
+                    sa.Column('description', sa.String(length=395), nullable=True),
                     sa.Column('rank', sa.Integer(), nullable=True),
                     sa.ForeignKeyConstraint(['story_id'], ['stories.id'], ),
                     sa.PrimaryKeyConstraint('id')

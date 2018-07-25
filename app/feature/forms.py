@@ -19,7 +19,8 @@ class FeaturedStoryForm(FlaskForm):
     """
     The WTForm used to create a new featured story
     """
-    left_right = RadioField("Picture on Left or Right", choices=[('left', "Picture on Left Side"), ('right', "Picture on Right Side")],
+    left_right = RadioField("Picture on Left or Right", choices=[('left', "Picture on Left Side"),
+                                                                 ('right', "Picture on Right Side")],
                             validators=[DataRequired()], default='left')
     title = StringField("Title/Position", validators=[DataRequired()])
     description = TextAreaField("Insert a text here", validators=[DataRequired(), Length(max=395)])
@@ -35,16 +36,9 @@ class ModifyFeatureForm(FlaskForm):
     left_right = RadioField("Picture on Left or Right", choices=[('True', "Picture on Left Side"),
                                                                  ('False', "Picture on Right Side")],
                             validators=[DataRequired()], default='left')
-
     title = StringField("Title/Position", validators=[DataRequired()])
-
     description = TextAreaField("Insert a text here", validators=[DataRequired(), Length(max=395)])
-
     is_visible = RadioField("Visibility", choices=[('True', "Visible"), ('False', "Not Visible")],
                             validators=[DataRequired()], default='True')
-
     rank = SelectField("Rank", choices=[], default=0, coerce=int)
-
     submit = SubmitField('Submit')
-
-

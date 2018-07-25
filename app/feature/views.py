@@ -10,9 +10,10 @@ from app.feature import feature
 from app.feature.forms import FeaturedStoryForm, ModifyFeatureForm
 from app.feature.utils import create_featured_story, update_featured_story, hide_current_featured_story
 from app.models import Events, FeaturedStories, Stories
+from operator import attrgetter
 
 
-@feature.route('/', methods=['GET'])
+@feature.route('/', methods=['GET','POST'])
 @login_required
 def listing():
     """
@@ -21,9 +22,13 @@ def listing():
 
     :return: renders the 'feature.html' template with featured story list
     """
-    featured_stories = FeaturedStories.query.filter_by().all()
+    featured_stories = sorted(FeaturedStories.query.filter_by(is_visible=True).all(), key=attrgetter('rank'))
+    hidden_stories = FeaturedStories.query.filter_by(is_visible=False).all()
 
-    return render_template('feature/feature.html', featured_stories=featured_stories)
+    # if request.method == 'POST':
+    #     if rank_stories_form.validate_on_submit():
+
+    return render_template('feature/feature.html', featured_stories=featured_stories, hidden_stories=hidden_stories)
 
 
 @feature.route('/<story_id>', methods=['GET', 'POST'])
@@ -37,16 +42,26 @@ def set_featured_story(story_id):
     :return: first time register a story to featured story renders 'add.html'
                 if inputs are validated, redirect to main page 'main.index'
     """
+    visible_stories = len(FeaturedStories.query.filter_by(is_visible=True).all())
+    rank_choices = [(n, n + 1) for n in range(visible_stories)]
+    if visible_stories < 4:
+        rank_choices.append((visible_stories, visible_stories+1))
+
     add_featured_form = FeaturedStoryForm(request.form)
+    add_featured_form.rank.choices = rank_choices
     story = Stories.query.filter_by(id=story_id).one_or_none()
 
     if request.method == 'POST':
         if add_featured_form.validate_on_submit():
+            if visible_stories == 4:
+                flash("There cannot be more than 4 items on the carousel", category='danger')
+                return redirect('feature/' + story_id)
             new_description = add_featured_form.description.data
             create_featured_story(story=story,
                                   left_right=add_featured_form.left_right.data,
                                   title=add_featured_form.title.data,
-                                  description=new_description)
+                                  description=new_description,
+                                  rank=add_featured_form.rank.data)
             flash("Story is now Featured!", category='success')
             return redirect(url_for('main.index'))
         else:
@@ -83,21 +98,32 @@ def modify(story_id):
                 if all the form inputs are validated, it redirects users to the main page 'main.index'
     """
     featured_story = FeaturedStories.query.filter_by(story_id=story_id).one_or_none()
+    visible_stories = len(FeaturedStories.query.filter_by(is_visible=True).all())
+
+    rank_choices = [(n, n + 1) for n in range(visible_stories)]
+    default_rank = featured_story.rank
+    if not featured_story.is_visible:
+        rank_choices.append((visible_stories, visible_stories + 1))
+        default_rank = visible_stories
     form = ModifyFeatureForm(request.form, left_right=featured_story.left_right, title=featured_story.title, description=featured_story.description,
-                             is_visible=featured_story.is_visible)
+                             is_visible=featured_story.is_visible, rank=default_rank)
+
+    form.rank.choices = rank_choices
     story = Stories.query.filter_by(id=story_id).one_or_none()
 
     if request.method == 'POST':
         if form.validate_on_submit():
+            if visible_stories == 4:
+                if not featured_story.is_visible and form.is_visible:
+                    flash("There cannot be more than 4 items on the carousel", category='danger')
+                    return redirect('feature/modify/' + story_id)
             new_description = form.description.data
-            if len(new_description)>445:
-                flash("The text you entered exceeded 445 characters", category='danger')
-                return redirect('feature/modify/' + story_id)
             update_featured_story(featured_story=featured_story,
                                   left_right=form.left_right.data,
                                   title=form.title.data,
                                   is_visible=form.is_visible.data,
-                                  description=new_description)
+                                  description=new_description,
+                                  rank=form.rank.data)
             flash("Story is now Modified!", category='success')
             return redirect(url_for('main.index'))
 

@@ -6,10 +6,12 @@ from wtforms import (
     SubmitField,
     TextAreaField,
     RadioField,
-    StringField
+    StringField,
+    SelectField
 )
 from wtforms.validators import (
-    DataRequired
+    DataRequired,
+    Length
 )
 
 
@@ -20,7 +22,9 @@ class FeaturedStoryForm(FlaskForm):
     left_right = RadioField("Picture on Left or Right", choices=[('left', "Picture on Left Side"), ('right', "Picture on Right Side")],
                             validators=[DataRequired()], default='left')
     title = StringField("Title/Position", validators=[DataRequired()])
-    description = TextAreaField("Insert a text here", validators=[DataRequired()])
+    description = TextAreaField("Insert a text here", validators=[DataRequired(), Length(max=395)])
+    rank_choices = [(str(n+1), str(n+1)) for n in range(5)]
+    rank = SelectField("Rank", choices=[], default=0, coerce=int)
     submit = SubmitField('Submit')
 
 
@@ -34,9 +38,13 @@ class ModifyFeatureForm(FlaskForm):
 
     title = StringField("Title/Position", validators=[DataRequired()])
 
-    description = TextAreaField("Insert a text here", validators=[DataRequired()])
+    description = TextAreaField("Insert a text here", validators=[DataRequired(), Length(max=395)])
 
     is_visible = RadioField("Visibility", choices=[('True', "Visible"), ('False', "Not Visible")],
                             validators=[DataRequired()], default='True')
 
+    rank = SelectField("Rank", choices=[], default=0, coerce=int)
+
     submit = SubmitField('Submit')
+
+

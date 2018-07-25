@@ -8,7 +8,7 @@ from app.db_utils import update_object, create_object
 from app.models import Events, FeaturedStories
 
 
-def create_featured_story(story, left_right, title, description):
+def create_featured_story(story, left_right, title, description, rank):
     """
     A utility function to create a featured story.
     :param story: the story object you would like to create in Featured Story
@@ -16,8 +16,8 @@ def create_featured_story(story, left_right, title, description):
     :param description: description of the activist
     :return: None
     """
-    #
-    current_featured_story = FeaturedStories.query.filter_by(is_visible=True).one_or_none()
+
+    #current_featured_story = FeaturedStories.query.filter_by(is_visible=True)
     #if current_featured_story is not None:
     #    update_object({"is_visible": False}, FeaturedStories, current_featured_story.id)
 
@@ -39,7 +39,7 @@ def create_featured_story(story, left_right, title, description):
     ))
 
 
-def update_featured_story(featured_story, left_right, title, is_visible, description):
+def update_featured_story(featured_story, left_right, title, is_visible, description, rank):
     """
     A utility function to update a featured story.
     Updating attributes such as the following:
@@ -54,14 +54,16 @@ def update_featured_story(featured_story, left_right, title, is_visible, descrip
         "left_right",
         "is_visible",
         "title",
-        "description"
+        "description",
+        "rank"
     }
 
     featured_story_field_vals = {
         "left_right": left_right,
         "is_visible": is_visible,
         "title": title,
-        "description": description
+        "description": description,
+        "rank": rank
     }
 
     old = {}
@@ -80,10 +82,12 @@ def update_featured_story(featured_story, left_right, title, is_visible, descrip
                 print(new_val)
 
     if new:
-        #if new.get('is_visible'):
-        #    hide_current_featured_story()
+        cur_rank = getattr(featured_story, "rank")
 
         update_object(new, FeaturedStories, featured_story.id)
+
+        if new.get('is_visible') is not True or new.get('rank'):
+            update_rank(featured_story.story_id, cur_rank, rank)
 
         create_object(Events(
             _type=EDIT_FEATURED_STORY,
@@ -115,3 +119,31 @@ def hide_current_featured_story(story_id):
             previous_value={"is_visible": True},
             new_value={"is_visible": False}
         ))
+
+
+def update_rank(story_id, old_rank, new_rank):
+
+    featured_story = FeaturedStories.query.filter_by(story_id=story_id).one_or_none()
+    featured_stories = FeaturedStories.query.filter_by(is_visible=True).all()
+
+    if featured_story.is_visible:
+        if old_rank is not None:
+            if old_rank < new_rank:
+                for story in featured_stories:
+                    if story.story_id is not featured_story.story_id and old_rank < story.rank <= new_rank:
+                        update_object({"rank": story.rank-1}, FeaturedStories, story.id)
+            else:
+                for story in featured_stories:
+                    if story.story_id is not featured_story.story_id and old_rank > story.rank >= new_rank:
+                        update_object({"rank": story.rank+1}, FeaturedStories, story.id)
+        else:
+            for story in featured_stories:
+                if story.story_id is not featured_story.story_id and story.rank >= new_rank:
+                    update_object({"rank": story.rank+1}, FeaturedStories, story.id)
+
+    else:
+        update_object({"rank": None}, FeaturedStories, featured_story.id)
+        if old_rank is not None:
+            for story in featured_stories:
+                if story.id != featured_story.id and story.rank >= old_rank:
+                    update_object({"rank": story.rank-1}, FeaturedStories, story.id)

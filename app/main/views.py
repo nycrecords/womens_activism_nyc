@@ -2,6 +2,7 @@ from flask import render_template
 from app.main import main
 from app.models import Stories, FeaturedStories
 from app.constants import STORY_GOAL_NUMBER
+from operator import attrgetter
 
 
 @main.route('/', methods=['GET'])
@@ -16,17 +17,15 @@ def index():
 
     stories = Stories.query.filter_by(is_visible=True).order_by(Stories.date_created.desc()).limit(8)
 
-    featured_stories = FeaturedStories.query.filter_by(is_visible=True).all()
+    sorted_stories = sorted(FeaturedStories.query.filter_by(is_visible=True).all(), key=attrgetter('rank'))
 
-    visible_featured_stories = []
-    for n in range(len(featured_stories)):
-        visible_featured_stories += str(n+1)
+    visible_featured_stories = [str(n+1) for n in range(len(sorted_stories))]
 
     return render_template('main/home.html',
                            visible_stories=visible_stories,
                            remaining_stories=remaining_stories,
                            stories=stories,
-                           featured_stories=featured_stories,
+                           featured_stories=sorted_stories,
                            visible_featured_stories=visible_featured_stories)
 
 

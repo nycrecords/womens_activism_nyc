@@ -1726,11 +1726,11 @@ p, div {
 }
 
 .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next {
-    right: 30px;  
+    right: 50px;
 }
 
 .carousel-control .glyphicon-chevron-left, .carousel-control .icon-prev {
-    left: 30px;
+    left: 50px;
 }
 
 #carousel-jumbotron {
@@ -1750,8 +1750,8 @@ p, div {
 }
 
 #carousel-content .container {
-    padding-left: 100px;
-    padding-right: 100px;
+    padding-left: 150px;
+    padding-right: 150px;
 }
 
 #carousel-first {

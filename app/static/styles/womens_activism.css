@@ -1740,3 +1740,135 @@ p, div {
     margin-top: 50px;
     margin-bottom: 20px;
 }
+
+/* Subscribe */
+
+#subscribe-you {
+    background: #673c74;
+    text-align: center;
+    color: white;
+    padding-top: 90px;
+    padding-bottom: 90px;
+}
+
+.subscribe-subheading {
+    font-size: 22px;
+    font-weight: lighter;
+    max-width: 550px;
+    margin: 20px auto 0 auto;
+    padding: 0 10px;
+}
+
+.subscribe-who-input {
+    background: none;
+    outline: none;
+    border: 0px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    text-align: center;
+    font-size: 36px;
+    max-width: 292px;
+    margin: 30px 20px 0 20px;
+    padding-bottom: 10px;
+}
+.you-input-group {
+    margin-top: 25px;
+}
+
+.subscribe-who-input::-webkit-input-placeholder {
+    color: #a373aa;
+}
+
+.subscribe-who-input:-moz-placeholder {
+    color: #a373aa;
+}
+
+.subscribe-who-input::-moz-placeholder {
+    color: #a373aa;
+}
+
+.subscribe-who-input:-ms-input-placeholder {
+    color: #a373aa;
+}
+.subscribe-you-email-input {
+    background: none;
+    outline: none;
+    border: 0px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    text-align: center;
+    font-size: 36px;
+    width: 100%;
+    max-width: 627px;
+    margin: 20px 20px 0 20px;
+    padding-bottom: 10px;
+}
+.subscribe-you-phone-input {
+    background: none;
+    outline: none;
+    border: 0px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    text-align: center;
+    font-size: 36px;
+    width: 100%;
+    max-width: 627px;
+    margin: 20px 20px 0 20px;
+    padding-bottom: 10px;
+}
+
+@media (max-width: 712px) {
+    .subscribe-you-email-input {
+        max-width: 292px;
+    }
+}
+
+.subscribe-you-email-input::-webkit-input-placeholder {
+    color: #a373aa;
+}
+
+.subscribe-you-email-input:-moz-placeholder {
+    color: #a373aa;
+}
+
+.subscribe-you-email-input::-moz-placeholder {
+    color: #a373aa;
+}
+
+.subscribe-you-email-input:-ms-input-placeholder {
+    color: #a373aa;
+}
+
+.subscribe-you-phone-input::-webkit-input-placeholder {
+    color: #a373aa;
+}
+
+.subscribe-you-phone-input:-moz-placeholder {
+    color: #a373aa;
+}
+
+.subscribe-you-phone-input::-moz-placeholder {
+    color: #a373aa;
+}
+
+.subscribe-you-phone-input:-ms-input-placeholder {
+    color: #a373aa;
+}
+
+.input-inline-fix {
+    display: inline;
+    position: relative;
+}
+
+#subscribe-btn {
+    width: 258px;
+    height: 65px;
+    background: none;
+    outline: none;
+    border: 2px solid #ffffff;
+    font-size: 20px;
+    margin-top: 50px;
+    transition: background 0.2s ease;
+}
+
+#subscribe-btn:hover {
+    background: #ffffff;
+    color: #673c74;
+}

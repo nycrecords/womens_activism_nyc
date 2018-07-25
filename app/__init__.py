@@ -71,4 +71,7 @@ def create_app(config_name):
     from .feature import feature as feature
     app.register_blueprint(feature, url_prefix="/feature")
 
+    from .subscribe import subscribe as subscribe
+    app.register_blueprint(subscribe, url_prefix="/subscribe")
+
     return app

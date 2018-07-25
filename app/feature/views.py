@@ -72,7 +72,7 @@ def set_featured_story(story_id):
     else:
         featured_story = FeaturedStories.query.filter_by(story_id=story_id).one_or_none()
         if featured_story is not None:
-            hide_current_featured_story()
+            hide_current_featured_story(story_id)
             update_object({"is_visible": True}, FeaturedStories, featured_story.id)
             create_object(Events(
                 _type=EDIT_FEATURED_STORY,
@@ -102,7 +102,7 @@ def modify(story_id):
 
     rank_choices = [(n, n + 1) for n in range(visible_stories)]
     default_rank = featured_story.rank
-    if not featured_story.is_visible:
+    if not featured_story.is_visible and visible_stories < 4:
         rank_choices.append((visible_stories, visible_stories + 1))
         default_rank = visible_stories
     form = ModifyFeatureForm(request.form, left_right=featured_story.left_right, title=featured_story.title, description=featured_story.description,

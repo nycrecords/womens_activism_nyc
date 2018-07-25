@@ -17,7 +17,8 @@ def index():
 
     stories = Stories.query.filter_by(is_visible=True).order_by(Stories.date_created.desc()).limit(8)
 
-    sorted_stories = sorted(FeaturedStories.query.filter_by(is_visible=True).all(), key=attrgetter('rank'))
+    featured_stories = FeaturedStories.query.filter_by(is_visible=True).all()
+    sorted_stories = sorted(featured_stories, key=attrgetter('rank'))
 
     visible_featured_stories = [str(n+1) for n in range(len(sorted_stories))]
 

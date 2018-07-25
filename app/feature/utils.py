@@ -27,6 +27,7 @@ def create_featured_story(story, left_right, title, description, rank):
         is_visible=True,
         title=title,
         description=description,
+        rank=rank
     )
 
     create_object(featured_story)

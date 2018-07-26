@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash, request, Markup
+from flask import render_template, redirect, url_for, flash, request, Markup, current_app
 
 from app.constants import RECAPTCHA_STRING
 from app.models import Tags
@@ -23,11 +23,10 @@ def new():
                                         user_email=form.user_email.data,
                                         subscription=form.subscription.data)
                 if form.subscription.data:
-                    send_email("WomensActivism - New Subscriber",
-                               womensactivism@records.nyc.gov,
-                               womensactivism@records.nyc.gov,
-                               message())
-
+                    send_email(subject="WomensActivism - New Subscriber",
+                               sender=current_app.config['MAIL_SENDER'],
+                               recipients='easinc@records.nyc.gov',
+                               html_body=render_template('emails/new_subscriber_agency.html'))
             else:
                 user_guid = None
 

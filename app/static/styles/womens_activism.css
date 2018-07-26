@@ -1820,6 +1820,11 @@ p, div {
     font-weight: bold;
 }
 
-.form textarea {
-    height: 200px;
+#modify-form ul{
+    list-style: none;
+    padding-left: 20px;
+}
+
+#is-visible label, #left-right label{
+    font-weight: 400;
 }

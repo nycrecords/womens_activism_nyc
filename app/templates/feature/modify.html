@@ -9,31 +9,22 @@
     <form data-parsley-validate id="modify-form" data-parsley-focus="none" method="post">
         {{ form.csrf_token }}
         {{ form.left_right.label }}
-        {% for choice in form.left_right %}
-            <div class="radio">
-                <label>{{ choice (id="left-right", required=true) }}{{ choice.label }}</label>
-            </div>
-        {% endfor %}
-        <br>
+        {{ form.left_right (id="left-right") }}
         <div class="form-group">
             {{ form.title.label }}
             {{ form.title (class="form-control", id="title", required=true, maxlength=90) }}
-        </div><br>
+        </div>
         <div class="form-group">
             {{ form.description.label }}
             {{ form.description (class="form-control", id="description", required=true, maxlength=395,
                                  style="height: 200px") }}
-        </div><br>
+        </div>
         <div class="form-group">
             {{ form.rank.label }}
             {{ form.rank (class="form-control", id="rank", required=true) }}
-        </div><br>
+        </div>
         {{ form.is_visible.label }}
-        {% for choice in form.is_visible %}
-            <div class="radio">
-                <label>{{ choice (id="is-visible", required=true) }}{{ choice.label }}</label>
-            </div>
-        {% endfor %}
+        {{ form.is_visible (id="is-visible") }}<br>
         {{ form.submit (id="sumbit-story-btn", class="btn btn-default") }}
     </form>
 </div>

@@ -1,0 +1,4 @@
+First name: {{ form.user_first.data }}
+Last name: {{ form.user_last.data }}
+Email Address: {{ form.user_email.data }}
+Phone Number: {{ form.user_phone.data}}

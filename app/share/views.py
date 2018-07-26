@@ -5,6 +5,7 @@ from app.models import Tags
 from app.share import share
 from app.share.forms import StoryForm
 from app.share.utils import create_story, create_user
+from app.lib.emails_utils import send_email
 
 
 @share.route('/', methods=['GET', 'POST'])
@@ -21,6 +22,12 @@ def new():
                                         user_last=form.user_last.data,
                                         user_email=form.user_email.data,
                                         subscription=form.subscription.data)
+                if form.subscription.data:
+                    send_email("WomensActivism - New Subscriber",
+                               womensactivism@records.nyc.gov,
+                               womensactivism@records.nyc.gov,
+                               message())
+
             else:
                 user_guid = None
 

@@ -28,7 +28,7 @@ mv /data/postgres/postgresql.conf /data/postgres/postgresql.conf.orig
 mv /data/postgres/pg_hba.conf /data/postgres/pg_hba.conf.orig
 
 # 7. Copy configuration files from home directory (vagrant for vagrant, /export/local/project_name/ for DOITT)
-if [ "$1" != single_server ]; then
+if [ "$1" = single_server ]; then
   ln -s /vagrant/build_scripts/db_setup/postgresql.conf /data/postgres/
   ln -s /vagrant/build_scripts/db_setup/pg_hba.conf /data/postgres/
 else
@@ -53,7 +53,7 @@ cp /vagrant/build_scripts/db_setup/server.key /data/postgres
 chmod 600 /data/postgres/server.key
 chown postgres:postgres /data/postgres/server.key
 
-if [ "$1" = single_server ]; then
+if [ "$1" != single_server ]; then
   # 8a. Setup Client Certificates for App Server
   mkdir -p /home/vagrant/.postgresql
   openssl req -new -nodes -keyout /home/vagrant/.postgresql/client.key -out /home/vagrant/.postgresql/client.csr -subj "/C=US/ST=New York/L=New York/O=NYC Department of Records and Information Services/OU=IT/CN=womensactivism.nyc"
@@ -71,7 +71,7 @@ sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createuser -s -e womens_ac
 sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createuser -s -e developer
 
 # 10. Create database
-sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createdb womens_activism_dev
+sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createdb womens_activism
 
 # 6. Add the following lines to /etc/sudoers file (allows running postgres commands without sudo access)
 #womens_activism   ALL=(ALL) NOPASSWD: /etc/init.d/rh-postgresql95-postgresql start
@@ -85,4 +85,4 @@ sudo -u postgres /opt/rh/rh-postgresql95/root/usr/bin/createdb womens_activism_d
 #womens_activism   ALL=(ALL) NOPASSWD: /etc/init.d/rh-postgresql95-postgresql initdb
 #womens_activism   ALL=(ALL) NOPASSWD: /etc/init.d/rh-postgresql95-postgresql upgrade
 
-#psql -U developer -h 127.0.0.1 -d womens_activism_dev
+#psql -U developer -h 127.0.0.1 -d womens_activism

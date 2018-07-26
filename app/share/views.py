@@ -4,7 +4,7 @@ from app.constants import RECAPTCHA_STRING
 from app.models import Tags
 from app.share import share
 from app.share.forms import StoryForm
-from app.share.utils import create_story, create_user
+from app.lib.utils import create_story, create_user
 from app.lib.emails_utils import send_email
 
 
@@ -21,6 +21,7 @@ def new():
                 user_guid = create_user(user_first=form.user_first.data,
                                         user_last=form.user_last.data,
                                         user_email=form.user_email.data,
+                                        user_phone=form.user_phone.data,
                                         subscription=form.subscription.data)
                 if form.subscription.data:
                     send_email(subject="WomensActivism - New Subscriber",

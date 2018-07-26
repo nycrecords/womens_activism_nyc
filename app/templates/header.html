@@ -27,7 +27,7 @@
         <li id="nav-about"><a href="{{ url_for('main.about') }}">About</a></li>
         <li id="nav-catalog"><a href="{{ url_for('stories.catalog') }}">Catalog</a></li>
         <li id="nav-contact"><a href="{{ url_for('main.contact') }}">Contact</a></li>
-        <li id="nav-subscribe"><a href="{{ url_for('subscribe.subscribe')}}">Subscribe</a></li>
+        <li id="nav-subscribe"><a href="{{ url_for('subscribe.subscribe') }}">Subscribe</a></li>
         <li><a href="https://web.ovationtix.com/trs/store/34600/alldonations/23831">Give</a></li>
         <li><a href="https://www.youtube.com/playlist?list=PLs2Fy8bYBATps9dOT9ch9lLzAYinPXXF7">Videos</a></li>
         {% if current_user.is_authenticated %}

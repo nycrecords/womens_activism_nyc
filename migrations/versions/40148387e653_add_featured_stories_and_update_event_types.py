@@ -39,6 +39,7 @@ def upgrade():
                     )
 
     op.add_column('users', sa.Column('password_hash', sa.String(length=128), nullable=True))
+    op.add_column('users', sa.Column('phone', sa.String(length=25), nullable=True))
     op.add_column('users', sa.Column('subscription', sa.Boolean(), nullable=True))
 
     # Create a temporary "_type" type, convert and drop the "old" type
@@ -62,6 +63,7 @@ def downgrade():
     op.drop_table('featured_stories')
 
     op.drop_column('users', 'password_hash')
+    op.drop_column('users', 'phone')
     op.drop_column('users', 'subscription')
 
     # op.execute('UPDATE responses SET type = \'note\' WHERE type IN \(\'letters\', \'envelopes\'\)')

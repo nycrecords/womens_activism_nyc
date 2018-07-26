@@ -113,7 +113,7 @@ class Users(UserMixin, db.Model):
     last_name = db.Column(db.String(128))
     email = db.Column(db.String(254))
     email_validated = db.Column(db.Boolean, nullable=False)
-    phone =  db.Column(db.String(25))
+    phone = db.Column(db.String(25))
     terms_of_use_accepted = db.Column(db.Boolean, nullable=False)
     password_hash = db.Column(db.String(128))
     subscription = db.Column(db.Boolean)
@@ -129,7 +129,7 @@ class Users(UserMixin, db.Model):
             last_name=None,
             email=None,
             email_validated=False,
-            phone= False,
+            phone=None,
             terms_of_use_accepted=False,
             password_hash=None,
             subscription=False

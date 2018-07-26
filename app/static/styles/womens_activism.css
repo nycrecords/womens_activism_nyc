@@ -144,8 +144,7 @@ p, div {
 }
 
 #hero p {
-    margin: 0 0 10px 0;
-    padding: 0 15px;
+    margin: 20px 0 10px 0;
 }
 
 #hero-collect {
@@ -1812,7 +1811,6 @@ p, div {
 
 #carousel-h1 {
     font-size: 48px;
-    margin-top: 36px;
     padding-bottom: 15px;
     font-weight: bold;
 }

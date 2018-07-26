@@ -1,8 +1,12 @@
-from flask import render_template, flash, request, Markup, redirect, url_for
+from flask import render_template, flash, request, Markup, redirect, url_for, current_app
 
 from app.subscribe import subscribe
 from app.subscribe.forms import SubscribeForm
 from app.lib.utils import create_user
+from app.lib.emails_utils import send_email
+from app.models import Events
+from app.db_utils import create_object
+from app.constants.event import EMAIL_SENT
 
 
 @subscribe.route('/', methods=['GET', 'POST'])
@@ -16,6 +20,20 @@ def subscribe():
                             user_email=form.user_email.data,
                             user_phone=form.user_phone.data,
                             subscription=True)
+                send_email(subject="WomensActivism - New Subscriber",
+                           sender=current_app.config['MAIL_SENDER'],
+                           recipients=[current_app.config['MAIL_RECIPIENTS']],
+                           html_body=render_template('emails/new_subscriber_agency.html',
+                                                     first_name=form.user_first.data,
+                                                     last_name=form.user_last.data,
+                                                     email=form.user_email.data,
+                                                     phone=form.user_phone.data))
+                create_object(Events(
+                    _type=EMAIL_SENT,
+                    user_guid=user.guid,
+                    new_value=user.val_for_events
+                ))
+
                 flash(Markup('Thank you for subscribing!'), category='success')
                 return redirect(url_for('subscribe.subscribe'))
             else:

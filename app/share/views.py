@@ -26,8 +26,12 @@ def new():
                 if form.subscription.data:
                     send_email(subject="WomensActivism - New Subscriber",
                                sender=current_app.config['MAIL_SENDER'],
-                               recipients='easinc@records.nyc.gov',
-                               html_body=render_template('emails/new_subscriber_agency.html'))
+                               recipients=[current_app.config['MAIL_RECIPIENTS']],
+                               html_body=render_template('emails/new_subscriber_agency.html',
+                                                         first_name=form.user_first.data,
+                                                         last_name=form.user_last.data,
+                                                         email=form.user_email.data,
+                                                         phone=form.user_phone.data))
             else:
                 user_guid = None
 

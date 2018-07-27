@@ -7,6 +7,7 @@ $(function() {
         $("#" + requiredFields[i]).attr("data-parsley-required","");
     }
 
+    // Specify length requirement of certain fields
     titleInput.attr("data-parsley-maxlength", 90);
     descriptionInput.attr("data-parsley-maxlength", 395);
 

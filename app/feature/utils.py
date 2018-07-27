@@ -14,6 +14,8 @@ def create_featured_story(story, left_right, title, description, rank):
     :param story: the story object you would like to create in Featured Story
     :param left_right: left or right side where the image will go
     :param description: description of the activist
+    :param rank: the order of the featured story
+
     :return: None
     """
 
@@ -48,6 +50,7 @@ def update_featured_story(featured_story, left_right, title, is_visible, descrip
     :param left_right: left or right side where the image will go
     :param is_visible: the visibility of the featured story
     :param description: description of the activist
+    :param rank: the order of the featured story
 
     :return: None
     """
@@ -101,8 +104,9 @@ def update_featured_story(featured_story, left_right, title, is_visible, descrip
 
 def hide_current_featured_story(story_id):
     """
-    A utility function to hide the currently visible featured story (main page).
+    A utility function to hide a visible featured story (main page).
     Hiding does not *delete* the record from the table, but rather makes it invisible.
+    :param: story_id: story id of the featured story that will be hidden
 
     :return: None
     """
@@ -123,6 +127,14 @@ def hide_current_featured_story(story_id):
 
 
 def update_rank(story_id, old_rank, new_rank):
+    """
+    A utility function to update the ranks of the featured stories when a change is made.
+    :param story_id: story id of the featured story that is modified
+    :param old_rank:
+    :param new_rank:
+
+    :return: None
+    """
 
     featured_story = FeaturedStories.query.filter_by(story_id=story_id).one_or_none()
     featured_stories = FeaturedStories.query.filter_by(is_visible=True).all()

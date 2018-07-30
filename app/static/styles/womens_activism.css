@@ -1798,7 +1798,8 @@ p, div {
 
 #carousel-description {
     font-weight: lighter;
-    font-size: 18px;
+    font-size: 22px;
+    font-family: "Calisto MT","Bookman Old Style",Bookman,"Goudy Old Style",Garamond,"Hoefler Text","Bitstream Charter",Georgia,serif;
 }
 
 #carousel-space-left {
@@ -1811,13 +1812,13 @@ p, div {
 
 #carousel-h1 {
     font-size: 48px;
-    padding-bottom: 15px;
     font-weight: bold;
+    font-family: "PostoniWide", "Bodoni 72", Georgia, serif;
 }
 
 #carousel-h3 {
-    padding-bottom: 15px;
     font-weight: bold;
+    font-family: "PostoniWide", "Bodoni 72", Georgia, serif;
 }
 
 #modify-form ul{

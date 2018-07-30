@@ -33,6 +33,7 @@ def create_featured_story(story, left_right, title, description, rank):
     )
 
     create_object(featured_story)
+    update_rank(featured_story.story_id, None, rank)
 
     create_object(Events(
         story_id=story.id,

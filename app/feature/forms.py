@@ -24,7 +24,6 @@ class FeaturedStoryForm(FlaskForm):
                             validators=[DataRequired()], default='left')
     title = StringField("Title/Position", validators=[DataRequired()])
     description = TextAreaField("Insert a text here", validators=[DataRequired(), Length(max=395)])
-    rank_choices = [(str(n+1), str(n+1)) for n in range(5)]
     rank = SelectField("Rank", choices=[], default=0, coerce=int)
     submit = SubmitField('Submit')
 

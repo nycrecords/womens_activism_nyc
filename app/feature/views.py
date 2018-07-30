@@ -105,8 +105,9 @@ def modify(story_id):
     if not featured_story.is_visible and visible_stories < 4:
         rank_choices.append((visible_stories, visible_stories + 1))
         default_rank = visible_stories
-    form = ModifyFeatureForm(request.form, left_right=featured_story.left_right, title=featured_story.title, description=featured_story.description,
-                             is_visible=featured_story.is_visible, rank=default_rank)
+    form = ModifyFeatureForm(request.form, left_right=featured_story.left_right, title=featured_story.title,
+                             description=featured_story.description, is_visible=featured_story.is_visible,
+                             rank=default_rank)
 
     form.rank.choices = rank_choices
     story = Stories.query.filter_by(id=story_id).one_or_none()

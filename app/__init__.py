@@ -8,7 +8,6 @@ from flask_wtf import CSRFProtect
 from config import config
 from flask_mail import Mail
 
-
 bootstrap = Bootstrap()
 csrf = CSRFProtect()
 db = SQLAlchemy()
@@ -35,7 +34,6 @@ def create_app(config_name):
     moment.init_app(app)
     mail.init_app(app)
     login_manager.init_app(app)
-
 
     # Error Handlers
     @app.errorhandler(400)

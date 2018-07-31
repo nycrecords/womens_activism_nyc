@@ -139,16 +139,29 @@ $(function () {
         $("#story-image-input-box, #story-video-input-box").val("");
     });
 
+    // $("#share-form").parsley().on("form:validate", function () {
+    //     if (subscribeButton.is(':checked')) {
+    //         if (userEmail.parsley().isValid() || userPhone.parsley().isValid()) {
+    //             // If at least one of the fields are validated then remove required from the rest of the contact fields that aren't being filled out
+    //             userEmail.removeAttr("data-parsley-required");
+    //             userPhone.removeAttr("data-parsley-required");
+    //             $("#share-story-btn").attr("disabled", "disabled");
+    //         }
+    //     }
+    // })
     $("#share-form").parsley().on("form:validate", function () {
-        if (subscribeButton.is(':checked')) {
-            if (userEmail.parsley().isValid() || userPhone.parsley().isValid()) {
-                // If at least one of the fields are validated then remove required from the rest of the contact fields that aren't being filled out
-                userEmail.removeAttr("data-parsley-required");
-                userPhone.removeAttr("data-parsley-required");
-                $("#share-story-btn").attr("disabled", "disabled");
-            }
-        }
-    })
+       if (subscribeButton.is(':checked')) {
+           if (userEmail.parsley().isValid() || userPhone.parsley().isValid()) {
+               // If at least one of the fields are validated then remove required from the rest of the contact fields that aren't being filled out
+               userEmail.removeAttr("data-parsley-required");
+               userPhone.removeAttr("data-parsley-required");
+           }
+       }
+
+       if ($("#share-form").parsley().isValid()) {
+           $("#share-story-btn").attr("disabled", "disabled");
+       }
+   })
 });
 
 // Share a story - capitalize first letter of name inputs

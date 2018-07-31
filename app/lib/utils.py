@@ -111,5 +111,4 @@ def create_user(user_first,
         user_guid=user.guid,
         new_value=user.val_for_events
     ))
-
     return user.guid

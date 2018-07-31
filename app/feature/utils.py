@@ -13,16 +13,12 @@ def create_featured_story(story, left_right, title, description, rank):
     A utility function to create a featured story.
     :param story: the story object you would like to create in Featured Story
     :param left_right: left or right side where the image will go
+    :param title: title or position of the activist
     :param description: description of the activist
     :param rank: the order of the featured story
 
     :return: None
     """
-
-    #current_featured_story = FeaturedStories.query.filter_by(is_visible=True)
-    #if current_featured_story is not None:
-    #    update_object({"is_visible": False}, FeaturedStories, current_featured_story.id)
-
     featured_story = FeaturedStories(
         story_id=story.id,
         left_right=True if left_right == 'left' else False,
@@ -49,6 +45,7 @@ def update_featured_story(featured_story, left_right, title, is_visible, descrip
     Updating attributes such as the following:
     :param featured_story:
     :param left_right: left or right side where the image will go
+    :param title: title or position of the activist
     :param is_visible: the visibility of the featured story
     :param description: description of the activist
     :param rank: the order of the featured story
@@ -84,10 +81,9 @@ def update_featured_story(featured_story, left_right, title, is_visible, descrip
             if cur_val != new_val:
                 old[field] = cur_val
                 new[field] = new_val
-                print(new_val)
 
     if new:
-        cur_rank = getattr(featured_story, "rank")
+        cur_rank = featured_story.rank
 
         update_object(new, FeaturedStories, featured_story.id)
 
@@ -112,8 +108,6 @@ def hide_current_featured_story(story_id):
     :return: None
     """
     featured_story = FeaturedStories.query.filter_by(story_id=story_id, is_visible=True).one_or_none()
-    
-    # current_featured_story = FeaturedStories.query.filter_by(is_visible=True).one_or_none()
     
     if featured_story is not None:
         update_object({"is_visible": False}, FeaturedStories, featured_story.id)

@@ -13,7 +13,7 @@ from app.models import Events, FeaturedStories, Stories
 from operator import attrgetter
 
 
-@feature.route('/', methods=['GET','POST'])
+@feature.route('/', methods=['GET'])
 @login_required
 def listing():
     """
@@ -24,9 +24,6 @@ def listing():
     """
     featured_stories = sorted(FeaturedStories.query.filter_by(is_visible=True).all(), key=attrgetter('rank'))
     hidden_stories = FeaturedStories.query.filter_by(is_visible=False).all()
-
-    # if request.method == 'POST':
-    #     if rank_stories_form.validate_on_submit():
 
     return render_template('feature/feature.html', featured_stories=featured_stories, hidden_stories=hidden_stories)
 

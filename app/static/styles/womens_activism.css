@@ -1780,6 +1780,7 @@ p, div {
 #carousel-content .container {
     padding-left: 150px;
     padding-right: 150px;
+    height: 320px;
 }
 
 #carousel-first {
@@ -1789,7 +1790,7 @@ p, div {
 
 #carousel-image {
     width: 100%;
-    height: 300px;
+    height: 320px;
     background-size: cover;
     background-position: center;
     border-radius: 3px;
@@ -1799,15 +1800,15 @@ p, div {
 #carousel-description {
     font-weight: lighter;
     font-size: 22px;
-    font-family: "Calisto MT","Bookman Old Style",Bookman,"Goudy Old Style",Garamond,"Hoefler Text","Bitstream Charter",Georgia,serif;
+    font-family: "PostoniWide", "Bodoni 72", Georgia, serif;
 }
 
 #carousel-space-left {
-     padding-left: 45px;
+    padding-left: 45px;
 }
 
 #carousel-space-right {
-     padding-right: 45px;
+    padding-right: 45px;
 }
 
 #carousel-h1 {

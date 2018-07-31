@@ -11,15 +11,4 @@ $(function() {
     titleInput.attr("data-parsley-maxlength", 90);
     descriptionInput.attr("data-parsley-maxlength", 395);
 
-    // var errorList = [];
-    // window.Parsley.on('field:error', function () {
-    //     if (!errorList[0]) {
-    //         errorList.push(this.$element);
-    //         $("html, body").animate({
-    //             scrollTop: errorList[0].parent().parent().parent().find('h1').offset().top
-    //         }, 1000, function () {
-    //             errorList = [];
-    //         });
-    //     }
-    // });
 })

@@ -14,6 +14,7 @@ $(function () {
     var userLast = $("#user-last-name-field");
     var userEmail = $("#user-email-field");
     var userPhone = $("#user-phone-field");
+    var subscribe = $("#user-subscription-btn");
 
     // Functionality for tags
     var selectedTags = [];
@@ -99,6 +100,23 @@ $(function () {
 
     $("#first-name-field, #last-name-field, #user-first-name-field, #user-last-name-field").on('keyup', function () {
         capitalize(this.id, this.value)
+    });
+
+    subscribe.attr('checked',function(){
+        var requiredFields = [userEmail, userPhone];
+        for (var i = 0; i < requiredFields.length; i++) {
+            requiredFields[i].attr("data-parsley-required", "");
+        }
+        // Checks that at least one of the contact information fields is filled
+        if (userEmail.parsley().isValid())
+            // If at least one of the fields are validated then remove required from the rest of the contact fields that aren't being filled out
+            userPhone.removeAttr("data-parsley-required");
+        }
+        else {
+            // If none of the fields are valid then produce an error message and apply required fields.
+            userEmail.attr("data-parsley-required", "");
+            userPhone.attr("data-parsley-required", "");
+        }
     });
 
     // Media input type selection

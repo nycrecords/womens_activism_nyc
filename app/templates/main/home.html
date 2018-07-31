@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 {%  for featured_story in featured_stories %}
-                    <div class="item" id="carousel-content">
+                    <div class="item" id="carousel-content" >
                         <a href="{{ url_for('stories.view', story_id=featured_story.story_id) }}">
                             <div class="container" id="carousel-jumbotron">
                                 {% if featured_story.left_right %}
@@ -31,17 +31,21 @@
                                         </div>
                                     </div>
                                     <div class="col-md-8" id="carousel-space-left">
-                                        <h2 id="carousel-h1">{{ featured_story.story.activist_first }}
-                                            {{ featured_story.story.activist_last }}</h2>
-                                        <h3 id="carousel-h3">{{ featured_story.title }}</h3>
-                                        <p id="carousel-description">{{ featured_story.description }}...</p>
+                                        <div>
+                                            <h2 id="carousel-h1">{{ featured_story.story.activist_first }}
+                                                {{ featured_story.story.activist_last }}</h2>
+                                            <h3 id="carousel-h3">{{ featured_story.title }}</h3>
+                                            <p id="carousel-description">{{ featured_story.description }}...</p>
+                                        </div>
                                     </div>
                                 {% else %}
                                     <div class="col-md-8" id="carousel-space-right">
-                                        <h2 id="carousel-h1">{{ featured_story.story.activist_first }}
-                                            {{ featured_story.story.activist_last }}</h2>
-                                        <h3 id="carousel-h3">{{ featured_story.title }}</h3>
-                                        <p id="carousel-description">{{ featured_story.description }}...</p>
+                                        <div>
+                                            <h2 id="carousel-h1">{{ featured_story.story.activist_first }}
+                                                {{ featured_story.story.activist_last }}</h2>
+                                            <h3 id="carousel-h3">{{ featured_story.title }}</h3>
+                                            <p id="carousel-description">{{ featured_story.description }}...</p>
+                                        </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div id="carousel-image" style="background-image: url({{ featured_story.story.image_url }})">

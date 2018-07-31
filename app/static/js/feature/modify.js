@@ -9,6 +9,6 @@ $(function() {
 
     // Specify length requirement of certain fields
     titleInput.attr("data-parsley-maxlength", 90);
-    descriptionInput.attr("data-parsley-maxlength", 395);
+    descriptionInput.attr("data-parsley-maxlength", 365);
 
-})
+});

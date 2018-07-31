@@ -1790,7 +1790,7 @@ p, div {
 
 #carousel-image {
     width: 100%;
-    height: 320px;
+    height: 300px;
     background-size: cover;
     background-position: center;
     border-radius: 3px;
@@ -1799,16 +1799,24 @@ p, div {
 
 #carousel-description {
     font-weight: lighter;
-    font-size: 22px;
+    font-size: 24px;
     font-family: "PostoniWide", "Bodoni 72", Georgia, serif;
 }
 
 #carousel-space-left {
     padding-left: 45px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 320px;
 }
 
 #carousel-space-right {
     padding-right: 45px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 320px;
 }
 
 #carousel-h1 {
@@ -1829,4 +1837,11 @@ p, div {
 
 #is-visible label, #left-right label{
     font-weight: 400;
+}
+
+#carousel-jumbotron .col-md-4 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 320px;
 }

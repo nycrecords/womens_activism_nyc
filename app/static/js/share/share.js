@@ -82,6 +82,10 @@ $(function () {
     activistEnd.attr("pattern", "\\b[Tt][Oo][Dd][Aa][Yy]\\b|^[0-9]{1,4}$");
     activistEnd.attr("data-parsley-pattern", "\\b[Tt][Oo][Dd][Aa][Yy]\\b|^[0-9]{1,4}$");
 
+    ///Enter an email or phone number error
+     userPhone.attr("data-parsley-error-message", "Email and/or phone number is required.");
+      userEmail.attr("data-parsley-error-message", "Email and/or phone number is required.");
+
     // Scroll fix for Parsley.js
     var errorList = [];
     window.Parsley.on('field:error', function () {

@@ -35,6 +35,10 @@ $(function () {
 
     userEmail.attr("data-parsley-type", "email");
 
+    // Enter an email or phone number error
+     userPhone.attr("data-parsley-error-message", "Email and/or phone number is required.");
+     userEmail.attr("data-parsley-error-message", "Email and/or phone number is required.");
+
 
     $("#user-first-name-field, #user-last-name-field").on('keyup', function () {
         capitalize(this.id, this.value)
@@ -44,20 +48,18 @@ $(function () {
     $("#subscribe-form").parsley().on("form:validate", function () {
         // Re-apply validators to fields in the event that they were removed from previous validation requests.
         for (i = 0; i < requiredFields.length; i++) {
-            $("#" + requiredFields[i]).attr("data-parsley-required", "");
+            requiredFields[i].attr("data-parsley-required", "");
         }
         // Checks that at least one of the contact information fields is filled
-        if ($("#user-email-field").parsley().isValid() ||
-            $("#user-phone-field").parsley().isValid()
-        ) {
+        if (userEmail.parsley().isValid() || userPhone.parsley().isValid()) {
             // If at least one of the fields are validated then remove required from the rest of the contact fields that aren't being filled out
-            $("#user-email-field").removeAttr("data-parsley-required");
-            $("#user-phone-field").removeAttr("data-parsley-required");
+            userEmail.removeAttr("data-parsley-required");
+            userPhone.removeAttr("data-parsley-required");
         }
         else {
             // If none of the fields are valid then produce an error message and apply required fields.
-            $("#user-phone-field").attr("data-parsley-required", "");
-            $("#user-email-field").attr("data-parsley-required", "");
+            userEmail.attr("data-parsley-required", "");
+            userPhone.attr("data-parsley-required", "");
         }
     });
 

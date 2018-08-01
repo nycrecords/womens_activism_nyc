@@ -17,7 +17,7 @@ $(function () {
         }
     });
 
-    ///Format Field for Phone Number
+    // Format Field for Phone Number
     userPhone.mask("(999) 999-9999");
 
     // Loop through required fields and apply a data-parsley-required attribute to them
@@ -64,6 +64,7 @@ $(function () {
     });
 
 });
+
 function capitalize(textboxid, str) {
     // string with alteast one character
     if (str && str.length >= 1) {

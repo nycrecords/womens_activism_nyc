@@ -77,4 +77,7 @@ def create_app(config_name):
     from .subscribe import subscribe as subscribe
     app.register_blueprint(subscribe, url_prefix="/subscribe")
 
+    from .unsubscribe import unsubscribe as unsubscribe
+    app.register_blueprint(unsubscribe, url_prefix="/unsubscribe")
+
     return app

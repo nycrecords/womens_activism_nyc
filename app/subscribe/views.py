@@ -23,7 +23,7 @@ def subscribe():
                 email_body = render_template('emails/new_subscriber_agency.html',
                                              first_name=form.user_first.data,
                                              last_name=form.user_last.data,
-                                             email=form.user_email.data,
+                                             email= form.user_email.data,
                                              phone=form.user_phone.data)
                 send_email(subject="WomensActivism - New Subscriber",
                            sender=current_app.config['MAIL_SENDER'],
@@ -34,6 +34,15 @@ def subscribe():
                     user_guid=user_guid,
                     new_value={"email_body": email_body}
                 ))
+                if form.user_email.data:
+                    email_to_user = [form.user_email.data]
+                    email_user_body = render_template('emails/new_subscriber_user.html',
+                                                      first_name=form.user_first.data,
+                                                      last_name=form.user_last.data)
+                    send_email(subject="Confirmation Email",
+                               sender=current_app.config['MAIL_SENDER'],
+                               recipients=email_to_user,
+                               html_body=email_user_body)
                 flash(Markup('Thank you for subscribing!'), category='success')
                 return redirect(url_for('subscribe.subscribe'))
             else:

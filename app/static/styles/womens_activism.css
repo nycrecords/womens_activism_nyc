@@ -1872,3 +1872,77 @@ p, div {
     background: #ffffff;
     color: #673c74;
 }
+/* Unsubscribe */
+#email {
+    background: #673c74;
+    text-align: center;
+    color: white;
+    padding-top: 90px;
+    padding-bottom: 90px;
+}
+.unsubscribe-heading {
+    font-size: 22px;
+    font-weight: lighter;
+    max-width: 550px;
+    margin: 20px auto 0 auto;
+    padding: 0 10px;
+}
+
+.you-input-group {
+    margin-top: 25px;
+}
+
+.unsubscribe-email-input {
+    background: none;
+    outline: none;
+    border: 0px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    text-align: center;
+    font-size: 36px;
+    width: 100%;
+    max-width: 627px;
+    margin: 20px 20px 0 20px;
+    padding-bottom: 10px;
+}
+
+@media (max-width: 712px) {
+    .unsubscribe-email-input {
+        max-width: 292px;
+    }
+}
+.unsubscribe-email-input::-webkit-input-placeholder {
+    color: #a373aa;
+}
+
+.unsubscribe-email-input:-moz-placeholder {
+    color: #a373aa;
+}
+
+.unsubscribe-email-input::-moz-placeholder {
+    color: #a373aa;
+}
+
+.unsubscribe-email-input:-ms-input-placeholder {
+    color: #a373aa;
+}
+
+.input-inline-fix {
+    display: inline;
+    position: relative;
+}
+
+#unsubscribe-btn {
+    width: 258px;
+    height: 65px;
+    background: none;
+    outline: none;
+    border: 2px solid #ffffff;
+    font-size: 20px;
+    margin-top: 50px;
+    transition: background 0.2s ease;
+}
+
+#unsubscribe-btn:hover {
+    background: #ffffff;
+    color: #673c74;
+}

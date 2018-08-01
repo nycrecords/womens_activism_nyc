@@ -1805,24 +1805,17 @@ p, div {
 
 #carousel-space-left {
     padding-left: 45px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 320px;
 }
 
 #carousel-space-right {
     padding-right: 45px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 320px;
 }
 
 #carousel-h1 {
     font-size: 48px;
     font-weight: bold;
     font-family: "PostoniWide", "Bodoni 72", Georgia, serif;
+    margin-top: 10px;
 }
 
 #carousel-h3 {

@@ -1,8 +1,8 @@
 """changed max char
 
-Revision ID: 7a7e468d22a2
+Revision ID: a8159781ce5e
 Revises: f32a9ba548dc
-Create Date: 2018-07-31 15:31:20.809480
+Create Date: 2018-08-01 16:31:58.333812
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '7a7e468d22a2'
+revision = 'a8159781ce5e'
 down_revision = 'f32a9ba548dc'
 branch_labels = None
 depends_on = None

@@ -7,6 +7,8 @@ from app.constants.event import ADD_FEATURED_STORY, HIDE_FEATURED_STORY, EDIT_FE
 from app.db_utils import update_object, create_object
 from app.models import Events, FeaturedStories
 
+from operator import attrgetter
+
 
 def create_featured_story(story, left_right, title, description, rank):
     """
@@ -121,7 +123,7 @@ def hide_current_featured_story(story_id):
         ))
 
 
-def update_rank(story_id, old_rank, new_rank):
+def update_rank(story_id, old_rank, n_rank):
     """
     A utility function to update the ranks of the featured stories when a change is made.
     :param story_id: story id of the featured story that is modified
@@ -132,26 +134,17 @@ def update_rank(story_id, old_rank, new_rank):
     """
 
     featured_story = FeaturedStories.query.filter_by(story_id=story_id).one_or_none()
+
+    if not featured_story.is_visible:
+        update_object({"rank": None}, FeaturedStories, featured_story.id)
+
     featured_stories = FeaturedStories.query.filter_by(is_visible=True).all()
 
-    if featured_story.is_visible:
-        if old_rank is not None:
-            if old_rank < new_rank:
-                for story in featured_stories:
-                    if story.story_id is not featured_story.story_id and old_rank < story.rank <= new_rank:
-                        update_object({"rank": story.rank-1}, FeaturedStories, story.id)
+    for new_rank, story in enumerate(sorted(featured_stories, key=attrgetter('rank'))):
+        if story.rank == featured_story.rank and story_id != story.story_id:
+            if old_rank is not None and featured_story.rank > old_rank:
+                update_object({"rank": story.rank - 1}, FeaturedStories, story.id)
             else:
-                for story in featured_stories:
-                    if story.story_id is not featured_story.story_id and old_rank > story.rank >= new_rank:
-                        update_object({"rank": story.rank+1}, FeaturedStories, story.id)
-        else:
-            for story in featured_stories:
-                if story.story_id is not featured_story.story_id and story.rank >= new_rank:
-                    update_object({"rank": story.rank+1}, FeaturedStories, story.id)
-
-    else:
-        update_object({"rank": None}, FeaturedStories, featured_story.id)
-        if old_rank is not None:
-            for story in featured_stories:
-                if story.id != featured_story.id and story.rank >= old_rank:
-                    update_object({"rank": story.rank-1}, FeaturedStories, story.id)
+                update_object({"rank": story.rank + 1}, FeaturedStories, story.id)
+        elif new_rank != story.rank and story_id != story.story_id:
+            update_object({"rank": new_rank}, FeaturedStories, story.id)

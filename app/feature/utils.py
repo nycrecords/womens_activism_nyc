@@ -141,10 +141,11 @@ def update_rank(story_id, old_rank, n_rank):
     featured_stories = FeaturedStories.query.filter_by(is_visible=True).all()
 
     for new_rank, story in enumerate(sorted(featured_stories, key=attrgetter('rank'))):
-        if story.rank == featured_story.rank and story_id != story.story_id:
-            if old_rank is not None and featured_story.rank > old_rank:
-                update_object({"rank": story.rank - 1}, FeaturedStories, story.id)
-            else:
-                update_object({"rank": story.rank + 1}, FeaturedStories, story.id)
-        elif new_rank != story.rank and story_id != story.story_id:
-            update_object({"rank": new_rank}, FeaturedStories, story.id)
+        if story_id != story.story_id:
+            if story.rank == featured_story.rank:
+                if old_rank is not None and featured_story.rank > old_rank:
+                    update_object({"rank": story.rank - 1}, FeaturedStories, story.id)
+                else:
+                    update_object({"rank": story.rank + 1}, FeaturedStories, story.id)
+            elif new_rank != story.rank:
+                update_object({"rank": new_rank}, FeaturedStories, story.id)

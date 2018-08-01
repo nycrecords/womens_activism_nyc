@@ -123,7 +123,7 @@ def hide_current_featured_story(story_id):
         ))
 
 
-def update_rank(story_id, old_rank,):
+def update_rank(story_id, old_rank):
     """
     A utility function to update the ranks of the featured stories when a change is made.
     :param story_id: story id of the featured story that is modified

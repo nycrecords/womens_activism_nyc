@@ -25,7 +25,7 @@ def new():
                                         user_email=form.user_email.data,
                                         user_phone=form.user_phone.data,
                                         subscription=form.subscription.data)
-                #Email to admin
+                # Email to admin
                 if form.subscription.data:
                     email_body = render_template('emails/new_subscriber_agency.html',
                                                  first_name=form.user_first.data,
@@ -41,7 +41,7 @@ def new():
                         user_guid=user_guid,
                         new_value={"email_body": email_body}
                     ))
-                #Email to user
+                # Email to user
                 if form.user_email.data:
                     email_to_user = [form.user_email.data]
                     unsubscribe_link = url_for('unsubscribe.unsubscribe', _external=True)
@@ -53,6 +53,11 @@ def new():
                                 sender=current_app.config['MAIL_SENDER'],
                                 recipients=email_to_user,
                                 html_body=email_user_body)
+                    create_object(Events(
+                        _type=EMAIL_SENT,
+                        user_guid=user_guid,
+                        new_value={"email_body": email_body}
+                    ))
             else:
                 user_guid = None
 

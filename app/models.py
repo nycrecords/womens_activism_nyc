@@ -624,6 +624,7 @@ class Flags(db.Model):
                 flag.INCORRECT_INFORMATION,
                 flag.OFFENSIVE_CONTENT,
                 flag.OTHER,
+                flag.UNSUBSCRIBED,
                 name='flag_type'))
     reason = db.Column(db.String(500), nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)

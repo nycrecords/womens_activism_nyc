@@ -9,6 +9,7 @@ from wtforms.validators import (
     Email,
 )
 
+
 class UnsubscribeForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Unsubscribe')

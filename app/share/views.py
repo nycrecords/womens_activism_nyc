@@ -25,6 +25,7 @@ def new():
                                         user_email=form.user_email.data,
                                         user_phone=form.user_phone.data,
                                         subscription=form.subscription.data)
+                #Email to admin
                 if form.subscription.data:
                     email_body = render_template('emails/new_subscriber_agency.html',
                                                  first_name=form.user_first.data,
@@ -40,12 +41,14 @@ def new():
                         user_guid=user_guid,
                         new_value={"email_body": email_body}
                     ))
+                #Email to user
                 if form.user_email.data:
                     email_to_user = [form.user_email.data]
+                    unsubscribe_link = url_for('unsubscribe.unsubscribe', _external=True)
                     email_user_body = render_template('emails/new_subscriber_user.html',
                                                       first_name=form.user_first.data,
                                                       last_name=form.user_last.data,
-                                                      )
+                                                      unsubscribe_link=unsubscribe_link)
                     send_email(subject="Confirmation Email",
                                 sender=current_app.config['MAIL_SENDER'],
                                 recipients=email_to_user,

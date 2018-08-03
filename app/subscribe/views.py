@@ -21,6 +21,7 @@ def subscribe():
                                         user_email=form.user_email.data,
                                         user_phone=form.user_phone.data,
                                         subscription=True)
+                # Email for the admin
                 email_body = render_template('emails/new_subscriber_agency.html',
                                              first_name=form.user_first.data,
                                              last_name=form.user_last.data,
@@ -35,6 +36,22 @@ def subscribe():
                     user_guid=user_guid,
                     new_value={"email_body": email_body}
                 ))
+                # Email for the user
+                if form.user_email.data:
+                    unsubscribe_link = url_for('unsubscribe.unsubscribe', _external=True)
+                    email_user_body = render_template('emails/new_subscriber_user.html',
+                                                      first_name=form.user_first.data,
+                                                      last_name=form.user_last.data,
+                                                      unsubscribe_link = unsubscribe_link)
+                    send_email(subject="Confirmation Email",
+                               sender=current_app.config['MAIL_SENDER'],
+                               recipients=[form.user_email.data],
+                               html_body=email_user_body)
+                    create_object(Events(
+                        _type=EMAIL_SENT,
+                        user_guid=user_guid,
+                        new_value={"email_body": email_body}
+                    ))
                 flash(Markup('Thank you for subscribing!'), category='success')
                 return redirect(url_for('subscribe.subscribe'))
             else:

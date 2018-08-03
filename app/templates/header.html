@@ -32,6 +32,7 @@
         <li><a href="https://www.youtube.com/playlist?list=PLs2Fy8bYBATps9dOT9ch9lLzAYinPXXF7">Videos</a></li>
         {% if current_user.is_authenticated %}
             <li><a href="{{ url_for('feature.listing') }}">Features</a></li>
+             <li><a href="{{ url_for('export.export') }}">Export</a></li>
             <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
         {% endif %}
       </ul>

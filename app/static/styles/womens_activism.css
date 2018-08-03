@@ -1873,7 +1873,7 @@ p, div {
     color: #673c74;
 }
 /* Unsubscribe */
-#email {
+#unsubscribe {
     background: #673c74;
     text-align: center;
     color: white;
@@ -1943,6 +1943,43 @@ p, div {
 }
 
 #unsubscribe-btn:hover {
+    background: #ffffff;
+    color: #673c74;
+}
+
+/* Export */
+#export{
+    background: #673c74;
+    text-align: center;
+    color: white;
+    padding-top: 90px;
+    padding-bottom: 90px;
+}
+.export-heading {
+    font-size: 22px;
+    font-weight: lighter;
+    max-width: 550px;
+    margin: 20px auto 0 auto;
+    padding: 0 10px;
+}
+
+.input-inline-fix {
+    display: inline;
+    position: relative;
+}
+
+#export-btn {
+    width: 258px;
+    height: 65px;
+    background: none;
+    outline: none;
+    border: 2px solid #ffffff;
+    font-size: 20px;
+    margin-top: 50px;
+    transition: background 0.2s ease;
+}
+
+#export-btn:hover {
     background: #ffffff;
     color: #673c74;
 }

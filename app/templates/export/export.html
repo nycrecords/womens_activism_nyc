@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form data-parsley-validate id="export" data-parsley-focus="none" method="post">
+        {{ form.csrf_token }}
+    <div class="container-fluid" id="export_field">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="export_heading">Export</h1>
+                    <div class="export-button">
+                        {{ form.submit (id="export-btn") }}
+                    </div>
+                </div>
+            </div>
+    </div>
+</form>
+{% endblock %}

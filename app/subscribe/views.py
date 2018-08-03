@@ -42,7 +42,7 @@ def subscribe():
                     email_user_body = render_template('emails/new_subscriber_user.html',
                                                       first_name=form.user_first.data,
                                                       last_name=form.user_last.data,
-                                                      unsubscribe_link = unsubscribe_link)
+                                                      unsubscribe_link=unsubscribe_link)
                     send_email(subject="Confirmation Email",
                                sender=current_app.config['MAIL_SENDER'],
                                recipients=[form.user_email.data],

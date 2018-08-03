@@ -37,7 +37,6 @@ def subscribe():
                 ))
                 # Email for the user
                 if form.user_email.data:
-                    email_to_user = [form.user_email.data]
                     unsubscribe_link = url_for('unsubscribe.unsubscribe', _external=True)
                     email_user_body = render_template('emails/new_subscriber_user.html',
                                                       first_name=form.user_first.data,
@@ -45,7 +44,7 @@ def subscribe():
                                                       unsubscribe_link = unsubscribe_link)
                     send_email(subject="Confirmation Email",
                                sender=current_app.config['MAIL_SENDER'],
-                               recipients=email_to_user,
+                               recipients=[form.user_email.data],
                                html_body=email_user_body)
                     create_object(Events(
                         _type=EMAIL_SENT,

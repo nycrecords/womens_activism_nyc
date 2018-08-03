@@ -150,6 +150,7 @@ def update_user(user,
                 first_name,
                 last_name,
                 email,
+                phone,
                 subscription):
     """
     A utility function used to create a User object.
@@ -159,6 +160,7 @@ def update_user(user,
     :param first_name: the new updated version of poster's first name
     :param last_name: the new updated version of poster's last name
     :param email: the new updated version of poster's email
+    :param phone: the new updated version of poster's phone
     :param subscription: the new updated version of subscription
 
     :return: no return value, a Poster object will be created
@@ -167,6 +169,7 @@ def update_user(user,
         'first_name',
         'last_name',
         'email',
+        'phone',
         'subscription'
     }
 
@@ -174,6 +177,7 @@ def update_user(user,
         'first_name': first_name,
         'last_name': last_name,
         'email': email,
+        'phone': phone,
         'subscription': subscription
     }
 

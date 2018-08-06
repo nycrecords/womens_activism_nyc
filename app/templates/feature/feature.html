@@ -16,8 +16,8 @@
             <th scope="col">First Name</th>
             <th scope="col">Last Name</th>
             <th scope="col">Left or Right</th>
-            <th scope="col">Visibility</th>
-            <th scope="col">Quote</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
             </tr>
         </thead>
         <tbody>
@@ -33,14 +33,45 @@
               <td>{{ featured_story.story.activist_first }}</td>
               <td>{{ featured_story.story.activist_last }}</td>
               <td>
-                  {% if featured_story.left_right == True %}
+                  {% if featured_story.left_right == 'left' %}
                     Left
                   {% else %}
                     Right
                   {% endif %}
               </td>
-              <td>{{ featured_story.is_visible }}</td>
-              <td>{{ featured_story.quote }}</td>
+              <td>{{ featured_story.title }}</td>
+              <td>{{ featured_story.description }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="page-header">
+        <h4>Hidden Stories</h4>
+    </div>
+
+    <table class="table table-hover">
+        <tbody>
+        <!-- Remember that story_list contains a list of tuples -->
+        {% for hidden_story in hidden_stories %}
+            <tr>
+              <th scope="row">
+                <a class="icon" href="{{ url_for('feature.modify', story_id=hidden_story.story_id) }}" title="Edit Record">
+                    <span class="fa fa-pencil glyphicon glyphicon-pencil"></span>
+                </a>
+              </th>
+              <td>{{ hidden_story.story_id }}</td>
+              <td>{{ hidden_story.story.activist_first }}</td>
+              <td>{{ hidden_story.story.activist_last }}</td>
+              <td>
+                  {% if hidden_story.left_right == True %}
+                    Left
+                  {% else %}
+                    Right
+                  {% endif %}
+              </td>
+              <td>{{ hidden_story.title }}</td>
+              <td>{{ hidden_story.description }}</td>
             </tr>
         {% endfor %}
         </tbody>

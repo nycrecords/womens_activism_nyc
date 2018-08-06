@@ -144,8 +144,7 @@ p, div {
 }
 
 #hero p {
-    margin: 0 0 10px 0;
-    padding: 0 15px;
+    margin: 20px 0 10px 0;
 }
 
 #hero-collect {
@@ -1872,14 +1871,9 @@ p, div {
     background: #ffffff;
     color: #673c74;
 }
+
 /* Unsubscribe */
-#email {
-    background: #673c74;
-    text-align: center;
-    color: white;
-    padding-top: 90px;
-    padding-bottom: 90px;
-}
+
 .unsubscribe-heading {
     font-size: 22px;
     font-weight: lighter;
@@ -1945,4 +1939,102 @@ p, div {
 #unsubscribe-btn:hover {
     background: #ffffff;
     color: #673c74;
+}
+
+/* Carousel */
+
+#hero-carousel {
+    height: 100%;
+    vertical-align: middle;
+    padding: 40px 0px;
+}
+
+.carousel-control.left, .carousel-control.right {
+    background-image:none !important;
+    filter:none !important;
+}
+
+.carousel-control .glyphicon-chevron-right, .carousel-control .icon-next {
+    right: 50px;
+}
+
+.carousel-control .glyphicon-chevron-left, .carousel-control .icon-prev {
+    left: 50px;
+}
+
+#carousel-jumbotron {
+    background-color: #59315f;
+    text-align: left;
+    color: #ffffff;
+    height: 100%;
+    width: 100%;
+}
+
+#carousel-content{
+    height: 100%;
+    vertical-align: middle;
+    text-align: left;
+    min-height: 320px;
+    margin: 60px 0;
+}
+
+#carousel-content .container {
+    width: 1170px;
+    height: 320px;
+}
+
+#carousel-first {
+    text-align: center;
+    padding: 40px 0;
+}
+
+#carousel-image {
+    width: 100%;
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 3px;
+    margin: 0 auto;
+}
+
+#carousel-description {
+    font-weight: lighter;
+    font-size: 24px;
+    font-family: "PostoniWide", "Bodoni 72", Georgia, serif;
+}
+
+#carousel-space-left {
+    padding-left: 45px;
+}
+
+#carousel-space-right {
+    padding-right: 45px;
+}
+
+#carousel-h1 {
+    font-size: 48px;
+    font-weight: bold;
+    font-family: "PostoniWide", "Bodoni 72", Georgia, serif;
+    margin-top: 10px;
+}
+
+#carousel-h3 {
+    font-weight: bold;
+    font-family: "PostoniWide", "Bodoni 72", Georgia, serif;
+}
+
+#modify-form ul{
+    list-style: none;
+    padding-left: 20px;
+}
+
+#is-visible label, #left-right label{
+    font-weight: 400;
+}
+
+#carousel-jumbotron .col-md-4 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 320px;
 }

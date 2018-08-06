@@ -39,14 +39,14 @@
                     <p class="share-subheading">If still living, enter "Today".</p>
                     <div class="who-input-group">
                         <div class="input-inline-fix">
-                            {{ form.activist_start (id="activist-start", placeholder="1960", maxlength="4", class="share-who-input", value=story.activist_start) }}
+                            {{ form.activist_start (id="activist-start", placeholder="1960", maxlength="4", class="share-who-input", value=story.activist_start or '') }}
                         </div>
                         <span id="date-dash">&#8212;</span>
                         <div class="input-inline-fix">
                             {% if story.activist_end == 9999 %}
                                 {{ form.activist_end (id="activist-end", placeholder="Today", maxlength="5", class="share-who-input", value="Today") }}
                             {% else %}
-                                {{ form.activist_end (id="activist-end", placeholder="Today", maxlength="5", class="share-who-input", value=story.activist_end) }}
+                                {{ form.activist_end (id="activist-end", placeholder="Today", maxlength="5", class="share-who-input", value=story.activist_end or '') }}
                             {% endif %}
                         </div>
                     </div>

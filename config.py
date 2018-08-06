@@ -39,6 +39,15 @@ class Config:
     RECAPTCHA_PUBLIC_KEY = os.environ.get("RECAPTCHA_PUBLIC_KEY")
     RECAPTCHA_PRIVATE_KEY = os.environ.get("RECAPTCHA_PRIVATE_KEY")
 
+    # Flask-Mail Settings
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_SERVER = os.environ.get('MAIL_SERVER')
+    MAIL_PORT = os.environ.get('MAIL_PORT')
+    MAIL_SENDER = os.environ.get('MAIL_SENDER')
+    MAIL_RECIPIENTS = os.environ.get('MAIL_RECIPIENTS')
+    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', "True") == "True"
+
     @staticmethod
     def init_app(app):
         pass
@@ -48,7 +57,7 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = (
         os.environ.get("DEV_DATABASE_URL")
-        or "postgresql://developer@localhost:5432/womens_activism_dev"
+        or "postgresql://developer@localhost:5432/womens_activism"
     )
 
     # Elasticsearch settings

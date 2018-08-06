@@ -20,4 +20,7 @@ $(function () {
     else if (currentDir == '/contact') {
         $('#nav-contact').addClass("active");
     }
+    else if (currentDir == '/subscribe'){
+        $('#nav-contact').addClass("active");
+    }
 });

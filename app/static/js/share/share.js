@@ -14,6 +14,7 @@ $(function () {
     var userLast = $("#user-last-name-field");
     var userEmail = $("#user-email-field");
     var userPhone = $("#user-phone-field");
+    var subscribeButton = $("#user-subscription-btn");
 
     // Functionality for tags
     var selectedTags = [];
@@ -23,7 +24,7 @@ $(function () {
         $(this).toggleClass("share-active");
         var index = selectedTags.indexOf(this.value);
         // Append value of active buttons to array, remove if inactive
-        if(index > -1) {
+        if (index > -1) {
             selectedTags.splice(index, 1);
         }
         else {
@@ -81,10 +82,14 @@ $(function () {
     activistEnd.attr("pattern", "\\b[Tt][Oo][Dd][Aa][Yy]\\b|^[0-9]{1,4}$");
     activistEnd.attr("data-parsley-pattern", "\\b[Tt][Oo][Dd][Aa][Yy]\\b|^[0-9]{1,4}$");
 
+    // Enter an email or phone number error
+     userPhone.attr("data-parsley-error-message", "Email and/or phone number is required.");
+     userEmail.attr("data-parsley-error-message", "Email and/or phone number is required.");
+
     // Scroll fix for Parsley.js
     var errorList = [];
     window.Parsley.on('field:error', function () {
-        shareTag.click(function(){
+        shareTag.click(function () {
             hiddenTagInput.parsley().validate()
         });
         if (!errorList[0]) {
@@ -99,6 +104,19 @@ $(function () {
 
     $("#first-name-field, #last-name-field, #user-first-name-field, #user-last-name-field").on('keyup', function () {
         capitalize(this.id, this.value)
+    });
+
+    subscribeButton.click(function () {
+        if (subscribeButton.is(':checked')) {
+            userEmail.attr("data-parsley-required", "");
+            userPhone.attr("data-parsley-required", "");
+        }
+        else {
+            userEmail.parsley().reset();
+            userPhone.parsley().reset();
+            userEmail.removeAttr("data-parsley-required");
+            userPhone.removeAttr("data-parsley-required");
+        }
     });
 
     // Media input type selection
@@ -125,9 +143,19 @@ $(function () {
         $("#story-image-input-box, #story-video-input-box").val("");
     });
 
-    $("#share-form").submit(function () {
-        $("#share-story-btn").attr("disabled","disabled");
-    })
+    $("#share-form").parsley().on("form:validate", function () {
+       if (subscribeButton.is(':checked')) {
+           if (userEmail.parsley().isValid() || userPhone.parsley().isValid()) {
+               // If at least one of the fields are validated then remove required from the rest of the contact fields that aren't being filled out
+               userEmail.removeAttr("data-parsley-required");
+               userPhone.removeAttr("data-parsley-required");
+           }
+       }
+
+       if ($("#share-form").parsley().isValid()) {
+           $("#share-story-btn").attr("disabled", "disabled");
+       }
+   })
 });
 
 // Share a story - capitalize first letter of name inputs

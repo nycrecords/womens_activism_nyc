@@ -6,12 +6,14 @@ from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 from config import config
+from flask_mail import Mail
 
 bootstrap = Bootstrap()
 csrf = CSRFProtect()
 db = SQLAlchemy()
 es = FlaskElasticsearch()
 moment = Moment()
+mail = Mail()
 
 # for auth admin login (page 95 from the book for reference)
 login_manager = LoginManager()
@@ -30,6 +32,7 @@ def create_app(config_name):
     db.init_app(app)
     csrf.init_app(app)
     moment.init_app(app)
+    mail.init_app(app)
     login_manager.init_app(app)
 
     # Error Handlers
@@ -70,5 +73,11 @@ def create_app(config_name):
 
     from .feature import feature as feature
     app.register_blueprint(feature, url_prefix="/feature")
+
+    from .subscribe import subscribe as subscribe
+    app.register_blueprint(subscribe, url_prefix="/subscribe")
+
+    from .unsubscribe import unsubscribe as unsubscribe
+    app.register_blueprint(unsubscribe, url_prefix="/unsubscribe")
 
     return app

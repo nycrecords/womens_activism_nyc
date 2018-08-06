@@ -1979,8 +1979,7 @@ p, div {
 }
 
 #carousel-content .container {
-    padding-left: 150px;
-    padding-right: 150px;
+    width: 1170px;
     height: 320px;
 }
 

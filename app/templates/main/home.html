@@ -25,7 +25,7 @@
                     <div class="item" id="carousel-content" >
                         <a href="{{ url_for('stories.view', story_id=featured_story.story_id) }}">
                             <div class="container" id="carousel-jumbotron">
-                                {% if featured_story.left_right %}
+                                {% if featured_story.left_right == 'left' %}
                                     <div class="col-md-4">
                                         <div id="carousel-image" style="background-image: url({{ featured_story.story.image_url }})">
                                         </div>

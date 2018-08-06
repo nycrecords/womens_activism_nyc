@@ -30,10 +30,10 @@ def upgrade():
     op.create_table('featured_stories',
                     sa.Column('id', sa.Integer(), nullable=False),
                     sa.Column('story_id', sa.Integer(), nullable=False),
-                    sa.Column('left_right', sa.Boolean(), nullable=False),
+                    sa.Column('left_right', sa.Enum('left', 'right', name='photo_position'), nullable=False),
                     sa.Column('is_visible', sa.Boolean(), nullable=False),
-                    sa.Column('title', sa.String(length=90), nullable=True),
-                    sa.Column('description', sa.String(length=395), nullable=True),
+                    sa.Column('title', sa.String(length=90), nullable=False),
+                    sa.Column('description', sa.String(length=365), nullable=False),
                     sa.Column('rank', sa.Integer(), nullable=True),
                     sa.ForeignKeyConstraint(['story_id'], ['stories.id'], ),
                     sa.PrimaryKeyConstraint('id')

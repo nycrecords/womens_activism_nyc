@@ -44,25 +44,25 @@ class Roles(db.Model):
                 permission.NONE
             ),
             role_name.MODERATOR: (
-                permission.EDIT_STORY |
-                permission.DELETE_STORY |
-                permission.EDIT_COMMENT |
-                permission.DELETE_COMMENT |
-                permission.EDIT_FEATURED_STORY |
-                permission.EDIT_THEN_AND_NOW |
-                permission.EDIT_EVENTS
+                    permission.EDIT_STORY |
+                    permission.DELETE_STORY |
+                    permission.EDIT_COMMENT |
+                    permission.DELETE_COMMENT |
+                    permission.EDIT_FEATURED_STORY |
+                    permission.EDIT_THEN_AND_NOW |
+                    permission.EDIT_EVENTS
             ),
             role_name.ADMINISTRATOR: (
-                permission.EDIT_STORY |
-                permission.DELETE_STORY |
-                permission.EDIT_COMMENT |
-                permission.DELETE_COMMENT |
-                permission.EDIT_FEATURED_STORY |
-                permission.EDIT_THEN_AND_NOW |
-                permission.EDIT_EVENTS |
-                permission.CREATE_USER |
-                permission.EDIT_USER_INFO |
-                permission.DELETE_USER
+                    permission.EDIT_STORY |
+                    permission.DELETE_STORY |
+                    permission.EDIT_COMMENT |
+                    permission.DELETE_COMMENT |
+                    permission.EDIT_FEATURED_STORY |
+                    permission.EDIT_THEN_AND_NOW |
+                    permission.EDIT_EVENTS |
+                    permission.CREATE_USER |
+                    permission.EDIT_USER_INFO |
+                    permission.DELETE_USER
             )
         }
 
@@ -347,7 +347,10 @@ class FeaturedStories(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     story_id = db.Column(db.Integer, db.ForeignKey('stories.id'), nullable=False)
     # left is true, right is false
-    left_right = db.Column(db.Boolean, nullable=False)
+    left_right = db.Column(
+        db.Enum('left',
+                'right',
+                name='photo_position'), nullable=False)
     is_visible = db.Column(db.Boolean, nullable=False)
     title = db.Column(db.String(90), nullable=False)
     description = db.Column(db.String(365), nullable=False)

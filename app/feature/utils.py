@@ -23,7 +23,7 @@ def create_featured_story(story, left_right, title, description, rank):
     """
     featured_story = FeaturedStories(
         story_id=story.id,
-        left_right=True if left_right == 'left' else False,
+        left_right=left_right,
         is_visible=True,
         title=title,
         description=description,

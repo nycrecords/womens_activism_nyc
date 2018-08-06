@@ -4,4 +4,4 @@ from wtforms import (
 )
 
 class ExportForm(FlaskForm):
-    submit = SubmitField('Submit')
+    submit = SubmitField('Export')

@@ -88,12 +88,12 @@
 var configProfile = {
   "profile": {"screenName": 'WomensActivism'},
   "domId": 'tweetsRow',
-  "maxTweets": 3,
+  "maxTweets": 7,
   "enableLinks": true,
   "showInteractionLinks": false,
-  "showUser": false,
+  "showUser": true,
   "showTime": true,
-  "showImages": false,
+  "showImages": true,
   "dateFunction": dateFormatter,
   "lang": 'en'
 };

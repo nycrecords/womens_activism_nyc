@@ -2038,3 +2038,79 @@ p, div {
     justify-content: center;
     height: 320px;
 }
+
+/* Twitter */
+
+#twitter {
+    background: #ffffff;
+    padding: 0 0;
+}
+
+
+.twitter-border {
+    background: #e0b040;
+    height: 20px;
+}
+
+#tweetsRow {
+    text-align: left;
+    max-height:520px;
+    margin-top: 0;
+    padding: 20px 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+#tweetsRow ul {
+    list-style: none;
+    padding-left: 0;
+    height: 480px;
+}
+
+#tweetsRow li {
+    display: table-cell;
+    padding: 0 20px;
+}
+
+#tweetsRow li:hover {
+    background-color: #f2f2f2;
+}
+
+#tweetsRow p {
+    font-size: 14px;
+    margin: auto;
+}
+
+.user {
+    font-size: 14px;
+    width: 340px;
+}
+
+.user img {
+    border-radius: 50%;
+    border: 5px solid #f2f2f2;
+}
+
+.media img {
+    max-width: 340px;
+}
+
+#leftArrow {
+    float: left;
+    font-size: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 480px;
+    padding-left: 40px;
+}
+
+#rightArrow {
+    float: right;
+    font-size: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 480px;
+    padding-right: 40px;
+}

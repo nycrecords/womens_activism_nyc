@@ -171,7 +171,7 @@ p, div {
 /* Home Stories */
 
 .home-wrapper {
-    margin-top: 75px;
+    margin-top: 80px;
     margin-bottom: 75px;
     text-align: center;
 }
@@ -2049,27 +2049,33 @@ p, div {
 
 .twitter-border {
     background: #e0b040;
-    height: 20px;
+    height: 10px;
+}
+
+#twitter-title {
+    font-size: 42px;
+    color: #59315f;
+    margin: 20px auto;
 }
 
 #tweetsRow {
     text-align: left;
-    max-height:520px;
+    max-height: 500px;
     margin-top: 0;
-    padding: 20px 0;
-    overflow-x: hidden;
-    overflow-y: hidden;
+    padding-bottom: 20px;
 }
 
 #tweetsRow ul {
     list-style: none;
     padding-left: 0;
     height: 480px;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 #tweetsRow li {
     display: table-cell;
-    padding: 0 20px;
+    padding: 20px;
 }
 
 #tweetsRow li:hover {
@@ -2077,22 +2083,67 @@ p, div {
 }
 
 #tweetsRow p {
-    font-size: 14px;
-    margin: auto;
+    font-size: 16px;
+    margin: 8px 0;
+    text-align: center;
 }
 
 .user {
     font-size: 14px;
-    width: 340px;
+    display: table;
+    width: 60%;
+    margin: auto;
+}
+
+.user a, .user div {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 0 3px;
+    color: #666;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.user div:hover {
+    color: #59315f;
+}
+
+.user img:hover {
+    border-color: #59315f;
 }
 
 .user img {
     border-radius: 50%;
-    border: 5px solid #f2f2f2;
+    border: 4px solid #d9d9d9;
+    overflow: hidden;
+}
+
+.tweet a {
+    text-decoration: none;
+}
+
+.timePosted a {
+    font-size: 12px;
+    color: #8e8e8e;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.interact a {
+    padding-right: 5px;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.media {
+    text-align: center;
+    margin-top: 0;
+    width: 340px;
 }
 
 .media img {
     max-width: 340px;
+    border-radius: 3px;
 }
 
 #leftArrow {
@@ -2101,8 +2152,8 @@ p, div {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 480px;
     padding-left: 40px;
+    cursor: pointer;
 }
 
 #rightArrow {
@@ -2111,6 +2162,10 @@ p, div {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 480px;
     padding-right: 40px;
+    cursor: pointer;
+}
+
+#leftArrow:hover, #rightArrow:hover {
+    color: #8e8e8e;
 }

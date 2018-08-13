@@ -8,6 +8,7 @@ from app.lib.utils import create_story, create_user
 from app.lib.emails_utils import send_email
 from app.db_utils import create_object
 from app.constants.event import EMAIL_SENT
+from app.share.utils import handle_upload
 
 
 @share.route('/', methods=['GET', 'POST'])
@@ -65,6 +66,10 @@ def new():
             for t in tag_string.split(','):
                 tags.append(Tags.query.filter_by(id=t).one().name)
 
+            upload_path = None
+            if form.image_pc.data:
+                upload_path = handle_upload(form.image_pc)
+
             story_id = create_story(activist_first=form.activist_first.data,
                                     activist_last=form.activist_last.data,
                                     activist_start=form.activist_start.data,
@@ -73,6 +78,7 @@ def new():
                                     content=form.content.data,
                                     activist_url=form.activist_url.data,
                                     image_url=form.image_url.data,
+                                    image_pc=form.image_pc.data,
                                     video_url=form.video_url.data,
                                     user_guid=user_guid)
             flash(Markup('Story submitted!'), category='success')

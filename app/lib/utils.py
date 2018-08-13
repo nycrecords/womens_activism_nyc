@@ -18,6 +18,7 @@ def create_story(activist_first,
                  content,
                  activist_url,
                  image_url,
+                 image_pc,
                  video_url,
                  user_guid):
     """
@@ -32,12 +33,13 @@ def create_story(activist_first,
     :param content: the content of the story
     :param activist_url: a url containing additional information about the activist
     :param image_url: a url containing an image link
+    :param image_pc: a picture from the users computer
     :param video_url: a url containing a
     :param user_guid: the guid of the user who created the story
     :return: no return value, a Story object will be created
     """
     strip_fields = ['activist_first', 'activist_last', 'activist_start', 'activist_end', 'content', 'activist_url',
-                    'img_url', 'video_url']
+                    'img_url', 'img_pc', 'video_url']
     for field in strip_fields:
         field.strip()
 
@@ -55,6 +57,7 @@ def create_story(activist_first,
                     content=content,
                     activist_url=activist_url if activist_url else None,
                     image_url=image_url if image_url else None,
+                    image_pc=image_pc if image_pc else None,
                     video_url=video_url if video_url else None,
                     user_guid=user_guid,
                     tags=tags)

@@ -48,6 +48,10 @@ class Config:
     MAIL_RECIPIENTS = os.environ.get('MAIL_RECIPIENTS')
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', "True") == "True"
 
+    #Upload Settings
+    UPLOAD_QUARANTINE_DIRECTORY = (os.environ.get('UPLOAD_QUARANTINE_DIRECTORY') or
+                                   os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app/static/'))
+
     @staticmethod
     def init_app(app):
         pass

@@ -1,10 +1,10 @@
 """
 WTForms used for Stories
 """
+from flask_wtf.file import FileField
 from flask_wtf import FlaskForm
 from wtforms import (
     BooleanField,
-    FileField,
     TextAreaField,
     StringField,
     SubmitField,

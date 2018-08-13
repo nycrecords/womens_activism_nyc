@@ -2052,7 +2052,7 @@ p, div {
     height: 10px;
 }
 
-#twitter-title {
+#twitter-title{
     font-size: 42px;
     color: #59315f;
     margin: 20px auto;
@@ -2104,7 +2104,7 @@ p, div {
     text-decoration: none;
 }
 
-.user div:hover {
+.user div:hover, .interact a:hover, .tweet a:hover {
     color: #59315f;
 }
 

@@ -1950,16 +1950,8 @@ p, div {
 }
 
 .carousel-control.left, .carousel-control.right {
-    background-image:none !important;
-    filter:none !important;
-}
-
-.carousel-control .glyphicon-chevron-right, .carousel-control .icon-next {
-    right: 50px;
-}
-
-.carousel-control .glyphicon-chevron-left, .carousel-control .icon-prev {
-    left: 50px;
+    background-image: none !important;
+    filter: none !important;
 }
 
 #carousel-jumbotron {
@@ -2152,7 +2144,6 @@ p, div {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-left: 40px;
     cursor: pointer;
 }
 
@@ -2162,7 +2153,6 @@ p, div {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-right: 40px;
     cursor: pointer;
 }
 

@@ -4,6 +4,7 @@ $(function () {
         var twitter = $('#tweetsRow ul');
         var newHeight;
         var containerHeight = $('#twitter .container').outerHeight();
+        var containerWidth = ($(window).width() - $('#twitter .container').outerWidth())/2;
         $.each(tweets, function () {
             newHeight = twitter.outerHeight() - $(this).find(".user").outerHeight() -
                                                 $(this).find(".tweet").outerHeight() -
@@ -23,8 +24,17 @@ $(function () {
             });
         });
 
-        $('#leftArrow').css('height',containerHeight);
-        $('#rightArrow').css('height',containerHeight);
+        $('#leftArrow').css({
+            'height': containerHeight,
+            'width': containerWidth
+        });
+
+        $('#rightArrow').css({
+            'height':containerHeight,
+            'width': containerWidth
+        });
+
+
 
     });
 

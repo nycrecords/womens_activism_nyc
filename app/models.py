@@ -245,7 +245,7 @@ class Stories(db.Model):
     content = db.Column(db.Text, nullable=False)
     activist_url = db.Column(db.Text)
     image_url = db.Column(db.Text)
-    image_pc = db.Column(db.Text)
+    image_pc = db.Column(db.String)
     video_url = db.Column(db.Text)
     user_guid = db.Column(db.String(64), db.ForeignKey("users.guid"))
     date_created = db.Column(db.DateTime, nullable=False)

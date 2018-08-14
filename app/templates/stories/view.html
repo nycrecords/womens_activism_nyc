@@ -31,6 +31,9 @@
                             </div>
                             <p>{{ story.content }}</p>
                         </div>
+                    {% elif story.image_pc and story.content|length > 1500 %}
+                        <img src="{{ story.image_pc }}" id="view-story-img-pc"/>
+                        <p>{{ story.content }}</p>
                     {% elif story.image_url and story.content|length > 1500 %}
                         <img src="{{ story.image_url }}" id="view-story-img"/>
                         <p>{{ story.content }}</p>

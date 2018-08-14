@@ -7,7 +7,7 @@ from wtforms import (
     BooleanField,
     TextAreaField,
     StringField,
-    SubmitField,
+    SubmitField
 )
 
 from wtforms.validators import (

@@ -1,17 +1,11 @@
 from tempfile import NamedTemporaryFile
 from flask import current_app
 from werkzeug.utils import secure_filename
-#from flask import request
 
 
 def handle_upload(file_field):
     path = upload(file_field.data)
     return path
-
-
-# files = request.files
-# file_ = files[next(files.keys())]
-# filename = secure_filename(file_.filename)
 
 
 def upload(image_pc):

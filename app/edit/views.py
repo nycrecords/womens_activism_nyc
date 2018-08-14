@@ -48,6 +48,7 @@ def edit(story_id):
                                     content=form.content.data,
                                     activist_url=form.activist_url.data,
                                     image_url=form.image_url.data,
+                                    image_pc=form.image_pc.data,
                                     video_url=form.video_url.data,
                                     user_guid=user_guid,
                                     reason=form.reason.data)

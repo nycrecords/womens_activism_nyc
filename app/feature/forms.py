@@ -41,3 +41,13 @@ class ModifyFeatureForm(FlaskForm):
                             validators=[DataRequired()], default='True')
     rank = SelectField("Rank", choices=[], default=0, coerce=int)
     submit = SubmitField('Submit')
+
+
+class EditTagForm(FlaskForm):
+    """
+        The WTForm used to edit a tag
+    """
+    name = StringField(validators=[DataRequired()])
+
+
+    submit = SubmitField('Submit')

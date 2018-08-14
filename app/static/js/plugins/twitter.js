@@ -34,8 +34,6 @@ $(function () {
             'width': containerWidth
         });
 
-
-
     });
 
     $('#rightArrow').click(function() {

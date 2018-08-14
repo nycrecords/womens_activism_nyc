@@ -2074,9 +2074,14 @@ p, div {
     background-color: #f2f2f2;
 }
 
-#tweetsRow p {
+p.tweet {
     font-size: 16px;
-    margin: 8px 0;
+    margin: 5px 0;
+    padding: 0 30px;
+}
+
+p.interact, p.timePosted {
+    margin: 3px 0;
     text-align: center;
 }
 

@@ -19,20 +19,18 @@ $(function () {
 
     $.each(updateButtons, function () {
         $(this).click(function () {
-            var id = $(this).attr('id');
-            var name = $('tag-name-'+id).val();
+            var id = $(this).attr("id");
+            var name = $("#tag-name-" + id).val();
 
             $.ajax({
-                url : "/tag/update",
+                url: "/tag/update",
                 type: "POST",
                 data: {
                     id: id,
                     name: name
                 },
                 success: function (data) {
-                    debugger;
                     successmessage = 'success';
-                    alert(successmessage);
                 }
             });
 

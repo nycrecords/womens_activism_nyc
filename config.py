@@ -48,9 +48,14 @@ class Config:
     MAIL_RECIPIENTS = os.environ.get('MAIL_RECIPIENTS')
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', "True") == "True"
 
+    # USE_SFTP = os.environ.get('USE_SFTP') == "True"
+    # SFTP_UPLOAD_DIRECTORY = os.environ.get('SFTP_UPLOAD_DIRECTORY')
+
     #Upload Settings
     UPLOAD_QUARANTINE_DIRECTORY = (os.environ.get('UPLOAD_QUARANTINE_DIRECTORY') or
                                    os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app/static/'))
+    UPLOAD_DIRECTORY = (os.environ.get('UPLOAD_DIRECTORY') or
+                        os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app/static/'))
 
     @staticmethod
     def init_app(app):
@@ -80,6 +85,7 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     TESTING = True
+    #UPLOAD_DIRECTORY = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app/static/')
     SQLALCHEMY_DATABASE_URI = (
         os.environ.get("TEST_DATABASE_URL")
         or "postgresql://localhost:5432/womens_activism_test"

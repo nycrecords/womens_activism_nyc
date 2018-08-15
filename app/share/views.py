@@ -8,7 +8,8 @@ from app.lib.utils import create_story, create_user
 from app.lib.emails_utils import send_email
 from app.db_utils import create_object
 from app.constants.event import EMAIL_SENT
-from app.share.utils import handle_upload
+from app.share.utils import handle_upload,move_upload
+
 
 
 @share.route('/', methods=['GET', 'POST'])
@@ -69,6 +70,9 @@ def new():
             upload_path = None
             if form.image_pc.data:
                 upload_path = handle_upload(form.image_pc)
+                #convert_and_save(form.image_pc, b64_string)
+                if upload_path is not None:
+                    upload_path = move_upload(upload_path)
 
             story_id = create_story(activist_first=form.activist_first.data,
                                     activist_last=form.activist_last.data,

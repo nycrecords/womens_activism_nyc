@@ -57,7 +57,7 @@ def create_story(activist_first,
                     content=content,
                     activist_url=activist_url if activist_url else None,
                     image_url=image_url if image_url else None,
-                    image_pc=image_pc if image_pc else None,
+                    image_pc=image_pc.filename if image_pc else None,
                     video_url=video_url if video_url else None,
                     user_guid=user_guid,
                     tags=tags)

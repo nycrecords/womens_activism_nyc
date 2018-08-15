@@ -1,13 +1,14 @@
 """
 View functions for story functionality
 """
-from flask import render_template, request, flash, redirect, url_for
+from flask import render_template, request, flash, redirect, url_for, jsonify
 from flask_login import current_user, login_required
 
+from app import db
 from app.constants.event import EDIT_FEATURED_STORY
 from app.db_utils import create_object, update_object
 from app.feature import feature
-from app.feature.forms import FeaturedStoryForm, ModifyFeatureForm, EditTagForm
+from app.feature.forms import FeaturedStoryForm, ModifyFeatureForm
 from app.feature.utils import create_featured_story, update_featured_story, hide_current_featured_story
 from app.models import Events, FeaturedStories, Stories, Tags
 from operator import attrgetter
@@ -131,12 +132,3 @@ def modify(story_id):
             flash("This story does not exist in Featured Story", category='danger')
             return redirect(url_for('feature.listing'))
     return render_template('feature/modify.html', form=form)
-
-@feature.route('/edit_tags', methods=['GET', 'POST'])
-@login_required
-def edit_tags():
-    tags = Tags.query.all()
-
-    form = EditTagForm(request.form)
-
-    return render_template('feature/edit_tags.html', tags=tags, form=form)

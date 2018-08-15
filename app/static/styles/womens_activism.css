@@ -2164,3 +2164,9 @@ p.interact, p.timePosted {
 #leftArrow:hover, #rightArrow:hover {
     color: #8e8e8e;
 }
+
+/* Feature Page */
+
+#form-name, #form-submit{
+    display: none;
+}

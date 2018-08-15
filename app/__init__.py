@@ -80,4 +80,7 @@ def create_app(config_name):
     from .unsubscribe import unsubscribe as unsubscribe
     app.register_blueprint(unsubscribe, url_prefix="/unsubscribe")
 
+    from .tag import tag as tag
+    app.register_blueprint(tag, url_prefix="/tag")
+
     return app

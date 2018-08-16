@@ -7,8 +7,7 @@ from wtforms import (
     TextAreaField,
     RadioField,
     StringField,
-    SelectField,
-    FieldList
+    SelectField
 )
 from wtforms.validators import (
     DataRequired,

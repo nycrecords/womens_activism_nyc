@@ -14,6 +14,12 @@ from operator import attrgetter
 @tag.route('/edit_tags', methods=['GET', 'POST'])
 @login_required
 def edit_tags():
+    """
+    This view function is used for modifying/editing tags.
+    Tags can be edited, added, or removed.
+
+    :return: renders the 'edit_tags.html' template with the list of tags
+    """
     tags = sorted(Tags.query.all(), key=attrgetter('id'))
 
     return render_template('tag/edit_tags.html', tags=tags)

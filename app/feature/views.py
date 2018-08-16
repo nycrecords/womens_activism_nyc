@@ -1,10 +1,9 @@
 """
 View functions for story functionality
 """
-from flask import render_template, request, flash, redirect, url_for, jsonify
+from flask import render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_required
 
-from app import db
 from app.constants.event import EDIT_FEATURED_STORY
 from app.db_utils import create_object, update_object
 from app.feature import feature

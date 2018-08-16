@@ -12,17 +12,40 @@
         {% for tag in tags %}
             <tr>
                 <td>
-                    <div id="name">{{ tag.name }}</div>
+                    <div id="tag-name">{{ tag.name }}</div>
                     <input type="text" class="form-control tag-name" id="tag-name-{{ tag.id }}" value="{{ tag.name }}">
                 </td>
                 <td>
-                    <button id="edit" value={{ tag.id }}>Edit</button>
-                    <button id="{{ tag.id }}" class="tag-update">Update</button>
+                    <a class="icon" role="button" id="tag-edit"><span class="glyphicon glyphicon-pencil"></span></a>
+                </td>
+                <td>
+                    <div class="icon" role="button" id="tag-remove" value="{{ tag.id }}">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </div>
+                    <div class="icon" role="button" id="tag-update" value="{{ tag.id }}">
+                        <span class="glyphicon glyphicon-ok"></span>
+                    </div>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
+            <tr>
+                <td><input type="text" class="form-control" id="tag-name-add"></td>
+                <td>
+                    <div class="icon" role="button" id="tag-add">
+                        <span class="glyphicon glyphicon-ok"></span>
+                    </div>
+                </td>
+                <td>
+                    <div class="icon" role="button" id="tag-cancel">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </div>
+                </td>
+            </tr>
     </table>
+</div>
+<div class="col-md-4 col-md-offset-4" id="tag-btns">
+    <a class="btn btn-default btn-lg tag-add" id="home-view-all-btn" role="button">Add Tag</a>
     <a class="btn btn-default btn-lg" id="home-view-all-btn" href="{{ url_for('feature.listing') }}" role="button">Edit
         Featured Stories</a>
 </div>

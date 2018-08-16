@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 from config import config
 from flask_mail import Mail
+import boto3
 
 bootstrap = Bootstrap()
 csrf = CSRFProtect()
@@ -14,6 +15,7 @@ db = SQLAlchemy()
 es = FlaskElasticsearch()
 moment = Moment()
 mail = Mail()
+s3 = boto3.resource('s3')
 
 # for auth admin login (page 95 from the book for reference)
 login_manager = LoginManager()

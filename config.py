@@ -54,8 +54,8 @@ class Config:
     #Upload Settings
     UPLOAD_QUARANTINE_DIRECTORY = (os.environ.get('UPLOAD_QUARANTINE_DIRECTORY') or
                                    os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app/static/'))
-    UPLOAD_DIRECTORY = (os.environ.get('UPLOAD_DIRECTORY') or
-                        os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app/static/'))
+
+    BUCKET_NAME = 'nycrecords-wom-uploads'
 
     @staticmethod
     def init_app(app):

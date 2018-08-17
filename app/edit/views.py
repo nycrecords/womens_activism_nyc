@@ -6,6 +6,8 @@ from app.edit.utils import update_story, update_user
 from app.lib.utils import create_user
 from sqlalchemy.orm.exc import NoResultFound
 from flask_login import login_required
+from app.share.utils import handle_upload
+
 
 
 @edit.route('/<story_id>', methods=['GET', 'POST'])
@@ -38,6 +40,10 @@ def edit(story_id):
             tags = []
             for t in tag_string.split(','):
                 tags.append(Tags.query.filter_by(id=t).one().name)
+
+            upload_path = None
+            if form.image_pc.data:
+                upload_path = handle_upload(form.image_pc)
 
             story_id = update_story(story_id=story_id,
                                     activist_first=form.activist_first.data,

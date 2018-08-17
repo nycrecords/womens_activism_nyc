@@ -312,6 +312,7 @@ class Stories(db.Model):
                 'activist_last': self.activist_last,
                 'content': self.content,
                 'image_url': self.image_url,
+                'image_pc': self.image_pc,
                 'tag': self.tags,
                 'date_created': self.date_created.strftime(ES_DATETIME_FORMAT)
             }
@@ -328,6 +329,7 @@ class Stories(db.Model):
                     'activist_last': self.activist_last,
                     'content': self.content,
                     'image_url': self.image_url,
+                    'image_pc': self.image_pc,
                     'tag': self.tags,
                 }
             }

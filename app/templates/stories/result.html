@@ -10,6 +10,13 @@
                         <p>{{ story['_source']['content']|truncate(50) }}</p>
                     {% endif %}
                     <div class="img-mask" style="background-image: url({{ story['_source']['image_url'] }});">
+                {% elif story['_source']['image_pc'] %}
+                    {% if story['_source']['content']|length < 50 %}
+                        <p>{{ story['_source']['content'] }}</p>
+                    {% else %}
+                        <p>{{ story['_source']['content']|truncate(50) }}</p>
+                    {% endif %}
+                    <div class="img-mask" style="background-image: url('https://s3.amazonaws.com/nycrecords-wom-uploads/{{ story['_source']['image_pc'] }}');">
                 {% else %}
                     {% if story['_source']['content']|length < 350 %}
                         <p>{{ story['_source']['content'] }}</p>

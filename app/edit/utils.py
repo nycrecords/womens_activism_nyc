@@ -10,6 +10,12 @@ from app.models import Stories, Users, Events, Flags
 from app.db_utils import update_object, create_object
 from app.search.utils import delete_doc
 
+from tempfile import NamedTemporaryFile
+from flask import current_app
+from werkzeug.utils import secure_filename
+from app import s3
+import subprocess
+
 
 def hide_story(story_id):
     """
@@ -51,6 +57,7 @@ def update_story(story_id,
                  content,
                  activist_url,
                  image_url,
+                 image_pc,
                  video_url,
                  user_guid,
                  reason):
@@ -67,13 +74,14 @@ def update_story(story_id,
     :param content: the content of the story
     :param activist_url: a url containing additional information about the activist
     :param image_url: a url containing an image link
+    :param image_pc: a picture from the users pc
     :param video_url: a url containing a
     :param user_guid: the guid of the user who created the story
     :param reason: the reason for editing this post
     :return: no return value, a Story object will be created
     """
     strip_fields = ['activist_first', 'activist_last', 'activist_start', 'activist_end', 'content', 'activist_url',
-                    'img_url', 'video_url']
+                    'img_url', 'img_pc', 'video_url']
     for field in strip_fields:
         field.strip()
 
@@ -94,6 +102,7 @@ def update_story(story_id,
         "content",
         "activist_url",
         "image_url",
+        "image_pc",
         "video_url",
         "user_guid",
         "tags"
@@ -107,6 +116,7 @@ def update_story(story_id,
         "content": content,
         "activist_url": activist_url,
         "image_url": image_url,
+        "image_pc": image_pc,
         "video_url": video_url,
         "user_guid": user_guid,
         "tags": tags
@@ -207,3 +217,26 @@ def update_user(user,
         ))
 
     return user.guid
+
+
+def handle_upload(file_field):
+    path = upload(file_field.data)
+    return path
+
+
+def upload(image_pc):
+    with NamedTemporaryFile(
+        dir=current_app.config['UPLOAD_QUARANTINE_DIRECTORY'],
+        suffix='.{}'.format(secure_filename(image_pc.filename)),
+        delete=False
+    ) as fp:
+        image_pc.save(fp)
+        data = open(fp.name, 'rb')
+        fp.name = fp.name.split('.', 1)[1]
+        s3.Bucket('nycrecords-wom-uploads').put_object(Key=fp.name, Body=data, ACL='public-read', ContentType='image/jpeg')
+        subprocess.call([
+            "rm",
+            "-rf",
+            fp.name,
+        ])
+        return fp.name

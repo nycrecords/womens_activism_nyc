@@ -2049,13 +2049,14 @@ p, div {
 
 /* Export */
 
-#export{
+#export {
     background: #673c74;
     text-align: center;
     color: white;
     padding-top: 90px;
     padding-bottom: 90px;
 }
+
 .export-heading {
     font-size: 22px;
     font-weight: lighter;

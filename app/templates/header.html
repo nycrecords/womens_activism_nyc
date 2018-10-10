@@ -1,41 +1,43 @@
 <div class="container-fluid" id="header-top">
-  <div class="row">
-    <div class="col-md-12">
-      <a href="{{ url_for('main.index') }}">
-        <img src="{{ url_for('static', filename = 'img/womens_activism_nyc_logo.png') }}" id="logo"/>
-      </a>
+    <div class="row">
+        <div class="col-md-12">
+            <a href="{{ url_for('main.index') }}">
+                <img src="{{ url_for('static', filename = 'img/womens_activism_nyc_logo.png') }}" id="logo"/>
+            </a>
+        </div>
     </div>
-  </div>
 </div>
 <nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-    </div>
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li id="nav-home"><a href="{{ url_for('main.index') }}">Home <span class="sr-only">(current)</span></a></li>
-        <li id="nav-share"><a href="{{ url_for('share.new') }}">Share a Story</a></li>
-        <li id="nav-about"><a href="{{ url_for('main.about') }}">About</a></li>
-        <li id="nav-catalog"><a href="{{ url_for('stories.catalog') }}">Catalog</a></li>
-        <li id="nav-contact"><a href="{{ url_for('main.contact') }}">Contact</a></li>
-        <li id="nav-subscribe"><a href="{{ url_for('subscribe.subscribe') }}">Subscribe</a></li>
-        <li><a href="https://web.ovationtix.com/trs/store/34600/alldonations/23831">Give</a></li>
-        <li><a href="https://www.youtube.com/playlist?list=PLs2Fy8bYBATps9dOT9ch9lLzAYinPXXF7">Videos</a></li>
-        {% if current_user.is_authenticated %}
-            <li><a href="{{ url_for('feature.listing') }}">Features</a></li>
-             <li><a href="{{ url_for('export.export') }}">Export</a></li>
-            <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
-        {% endif %}
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li id="nav-home"><a href="{{ url_for('main.index') }}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li id="nav-share"><a href="{{ url_for('share.new') }}">Share a Story</a></li>
+                <li id="nav-about"><a href="{{ url_for('main.about') }}">About</a></li>
+                <li id="nav-catalog"><a href="{{ url_for('stories.catalog') }}">Catalog</a></li>
+                <li id="nav-contact"><a href="{{ url_for('main.contact') }}">Contact</a></li>
+                <li id="nav-subscribe"><a href="{{ url_for('subscribe.subscribe') }}">Subscribe</a></li>
+                <li><a href="https://web.ovationtix.com/trs/store/34600/alldonations/23831">Give</a></li>
+                <li><a href="https://www.youtube.com/playlist?list=PLs2Fy8bYBATps9dOT9ch9lLzAYinPXXF7">Videos</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('feature.listing') }}">Features</a></li>
+                    <li><a href="{{ url_for('export.export') }}">Export</a></li>
+                    <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                {% endif %}
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
 </nav>

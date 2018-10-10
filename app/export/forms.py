@@ -3,5 +3,6 @@ from wtforms import (
     SubmitField,
 )
 
+
 class ExportForm(FlaskForm):
     submit = SubmitField('Export')

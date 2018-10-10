@@ -1,15 +1,17 @@
-from flask import render_template, request
+import csv
+from datetime import datetime
 
+from flask import render_template, request, flash, redirect, url_for
+from flask.helpers import send_file
 from flask_login import login_required
+from io import StringIO, BytesIO
+
 from app.export import export
 from app.export.forms import ExportForm
-import csv
-from io import StringIO, BytesIO
 from app.models import Users
-from flask.helpers import send_file
 
 
-@export.route('/', methods=['GET','POST'])
+@export.route('/', methods=['GET', 'POST'])
 @login_required
 def export():
     form = ExportForm(request.form)
@@ -31,8 +33,11 @@ def export():
 
                 return send_file(
                     BytesIO(buffer.getvalue().encode('UTF-8')),
-                    attachment_filename="Subscribers.csv",
+                    attachment_filename="subscribers_{}.csv".format(
+                        datetime.now().strftime("%Y_%m_%d_at_%I_%M_%p")),
                     as_attachment=True
                 )
-            return '', 400
+            else:
+                flash("No subscribers found.", category='warning')
+                return redirect(url_for('export.export'))
     return render_template('export/export.html', form=form)

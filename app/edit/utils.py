@@ -102,7 +102,7 @@ def update_story(story_id,
     story_field_vals = {
         "activist_first": activist_first,
         "activist_last": activist_last,
-        "activist_start": int(activist_start),
+        "activist_start": int(activist_start) if activist_start else None,
         "activist_end": activist_end,
         "content": content,
         "activist_url": activist_url,

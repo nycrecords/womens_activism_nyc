@@ -7,28 +7,31 @@ from app.constants.event import ADD_FEATURED_STORY, HIDE_FEATURED_STORY, EDIT_FE
 from app.db_utils import update_object, create_object
 from app.models import Events, FeaturedStories
 
+from operator import attrgetter
 
-def create_featured_story(story, left_right, quote):
+
+def create_featured_story(story, left_right, title, description, rank):
     """
     A utility function to create a featured story.
     :param story: the story object you would like to create in Featured Story
     :param left_right: left or right side where the image will go
-    :param quote: a famous quote that was once said by this activist
+    :param title: title or position of the activist
+    :param description: description of the activist
+    :param rank: the order of the featured story
+
     :return: None
     """
-    #
-    current_featured_story = FeaturedStories.query.filter_by(is_visible=True).one_or_none()
-    if current_featured_story is not None:
-        update_object({"is_visible": False}, FeaturedStories, current_featured_story.id)
-
     featured_story = FeaturedStories(
         story_id=story.id,
-        left_right=True if left_right == 'left' else False,
+        left_right=left_right,
         is_visible=True,
-        quote=quote,
+        title=title,
+        description=description,
+        rank=rank
     )
 
     create_object(featured_story)
+    update_rank(featured_story.story_id, None)
 
     create_object(Events(
         story_id=story.id,
@@ -38,27 +41,33 @@ def create_featured_story(story, left_right, quote):
     ))
 
 
-def update_featured_story(featured_story, left_right, is_visible, quote):
+def update_featured_story(featured_story, left_right, title, is_visible, description, rank):
     """
     A utility function to update a featured story.
     Updating attributes such as the following:
     :param featured_story:
     :param left_right: left or right side where the image will go
+    :param title: title or position of the activist
     :param is_visible: the visibility of the featured story
-    :param quote: a famous quote that was once said by this activist
+    :param description: description of the activist
+    :param rank: the order of the featured story
 
     :return: None
     """
     featured_story_fields = {
         "left_right",
         "is_visible",
-        "quote"
+        "title",
+        "description",
+        "rank"
     }
 
     featured_story_field_vals = {
         "left_right": left_right,
         "is_visible": is_visible,
-        "quote": quote
+        "title": title,
+        "description": description,
+        "rank": rank
     }
 
     old = {}
@@ -76,10 +85,12 @@ def update_featured_story(featured_story, left_right, is_visible, quote):
                 new[field] = new_val
 
     if new:
-        if new.get('is_visible'):
-            hide_current_featured_story()
+        cur_rank = featured_story.rank
 
         update_object(new, FeaturedStories, featured_story.id)
+
+        if new.get('is_visible') is not True or new.get('rank'):
+            update_rank(featured_story.story_id, cur_rank)
 
         create_object(Events(
             _type=EDIT_FEATURED_STORY,
@@ -90,21 +101,58 @@ def update_featured_story(featured_story, left_right, is_visible, quote):
         ))
 
 
-def hide_current_featured_story():
+def hide_current_featured_story(story_id):
     """
-    A utility function to hide the currently visible featured story (main page).
+    A utility function to hide a visible featured story (main page).
     Hiding does not *delete* the record from the table, but rather makes it invisible.
+    :param: story_id: story id of the featured story that will be hidden
 
     :return: None
     """
-    current_featured_story = FeaturedStories.query.filter_by(is_visible=True).one_or_none()
-    if current_featured_story is not None:
-        update_object({"is_visible": False}, FeaturedStories, current_featured_story.id)
+    featured_story = FeaturedStories.query.filter_by(story_id=story_id, is_visible=True).one_or_none()
+    
+    if featured_story is not None:
+        update_object({"is_visible": False}, FeaturedStories, featured_story.id)
 
         create_object(Events(
             _type=HIDE_FEATURED_STORY,
-            story_id=current_featured_story.story_id,
+            story_id=featured_story.story_id,
             user_guid=current_user.guid,
             previous_value={"is_visible": True},
             new_value={"is_visible": False}
         ))
+
+
+def update_rank(story_id, old_rank):
+    """
+    A utility function to update the ranks of the featured stories when a change is made.
+    :param story_id: story id of the featured story that is modified
+    :param old_rank:
+
+    :return: None
+    """
+
+    featured_story = FeaturedStories.query.filter_by(story_id=story_id).one_or_none()
+
+    if not featured_story.is_visible:
+        update_object({"rank": None}, FeaturedStories, featured_story.id)
+
+    featured_stories = FeaturedStories.query.filter_by(is_visible=True).all()
+
+    # the goal is to make the ranks match the list of ordered numbers (the new_rank) generated by the enumeration
+    for new_rank, story in enumerate(sorted(featured_stories, key=attrgetter('rank'))):
+        # avoids the newly updated story
+        if story_id != story.story_id:
+            # handles the case where the story has the same rank as the one just updated.
+            # the order of both stories is unknown after being sorted, so this ensures they have the right ranks
+            # afterwards
+            if story.rank == featured_story.rank:
+                # if the newly updated story is moved down (new rank > old rank)
+                if old_rank is not None and featured_story.rank > old_rank:
+                    update_object({"rank": story.rank - 1}, FeaturedStories, story.id)
+                # if the story is moved up (old rank < new rank) or became visible
+                else:
+                    update_object({"rank": story.rank + 1}, FeaturedStories, story.id)
+            # handles other stories whose ranks need to be changed.
+            elif new_rank != story.rank:
+                update_object({"rank": new_rank}, FeaturedStories, story.id)

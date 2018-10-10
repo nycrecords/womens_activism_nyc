@@ -44,25 +44,25 @@ class Roles(db.Model):
                 permission.NONE
             ),
             role_name.MODERATOR: (
-                permission.EDIT_STORY |
-                permission.DELETE_STORY |
-                permission.EDIT_COMMENT |
-                permission.DELETE_COMMENT |
-                permission.EDIT_FEATURED_STORY |
-                permission.EDIT_THEN_AND_NOW |
-                permission.EDIT_EVENTS
+                    permission.EDIT_STORY |
+                    permission.DELETE_STORY |
+                    permission.EDIT_COMMENT |
+                    permission.DELETE_COMMENT |
+                    permission.EDIT_FEATURED_STORY |
+                    permission.EDIT_THEN_AND_NOW |
+                    permission.EDIT_EVENTS
             ),
             role_name.ADMINISTRATOR: (
-                permission.EDIT_STORY |
-                permission.DELETE_STORY |
-                permission.EDIT_COMMENT |
-                permission.DELETE_COMMENT |
-                permission.EDIT_FEATURED_STORY |
-                permission.EDIT_THEN_AND_NOW |
-                permission.EDIT_EVENTS |
-                permission.CREATE_USER |
-                permission.EDIT_USER_INFO |
-                permission.DELETE_USER
+                    permission.EDIT_STORY |
+                    permission.DELETE_STORY |
+                    permission.EDIT_COMMENT |
+                    permission.DELETE_COMMENT |
+                    permission.EDIT_FEATURED_STORY |
+                    permission.EDIT_THEN_AND_NOW |
+                    permission.EDIT_EVENTS |
+                    permission.CREATE_USER |
+                    permission.EDIT_USER_INFO |
+                    permission.DELETE_USER
             )
         }
 
@@ -347,9 +347,13 @@ class FeaturedStories(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     story_id = db.Column(db.Integer, db.ForeignKey('stories.id'), nullable=False)
     # left is true, right is false
-    left_right = db.Column(db.Boolean, nullable=False)
+    left_right = db.Column(
+        db.Enum('left',
+                'right',
+                name='photo_position'), nullable=False)
     is_visible = db.Column(db.Boolean, nullable=False)
-    quote = db.Column(db.Text, nullable=False)
+    title = db.Column(db.String(90), nullable=False)
+    description = db.Column(db.String(365), nullable=False)
     rank = db.Column(db.Integer)
 
     story = db.relationship("Stories", backref="featured_stories")
@@ -357,15 +361,17 @@ class FeaturedStories(db.Model):
     def __init__(
             self,
             story_id,
+            title,
+            description,
             left_right=False,
             is_visible=False,
-            quote=None,
-            rank=0
+            rank=None
     ):
         self.story_id = story_id
         self.left_right = left_right
         self.is_visible = is_visible
-        self.quote = quote
+        self.title = title
+        self.description = description
         self.rank = rank
 
     def __repr__(self):
@@ -381,7 +387,8 @@ class FeaturedStories(db.Model):
             'story_id': self.story_id,
             'left_right': self.left_right,
             'is_visible': self.is_visible,
-            'quote': self.quote,
+            'title': self.title,
+            'description': self.description,
             'rank': self.rank
         }
 

@@ -1,4 +1,4 @@
-from flask import render_template, flash, request, Markup, current_app
+from flask import render_template, flash, request, Markup, current_app, redirect, url_for
 
 from app.unsubscribe import unsubscribe
 from app.unsubscribe.forms import UnsubscribeForm
@@ -37,5 +37,8 @@ def unsubscribe():
                         user_guid=user_guid,
                         new_value={"email_body": email_body}))
                     flash(Markup('You are no longer subscribed.'), category='success')
-                return render_template('unsubscribe/unsubscribe.html', form=form)
-    return render_template('unsubscribe/unsubscribe.html', form=form)
+                else:
+                    flash("No subscription found.", category='warning')
+                return redirect(url_for('unsubscribe.unsubscribe'))
+    else:
+        return render_template('unsubscribe/unsubscribe.html', form=form)

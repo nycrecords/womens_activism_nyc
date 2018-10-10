@@ -1,12 +1,72 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="jumbotron" id="hero">
-        <div id="hero-content">
-            <h1>Celebrate Women's Activism</h1>
-            <p>Help build NYC's first permanent catalog of women activists. Share a story that inspires you.</p>
-            <p id="hero-collect">Collecting #20000By2020</p>
-            <a class="btn btn-default btn-lg" href="{{ url_for('share.new') }}" role="button">Share Your Story</a>
+    <!-- Carousel -->
+    <div id="carousel-controls" class="carousel slide" data-ride="carousel" data-interval=false>
+        <div class="jumbotron" id="hero">
+            {%  if visible_featured_stories %}
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-controls" data-slide-to="0" class="active"></li>
+                {%  for n in visible_featured_stories %}
+                    <li data-target="#carousel-controls" data-slide-to="{{ n }}"></li>
+                {%  endfor %}
+            </ol>
+            {%  endif %}
+            <div class="carousel-inner">
+                <div class="item active" id="carousel-content">
+                    <div id="carousel-first">
+                        <h1>Celebrate Women's Activism</h1>
+                        <p>Help build NYC's first permanent catalog of women activists. Share a story that inspires you.</p>
+                        <p id="hero-collect">Collecting #20000By2020</p>
+                        <a class="btn btn-default btn-lg" href="{{ url_for('share.new') }}" role="button">Share Your Story</a>
+                    </div>
+                </div>
+                {%  for featured_story in featured_stories %}
+                    <div class="item" id="carousel-content" >
+                        <a href="{{ url_for('stories.view', story_id=featured_story.story_id) }}">
+                            <div class="container" id="carousel-jumbotron">
+                                {% if featured_story.left_right == 'left' %}
+                                    <div class="col-md-4">
+                                        <div id="carousel-image" style="background-image: url({{ featured_story.story.image_url }})">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8" id="carousel-space-left">
+                                        <div>
+                                            <h2 id="carousel-h1">{{ featured_story.story.activist_first }}
+                                                {{ featured_story.story.activist_last }}</h2>
+                                            <h3 id="carousel-h3">{{ featured_story.title }}</h3>
+                                            <p id="carousel-description">{{ featured_story.description }}...</p>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="col-md-8" id="carousel-space-right">
+                                        <div>
+                                            <h2 id="carousel-h1">{{ featured_story.story.activist_first }}
+                                                {{ featured_story.story.activist_last }}</h2>
+                                            <h3 id="carousel-h3">{{ featured_story.title }}</h3>
+                                            <p id="carousel-description">{{ featured_story.description }}...</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div id="carousel-image" style="background-image: url({{ featured_story.story.image_url }})">
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+            {%  if visible_featured_stories %}
+            <a class="left carousel-control" href="#carousel-controls" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#carousel-controls" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="sr-only">Next</span>
+            </a>
+            {%  endif %}
         </div>
     </div>
 
@@ -46,40 +106,6 @@
                href="https://web.ovationtix.com/trs/store/34600/alldonations/23831" role="button">Give</a>
         </div>
     </div>
-
-    <!-- Featured Story -->
-    {% if featured_story %}
-        <a href="{{ url_for('stories.view', story_id=featured_story.story_id) }}">
-            <div class="container" id="bws-jumbotron">
-                <div class="row" id="bws-content">
-                    <div id="bws-image" class="col-md-5">
-                        <div id="bws-image-mask" style="background-image: url({{ featured_story.story.image_url }})">
-                        </div>
-                    </div>
-                    <div id="bws-text" class="col-md-7">
-                        <h2 id="bws-h1">{{ featured_story.story.activist_first }} {{ featured_story.story.activist_last }}</h2>
-                        <p id="bws-quote">"{{ featured_story.quote }}"</p>
-                    </div>
-                </div>
-            </div>
-        </a>
-    {% endif %}
-
-{#    <!-- Twitter Module -->#}
-{#    <div class="container-fluid" id="twitter-section">#}
-{#        <div class="row">#}
-{#            <div class="col-md-12">#}
-{#                <h1>Connect With Us</h1>#}
-{#            </div>#}
-{#        </div>#}
-{#        <div class="row" id="tweetsRow">#}
-{#        </div>#}
-{#        <div class="row">#}
-{#            <div class="col-md-12">#}
-{#                <a class="btn btn-default btn-lg" id="home-view-tweets-btn" href="https://twitter.com/WomensActivism" role="button" target="_blank">All Tweets</a>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
 
     <!-- Then and Now Module -->
 {#    <div class="jumbotron" id="then-now-jumbotron">#}

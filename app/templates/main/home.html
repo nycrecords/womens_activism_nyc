@@ -76,8 +76,26 @@
                     id="more-count" class="home-count">{{ "{:,}".format(remaining_stories) }}</span>
                 More By 2020</h1>
             <h2>#20000By2020</h2>
+        </div>
+
+        <!-- Twitter -->
+        <div class="jumbotron" id="twitter">
+            <div class="twitter-border"></div>
+            <div id="leftArrow">
+                <span class="glyphicon glyphicon-chevron-left" role="button"></span>
+            </div>
+            <div id="rightArrow">
+                <span class="glyphicon glyphicon-chevron-right" role="button"></span>
+            </div>
+            <div class="container">
+                <h1 id="twitter-title">Follow Us on Twitter</h1>
+                <div id="tweetsRow"></div>
+            </div>
+            <div class="twitter-border"></div>
+        </div>
 
             <!-- Story Cards -->
+        <div class="container" id="home-stories">
             {% for story in stories %}
                 <a href="{{ url_for('stories.view', story_id=story.id) }}">
                     <div class="home-story col-lg-3 col-md-4">
@@ -149,4 +167,5 @@
 {% block custom_script %}
     <script type="text/javascript" src="{{ url_for('static', filename = 'js/plugins/twitterFetcher_min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename = 'js/plugins/twitterFetchInfo.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/twitterModule.js') }}"></script>
 {% endblock %}

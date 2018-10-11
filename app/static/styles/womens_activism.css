@@ -26,6 +26,7 @@ h1 {
 .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
     background-color: #e0b040 !important;
 }
+
 .icon-bar {
     background-color: #ffffff !important;
 }
@@ -171,7 +172,7 @@ p, div {
 /* Home Stories */
 
 .home-wrapper {
-    margin-top: 75px;
+    margin-top: 80px;
     margin-bottom: 75px;
     text-align: center;
 }
@@ -263,10 +264,12 @@ p, div {
     background: #59315f;
     color: #ffffff;
 }
+
 #flash-messages {
     background-color: #673c74;
     color: white;
 }
+
 #flash-messages .alert {
     margin: 20px auto;
     width: 90%;
@@ -418,15 +421,18 @@ p, div {
     padding-top: 60px;
     padding-bottom: 60px;
 }
+
 #twitter-section a {
     color: #59315f;
     font-weight: 600;
 }
+
 #tweetsRow {
     margin: 60px auto 0 auto;
     max-width: 1170px;
     font-size: 22px;
 }
+
 #tweetsRow .col-md-4 {
     padding: 0 30px;
     overflow-wrap: break-word;
@@ -435,6 +441,7 @@ p, div {
     flex-direction: column;
     justify-content: space-between;
 }
+
 #home-view-tweets-btn {
     background: none;
     font-size: 20px;
@@ -446,15 +453,18 @@ p, div {
     padding: 12px 40px;
     transition: background 0.2s ease;
 }
+
 #home-view-tweets-btn:hover {
     background: #59315f;
     color: #ffffff;
 }
+
 .timeago {
     color: #6c6c6c !important;
     font-weight: normal !important;
     font-size: 18px !important;
 }
+
 .timePosted {
     margin-top: 20px;
 }
@@ -656,6 +666,7 @@ p, div {
     font-weight: bold;
     color: rgb(52, 41, 79)
 }
+
 .copyright-bureau-blank:hover {
     color: rgb(52, 41, 79)
 }
@@ -994,6 +1005,7 @@ p, div {
     margin: 20px 20px 0 20px;
     padding-bottom: 10px;
 }
+
 .share-you-phone-input {
     background: none;
     outline: none;
@@ -1044,7 +1056,6 @@ p, div {
 .share-you-phone-input:-ms-input-placeholder {
     color: #a373aa;
 }
-
 
 #share-story-btn {
     width: 258px;
@@ -1423,19 +1434,23 @@ p, div {
 #contact-container {
     text-align: center;
 }
+
 #contact-container h1 {
     margin-top: 80px;
 }
+
 #contact-container p {
     margin: 60px 0;
     font-size: 22px;
 }
+
 #contact-email-link {
     color: #59315f;
     text-decoration: underline;
     font-weight: normal;
     transition: color 0.2s ease;
 }
+
 #contact-email-link:hover {
     color: #000000;
 }
@@ -1445,27 +1460,33 @@ p, div {
 #view-story-container {
     text-align: center;
 }
+
 #view-story-container h1 {
     margin-top: 80px;
     color: #23224f;
 }
+
 #view-story-container-short {
     text-align: center;
 }
+
 #view-story-container-short h1 {
     margin-top: 80px;
     color: #23224f;
 }
+
 #story-subheading {
     margin-top: 5px;
     font-size: 20px;
     color: #23224f;
 }
+
 #story-user-date-subheading {
     margin-top: 10px;
     font-size: 12px;
     color: #23224f;
 }
+
 #story-content-container {
     text-align: left;
     max-width: 1000px;
@@ -1474,6 +1495,7 @@ p, div {
     padding: 60px;
     border: 1px solid #ddd;
 }
+
 #story-content-container-short {
     text-align: center;
     max-width: 1000px;
@@ -1482,15 +1504,18 @@ p, div {
     padding: 60px;
     border: 1px solid #ddd;
 }
+
 #view-story-img {
     width: 50%;
     float: left;
     margin: 10px 25px 10px 0;
 }
+
 #view-story-img-short {
     width: 50%;
     margin: 0 auto 20px auto;
 }
+
 #video-wrapper {
     float: none;
     clear: both;
@@ -1501,6 +1526,7 @@ p, div {
     margin-bottom: 20px;
     height: 0;
 }
+
 #video-wrapper iframe {
     position: absolute;
     top: 0;
@@ -1508,29 +1534,35 @@ p, div {
     width: 100%;
     height: 100%;
 }
+
 #view-story-center-wrap {
     width: 100%;
     text-align: center;
 }
+
 #story-content-container p {
     line-height: 30px;
     color: #23224f;
 }
+
 #view-story-text-short {
     line-height: 30px;
     color: #23224f;
 }
+
 @media only screen and (max-width: 550px) {
     #story-content-container {
         text-align: center;
         padding: 20px;
     }
+
     #story-content-container img {
         width: 100%;
         max-width: 290px;
         float: initial;
         margin: 10px 0 10px 0;
     }
+
     #view-story-img-short {
         width: 100%;
         max-width: 290px;
@@ -1538,34 +1570,41 @@ p, div {
         margin: 10px 0 10px 0;
     }
 }
+
 #view-story-footer {
     text-align: center;
     font-size: 22px;
     margin: 20px 0 0 0;
 }
+
 #view-story-contact-link {
     color: #59315f;
     text-decoration: underline;
     font-weight: normal;
     transition: color 0.2s ease;
 }
+
 #view-story-contact-link:hover {
     color: black;
 }
+
 #search-no-results {
     font-size: 22px;
 }
+
 #learn-more {
     text-align: center;
     font-size: 18px;
     margin-top: 40px;
 }
+
 #learn-more-link {
     color: #59315f;
     text-decoration: underline;
     font-weight: normal;
     transition: color 0.2s ease;
 }
+
 #learn-more-link:hover {
     color: black;
 }
@@ -1596,21 +1635,25 @@ p, div {
     text-align: center;
     margin: 40px 0;
 }
+
 #view-story-social-div p {
     font-size: 20px;
     margin: 20px 0;
 }
+
 #view-story-social {
     width: 50px;
     margin: 0 auto 0 auto;
     display: flex;
     justify-content: space-between;
 }
+
 #no-results-text {
     text-align: center;
     font-size: 22px;
     margin: 0;
 }
+
 #view-story-feedback-jumbotron {
     background-color: #59315f;
     min-height: 380px;
@@ -1621,11 +1664,13 @@ p, div {
     display: table;
     margin: 0;
 }
+
 #view-story-feedback-jumbotron h1 {
     padding: 0 20px;
     font-size: 50px;
 }
-@media (min-width:768px) {
+
+@media (min-width: 768px) {
     #view-story-feedback-jumbotron {
         padding-top: 0;
         padding-bottom: 0;
@@ -1633,11 +1678,13 @@ p, div {
         margin-bottom: 0;
     }
 }
+
 @media (min-width: 1170px) {
     #view-story-feedback-jumbotron h1 {
         padding: 0 200px;
     }
 }
+
 #view-story-feedback-btn {
     background: none;
     font-size: 20px;
@@ -1662,9 +1709,11 @@ p, div {
     padding-top: 40px;
     padding-bottom: 40px;
 }
+
 #view-story-feedback-content p {
     margin-top: 20px;
 }
+
 #back-to-top-div {
     width: 60px;
     position: fixed;
@@ -1684,13 +1733,16 @@ p, div {
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
 }
+
 #back-to-top-div:hover {
     cursor: pointer;
 }
+
 #back-to-top-icon {
     font-size: 22px;
     color: #ccc;
 }
+
 #back-to-top {
     color: #ccc;
     font-size: 10px;
@@ -1769,6 +1821,7 @@ p, div {
     margin: 30px 20px 0 20px;
     padding-bottom: 10px;
 }
+
 .you-input-group {
     margin-top: 25px;
 }
@@ -1788,6 +1841,7 @@ p, div {
 .subscribe-who-input:-ms-input-placeholder {
     color: #a373aa;
 }
+
 .subscribe-you-email-input {
     background: none;
     outline: none;
@@ -1800,6 +1854,7 @@ p, div {
     margin: 20px 20px 0 20px;
     padding-bottom: 10px;
 }
+
 .subscribe-you-phone-input {
     background: none;
     outline: none;
@@ -1912,6 +1967,7 @@ p, div {
         max-width: 292px;
     }
 }
+
 .unsubscribe-email-input::-webkit-input-placeholder {
     color: #a373aa;
 }
@@ -1958,16 +2014,8 @@ p, div {
 }
 
 .carousel-control.left, .carousel-control.right {
-    background-image:none !important;
-    filter:none !important;
-}
-
-.carousel-control .glyphicon-chevron-right, .carousel-control .icon-next {
-    right: 50px;
-}
-
-.carousel-control .glyphicon-chevron-left, .carousel-control .icon-prev {
-    left: 50px;
+    background-image: none !important;
+    filter: none !important;
 }
 
 #carousel-jumbotron {
@@ -1978,7 +2026,7 @@ p, div {
     width: 100%;
 }
 
-#carousel-content{
+#carousel-content {
     height: 100%;
     vertical-align: middle;
     text-align: left;
@@ -2031,12 +2079,12 @@ p, div {
     font-family: "PostoniWide", "Bodoni 72", Georgia, serif;
 }
 
-#modify-form ul{
+#modify-form ul {
     list-style: none;
     padding-left: 20px;
 }
 
-#is-visible label, #left-right label{
+#is-visible label, #left-right label {
     font-weight: 400;
 }
 
@@ -2084,4 +2132,138 @@ p, div {
 #export-btn:hover {
     background: #ffffff;
     color: #673c74;
+}
+
+
+/* Twitter */
+
+#twitter {
+    background: #ffffff;
+    padding: 0 0;
+}
+
+.twitter-border {
+    background: #e0b040;
+    height: 10px;
+}
+
+#twitter-title {
+    font-size: 42px;
+    color: #59315f;
+    margin: 20px auto;
+}
+
+#tweetsRow {
+    text-align: left;
+    max-height: 500px;
+    margin-top: 0;
+    padding-bottom: 20px;
+}
+
+#tweetsRow ul {
+    list-style: none;
+    padding-left: 0;
+    height: 480px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+#tweetsRow li {
+    display: table-cell;
+    padding: 20px;
+}
+
+#tweetsRow li:hover {
+    background-color: #f2f2f2;
+}
+
+p.tweet {
+    font-size: 16px;
+    margin: 5px 0;
+    padding: 0 30px;
+}
+
+p.interact, p.timePosted {
+    margin: 3px 0;
+    text-align: center;
+}
+
+.user {
+    font-size: 14px;
+    display: table;
+    width: 60%;
+    margin: auto;
+}
+
+.user a, .user div {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 0 3px;
+    color: #666;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.user div:hover, .interact a:hover, .tweet a:hover {
+    color: #59315f;
+}
+
+.user img:hover {
+    border-color: #59315f;
+}
+
+.user img {
+    border-radius: 50%;
+    border: 4px solid #d9d9d9;
+    overflow: hidden;
+}
+
+.tweet a {
+    text-decoration: none;
+}
+
+.timePosted a {
+    font-size: 12px;
+    color: #8e8e8e;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.interact a {
+    padding-right: 5px;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.media {
+    text-align: center;
+    margin-top: 0;
+    width: 340px;
+}
+
+.media img {
+    max-width: 340px;
+    border-radius: 3px;
+}
+
+#leftArrow {
+    float: left;
+    font-size: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+}
+
+#rightArrow {
+    float: right;
+    font-size: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+}
+
+#leftArrow:hover, #rightArrow:hover {
+    color: #8e8e8e;
 }

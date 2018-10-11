@@ -113,7 +113,7 @@ def modify(story_id):
 
     if request.method == 'POST':
         if form.validate_on_submit():
-            if visible_stories == 4 and featured_story.is_visible and form.is_visible.data == 'True':
+            if visible_stories > 4 and featured_story.is_visible and form.is_visible.data == 'True':
                 # if not featured_story.is_visible and form.is_visible:
                 flash("There cannot be more than 4 items on the carousel", category='danger')
                 return redirect('feature/modify/' + story_id)
@@ -123,11 +123,11 @@ def modify(story_id):
                                   is_visible=form.is_visible.data,
                                   description=form.description.data,
                                   rank=form.rank.data)
-            flash("Story is now Modified!", category='success')
+            flash("Featured Story has been Modified!", category='success')
             return redirect(url_for('main.index'))
-
     else:
         if featured_story is None:
             flash("This story does not exist in Featured Story", category='danger')
             return redirect(url_for('feature.listing'))
+
     return render_template('feature/modify.html', form=form)

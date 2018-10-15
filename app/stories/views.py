@@ -25,7 +25,7 @@ from app.models import Stories, Tags, Users, FeaturedStories
 def catalog():
     return render_template(
         'stories/stories.html',
-        tags=Tags.query.all()
+        tags=Tags.query.order_by(Tags.name).all()
     )
 
 

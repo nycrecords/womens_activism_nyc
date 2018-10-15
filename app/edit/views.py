@@ -57,7 +57,8 @@ def edit(story_id):
         else:
             for field, error in form.errors.items():
                 flash(form.errors[field][0], category="danger")
-            return render_template('edit/edit.html', story=story, user=user, form=form, tags=Tags.query.all())
+            return render_template('edit/edit.html', story=story, user=user, form=form,
+                                   tags=Tags.query.order_by(Tags.name).all())
 
     else:
         try:

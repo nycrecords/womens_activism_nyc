@@ -4,7 +4,7 @@ from app.constants import (
     role_name,
     tag,
     user_type_auth,
-    event,
+    event_type,
     module,
     flag
 )
@@ -484,21 +484,24 @@ class Events(db.Model):
     module_id = db.Column(db.Integer, db.ForeignKey('modules.id'))
     user_guid = db.Column(db.String(64))
     type = db.Column(
-        db.Enum(event.STORY_CREATED,
-                event.USER_CREATED,
-                event.EDIT_STORY,
-                event.DELETE_STORY,
-                event.EDIT_COMMENT,
-                event.DELETE_COMMENT,
-                event.ADD_FEATURED_STORY,
-                event.EDIT_FEATURED_STORY,
-                event.HIDE_FEATURED_STORY,
-                event.EDIT_THEN_AND_NOW,
-                event.STORY_FLAGGED,
-                event.USER_EDITED,
-                event.LOGIN_FAILED,
-                event.LOGIN_SUCCESS,
-                event.EMAIL_SENT,
+        db.Enum(event_type.STORY_CREATED,
+                event_type.USER_CREATED,
+                event_type.EDIT_STORY,
+                event_type.DELETE_STORY,
+                event_type.EDIT_COMMENT,
+                event_type.DELETE_COMMENT,
+                event_type.ADD_FEATURED_STORY,
+                event_type.EDIT_FEATURED_STORY,
+                event_type.HIDE_FEATURED_STORY,
+                event_type.EDIT_THEN_AND_NOW,
+                event_type.STORY_FLAGGED,
+                event_type.USER_EDITED,
+                event_type.LOGIN_FAILED,
+                event_type.LOGIN_SUCCESS,
+                event_type.EMAIL_SENT,
+                event_type.TAG_EDITED,
+                event_type.TAG_DELETED,
+                event_type.TAG_CREATED,
                 name='event_type'), nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
     previous_value = db.Column(JSON)

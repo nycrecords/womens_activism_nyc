@@ -3,7 +3,7 @@ Utility functions used for view functions involving login
 '''
 from app.models import Events
 from app.db_utils import create_object
-from app.constants.event import LOGIN_FAILED, LOGIN_SUCCESS
+from app.constants.event_type import LOGIN_FAILED, LOGIN_SUCCESS
 
 
 def create_login_event(user, login_validation, email=None):

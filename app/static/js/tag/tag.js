@@ -8,30 +8,30 @@ $(function () {
 
         //Hides the editing input
         $(this).find('.tag-name').hide();
-        $(this).find('#tag-update').hide();
+        $(this).find('.tag-update').hide();
 
         //Switches to the editing input when the edit button is clicked
         $(this).find('#tag-edit').click(function () {
             $(this).parent().parent().find('#tag-edit').toggle();
-            $(this).parent().parent().find('#tag-remove').toggle();
+            // $(this).parent().parent().find('.tag-remove').toggle();
             $(this).parent().parent().find('#tag-name').toggle();
-            $(this).parent().parent().find('#tag-update').toggle();
+            $(this).parent().parent().find('.tag-update').toggle();
             $(this).parent().parent().find('.tag-name').toggle();
         });
 
         //Updates tag
-        $(this).find('#tag-update').click(function () {
-            var id = $(this).attr("value");
+        $(this).find('.tag-update').click(function () {
+            var id = $(this).attr("id");
             var name = $("#tag-name-" + id).val();
 
             getAjax(id, name, 'edit');
         });
 
         //Removes tag
-        $(this).find('#tag-remove').click(function () {
-            var id = $(this).attr("value");
-            getAjax(id, null, 'remove');
-        });
+        // $(this).find('.tag-remove').click(function () {
+        //     var id = $(this).attr("id");
+        //     getAjax(id, null, 'remove');
+        // });
     });
 
     //Shows the new tag input

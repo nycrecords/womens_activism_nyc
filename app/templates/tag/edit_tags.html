@@ -1,34 +1,34 @@
 {% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
 
 {% block content %}
-<div class="page-header col-md-4 col-md-offset-4">
-    <h1 id="feature-header">Tags</h1>
-</div>
+    <div class="page-header col-md-4 col-md-offset-4">
+        <h1 id="feature-header">Tags</h1>
+    </div>
 
-<div class="col-md-4 col-md-offset-4">
-    <table class="table table-hover">
-        <tbody>
-        {% for tag in tags %}
-            <tr>
-                <td>
-                    <div id="tag-name">{{ tag.name }}</div>
-                    <input type="text" class="form-control tag-name" id="tag-name-{{ tag.id }}" value="{{ tag.name }}">
-                </td>
-                <td>
-                    <a class="icon" role="button" id="tag-edit"><span class="glyphicon glyphicon-pencil"></span></a>
-                </td>
-                <td>
-                    <div class="icon" role="button" id="tag-remove" value="{{ tag.id }}">
-                        <span class="glyphicon glyphicon-trash"></span>
-                    </div>
-                    <div class="icon" role="button" id="tag-update" value="{{ tag.id }}">
-                        <span class="glyphicon glyphicon-ok"></span>
-                    </div>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
+    <div class="col-md-4 col-md-offset-4">
+        <table class="table table-hover">
+            <tbody>
+            {% for tag in tags %}
+                <tr>
+                    <td>
+                        <div id="tag-name">{{ tag.name }}</div>
+                        <input type="text" class="form-control tag-name" id="tag-name-{{ tag.id }}"
+                               value="{{ tag.name }}">
+                    </td>
+                    <td>
+                        <a class="icon" role="button" id="tag-edit"><span class="glyphicon glyphicon-pencil"></span></a>
+                    </td>
+                    <td>
+{#                        <div class="icon tag-remove" role="button" id="{{ tag.id }}">#}
+{#                            <span class="glyphicon glyphicon-trash"></span>#}
+{#                        </div>#}
+                        <div class="icon tag-update" role="button" id="{{ tag.id }}">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
             <tr>
                 <td><input type="text" class="form-control" id="tag-name-add"></td>
                 <td>
@@ -42,13 +42,13 @@
                     </div>
                 </td>
             </tr>
-    </table>
-</div>
-<div class="col-md-4 col-md-offset-4" id="tag-btns">
-    <a class="btn btn-default btn-lg tag-add" id="home-view-all-btn" role="button">Add Tag</a>
-    <a class="btn btn-default btn-lg" id="home-view-all-btn" href="{{ url_for('feature.listing') }}" role="button">Edit
-        Featured Stories</a>
-</div>
+        </table>
+    </div>
+    <div class="col-md-4 col-md-offset-4" id="tag-btns">
+        <a class="btn btn-default btn-lg tag-add" id="home-view-all-btn" role="button">Add Tag</a>
+        <a class="btn btn-default btn-lg" id="home-view-all-btn" href="{{ url_for('feature.listing') }}" role="button">Edit
+            Featured Stories</a>
+    </div>
 {% endblock %}
 
 {% block custom_script %}

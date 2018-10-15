@@ -3,7 +3,7 @@ Utility functions used for view functions involving featured stories
 """
 from flask_login import current_user
 
-from app.constants.event import ADD_FEATURED_STORY, HIDE_FEATURED_STORY, EDIT_FEATURED_STORY
+from app.constants.event_type import ADD_FEATURED_STORY, HIDE_FEATURED_STORY, EDIT_FEATURED_STORY
 from app.db_utils import update_object, create_object
 from app.models import Events, FeaturedStories
 

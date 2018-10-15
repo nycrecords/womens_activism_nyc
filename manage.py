@@ -22,7 +22,7 @@ from app.models import (
 from app.constants.user_type_auth import AGENCY_USER
 from app.constants.module import FEATURED
 from app.db_utils import create_object
-from app.constants.event import EDIT_FEATURED_STORY
+from app.constants.event_type import EDIT_FEATURED_STORY
 from sqlalchemy.orm.exc import NoResultFound
 
 app = create_app(os.getenv("FLASK_CONFIG") or "default")

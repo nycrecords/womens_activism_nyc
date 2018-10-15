@@ -5,7 +5,7 @@ import uuid
 from flask import current_app
 
 from app.constants.user_type_auth import ANONYMOUS_USER
-from app.constants.event import STORY_CREATED, USER_CREATED
+from app.constants.event_type import STORY_CREATED, USER_CREATED
 from app.models import Stories, Users, Events
 from app.db_utils import create_object
 

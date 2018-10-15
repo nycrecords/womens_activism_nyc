@@ -7,7 +7,7 @@ from app.share.forms import StoryForm
 from app.lib.utils import create_story, create_user
 from app.lib.emails_utils import send_email
 from app.db_utils import create_object
-from app.constants.event import EMAIL_SENT
+from app.constants.event_type import EMAIL_SENT
 
 
 @share.route('/', methods=['GET', 'POST'])

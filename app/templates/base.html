@@ -9,7 +9,7 @@
           href="{{ url_for('static', filename='img/womens_activism_nyc_logo.png') }}"/>
     <link type="image/x-icon" rel="icon" href="{{ url_for('static', filename='img/womens_activism_nyc_logo.png') }}"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/plugins/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{url_for('static', filename='styles/womens_activism.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/womens_activism.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet">
 </head>
 <body>
@@ -34,7 +34,7 @@
 {% endblock %}
 
 {% block footer %}
-{% include 'footer.html' %}
+    {% include 'footer.html' %}
 {% endblock %}
 
 <script type="text/javascript" src="{{ url_for('static', filename='js/plugins/jquery.min.js') }}"></script>
@@ -42,6 +42,21 @@
 <script type="text/javascript" src="{{ url_for('static', filename='js/plugins/bootstrap.min.js') }}"></script>
 {#<script type="text/javascript" src="{{ url_for('static', filename='js/nav.js') }}"></script>#}
 
+<script type="text/javascript">
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            /*
+             * Include the X-CSRFToken header for methods that are not considered "safe"
+             * (see: https://tools.ietf.org/html/rfc7231.html#section-4.2.1).
+             *
+             * http://flask-wtf.readthedocs.io/en/stable/csrf.html
+             */
+            if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token() }}")
+            }
+        }
+    });
+</script>
 {% block custom_script %}
 {% endblock %}
 </body>

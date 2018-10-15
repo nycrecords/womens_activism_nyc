@@ -3,14 +3,14 @@ View functions for story functionality
 """
 from flask import render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_required
-from operator import attrgetter
 
-from app.constants.event import EDIT_FEATURED_STORY
+from app.constants.event_type import EDIT_FEATURED_STORY
 from app.db_utils import create_object, update_object
 from app.feature import feature
-from app.feature.forms import FeaturedStoryForm, ModifyFeatureForm
-from app.feature.utils import create_featured_story, update_featured_story
-from app.models import Events, FeaturedStories, Stories
+from app.feature.forms import EditTagForm, FeaturedStoryForm, ModifyFeatureForm
+from app.feature.utils import create_featured_story, update_featured_story, hide_current_featured_story
+from app.models import Events, FeaturedStories, Stories, Tags
+from operator import attrgetter
 
 
 @feature.route('/', methods=['GET'])

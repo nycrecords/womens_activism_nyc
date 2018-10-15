@@ -5,7 +5,7 @@ from app.unsubscribe.forms import UnsubscribeForm
 from app.edit.utils import update_user
 from app.models import Users, Events
 from app.lib.emails_utils import send_email
-from app.constants.event import EMAIL_SENT
+from app.constants.event_type import EMAIL_SENT
 from app.db_utils import create_object
 
 

@@ -2267,3 +2267,25 @@ p.interact, p.timePosted {
 #leftArrow:hover, #rightArrow:hover {
     color: #8e8e8e;
 }
+
+/* Feature Page */
+
+#form-name, #form-submit{
+    display: none;
+}
+
+#tag-btns {
+    text-align: center;
+}
+
+.tag-update, #tag-add, #tag-cancel{
+    color: #666;
+}
+
+.tag-update:hover {
+    color: #337ab7;
+}
+
+.tag-remove{
+    color: #630000;
+}

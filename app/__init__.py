@@ -83,4 +83,7 @@ def create_app(config_name):
     from .export import export as export
     app.register_blueprint(export, url_prefix="/export")
 
+    from .tag import tag as tag
+    app.register_blueprint(tag, url_prefix="/tag")
+
     return app

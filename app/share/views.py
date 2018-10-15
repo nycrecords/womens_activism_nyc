@@ -49,9 +49,9 @@ def new():
                                                       last_name=form.user_last.data,
                                                       unsubscribe_link=unsubscribe_link)
                     send_email(subject="Confirmation Email",
-                                sender=current_app.config['MAIL_SENDER'],
-                                recipients=[form.user_email.data],
-                                html_body=email_user_body)
+                               sender=current_app.config['MAIL_SENDER'],
+                               recipients=[form.user_email.data],
+                               html_body=email_user_body)
                     create_object(Events(
                         _type=EMAIL_SENT,
                         user_guid=user_guid,
@@ -83,5 +83,5 @@ def new():
                     flash('Please complete the RECAPTCHA to submit your story.', category="danger")
                 else:
                     flash(form.errors[field][0], category="danger")
-            return render_template('share/share.html', form=form, tags=Tags.query.all())
-    return render_template('share/share.html', form=form, tags=Tags.query.all())
+            return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all())
+    return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all())

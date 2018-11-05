@@ -2,12 +2,15 @@
 Utility functions used for view functions involving stories
 """
 import uuid
-from flask import current_app
 
+from flask import current_app, render_template
+from sqlalchemy import or_
+
+from app.constants.event_type import STORY_CREATED, USER_CREATED, NEW_SUBSCRIBER
 from app.constants.user_type_auth import ANONYMOUS_USER
-from app.constants.event_type import STORY_CREATED, USER_CREATED
-from app.models import Stories, Users, Events
-from app.db_utils import create_object
+from app.db_utils import create_object, bulk_delete
+from app.lib.emails_utils import send_email
+from app.models import Stories, Users, Events, Subscribers
 
 
 def create_story(activist_first,
@@ -77,9 +80,8 @@ def create_story(activist_first,
 
 def create_user(user_first,
                 user_last,
-                user_email,
-                user_phone,
-                subscription):
+                user_email=None,
+                user_phone=None):
     """
     A utility function used to create a User object.
     If any of the fields are left blank then convert them to None types
@@ -88,7 +90,6 @@ def create_user(user_first,
     :param user_last: the poster's last name
     :param user_email: the poster's email
     :param user_phone: the poster's phone
-    :param subscription: boolean, if poster subscribed
     :return: no return value, a User object will be created
     """
     strip_fields = ['user_first', 'user_last', 'user_email']
@@ -100,9 +101,8 @@ def create_user(user_first,
                  first_name=user_first if user_first else None,
                  last_name=user_last if user_last else None,
                  auth_user_type=ANONYMOUS_USER,
-                 email=user_email if user_email else None,
-                 phone=user_phone if user_phone else None,
-                 subscription=subscription)
+                 email=user_email,
+                 phone=user_phone)
     create_object(user)
 
     # Create Events object
@@ -112,3 +112,55 @@ def create_user(user_first,
         new_value=user.val_for_events
     ))
     return user.guid
+
+
+def create_subscriber(first_name,
+                      last_name,
+                      email,
+                      phone):
+    """
+
+    :param first_name:
+    :param last_name:
+    :param email:
+    :param phone:
+    :return:
+    """
+    subscriber = Subscribers(first_name or None,
+                             last_name or None,
+                             email or None,
+                             phone or None)
+
+    create_object(subscriber)
+
+    create_object(Events(
+        _type=NEW_SUBSCRIBER,
+        new_value=subscriber.id
+    ))
+
+
+def remove_subscriber(email, phone):
+    """
+
+    :param email:
+    :param phone:
+    :return:
+    """
+    query = Subscribers.query.filter(or_(Subscribers.email == email, Subscribers.phone == phone))
+
+    bulk_delete(query)
+
+    # TODO: Send email to admins
+    # email_body = render_template('emails/remove_subscriber_agency.html',
+    #                              first_name=user.first_name,
+    #                              last_name=user.last_name,
+    #                              email=form.user_email.data,
+    #                              phone=user.phone)
+    # send_email(subject="WomensActivism - Remove Subscriber",
+    #            sender=current_app.config['MAIL_SENDER'],
+    #            recipients=[current_app.config['MAIL_RECIPIENTS']],
+    #            html_body=email_body)
+    # create_object(Events(
+    #     _type=EMAIL_SENT,
+    #     user_guid=user_guid,
+    #     new_value={"email_body": email_body}))

@@ -67,7 +67,7 @@
                         {% for tag in tags %}
                             {% if tag.name in story.tags %}
                                 <button type="button" class="share-tag share-active"
-                                            value="{{ tag.id }}">{{ tag.name }}</button>
+                                        value="{{ tag.id }}">{{ tag.name }}</button>
                             {% else %}
                                 <button type="button" class="share-tag share-inactive"
                                         value="{{ tag.id }}">{{ tag.name }}</button>
@@ -94,11 +94,7 @@
                         online.</p>
                     <div class="who-input-group">
                         <div>
-                            {% if story.activist_url == None %}
-                                {{ form.activist_url (id="activist-url", class="share-link-input", placeholder="https://womensactivism.nyc") }}
-                            {% else %}
-                                {{ form.activist_url (id="activist-url", class="share-link-input", placeholder="https://womensactivism.nyc", value=story.activist_url) }}
-                            {% endif %}
+                            {{ form.activist_url (id="activist-url", class="share-link-input", placeholder="https://womensactivism.nyc", value=story.activist_url or '') }}
                         </div>
                     </div>
                 </div>
@@ -113,18 +109,10 @@
                         <button type="button" class="media-buttons" id="video-upload-btn">Video</button>
                     </div>
                     <div class="who-input-group" id="story-image-input">
-                        {% if story.image_url == None %}
-                            {{ form.image_url (id="story-image-input-box", class="share-link-input", placeholder="http//womensactivism.nyc") }}
-                        {% else %}
-                            {{ form.image_url (id="story-image-input-box", class="share-link-input", placeholder="http//womensactivism.nyc", value=story.image_url) }}
-                        {% endif %}
+                        {{ form.image_url (id="story-image-input-box", class="share-link-input", placeholder="http//womensactivism.nyc", value=story.image_url or '') }}
                     </div>
                     <div class="who-input-group" id="story-video-input">
-                        {% if story.video_url == None %}
-                            {{ form.video_url (id="story-video-input-box", class="share-link-input", placeholder="http://youtube.com") }}
-                        {% else %}
-                            {{ form.video_url (id="story-video-input-box", class="share-link-input", placeholder="http://youtube.com", value=story.video_url) }}
-                        {% endif %}
+                        {{ form.video_url (id="story-video-input-box", class="share-link-input", placeholder="http://youtube.com", value=story.video_url or '') }}
                     </div>
                     <br/>
                     <div id="media-back-div">
@@ -140,23 +128,10 @@
                     <h1 id="about-you-heading">Tell Us About Yourself</h1>
                     <p class="about-you-subheading">If you would like to share your name, enter below. Your email
                         address will not be made public.</p>
-                    {% if user != None %}
-                        <div class="who-input-group">
-                            {{ form.user_first (id="user-first-name-field", class="share-who-input", placeholder="Mary", maxlength=128, value=user.first_name) }}
-                            {{ form.user_last (id="user-last-name-field", class="share-who-input", placeholder="Smith", maxlength=128, value=user.last_name) }}
-                        </div>
-                        <div class="who-input-group">
-                            {{ form.user_email (id="user-email-field", class="share-you-email-input", placeholder="msmith@gmail.com", maxlength=254, type="email", value=user.email) }}
-                        </div>
-                    {% else %}
-                        <div class="who-input-group">
-                            {{ form.user_first (id="user-first-name-field", class="share-who-input", placeholder="Mary", maxlength=128) }}
-                            {{ form.user_last (id="user-last-name-field", class="share-who-input", placeholder="Smith", maxlength=128) }}
-                        </div>
-                        <div class="who-input-group">
-                            {{ form.user_email (id="user-email-field", class="share-you-email-input", placeholder="msmith@gmail.com", maxlength=254, type="email") }}
-                        </div>
-                    {% endif %}
+                    <div class="who-input-group">
+                        {{ form.user_first (id="user-first-name-field", class="share-who-input", placeholder="Mary", maxlength=128, value=user.first_name or '') }}
+                        {{ form.user_last (id="user-last-name-field", class="share-who-input", placeholder="Smith", maxlength=128, value=user.last_name or '') }}
+                    </div>
                     <div class="who-input-group">
                         {{ form.submit (id="share-story-btn") }}
                     </div>

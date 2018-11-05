@@ -148,10 +148,7 @@ def update_story(story_id,
 
 def update_user(user,
                 first_name,
-                last_name,
-                email,
-                phone,
-                subscription):
+                last_name):
     """
     A utility function used to create a User object.
     If any of the fields are left blank then convert them to None types
@@ -161,24 +158,17 @@ def update_user(user,
     :param last_name: the new updated version of poster's last name
     :param email: the new updated version of poster's email
     :param phone: the new updated version of poster's phone
-    :param subscription: the new updated version of subscription
 
     :return: no return value, a Poster object will be created
     """
     user_fields = {
         'first_name',
-        'last_name',
-        'email',
-        'phone',
-        'subscription'
+        'last_name'
     }
 
     user_field_vals = {
         'first_name': first_name,
-        'last_name': last_name,
-        'email': email,
-        'phone': phone,
-        'subscription': subscription
+        'last_name': last_name
     }
 
     old = {}
@@ -201,9 +191,7 @@ def update_user(user,
         # Create Events object
         create_object(Events(
             _type=USER_EDITED,
-            user_guid=user.guid,
-            previous_value=old,
-            new_value=new
+            user_guid=user.guid
         ))
 
     return user.guid

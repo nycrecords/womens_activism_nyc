@@ -85,3 +85,39 @@ def get_object(obj_type, obj_id):
         current_app.logger.exception('Error searching "{}" table for id {}'.format(
             obj_type.__tablename__, obj_id))
         return None
+
+
+def delete_object(obj):
+    """
+    Delete a database record.
+
+    :param obj: object (instance of sqlalchemy model) to delete
+    :return: was the record deleted successfully?
+    """
+    try:
+        db.session.delete(obj)
+        db.session.commit()
+        return True
+    except SQLAlchemyError:
+        db.session.rollback()
+        current_app.logger.exception("Failed to DELETE {}".format(obj))
+        return False
+
+
+def bulk_delete(query):
+    """
+    Delete multiple database records via a bulk delete query.
+
+    http://docs.sqlalchemy.org/en/latest/orm/query.html#sqlalchemy.orm.query.Query.delete
+
+    :param query: Query object
+    :return: the number of records deleted
+    """
+    try:
+        num_deleted = query.delete()
+        db.session.commit()
+        return num_deleted
+    except SQLAlchemyError:
+        db.session.rollback()
+        current_app.logger.exception("Failed to BULK DELETE {}".format(query))
+        return 0

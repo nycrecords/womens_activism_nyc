@@ -113,16 +113,18 @@
                     <div class="who-input-group">
                         {{ form.user_email (id="user-email-field", class="share-you-email-input", placeholder="msmith@gmail.com", maxlength=254, type="email") }}
                     </div>
-                    <div class ="who-input-group">
-                        {{form.user_phone (id= "user-phone-field", class="share-you-phone-input", placeholder="(555) 555-5555", maxlenght=25)}}
+                    <div class="who-input-group">
+                        {{ form.user_phone (id= "user-phone-field", class="share-you-phone-input", placeholder="(555) 555-5555", maxlength=25) }}
                     </div>
                     <div>
                         <br>
-                        <h5 id= "about-you-subheading">Standard data and messaging rates may apply.</h5>
+                        <h5 id="about-you-subheading">Standard data and messaging rates may apply.</h5>
                     </div>
-                   <div class="who-input-group">
-                       <h1 id="subscription-heading">Subscribe to WomensActivism Notifications</h1>
-                        {{ form.subscription(id="user-subscription-btn") }}
+                    <div class="who-input-group">
+                        {#                       <h1 id="subscription-heading">Subscribe to WomensActivism Notifications</h1>#}
+                        <label class="checkbox-inline">
+                            {{ form.subscription(id="user-subscription-btn") }}{{ form.subscription.label }}
+                        </label>
                     </div>
                     <div class="who-input-group">
                         {{ form.submit (id="share-story-btn") }}

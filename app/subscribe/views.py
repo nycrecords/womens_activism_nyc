@@ -11,7 +11,6 @@ from app.subscribe.forms import SubscribeForm
 
 @subscribe.route('/', methods=['GET', 'POST'])
 def subscribe():
-    # return render_template('subscribe/subscribe.html')
     form = SubscribeForm(request.form)
     if request.method == 'POST':
         if form.validate_on_submit():

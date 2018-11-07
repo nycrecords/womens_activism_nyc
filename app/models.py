@@ -496,6 +496,8 @@ class Events(db.Model):
                 event_type.TAG_DELETED,
                 event_type.TAG_CREATED,
                 event_type.NEW_SUBSCRIBER,
+                event_type.UNSUBSCRIBED_EMAIL,
+                event_type.UNSUBSCRIBED_PHONE,
                 name='event_type'), nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
     previous_value = db.Column(JSON)

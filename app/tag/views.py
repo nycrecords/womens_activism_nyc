@@ -34,7 +34,7 @@ def update():
     if action == "edit":
         tag_obj = Tags.query.filter_by(id=tag_id).one()
         prev_name = tag_obj.name
-        update_object({'name': name}, Tags, tag_id)
+        update_object({"name": name}, Tags, tag_id)
 
         create_object(Events(_type=event_type.TAG_EDITED,
                              user_guid=current_user.guid,
@@ -44,7 +44,7 @@ def update():
         for story in Stories.query.filter(Stories.tags.any(prev_name)).all():
             prev_story_tags = story.tags
             new_story_tags = [tag_obj.name if t == prev_name else t for t in prev_story_tags]
-            update_object({'tags': new_story_tags}, Stories, story.id)
+            update_object({"tags": new_story_tags}, Stories, story.id)
 
             create_object(Events(
                 _type=event_type.EDIT_STORY,

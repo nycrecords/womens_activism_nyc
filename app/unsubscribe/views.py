@@ -20,10 +20,9 @@ def unsubscribe():
 
             if email or phone:
                 remove_subscriber(email, phone)
-
-                flash(Markup('You are no longer subscribed.'), category='success')
+                flash(Markup("You are no longer subscribed."), category='success')
             else:
-                flash("No subscription found.", category='warning')
+                flash("Please enter an email address or phone number.", category='warning')
             return redirect(url_for('unsubscribe.unsubscribe'))
     else:
         return render_template('unsubscribe/unsubscribe.html', form=form)

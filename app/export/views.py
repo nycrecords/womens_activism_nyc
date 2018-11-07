@@ -5,10 +5,11 @@ from flask import render_template, request, flash, redirect, url_for
 from flask.helpers import send_file
 from flask_login import login_required
 from io import StringIO, BytesIO
+from sqlalchemy import or_
 
 from app.export import export
 from app.export.forms import ExportForm
-from app.models import Users
+from app.models import Subscribers
 
 
 @export.route('/', methods=['GET', 'POST'])
@@ -17,19 +18,20 @@ def export():
     form = ExportForm(request.form)
     if request.method == 'POST':
         if form.validate_on_submit():
-            users = Users.query.filter_by(subscription=True).all()
-            if users:
+            subscribers = Subscribers.query.filter(
+                or_(Subscribers.email.isnot(None), Subscribers.phone.isnot(None))).all()
+            if subscribers:
                 buffer = StringIO()
                 writer = csv.writer(buffer)
                 writer.writerow(["First Name",
                                  "Last Name",
                                  "Email",
                                  "Phone Number"])
-                for users in users:
-                    writer.writerow([users.first_name or '',
-                                     users.last_name or '',
-                                     users.email or '',
-                                     users.phone or ''])
+                for s in subscribers:
+                    writer.writerow([s.first_name or '',
+                                     s.last_name or '',
+                                     s.email or '',
+                                     s.phone or ''])
 
                 return send_file(
                     BytesIO(buffer.getvalue().encode('UTF-8')),

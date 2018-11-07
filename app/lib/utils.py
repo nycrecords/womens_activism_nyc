@@ -3,12 +3,11 @@ Utility functions used for view functions involving stories
 """
 import uuid
 
-from flask import current_app, render_template
-from sqlalchemy import or_
+from flask import current_app, render_template, url_for
 
-from app.constants.event_type import STORY_CREATED, USER_CREATED, NEW_SUBSCRIBER
+from app.constants.event_type import STORY_CREATED, USER_CREATED, NEW_SUBSCRIBER, UNSUBSCRIBED_EMAIL, UNSUBSCRIBED_PHONE
 from app.constants.user_type_auth import ANONYMOUS_USER
-from app.db_utils import create_object, bulk_delete
+from app.db_utils import create_object, update_object
 from app.lib.emails_utils import send_email
 from app.models import Stories, Users, Events, Subscribers
 
@@ -119,12 +118,14 @@ def create_subscriber(first_name,
                       email,
                       phone):
     """
+    A utility function used to create a Subscriber object.
+    If any of the fields are left blank then convert them to None types.
+    Email admins and subscriber (if email is provided) notification of subscription.
 
-    :param first_name:
-    :param last_name:
-    :param email:
-    :param phone:
-    :return:
+    :param first_name: subscriber's first name
+    :param last_name: subscriber's last name
+    :param email: subscriber's email
+    :param phone: subscriber's phone number
     """
     subscriber = Subscribers(first_name or None,
                              last_name or None,
@@ -135,32 +136,56 @@ def create_subscriber(first_name,
 
     create_object(Events(
         _type=NEW_SUBSCRIBER,
-        new_value=subscriber.id
+        new_value={'subscriber_id': subscriber.id}
     ))
+
+    # Email for the admin
+    email_body = render_template('emails/new_subscriber_agency.html',
+                                 first_name=first_name or 'Not Provided',
+                                 last_name=first_name or 'Not Provided',
+                                 email=email or 'Not Provided',
+                                 phone=phone or 'Not Provided')
+    send_email(subject="WomensActivism - New Subscriber",
+               sender=current_app.config['MAIL_SENDER'],
+               recipients=[current_app.config['MAIL_RECIPIENTS']],
+               html_body=email_body)
+
+    # Email for the user
+    if email:
+        unsubscribe_link = url_for('unsubscribe.unsubscribe', _external=True)
+        email_user_body = render_template('emails/new_subscriber_user.html',
+                                          first_name=first_name or 'Not Provided',
+                                          last_name=first_name or 'Not Provided',
+                                          unsubscribe_link=unsubscribe_link)
+        send_email(subject="Confirmation Email",
+                   sender=current_app.config['MAIL_SENDER'],
+                   recipients=[email],
+                   html_body=email_user_body)
 
 
 def remove_subscriber(email, phone):
     """
+    A utility function used to create a Subscriber object.
+    Clears database field for based on provided input field and value.
 
-    :param email:
-    :param phone:
-    :return:
+    :param email: email to be removed from subscriber's table
+    :param phone: email to be removed from subscriber's table
     """
-    query = Subscribers.query.filter(or_(Subscribers.email == email, Subscribers.phone == phone))
+    if email:
+        email_subscribers = Subscribers.query.filter_by(email=email).all()
+        for s in email_subscribers:
+            update_object({"email": None}, Subscribers, s.id)
 
-    bulk_delete(query)
+            create_object(Events(
+                _type=UNSUBSCRIBED_EMAIL,
+                new_value={'subscriber_id': s.id}
+            ))
 
-    # TODO: Send email to admins
-    # email_body = render_template('emails/remove_subscriber_agency.html',
-    #                              first_name=user.first_name,
-    #                              last_name=user.last_name,
-    #                              email=form.user_email.data,
-    #                              phone=user.phone)
-    # send_email(subject="WomensActivism - Remove Subscriber",
-    #            sender=current_app.config['MAIL_SENDER'],
-    #            recipients=[current_app.config['MAIL_RECIPIENTS']],
-    #            html_body=email_body)
-    # create_object(Events(
-    #     _type=EMAIL_SENT,
-    #     user_guid=user_guid,
-    #     new_value={"email_body": email_body}))
+    if phone:
+        phone_subscribers = Subscribers.query.filter_by(phone=phone).all()
+        for s in phone_subscribers:
+            update_object({"phone": None}, Subscribers, s.id)
+            create_object(Events(
+                _type=UNSUBSCRIBED_PHONE,
+                new_value={'subscriber_id': s.id}
+            ))

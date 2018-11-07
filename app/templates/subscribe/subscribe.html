@@ -8,7 +8,8 @@
             <div class="row">
                 <div class="col-md-12">
                     <h1 id="about-you-heading">Subscribe</h1>
-                    <p class="about-you-subheading">Receive news about special events, exhibitions, educational programs and more via email and/or text.</p>
+                    <p class="about-you-subheading">Receive news about special events, exhibitions, educational programs
+                        and more via email and/or text.</p>
                     <div class="who-input-group">
                         {{ form.user_first (id="user-first-name-field", class="subscribe-who-input", placeholder="Mary", maxlength=128) }}
                         {{ form.user_last (id="user-last-name-field", class="subscribe-who-input", placeholder="Smith", maxlength=128) }}
@@ -19,7 +20,7 @@
                     </div>
 
                     <div class="who-input-group">
-                        {{ form.user_phone (id="user-phone-field", class="subscribe-you-phone-input", placeholder="(555) 555-5555", maxlenght=25) }}
+                        {{ form.user_phone (id="user-phone-field", class="subscribe-you-phone-input", placeholder="(555) 555-5555", maxlength=25) }}
                     </div>
 
                     <br>
@@ -28,6 +29,8 @@
                     </div>
 
                     <div class="who-input-group">
+                        <span>By clicking submit, you agree to receive news and updates about special events, exhibitions, educational programs and more via email and/or text.</span>
+                        <br/>
                         {{ form.submit (id="subscribe-btn") }}
                     </div>
                 </div>
@@ -40,5 +43,4 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/plugins/jquery.mask.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/plugins/parsley.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/subscribe/subscribe.js') }}"></script>
-
 {% endblock %}

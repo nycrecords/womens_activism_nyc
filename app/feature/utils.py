@@ -35,7 +35,7 @@ def create_featured_story(story, left_right, title, description, rank):
 
     create_object(Events(
         story_id=story.id,
-        user_guid=story.user_guid,
+        user_guid=current_user.guid,
         _type=ADD_FEATURED_STORY,
         new_value=featured_story.val_for_events
     ))

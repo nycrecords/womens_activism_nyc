@@ -1,13 +1,12 @@
 """
 Utility functions used for view functions involving stories
 """
-import uuid
-from flask import current_app
-from app.constants.user_type_auth import ANONYMOUS_USER
-from app.constants.event_type import USER_CREATED, EDIT_STORY, DELETE_STORY, USER_EDITED
+from flask_login import current_user
+
+from app.constants.event_type import EDIT_STORY, DELETE_STORY, USER_EDITED
 from app.constants.flag import INCORRECT_INFORMATION
-from app.models import Stories, Users, Events, Flags
 from app.db_utils import update_object, create_object
+from app.models import Stories, Events, Flags
 from app.search.utils import delete_doc
 
 
@@ -34,7 +33,7 @@ def hide_story(story_id):
     create_object(Events(
         _type=DELETE_STORY,
         story_id=story.id,
-        user_guid=story.user_guid,
+        user_guid=current_user.guid,
         previous_value=old_json_value,
         new_value=new_json_value
     ))
@@ -133,6 +132,7 @@ def update_story(story_id,
         create_object(Events(
             _type=EDIT_STORY,
             story_id=story.id,
+            user_guid=current_user.guid,
             previous_value=old,
             new_value=new
         ))
@@ -148,10 +148,7 @@ def update_story(story_id,
 
 def update_user(user,
                 first_name,
-                last_name,
-                email,
-                phone,
-                subscription):
+                last_name):
     """
     A utility function used to create a User object.
     If any of the fields are left blank then convert them to None types
@@ -159,26 +156,17 @@ def update_user(user,
     :param user: the user that will be updated
     :param first_name: the new updated version of poster's first name
     :param last_name: the new updated version of poster's last name
-    :param email: the new updated version of poster's email
-    :param phone: the new updated version of poster's phone
-    :param subscription: the new updated version of subscription
 
     :return: no return value, a Poster object will be created
     """
     user_fields = {
         'first_name',
-        'last_name',
-        'email',
-        'phone',
-        'subscription'
+        'last_name'
     }
 
     user_field_vals = {
         'first_name': first_name,
-        'last_name': last_name,
-        'email': email,
-        'phone': phone,
-        'subscription': subscription
+        'last_name': last_name
     }
 
     old = {}
@@ -201,9 +189,8 @@ def update_user(user,
         # Create Events object
         create_object(Events(
             _type=USER_EDITED,
-            user_guid=user.guid,
-            previous_value=old,
-            new_value=new
+            user_guid=current_user.guid,
+            new_value={"user_guid": user.guid}
         ))
 
     return user.guid

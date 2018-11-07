@@ -42,5 +42,6 @@ class StoryForm(FlaskForm):
     user_last = StringField("User last name", validators=[Optional(), Length(1, 128)])
     user_email = StringField("User email", validators=[Optional(), Email(), Length(1, 254)])
     user_phone = StringField("User phone number", validators=[Optional(), Length(1, 25)])
-    subscription = BooleanField("Subscription")
+    subscription = BooleanField(
+        "I would like to subscribe to receive news and updates about special events, exhibitions, educational programs and more via email and/or text.")
     submit = SubmitField('Submit')

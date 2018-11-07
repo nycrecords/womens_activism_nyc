@@ -24,15 +24,15 @@ def edit(story_id):
             if user is not None:
                 user_guid = update_user(user,
                                         form.user_first.data,
-                                        form.user_last.data,
-                                        form.user_email.data)
+                                        form.user_last.data)
 
             else:
                 user_guid = None
-                if form.user_first.data or form.user_last.data or form.user_email.data:
+                if form.user_first.data or form.user_last.data:
                     user_guid = create_user(user_first=form.user_first.data,
                                             user_last=form.user_last.data,
-                                            user_email=form.user_email.data)
+                                            user_email=None,
+                                            user_phone=None)
 
             tag_string = form.tags.data
             tags = []

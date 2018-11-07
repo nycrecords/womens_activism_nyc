@@ -1,13 +1,10 @@
-from flask import render_template, redirect, url_for, flash, request, Markup, current_app
+from flask import render_template, redirect, url_for, flash, request, Markup
 
 from app.constants import RECAPTCHA_STRING
-from app.models import Tags, Events
+from app.lib.utils import create_story, create_user, create_subscriber
+from app.models import Tags
 from app.share import share
 from app.share.forms import StoryForm
-from app.lib.utils import create_story, create_user
-from app.lib.emails_utils import send_email
-from app.db_utils import create_object
-from app.constants.event_type import EMAIL_SENT
 
 
 @share.route('/', methods=['GET', 'POST'])
@@ -19,44 +16,21 @@ def new():
     form = StoryForm(request.form)
     if request.method == 'POST':
         if form.validate_on_submit():
-            if form.user_first.data or form.user_last.data or form.user_email.data:
-                user_guid = create_user(user_first=form.user_first.data,
-                                        user_last=form.user_last.data,
-                                        user_email=form.user_email.data,
-                                        user_phone=form.user_phone.data,
-                                        subscription=form.subscription.data)
-                # Email to admin
-                if form.subscription.data:
-                    email_body = render_template('emails/new_subscriber_agency.html',
-                                                 first_name=form.user_first.data,
-                                                 last_name=form.user_last.data,
-                                                 email=form.user_email.data,
-                                                 phone=form.user_phone.data)
-                    send_email(subject="WomensActivism - New Subscriber",
-                               sender=current_app.config['MAIL_SENDER'],
-                               recipients=[current_app.config['MAIL_RECIPIENTS']],
-                               html_body=email_body)
-                    create_object(Events(
-                        _type=EMAIL_SENT,
-                        user_guid=user_guid,
-                        new_value={"email_body": email_body}
-                    ))
-                # Email to user
-                if form.user_email.data:
-                    unsubscribe_link = url_for('unsubscribe.unsubscribe', _external=True)
-                    email_user_body = render_template('emails/new_subscriber_user.html',
-                                                      first_name=form.user_first.data,
-                                                      last_name=form.user_last.data,
-                                                      unsubscribe_link=unsubscribe_link)
-                    send_email(subject="Confirmation Email",
-                               sender=current_app.config['MAIL_SENDER'],
-                               recipients=[form.user_email.data],
-                               html_body=email_user_body)
-                    create_object(Events(
-                        _type=EMAIL_SENT,
-                        user_guid=user_guid,
-                        new_value={"email_body": email_body}
-                    ))
+            first_name = form.user_first.data
+            last_name = form.user_last.data
+            email = form.user_email.data
+            phone = form.user_phone.data
+
+            if first_name or last_name or email:
+                user_guid = create_user(user_first=first_name,
+                                        user_last=last_name,
+                                        user_email=email,
+                                        user_phone=phone)
+                if form.subscription.data and (email or phone):
+                    create_subscriber(first_name=first_name,
+                                      last_name=last_name,
+                                      email=email,
+                                      phone=phone)
             else:
                 user_guid = None
 

@@ -40,7 +40,6 @@ class StoryForm(FlaskForm):
     video_url = StringField("Enter a YouTube or Vimeo URL below", validators=[Optional(), validate_video])
     user_first = StringField("User first name", validators=[Optional(), Length(1, 128)])
     user_last = StringField("User last name", validators=[Optional(), Length(1, 128)])
-    user_email = StringField("User email", validators=[Optional(), Email(), Length(1, 254)])
     submit = SubmitField('Submit')
 
 

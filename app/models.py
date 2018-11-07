@@ -91,7 +91,6 @@ class Users(UserMixin, db.Model):
     last_name - a string that contains the last name of the user
     email - a string that contains the email of the user
     password_hash - a string that contains the password of the user
-    subscription - a boolean that indicates whether the user is subscribed or not
     """
     __tablename__ = "users"
     guid = db.Column(db.String(64), primary_key=True)
@@ -116,7 +115,6 @@ class Users(UserMixin, db.Model):
     phone = db.Column(db.String(25))
     terms_of_use_accepted = db.Column(db.Boolean, nullable=False)
     password_hash = db.Column(db.String(128))
-    subscription = db.Column(db.Boolean)
 
     def __init__(
             self,
@@ -131,8 +129,7 @@ class Users(UserMixin, db.Model):
             email_validated=False,
             phone=None,
             terms_of_use_accepted=False,
-            password_hash=None,
-            subscription=False
+            password_hash=None
     ):
         self.guid = guid
         self.auth_user_type = auth_user_type
@@ -146,7 +143,6 @@ class Users(UserMixin, db.Model):
         self.phone = phone
         self.terms_of_use_accepted = terms_of_use_accepted
         self.password_hash = password_hash
-        self.subscription = subscription
 
     @property
     def val_for_events(self):
@@ -156,13 +152,8 @@ class Users(UserMixin, db.Model):
         return {
             'guid': self.guid,
             'auth_user_type': self.auth_user_type,
-            'first_name': self.first_name,
-            'last_name': self.last_name,
-            'email': self.email,
             'email_validated': self.email_validated,
-            'phone': self.phone,
-            'terms_of_use_accepted': self.terms_of_use_accepted,
-            'subscription': self.subscription
+            'terms_of_use_accepted': self.terms_of_use_accepted
         }
 
     def set_password(self, password):
@@ -502,6 +493,9 @@ class Events(db.Model):
                 event_type.TAG_EDITED,
                 event_type.TAG_DELETED,
                 event_type.TAG_CREATED,
+                event_type.NEW_SUBSCRIBER,
+                event_type.UNSUBSCRIBED_EMAIL,
+                event_type.UNSUBSCRIBED_PHONE,
                 name='event_type'), nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
     previous_value = db.Column(JSON)
@@ -698,6 +692,29 @@ class Feedback(db.Model):
         self.message = message
         self.timestamp = datetime.utcnow()
         self.addressed = addressed
+
+
+class Subscribers(db.Model):
+    """
+
+    """
+    __tablename__ = "subscribers"
+    id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String(128))
+    last_name = db.Column(db.String(128))
+    email = db.Column(db.String(254))
+    phone = db.Column(db.String(25))
+
+    def __init__(self,
+                 first_name=None,
+                 last_name=None,
+                 email=None,
+                 phone=None
+                 ):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.email = email
+        self.phone = phone
 
 
 # flask requires the application to set up a callback function that loads a user, given the identifier

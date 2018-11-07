@@ -83,8 +83,8 @@ $(function () {
     activistEnd.attr("data-parsley-pattern", "\\b[Tt][Oo][Dd][Aa][Yy]\\b|^[0-9]{1,4}$");
 
     // Enter an email or phone number error
-     userPhone.attr("data-parsley-error-message", "Email and/or phone number is required.");
-     userEmail.attr("data-parsley-error-message", "Email and/or phone number is required.");
+    userPhone.attr("data-parsley-error-message", "Email and/or phone number is required.");
+    userEmail.attr("data-parsley-error-message", "Email and/or phone number is required.");
 
     // Scroll fix for Parsley.js
     var errorList = [];
@@ -144,18 +144,21 @@ $(function () {
     });
 
     $("#share-form").parsley().on("form:validate", function () {
-       if (subscribeButton.is(':checked')) {
-           if (userEmail.parsley().isValid() || userPhone.parsley().isValid()) {
-               // If at least one of the fields are validated then remove required from the rest of the contact fields that aren't being filled out
-               userEmail.removeAttr("data-parsley-required");
-               userPhone.removeAttr("data-parsley-required");
-           }
-       }
+        if (subscribeButton.is(':checked')) {
+            userEmail.attr("data-parsley-required", "");
+            userPhone.attr("data-parsley-required", "");
 
-       if ($("#share-form").parsley().isValid()) {
-           $("#share-story-btn").attr("disabled", "disabled");
-       }
-   })
+            if (userEmail.parsley().isValid() || userPhone.parsley().isValid()) {
+                // If at least one of the fields are validated then remove required from the rest of the contact fields that aren't being filled out
+                userEmail.removeAttr("data-parsley-required");
+                userPhone.removeAttr("data-parsley-required");
+            }
+        }
+
+        if ($("#share-form").parsley().isValid()) {
+            $("#share-story-btn").attr("disabled", "disabled");
+        }
+    })
 });
 
 // Share a story - capitalize first letter of name inputs

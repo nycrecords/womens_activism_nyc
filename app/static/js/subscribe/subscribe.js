@@ -36,8 +36,8 @@ $(function () {
     userEmail.attr("data-parsley-type", "email");
 
     // Enter an email or phone number error
-     userPhone.attr("data-parsley-error-message", "Email and/or phone number is required.");
-     userEmail.attr("data-parsley-error-message", "Email and/or phone number is required.");
+    userPhone.attr("data-parsley-error-message", "Email and/or phone number is required.");
+    userEmail.attr("data-parsley-error-message", "Email and/or phone number is required.");
 
 
     $("#user-first-name-field, #user-last-name-field").on('keyup', function () {

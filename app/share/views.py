@@ -26,7 +26,7 @@ def new():
                                         user_last=last_name,
                                         user_email=email,
                                         user_phone=phone)
-                if form.subscription.data:
+                if form.subscription.data and (email or phone):
                     create_subscriber(first_name=first_name,
                                       last_name=last_name,
                                       email=email,

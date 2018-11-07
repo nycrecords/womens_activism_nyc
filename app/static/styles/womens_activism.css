@@ -1064,7 +1064,6 @@ p, div {
     outline: none;
     border: 2px solid #ffffff;
     font-size: 20px;
-    /*margin-top: 50px;*/
     transition: background 0.2s ease;
 }
 

@@ -57,6 +57,7 @@ def upgrade():
     op.execute('ALTER TABLE events ALTER COLUMN type TYPE _type'
                ' USING type::TEXT::_type')
     old_type.drop(op.get_bind(), checkfirst=False)
+
     # Create and convert to the "new" type type
     new_type.create(op.get_bind(), checkfirst=False)
     op.execute('ALTER TABLE events ALTER COLUMN type TYPE event_type'
@@ -64,7 +65,6 @@ def upgrade():
     tmp_type.drop(op.get_bind(), checkfirst=False)
 
     op.drop_constraint('events_user_guid_fkey', 'events', type_='foreignkey')
-    # op.add_column('featuredstories', sa.Column('rank', sa.Integer(), nullable=True))
     # ### end Alembic commands ###
 
 
@@ -83,6 +83,7 @@ def downgrade():
     op.execute('ALTER TABLE events ALTER COLUMN type TYPE _type'
                ' USING type::TEXT::_type')
     new_type.drop(op.get_bind(), checkfirst=False)
+
     # Create and convert to the "old" type type
     old_type.create(op.get_bind(), checkfirst=False)
     op.execute('ALTER TABLE events ALTER COLUMN type TYPE event_type'

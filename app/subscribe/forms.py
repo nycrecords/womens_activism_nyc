@@ -5,7 +5,6 @@ from wtforms import (
 )
 
 from wtforms.validators import (
-    DataRequired,
     Optional,
     Length,
     Email,

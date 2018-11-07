@@ -79,8 +79,8 @@ def create_story(activist_first,
 
 def create_user(user_first,
                 user_last,
-                user_email=None,
-                user_phone=None):
+                user_email,
+                user_phone):
     """
     A utility function used to create a User object.
     If any of the fields are left blank then convert them to None types
@@ -157,7 +157,7 @@ def create_subscriber(first_name,
                                           first_name=first_name or 'Not Provided',
                                           last_name=first_name or 'Not Provided',
                                           unsubscribe_link=unsubscribe_link)
-        send_email(subject="Confirmation Email",
+        send_email(subject="WomensActivism - Confirmation Email",
                    sender=current_app.config['MAIL_SENDER'],
                    recipients=[email],
                    html_body=email_user_body)

@@ -30,7 +30,9 @@ def edit(story_id):
                 user_guid = None
                 if form.user_first.data or form.user_last.data:
                     user_guid = create_user(user_first=form.user_first.data,
-                                            user_last=form.user_last.data)
+                                            user_last=form.user_last.data,
+                                            user_email=None,
+                                            user_phone=None)
 
             tag_string = form.tags.data
             tags = []

@@ -152,9 +152,7 @@ class Users(UserMixin, db.Model):
         return {
             'guid': self.guid,
             'auth_user_type': self.auth_user_type,
-            'email': self.email,
             'email_validated': self.email_validated,
-            'phone': self.phone,
             'terms_of_use_accepted': self.terms_of_use_accepted
         }
 

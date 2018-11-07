@@ -1,13 +1,8 @@
-from flask import render_template, flash, request, Markup, current_app, redirect, url_for
+from flask import render_template, flash, request, Markup, redirect, url_for
 
+from app.lib.utils import remove_subscriber
 from app.unsubscribe import unsubscribe
 from app.unsubscribe.forms import UnsubscribeForm
-from app.edit.utils import update_user
-from app.models import Users, Events
-from app.lib.emails_utils import send_email
-from app.constants.event_type import EMAIL_SENT
-from app.db_utils import create_object
-from app.lib.utils import remove_subscriber
 
 
 @unsubscribe.route('/', methods=['GET', 'POST'])

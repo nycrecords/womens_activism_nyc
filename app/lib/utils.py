@@ -155,7 +155,7 @@ def create_subscriber(first_name,
         unsubscribe_link = url_for('unsubscribe.unsubscribe', _external=True)
         email_user_body = render_template('emails/new_subscriber_user.html',
                                           first_name=first_name or 'Not Provided',
-                                          last_name=first_name or 'Not Provided',
+                                          last_name=last_name or 'Not Provided',
                                           unsubscribe_link=unsubscribe_link)
         send_email(subject="WomensActivism - Confirmation Email",
                    sender=current_app.config['MAIL_SENDER'],

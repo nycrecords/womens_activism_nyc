@@ -78,22 +78,6 @@
             <h2>#20000By2020</h2>
         </div>
 
-        <!-- Twitter -->
-        <div class="jumbotron" id="twitter">
-            <div class="twitter-border"></div>
-            <div id="leftArrow">
-                <span class="glyphicon glyphicon-chevron-left" role="button"></span>
-            </div>
-            <div id="rightArrow">
-                <span class="glyphicon glyphicon-chevron-right" role="button"></span>
-            </div>
-            <div class="container">
-                <h1 id="twitter-title">Follow Us on Twitter</h1>
-                <div id="tweetsRow"></div>
-            </div>
-            <div class="twitter-border"></div>
-        </div>
-
             <!-- Story Cards -->
         <div class="container" id="home-stories">
             {% for story in stories %}
@@ -114,6 +98,22 @@
         </div>
         <a class="btn btn-default btn-lg" id="home-view-all-btn" href="{{ url_for('stories.catalog') }}" role="button">View
             All Stories</a>
+
+        <!-- Twitter -->
+        <div id="twitter">
+            <div class="twitter-border"></div>
+            <div id="leftArrow">
+                <span class="glyphicon glyphicon-chevron-left" role="button"></span>
+            </div>
+            <div id="rightArrow">
+                <span class="glyphicon glyphicon-chevron-right" role="button"></span>
+            </div>
+            <div class="container">
+                <h1 id="twitter-title">Follow Us on Twitter</h1>
+                <div id="tweetsRow"></div>
+            </div>
+            <div class="twitter-border"></div>
+        </div>
     </div>
 
     <!-- Give Module -->

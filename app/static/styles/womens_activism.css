@@ -173,7 +173,6 @@ p, div {
 
 .home-wrapper {
     margin-top: 80px;
-    margin-bottom: 75px;
     text-align: center;
 }
 
@@ -2139,6 +2138,7 @@ p, div {
 #twitter {
     background: #ffffff;
     padding: 0 0;
+    margin-top: 80px;
 }
 
 .twitter-border {

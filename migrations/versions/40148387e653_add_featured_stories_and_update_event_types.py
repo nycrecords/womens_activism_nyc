@@ -5,12 +5,13 @@ Revises: 51f6f82e2af8
 Create Date: 2018-03-05 22:31:02.689146
 
 """
-from alembic import op
 import sqlalchemy as sa
+from alembic import op
+from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
 revision = 'f32a9ba548dc'
-down_revision = '51f6f82e2af8'
+down_revision = '243d0f8552d8'
 branch_labels = None
 depends_on = None
 
@@ -52,6 +53,16 @@ def upgrade():
     op.add_column('users', sa.Column('password_hash', sa.String(length=128), nullable=True))
     op.add_column('users', sa.Column('phone', sa.String(length=25), nullable=True))
 
+    # Modify modules table to include is_active
+    op.add_column('modules', sa.Column('is_active', sa.Boolean(), nullable=False))
+    op.add_column('modules', sa.Column('subtitle', sa.String(length=50), nullable=True))
+    op.add_column('modules', sa.Column('title', sa.String(length=50), nullable=True))
+    op.alter_column('modules', 'type',
+                    existing_type=postgresql.ENUM('featured', 'then', 'now', 'event', name='module_type'),
+                    nullable=False)
+    op.drop_column('modules', 'title2')
+    op.drop_column('modules', 'title1')
+
     # Create a temporary "_type" type, convert and drop the "old" type
     tmp_type.create(op.get_bind(), checkfirst=False)
     op.execute('ALTER TABLE events ALTER COLUMN type TYPE _type'
@@ -76,6 +87,15 @@ def downgrade():
 
     op.drop_column('users', 'password_hash')
     op.drop_column('users', 'phone')
+
+    op.add_column('modules', sa.Column('title1', sa.VARCHAR(length=50), autoincrement=False, nullable=True))
+    op.add_column('modules', sa.Column('title2', sa.VARCHAR(length=50), autoincrement=False, nullable=True))
+    op.alter_column('modules', 'type',
+                    existing_type=postgresql.ENUM('featured', 'then', 'now', 'event', name='module_type'),
+                    nullable=True)
+    op.drop_column('modules', 'title')
+    op.drop_column('modules', 'subtitle')
+    op.drop_column('modules', 'is_active')
 
     # op.execute('UPDATE responses SET type = \'note\' WHERE type IN \(\'letters\', \'envelopes\'\)')
     # Create a temporary "_type" type, convert and drop the "new" type

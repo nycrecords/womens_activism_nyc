@@ -94,6 +94,10 @@ h1 {
     background-color: #e0b040 !important;
 }
 
+#google_translate_element {
+    margin-top: 5.5em;
+}
+
 /* Fonts */
 
 h1, h2, h3, h4, h5, h6 {

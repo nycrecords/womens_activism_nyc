@@ -4,30 +4,33 @@
     <!-- Carousel -->
     <div id="carousel-controls" class="carousel slide" data-ride="carousel" data-interval=false>
         <div class="jumbotron" id="hero">
-            {%  if visible_featured_stories %}
-            <ol class="carousel-indicators">
-                <li data-target="#carousel-controls" data-slide-to="0" class="active"></li>
-                {%  for n in visible_featured_stories %}
-                    <li data-target="#carousel-controls" data-slide-to="{{ n }}"></li>
-                {%  endfor %}
-            </ol>
-            {%  endif %}
+            {% if visible_featured_stories %}
+                <ol class="carousel-indicators">
+                    <li data-target="#carousel-controls" data-slide-to="0" class="active"></li>
+                    {% for n in visible_featured_stories %}
+                        <li data-target="#carousel-controls" data-slide-to="{{ n }}"></li>
+                    {% endfor %}
+                </ol>
+            {% endif %}
             <div class="carousel-inner">
                 <div class="item active" id="carousel-content">
                     <div id="carousel-first">
                         <h1>Celebrate Women's Activism</h1>
-                        <p>Help build NYC's first permanent catalog of women activists. Share a story that inspires you.</p>
+                        <p>Help build NYC's first permanent catalog of women activists from across the globe. Share a
+                            story that inspires you.</p>
                         <p id="hero-collect">Collecting #20000By2020</p>
-                        <a class="btn btn-default btn-lg" href="{{ url_for('share.new') }}" role="button">Share Your Story</a>
+                        <a class="btn btn-default btn-lg" href="{{ url_for('share.new') }}" role="button">Share Your
+                            Story</a>
                     </div>
                 </div>
-                {%  for featured_story in featured_stories %}
-                    <div class="item" id="carousel-content" >
+                {% for featured_story in featured_stories %}
+                    <div class="item" id="carousel-content">
                         <a href="{{ url_for('stories.view', story_id=featured_story.story_id) }}">
                             <div class="container" id="carousel-jumbotron">
                                 {% if featured_story.left_right == 'left' %}
                                     <div class="col-md-4">
-                                        <div id="carousel-image" style="background-image: url({{ featured_story.story.image_url }})">
+                                        <div id="carousel-image"
+                                             style="background-image: url({{ featured_story.story.image_url }})">
                                         </div>
                                     </div>
                                     <div class="col-md-8" id="carousel-space-left">
@@ -48,7 +51,8 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div id="carousel-image" style="background-image: url({{ featured_story.story.image_url }})">
+                                        <div id="carousel-image"
+                                             style="background-image: url({{ featured_story.story.image_url }})">
                                         </div>
                                     </div>
                                 {% endif %}
@@ -57,16 +61,16 @@
                     </div>
                 {% endfor %}
             </div>
-            {%  if visible_featured_stories %}
-            <a class="left carousel-control" href="#carousel-controls" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#carousel-controls" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right"></span>
-                <span class="sr-only">Next</span>
-            </a>
-            {%  endif %}
+            {% if visible_featured_stories %}
+                <a class="left carousel-control" href="#carousel-controls" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#carousel-controls" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            {% endif %}
         </div>
     </div>
 
@@ -78,7 +82,7 @@
             <h2>#20000By2020</h2>
         </div>
 
-            <!-- Story Cards -->
+        <!-- Story Cards -->
         <div class="container" id="home-stories">
             {% for story in stories %}
                 <a href="{{ url_for('stories.view', story_id=story.id) }}">
@@ -126,46 +130,47 @@
     </div>
 
     <!-- Then and Now Module -->
-{#    <div class="jumbotron" id="then-now-jumbotron">#}
-{#        <div id="then-now-content">#}
-{#            <h1>Then &amp; Now: Civil Rights</h1>#}
-{#            <div class="container">#}
-{#                <div class="row">#}
-{#                    <div id="example4"></div>#}
-{#                    <div class="col-md-6" id="left-col-6">#}
-{#                        <div class="row then-now-sub-row">#}
-{#                            <div class="col-md-4">#}
-{#                                <div class="then-now-img" style="background-image: url('./static/img/then.jpg')"></div>#}
-{#                            </div>#}
-{#                            <div class="col-md-8 then-now-text">#}
-{#                                <h4 class="then-now-name">Ida B. Wells</h4>#}
-{#                                <span class="then-now-year">1892</span>#}
-{#                                <p class="then-now-bio">Wells worked as a civil-rights activist and journalist. She campaigned for anti-lynching legislation and published her sentiments in "The New York Age" paper in NYC in 1892.</p>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                    <div class="col-md-6">#}
-{#                        <div class="row then-now-sub-row">#}
-{#                            <div class="col-md-4">#}
-{#                                <div class="then-now-img" style="background-image: url('./static/img/now.jpg')"></div>#}
-{#                            </div>#}
-{#                            <div class="col-md-8 then-now-text">#}
-{#                                <h4 class="then-now-name">Merle Hoffman</h4>#}
-{#                                <span class="then-now-year">1976</span>#}
-{#                                <p class="then-now-bio">Merle Hoffman has been involved in defining and defending women�s human reproductive rights. She is the Co-founder of the National Abortion Federation.</p>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#            <a class="btn btn-default btn-lg" id="home-then-now-btn" href="#" role="button">Take Action Now</a>#}
-{#        </div>#}
-{#    </div>#}
+    {#    <div class="jumbotron" id="then-now-jumbotron">#}
+    {#        <div id="then-now-content">#}
+    {#            <h1>Then &amp; Now: Civil Rights</h1>#}
+    {#            <div class="container">#}
+    {#                <div class="row">#}
+    {#                    <div id="example4"></div>#}
+    {#                    <div class="col-md-6" id="left-col-6">#}
+    {#                        <div class="row then-now-sub-row">#}
+    {#                            <div class="col-md-4">#}
+    {#                                <div class="then-now-img" style="background-image: url('./static/img/then.jpg')"></div>#}
+    {#                            </div>#}
+    {#                            <div class="col-md-8 then-now-text">#}
+    {#                                <h4 class="then-now-name">Ida B. Wells</h4>#}
+    {#                                <span class="then-now-year">1892</span>#}
+    {#                                <p class="then-now-bio">Wells worked as a civil-rights activist and journalist. She campaigned for anti-lynching legislation and published her sentiments in "The New York Age" paper in NYC in 1892.</p>#}
+    {#                            </div>#}
+    {#                        </div>#}
+    {#                    </div>#}
+    {#                    <div class="col-md-6">#}
+    {#                        <div class="row then-now-sub-row">#}
+    {#                            <div class="col-md-4">#}
+    {#                                <div class="then-now-img" style="background-image: url('./static/img/now.jpg')"></div>#}
+    {#                            </div>#}
+    {#                            <div class="col-md-8 then-now-text">#}
+    {#                                <h4 class="then-now-name">Merle Hoffman</h4>#}
+    {#                                <span class="then-now-year">1976</span>#}
+    {#                                <p class="then-now-bio">Merle Hoffman has been involved in defining and defending women�s human reproductive rights. She is the Co-founder of the National Abortion Federation.</p>#}
+    {#                            </div>#}
+    {#                        </div>#}
+    {#                    </div>#}
+    {#                </div>#}
+    {#            </div>#}
+    {#            <a class="btn btn-default btn-lg" id="home-then-now-btn" href="#" role="button">Take Action Now</a>#}
+    {#        </div>#}
+    {#    </div>#}
 
 {% endblock %}
 
 {% block custom_script %}
-    <script type="text/javascript" src="{{ url_for('static', filename = 'js/plugins/twitterFetcher_min.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename = 'js/plugins/twitterFetcher_min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename = 'js/plugins/twitterFetchInfo.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename = 'js/twitterModule.js') }}"></script>
 {% endblock %}

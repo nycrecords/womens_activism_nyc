@@ -54,12 +54,7 @@
                     {% endif %}
 
                     {% if story.activist_url %}
-                        <p id="learn-more">To learn more, {% if story['activist_url'][:7] != 'http://' %}
-                            <a href="http://{{ story.activist_url }}" target="_blank" id="learn-more-link">click
-                                here</a>.
-                        {% else %}
-                            <a href="{{ story.activist_url }}" target="_blank">click here</a></p>
-                        {% endif %}
+                        <a href="{{ story.activist_url }}" target="_blank">click here</a></p>
                     {% endif %}
 
                 </div>

@@ -57,7 +57,7 @@ def new():
                     create_object(Events(
                         _type=EMAIL_SENT,
                         user_guid=user_guid,
-                        new_value={"email_body": email_body}
+                        new_value={"email_body": email_user_body}
                     ))
             else:
                 user_guid = None

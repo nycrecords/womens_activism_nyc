@@ -233,7 +233,7 @@ def upload(image_pc):
         image_pc.save(fp)
         data = open(fp.name, 'rb')
         fp.name = fp.name.split('.', 1)[1]
-        s3.Bucket('nycrecords-wom-uploads').put_object(Key=fp.name, Body=data, ACL='public-read', ContentType='image/jpeg')
+        s3.Bucket('nycrecords-wom-uploads-dev').put_object(Key=fp.name, Body=data, ACL='public-read', ContentType='image/jpeg')
         subprocess.call([
             "rm",
             "-rf",

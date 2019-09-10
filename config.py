@@ -5,7 +5,9 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 dotenv_path = os.path.join(basedir, ".env")
 load_dotenv(dotenv_path)
-
+BUCKET_NAME =os.environ.get("S3_BUCKET")
+S3_KEY= os.environ.get("S3_KEY")
+S3_SECRET= os.environ.get("S3_SECRET_ACCESS_KEY")
 
 class Config:
     # Flask-WTF
@@ -55,12 +57,11 @@ class Config:
     UPLOAD_QUARANTINE_DIRECTORY = (os.environ.get('UPLOAD_QUARANTINE_DIRECTORY') or
                                    os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app/static/'))
 
-    BUCKET_NAME = 'nycrecords-wom-uploads'
+    
 
     @staticmethod
     def init_app(app):
         pass
-
 
 class DevelopmentConfig(Config):
     DEBUG = True

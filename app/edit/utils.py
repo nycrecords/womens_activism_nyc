@@ -225,6 +225,8 @@ def handle_upload(file_field):
 
 
 def upload(image_pc):
+    #removes all non-alphanumeric charcters from the filename.
+    image_pc.filename="".join(x for x in image_pc.filename if (x.isalnum() or x==".")) 
     with NamedTemporaryFile(
         dir=current_app.config['UPLOAD_QUARANTINE_DIRECTORY'],
         suffix='.{}'.format(secure_filename(image_pc.filename)),

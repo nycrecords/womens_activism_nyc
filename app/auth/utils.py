@@ -1,6 +1,6 @@
-'''
+"""
 Utility functions used for view functions involving login
-'''
+"""
 from app.models import Events
 from app.db_utils import create_object
 from app.constants.event import LOGIN_FAILED, LOGIN_SUCCESS
@@ -16,13 +16,7 @@ def create_login_event(user, login_validation, email=None):
     """
 
     if login_validation:
-        create_object(Events(
-            _type=LOGIN_SUCCESS,
-            user_guid=user.guid
-        ))
+        create_object(Events(_type=LOGIN_SUCCESS, user_guid=user.guid))
     else:
         # the attempted login email will be stored in new_value column
-        create_object(Events(
-            _type=LOGIN_FAILED,
-            new_value={"email": email}
-        ))
+        create_object(Events(_type=LOGIN_FAILED, new_value={"email": email}))

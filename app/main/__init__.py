@@ -4,6 +4,6 @@ Contains the routes for the homepage where you can submit a post and viewing the
 """
 from flask import Blueprint
 
-main = Blueprint('main', __name__)
+main = Blueprint("main", __name__)
 
 from app.main import views

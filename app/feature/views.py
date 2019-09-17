@@ -8,12 +8,16 @@ from app.constants.event import EDIT_FEATURED_STORY
 from app.db_utils import create_object, update_object
 from app.feature import feature
 from app.feature.forms import FeaturedStoryForm, ModifyFeatureForm
-from app.feature.utils import create_featured_story, update_featured_story, hide_current_featured_story
+from app.feature.utils import (
+    create_featured_story,
+    update_featured_story,
+    hide_current_featured_story,
+)
 from app.models import Events, FeaturedStories, Stories
 from operator import attrgetter
 
 
-@feature.route('/', methods=['GET'])
+@feature.route("/", methods=["GET"])
 @login_required
 def listing():
     """
@@ -22,13 +26,19 @@ def listing():
 
     :return: renders the 'feature.html' template with featured story list
     """
-    featured_stories = sorted(FeaturedStories.query.filter_by(is_visible=True).all(), key=attrgetter('rank'))
+    featured_stories = sorted(
+        FeaturedStories.query.filter_by(is_visible=True).all(), key=attrgetter("rank")
+    )
     hidden_stories = FeaturedStories.query.filter_by(is_visible=False).all()
 
-    return render_template('feature/feature.html', featured_stories=featured_stories, hidden_stories=hidden_stories)
+    return render_template(
+        "feature/feature.html",
+        featured_stories=featured_stories,
+        hidden_stories=hidden_stories,
+    )
 
 
-@feature.route('/<story_id>', methods=['GET', 'POST'])
+@feature.route("/<story_id>", methods=["GET", "POST"])
 @login_required
 def set_featured_story(story_id):
     """
@@ -42,48 +52,59 @@ def set_featured_story(story_id):
     visible_stories = len(FeaturedStories.query.filter_by(is_visible=True).all())
     rank_choices = [(n, n + 1) for n in range(visible_stories)]
     if visible_stories < 4:
-        rank_choices.append((visible_stories, visible_stories+1))
+        rank_choices.append((visible_stories, visible_stories + 1))
 
     add_featured_form = FeaturedStoryForm(request.form)
     add_featured_form.rank.choices = rank_choices
 
-    if request.method == 'POST':
+    if request.method == "POST":
         story = Stories.query.filter_by(id=story_id).one_or_none()
         if add_featured_form.validate_on_submit():
             if visible_stories == 4:
-                flash("There cannot be more than 4 items on the carousel", category='danger')
-                return redirect('feature/' + story_id)
+                flash(
+                    "There cannot be more than 4 items on the carousel",
+                    category="danger",
+                )
+                return redirect("feature/" + story_id)
             new_description = add_featured_form.description.data
-            create_featured_story(story=story,
-                                  left_right=add_featured_form.left_right.data,
-                                  title=add_featured_form.title.data,
-                                  description=new_description,
-                                  rank=add_featured_form.rank.data)
-            flash("Story is now Featured!", category='success')
-            return redirect(url_for('main.index'))
+            create_featured_story(
+                story=story,
+                left_right=add_featured_form.left_right.data,
+                title=add_featured_form.title.data,
+                description=new_description,
+                rank=add_featured_form.rank.data,
+            )
+            flash("Story is now Featured!", category="success")
+            return redirect(url_for("main.index"))
         else:
             for field, error in add_featured_form.errors.items():
-                flash(add_featured_form.errors[field][0], category='danger')
-            return render_template('feature/add.html', form=add_featured_form, story=story)
+                flash(add_featured_form.errors[field][0], category="danger")
+            return render_template(
+                "feature/add.html", form=add_featured_form, story=story
+            )
 
     else:
         # Feature a story that has been featured before
-        featured_story = FeaturedStories.query.filter_by(story_id=story_id).one_or_none()
+        featured_story = FeaturedStories.query.filter_by(
+            story_id=story_id
+        ).one_or_none()
         if featured_story is not None:
             update_object({"is_visible": True}, FeaturedStories, featured_story.id)
-            create_object(Events(
-                _type=EDIT_FEATURED_STORY,
-                story_id=featured_story.story_id,
-                user_guid=current_user.guid,
-                previous_value={"is_visible": False},
-                new_value={"is_visible": True}
-            ))
-            flash("Story is now Featured!", category='success')
-            return redirect(url_for('main.index'))
-        return render_template('feature/add.html', form=add_featured_form)
+            create_object(
+                Events(
+                    _type=EDIT_FEATURED_STORY,
+                    story_id=featured_story.story_id,
+                    user_guid=current_user.guid,
+                    previous_value={"is_visible": False},
+                    new_value={"is_visible": True},
+                )
+            )
+            flash("Story is now Featured!", category="success")
+            return redirect(url_for("main.index"))
+        return render_template("feature/add.html", form=add_featured_form)
 
 
-@feature.route('/modify/<story_id>', methods=['GET', 'POST'])
+@feature.route("/modify/<story_id>", methods=["GET", "POST"])
 @login_required
 def modify(story_id):
     """
@@ -103,31 +124,42 @@ def modify(story_id):
         rank_choices.append((visible_stories, visible_stories + 1))
         default_rank = visible_stories
 
-    form = ModifyFeatureForm(request.form,
-                             left_right=featured_story.left_right,
-                             title=featured_story.title,
-                             description=featured_story.description,
-                             is_visible=featured_story.is_visible,
-                             rank=default_rank)
+    form = ModifyFeatureForm(
+        request.form,
+        left_right=featured_story.left_right,
+        title=featured_story.title,
+        description=featured_story.description,
+        is_visible=featured_story.is_visible,
+        rank=default_rank,
+    )
     form.rank.choices = rank_choices
 
-    if request.method == 'POST':
+    if request.method == "POST":
         if form.validate_on_submit():
-            if visible_stories == 4 and featured_story.is_visible and form.is_visible.data == 'True':
+            if (
+                visible_stories == 4
+                and featured_story.is_visible
+                and form.is_visible.data == "True"
+            ):
                 # if not featured_story.is_visible and form.is_visible:
-                flash("There cannot be more than 4 items on the carousel", category='danger')
-                return redirect('feature/modify/' + story_id)
-            update_featured_story(featured_story=featured_story,
-                                  left_right=form.left_right.data,
-                                  title=form.title.data,
-                                  is_visible=form.is_visible.data,
-                                  description=form.description.data,
-                                  rank=form.rank.data)
-            flash("Story is now Modified!", category='success')
-            return redirect(url_for('main.index'))
+                flash(
+                    "There cannot be more than 4 items on the carousel",
+                    category="danger",
+                )
+                return redirect("feature/modify/" + story_id)
+            update_featured_story(
+                featured_story=featured_story,
+                left_right=form.left_right.data,
+                title=form.title.data,
+                is_visible=form.is_visible.data,
+                description=form.description.data,
+                rank=form.rank.data,
+            )
+            flash("Story is now Modified!", category="success")
+            return redirect(url_for("main.index"))
 
     else:
         if featured_story is None:
-            flash("This story does not exist in Featured Story", category='danger')
-            return redirect(url_for('feature.listing'))
-    return render_template('feature/modify.html', form=form)
+            flash("This story does not exist in Featured Story", category="danger")
+            return redirect(url_for("feature.listing"))
+    return render_template("feature/modify.html", form=form)

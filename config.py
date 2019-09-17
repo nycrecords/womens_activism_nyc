@@ -5,9 +5,10 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 dotenv_path = os.path.join(basedir, ".env")
 load_dotenv(dotenv_path)
-BUCKET_NAME =os.environ.get("S3_BUCKET")
-S3_KEY= os.environ.get("S3_KEY")
-S3_SECRET= os.environ.get("S3_SECRET_ACCESS_KEY")
+BUCKET_NAME = os.environ.get("S3_BUCKET")
+S3_KEY = os.environ.get("S3_KEY")
+S3_SECRET = os.environ.get("S3_SECRET_ACCESS_KEY")
+
 
 class Config:
     # Flask-WTF
@@ -42,26 +43,26 @@ class Config:
     RECAPTCHA_PRIVATE_KEY = os.environ.get("RECAPTCHA_PRIVATE_KEY")
 
     # Flask-Mail Settings
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    MAIL_SERVER = os.environ.get('MAIL_SERVER')
-    MAIL_PORT = os.environ.get('MAIL_PORT')
-    MAIL_SENDER = os.environ.get('MAIL_SENDER')
-    MAIL_RECIPIENTS = os.environ.get('MAIL_RECIPIENTS')
-    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', "True") == "True"
+    MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
+    MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
+    MAIL_SERVER = os.environ.get("MAIL_SERVER")
+    MAIL_PORT = os.environ.get("MAIL_PORT")
+    MAIL_SENDER = os.environ.get("MAIL_SENDER")
+    MAIL_RECIPIENTS = os.environ.get("MAIL_RECIPIENTS")
+    MAIL_USE_TLS = os.environ.get("MAIL_USE_TLS", "True") == "True"
 
     # USE_SFTP = os.environ.get('USE_SFTP') == "True"
     # SFTP_UPLOAD_DIRECTORY = os.environ.get('SFTP_UPLOAD_DIRECTORY')
 
-    #Upload Settings
-    UPLOAD_QUARANTINE_DIRECTORY = (os.environ.get('UPLOAD_QUARANTINE_DIRECTORY') or
-                                   os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app/static/'))
-
-    
+    # Upload Settings
+    UPLOAD_QUARANTINE_DIRECTORY = os.environ.get(
+        "UPLOAD_QUARANTINE_DIRECTORY"
+    ) or os.path.join(os.path.abspath(os.path.dirname(__file__)), "app/static/")
 
     @staticmethod
     def init_app(app):
         pass
+
 
 class DevelopmentConfig(Config):
     DEBUG = True
@@ -86,7 +87,7 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     TESTING = True
-    #UPLOAD_DIRECTORY = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app/static/')
+    # UPLOAD_DIRECTORY = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app/static/')
     SQLALCHEMY_DATABASE_URI = (
         os.environ.get("TEST_DATABASE_URL")
         or "postgresql://localhost:5432/womens_activism_test"

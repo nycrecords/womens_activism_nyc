@@ -37,30 +37,34 @@ def hide_story(story_id):
     # We should keep the same code for this one, since we need to create a new audit trail anyways in Events table for
     # hiding
     # Create Events object
-    create_object(Events(
-        _type=DELETE_STORY,
-        story_id=story.id,
-        user_guid=story.user_guid,
-        previous_value=old_json_value,
-        new_value=new_json_value
-    ))
+    create_object(
+        Events(
+            _type=DELETE_STORY,
+            story_id=story.id,
+            user_guid=story.user_guid,
+            previous_value=old_json_value,
+            new_value=new_json_value,
+        )
+    )
 
     return story.id
 
 
-def update_story(story_id,
-                 activist_first,
-                 activist_last,
-                 activist_start,
-                 activist_end,
-                 tags,
-                 content,
-                 activist_url,
-                 image_url,
-                 image_pc,
-                 video_url,
-                 user_guid,
-                 reason):
+def update_story(
+    story_id,
+    activist_first,
+    activist_last,
+    activist_start,
+    activist_end,
+    tags,
+    content,
+    activist_url,
+    image_url,
+    image_pc,
+    video_url,
+    user_guid,
+    reason,
+):
     """
     A utility function to edit a Story object and convert parameters to the correct data types. After the Story object
     is edited, it will be added and committed to the database
@@ -80,14 +84,23 @@ def update_story(story_id,
     :param reason: the reason for editing this post
     :return: no return value, a Story object will be created
     """
-    strip_fields = ['activist_first', 'activist_last', 'activist_start', 'activist_end', 'content', 'activist_url',
-                    'img_url', 'img_pc', 'video_url']
+    strip_fields = [
+        "activist_first",
+        "activist_last",
+        "activist_start",
+        "activist_end",
+        "content",
+        "activist_url",
+        "img_url",
+        "img_pc",
+        "video_url",
+    ]
     for field in strip_fields:
         field.strip()
 
     # convert "Today" to 9999 to be stored in the database
     if activist_end:
-        activist_end = 9999 if activist_end.lower() == 'today' else int(activist_end)
+        activist_end = 9999 if activist_end.lower() == "today" else int(activist_end)
     else:
         activist_end = None
 
@@ -105,7 +118,7 @@ def update_story(story_id,
         "image_pc",
         "video_url",
         "user_guid",
-        "tags"
+        "tags",
     }
 
     story_field_vals = {
@@ -119,7 +132,7 @@ def update_story(story_id,
         "image_pc": image_pc,
         "video_url": video_url,
         "user_guid": user_guid,
-        "tags": tags
+        "tags": tags,
     }
 
     old = {}
@@ -128,7 +141,7 @@ def update_story(story_id,
     for field in story_fields:
         val = story_field_vals[field]
         if val is not None:
-            if val == '':
+            if val == "":
                 story_field_vals[field] = None  # null in db, not empty string
             cur_val = getattr(story, field)
             new_val = story_field_vals[field]
@@ -140,28 +153,20 @@ def update_story(story_id,
         story.is_edited = True
         update_object(new, Stories, story.id)
 
-        create_object(Events(
-            _type=EDIT_STORY,
-            story_id=story.id,
-            previous_value=old,
-            new_value=new
-        ))
+        create_object(
+            Events(
+                _type=EDIT_STORY, story_id=story.id, previous_value=old, new_value=new
+            )
+        )
 
         # bring the Flags table here
-        flag = Flags(story_id=story_id,
-                     type=INCORRECT_INFORMATION,
-                     reason=reason)
+        flag = Flags(story_id=story_id, type=INCORRECT_INFORMATION, reason=reason)
         create_object(flag)
 
     return story.id
 
 
-def update_user(user,
-                first_name,
-                last_name,
-                email,
-                phone,
-                subscription):
+def update_user(user, first_name, last_name, email, phone, subscription):
     """
     A utility function used to create a User object.
     If any of the fields are left blank then convert them to None types
@@ -175,20 +180,14 @@ def update_user(user,
 
     :return: no return value, a Poster object will be created
     """
-    user_fields = {
-        'first_name',
-        'last_name',
-        'email',
-        'phone',
-        'subscription'
-    }
+    user_fields = {"first_name", "last_name", "email", "phone", "subscription"}
 
     user_field_vals = {
-        'first_name': first_name,
-        'last_name': last_name,
-        'email': email,
-        'phone': phone,
-        'subscription': subscription
+        "first_name": first_name,
+        "last_name": last_name,
+        "email": email,
+        "phone": phone,
+        "subscription": subscription,
     }
 
     old = {}
@@ -197,7 +196,7 @@ def update_user(user,
     for field in user_fields:
         val = user_field_vals[field]
         if val is not None:
-            if val == '':
+            if val == "":
                 user_field_vals[field] = None  # null in db, not empty string
             cur_val = getattr(user, field)
             new_val = user_field_vals[field]
@@ -209,12 +208,14 @@ def update_user(user,
         update_object(new, user, user.guid)
 
         # Create Events object
-        create_object(Events(
-            _type=USER_EDITED,
-            user_guid=user.guid,
-            previous_value=old,
-            new_value=new
-        ))
+        create_object(
+            Events(
+                _type=USER_EDITED,
+                user_guid=user.guid,
+                previous_value=old,
+                new_value=new,
+            )
+        )
 
     return user.guid
 
@@ -225,20 +226,18 @@ def handle_upload(file_field):
 
 
 def upload(image_pc):
-    #generates unique id for filename so nothing gets overwritten.
-    image_pc.filename=str(uuid.uuid4())
+    # generates unique id for filename so nothing gets overwritten.
+    image_pc.filename = str(uuid.uuid4())
     with NamedTemporaryFile(
-        dir=current_app.config['UPLOAD_QUARANTINE_DIRECTORY'],
-        suffix='.{}'.format(secure_filename(image_pc.filename)),
-        delete=False
+        dir=current_app.config["UPLOAD_QUARANTINE_DIRECTORY"],
+        suffix=".{}".format(secure_filename(image_pc.filename)),
+        delete=False,
     ) as fp:
         image_pc.save(fp)
-        data = open(fp.name, 'rb')
-        fp.name = fp.name.split('.', 1)[1]
-        s3.Bucket('nycrecords-wom-uploads-dev').put_object(Key=fp.name, Body=data, ACL='public-read', ContentType='image/jpeg')
-        subprocess.call([
-            "rm",
-            "-rf",
-            fp.name,
-        ])
+        data = open(fp.name, "rb")
+        fp.name = fp.name.split(".", 1)[1]
+        s3.Bucket("nycrecords-wom-uploads-dev").put_object(
+            Key=fp.name, Body=data, ACL="public-read", ContentType="image/jpeg"
+        )
+        subprocess.call(["rm", "-rf", fp.name])
         return fp.name

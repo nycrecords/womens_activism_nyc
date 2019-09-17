@@ -9,8 +9,7 @@ from flask_login import login_required
 from app.share.utils import handle_upload
 
 
-
-@edit.route('/<story_id>', methods=['GET', 'POST'])
+@edit.route("/<story_id>", methods=["GET", "POST"])
 @login_required
 def edit(story_id):
     """
@@ -21,50 +20,62 @@ def edit(story_id):
     user = Users.query.filter_by(guid=story.user_guid).one_or_none()
     form = StoryForm(request.form, content=story.content)
 
-    if request.method == 'POST':
+    if request.method == "POST":
         if form.validate_on_submit():
             if user is not None:
-                user_guid = update_user(user,
-                                        form.user_first.data,
-                                        form.user_last.data,
-                                        form.user_email.data)
+                user_guid = update_user(
+                    user,
+                    form.user_first.data,
+                    form.user_last.data,
+                    form.user_email.data,
+                )
 
             else:
                 user_guid = None
                 if form.user_first.data or form.user_last.data or form.user_email.data:
-                    user_guid = create_user(user_first=form.user_first.data,
-                                            user_last=form.user_last.data,
-                                            user_email=form.user_email.data)
+                    user_guid = create_user(
+                        user_first=form.user_first.data,
+                        user_last=form.user_last.data,
+                        user_email=form.user_email.data,
+                    )
 
             tag_string = form.tags.data
             tags = []
-            for t in tag_string.split(','):
+            for t in tag_string.split(","):
                 tags.append(Tags.query.filter_by(id=t).one().name)
 
             upload_path = None
             if form.image_pc.data:
                 upload_path = handle_upload(form.image_pc)
 
-            story_id = update_story(story_id=story_id,
-                                    activist_first=form.activist_first.data,
-                                    activist_last=form.activist_last.data,
-                                    activist_start=form.activist_start.data,
-                                    activist_end=form.activist_end.data,
-                                    tags=tags,
-                                    content=form.content.data,
-                                    activist_url=form.activist_url.data,
-                                    image_url=form.image_url.data,
-                                    image_pc=form.image_pc.data,
-                                    video_url=form.video_url.data,
-                                    user_guid=user_guid,
-                                    reason=form.reason.data)
+            story_id = update_story(
+                story_id=story_id,
+                activist_first=form.activist_first.data,
+                activist_last=form.activist_last.data,
+                activist_start=form.activist_start.data,
+                activist_end=form.activist_end.data,
+                tags=tags,
+                content=form.content.data,
+                activist_url=form.activist_url.data,
+                image_url=form.image_url.data,
+                image_pc=form.image_pc.data,
+                video_url=form.video_url.data,
+                user_guid=user_guid,
+                reason=form.reason.data,
+            )
 
-            flash(Markup('Story Edited!'), category='success')
-            return redirect(url_for('stories.view', story_id=story_id))
+            flash(Markup("Story Edited!"), category="success")
+            return redirect(url_for("stories.view", story_id=story_id))
         else:
             for field, error in form.errors.items():
                 flash(form.errors[field][0], category="danger")
-            return render_template('edit/edit.html', story=story, user=user, form=form, tags=Tags.query.all())
+            return render_template(
+                "edit/edit.html",
+                story=story,
+                user=user,
+                form=form,
+                tags=Tags.query.all(),
+            )
 
     else:
         try:
@@ -76,4 +87,6 @@ def edit(story_id):
             print("Story is not visible")
             return abort(404)
 
-        return render_template('edit/edit.html', story=story, user=user, form=form, tags=Tags.query.all())
+        return render_template(
+            "edit/edit.html", story=story, user=user, form=form, tags=Tags.query.all()
+        )

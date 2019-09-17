@@ -27,10 +27,12 @@ def create_object(obj):
         db.session.rollback()
     else:
         # create elasticsearch doc
-        if (not isinstance(obj, Stories)
-            and hasattr(obj, 'es_create')
-            and current_app.config['ELASTICSEARCH_ENABLED']):
-              obj.es_create()
+        if (
+            not isinstance(obj, Stories)
+            and hasattr(obj, "es_create")
+            and current_app.config["ELASTICSEARCH_ENABLED"]
+        ):
+            obj.es_create()
         return str(obj)
 
 
@@ -65,7 +67,11 @@ def update_object(data, obj_type, obj_id, es_update=True):
             current_app.logger.exception("Failed to UPDATE {}".format(obj))
         else:
             # update elasticsearch
-            if hasattr(obj, 'es_update') and current_app.config['ELASTICSEARCH_ENABLED'] and es_update:
+            if (
+                hasattr(obj, "es_update")
+                and current_app.config["ELASTICSEARCH_ENABLED"]
+                and es_update
+            ):
                 obj.es_update()
             return True
     return False
@@ -82,6 +88,9 @@ def get_object(obj_type, obj_id):
         return obj_type.query.get(obj_id)
     except SQLAlchemyError:
         db.session.rollback()
-        current_app.logger.exception('Error searching "{}" table for id {}'.format(
-            obj_type.__tablename__, obj_id))
+        current_app.logger.exception(
+            'Error searching "{}" table for id {}'.format(
+                obj_type.__tablename__, obj_id
+            )
+        )
         return None

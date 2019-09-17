@@ -5,7 +5,7 @@ from app.constants import STORY_GOAL_NUMBER
 from operator import attrgetter
 
 
-@main.route('/', methods=['GET'])
+@main.route("/", methods=["GET"])
 def index():
     """
     View function for the homepage. This function queries the database for the amount of current visible stories
@@ -15,26 +15,32 @@ def index():
     visible_stories = len(Stories.query.filter_by(is_visible=True).all())
     remaining_stories = STORY_GOAL_NUMBER - visible_stories
 
-    stories = Stories.query.filter_by(is_visible=True).order_by(Stories.date_created.desc()).limit(8)
+    stories = (
+        Stories.query.filter_by(is_visible=True)
+        .order_by(Stories.date_created.desc())
+        .limit(8)
+    )
 
     featured_stories = FeaturedStories.query.filter_by(is_visible=True).all()
-    sorted_stories = sorted(featured_stories, key=attrgetter('rank'))
+    sorted_stories = sorted(featured_stories, key=attrgetter("rank"))
 
-    visible_featured_stories = [str(n+1) for n in range(len(sorted_stories))]
+    visible_featured_stories = [str(n + 1) for n in range(len(sorted_stories))]
 
-    return render_template('main/home.html',
-                           visible_stories=visible_stories,
-                           remaining_stories=remaining_stories,
-                           stories=stories,
-                           featured_stories=sorted_stories,
-                           visible_featured_stories=visible_featured_stories)
+    return render_template(
+        "main/home.html",
+        visible_stories=visible_stories,
+        remaining_stories=remaining_stories,
+        stories=stories,
+        featured_stories=sorted_stories,
+        visible_featured_stories=visible_featured_stories,
+    )
 
 
-@main.route('/about', methods=['GET'])
+@main.route("/about", methods=["GET"])
 def about():
-    return render_template('main/about.html')
+    return render_template("main/about.html")
 
 
-@main.route('/contact', methods=['GET'])
+@main.route("/contact", methods=["GET"])
 def contact():
-    return render_template('main/contact.html')
+    return render_template("main/contact.html")

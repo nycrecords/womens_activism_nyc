@@ -1,15 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import (
-    StringField,
-    SubmitField,
-)
+from wtforms import StringField, SubmitField
 
-from wtforms.validators import (
-    DataRequired,
-    Email,
-)
+from wtforms.validators import DataRequired, Email
 
 
 class UnsubscribeForm(FlaskForm):
-    user_email = StringField('Email', validators=[DataRequired(), Email()])
-    submit = SubmitField('Unsubscribe')
+    user_email = StringField("Email", validators=[DataRequired(), Email()])
+    submit = SubmitField("Unsubscribe")

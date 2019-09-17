@@ -7,7 +7,7 @@ from . import auth
 from .forms import LoginForm
 
 
-@auth.route('/login', methods=['GET', 'POST'])
+@auth.route("/login", methods=["GET", "POST"])
 def login():
     """
     A view function that determines whether if the attempt is successful or not
@@ -23,7 +23,7 @@ def login():
                     create an audit trail (login fail) with the attempted email recorded
     """
     if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
+        return redirect(url_for("main.index"))
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -31,18 +31,18 @@ def login():
         if user is not None and user.verify_password(form.password.data):
             login_user(user)
             create_login_event(user, login_validation=True)
-            return redirect(request.args.get('next') or url_for('main.index'))
+            return redirect(request.args.get("next") or url_for("main.index"))
         else:
-            flash('Invalid username or password.', category='danger')
+            flash("Invalid username or password.", category="danger")
             create_login_event(user, login_validation=False, email=form.email.data)
-            return render_template('auth/login.html', form=form)
+            return render_template("auth/login.html", form=form)
 
-    return render_template('auth/login.html', form=form)
+    return render_template("auth/login.html", form=form)
 
 
-@auth.route('/logout')
+@auth.route("/logout")
 @login_required
 def logout():
     logout_user()
-    flash("You have been logged out.", category='success')
-    return redirect(url_for('main.index'))
+    flash("You have been logged out.", category="success")
+    return redirect(url_for("main.index"))

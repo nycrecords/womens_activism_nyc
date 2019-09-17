@@ -6,7 +6,7 @@ from app.constants import (
     user_type_auth,
     event,
     module,
-    flag
+    flag,
 )
 from app.constants.search import ES_DATETIME_FORMAT
 
@@ -27,6 +27,7 @@ class Roles(db.Model):
     name - a string containing the name of the role
     permission - a string containing the number value for permissions of a role
     """
+
     __tablename__ = "roles"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -40,30 +41,28 @@ class Roles(db.Model):
         """
 
         roles = {
-            role_name.ANONYMOUS: (
-                permission.NONE
-            ),
+            role_name.ANONYMOUS: (permission.NONE),
             role_name.MODERATOR: (
-                    permission.EDIT_STORY |
-                    permission.DELETE_STORY |
-                    permission.EDIT_COMMENT |
-                    permission.DELETE_COMMENT |
-                    permission.EDIT_FEATURED_STORY |
-                    permission.EDIT_THEN_AND_NOW |
-                    permission.EDIT_EVENTS
+                permission.EDIT_STORY
+                | permission.DELETE_STORY
+                | permission.EDIT_COMMENT
+                | permission.DELETE_COMMENT
+                | permission.EDIT_FEATURED_STORY
+                | permission.EDIT_THEN_AND_NOW
+                | permission.EDIT_EVENTS
             ),
             role_name.ADMINISTRATOR: (
-                    permission.EDIT_STORY |
-                    permission.DELETE_STORY |
-                    permission.EDIT_COMMENT |
-                    permission.DELETE_COMMENT |
-                    permission.EDIT_FEATURED_STORY |
-                    permission.EDIT_THEN_AND_NOW |
-                    permission.EDIT_EVENTS |
-                    permission.CREATE_USER |
-                    permission.EDIT_USER_INFO |
-                    permission.DELETE_USER
-            )
+                permission.EDIT_STORY
+                | permission.DELETE_STORY
+                | permission.EDIT_COMMENT
+                | permission.DELETE_COMMENT
+                | permission.EDIT_FEATURED_STORY
+                | permission.EDIT_THEN_AND_NOW
+                | permission.EDIT_EVENTS
+                | permission.CREATE_USER
+                | permission.EDIT_USER_INFO
+                | permission.DELETE_USER
+            ),
         }
 
         for name, value in roles.items():
@@ -75,7 +74,7 @@ class Roles(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        return '<Roles %r>' % self.name
+        return "<Roles %r>" % self.name
 
 
 class Users(UserMixin, db.Model):
@@ -93,19 +92,24 @@ class Users(UserMixin, db.Model):
     password_hash - a string that contains the password of the user
     subscription - a boolean that indicates whether the user is subscribed or not
     """
+
     __tablename__ = "users"
     guid = db.Column(db.String(64), primary_key=True)
     auth_user_type = db.Column(
-        db.Enum(user_type_auth.AGENCY_USER,
-                user_type_auth.AGENCY_LDAP_USER,
-                user_type_auth.PUBLIC_USER_FACEBOOK,
-                user_type_auth.PUBLIC_USER_MICROSOFT,
-                user_type_auth.PUBLIC_USER_YAHOO,
-                user_type_auth.PUBLIC_USER_LINKEDIN,
-                user_type_auth.PUBLIC_USER_GOOGLE,
-                user_type_auth.PUBLIC_USER_NYC_ID,
-                user_type_auth.ANONYMOUS_USER,
-                name='auth_user_type'), nullable=False)
+        db.Enum(
+            user_type_auth.AGENCY_USER,
+            user_type_auth.AGENCY_LDAP_USER,
+            user_type_auth.PUBLIC_USER_FACEBOOK,
+            user_type_auth.PUBLIC_USER_MICROSOFT,
+            user_type_auth.PUBLIC_USER_YAHOO,
+            user_type_auth.PUBLIC_USER_LINKEDIN,
+            user_type_auth.PUBLIC_USER_GOOGLE,
+            user_type_auth.PUBLIC_USER_NYC_ID,
+            user_type_auth.ANONYMOUS_USER,
+            name="auth_user_type",
+        ),
+        nullable=False,
+    )
     is_mod = db.Column(db.Boolean, default=False, nullable=False)
     is_admin = db.Column(db.Boolean, default=False, nullable=False)
     first_name = db.Column(db.String(128))
@@ -119,20 +123,20 @@ class Users(UserMixin, db.Model):
     subscription = db.Column(db.Boolean)
 
     def __init__(
-            self,
-            guid,
-            auth_user_type,
-            is_mod=False,
-            is_admin=False,
-            first_name=None,
-            middle_initial=None,
-            last_name=None,
-            email=None,
-            email_validated=False,
-            phone=None,
-            terms_of_use_accepted=False,
-            password_hash=None,
-            subscription=False
+        self,
+        guid,
+        auth_user_type,
+        is_mod=False,
+        is_admin=False,
+        first_name=None,
+        middle_initial=None,
+        last_name=None,
+        email=None,
+        email_validated=False,
+        phone=None,
+        terms_of_use_accepted=False,
+        password_hash=None,
+        subscription=False,
     ):
         self.guid = guid
         self.auth_user_type = auth_user_type
@@ -154,15 +158,15 @@ class Users(UserMixin, db.Model):
         JSON to store in Events 'new_value' field.
         """
         return {
-            'guid': self.guid,
-            'auth_user_type': self.auth_user_type,
-            'first_name': self.first_name,
-            'last_name': self.last_name,
-            'email': self.email,
-            'email_validated': self.email_validated,
-            'phone': self.phone,
-            'terms_of_use_accepted': self.terms_of_use_accepted,
-            'subscription': self.subscription
+            "guid": self.guid,
+            "auth_user_type": self.auth_user_type,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "email": self.email,
+            "email_validated": self.email_validated,
+            "phone": self.phone,
+            "terms_of_use_accepted": self.terms_of_use_accepted,
+            "subscription": self.subscription,
         }
 
     def set_password(self, password):
@@ -172,7 +176,7 @@ class Users(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return '<User %r>' % self.get_id()
+        return "<User %r>" % self.get_id()
 
     def get_id(self):
         return str(self.guid)
@@ -236,6 +240,7 @@ class Stories(db.Model):
                  True = the story has been hidden, False = the story has not been hidden
     tags - an array containing the tags the user selected when creating the story. The array is a string type.
     """
+
     __tablename__ = "stories"
     id = db.Column(db.Integer, primary_key=True)
     activist_first = db.Column(db.String(64), nullable=False)
@@ -254,20 +259,20 @@ class Stories(db.Model):
     tags = db.Column(ARRAY(db.String(500)))
 
     def __init__(
-            self,
-            activist_first,
-            activist_last,
-            content,
-            tags,
-            is_visible=True,
-            activist_start=None,
-            activist_end=None,
-            activist_url=None,
-            image_url=None,
-            image_pc=None,
-            video_url=None,
-            user_guid=None,
-            is_edited=False,
+        self,
+        activist_first,
+        activist_last,
+        content,
+        tags,
+        is_visible=True,
+        activist_start=None,
+        activist_end=None,
+        activist_url=None,
+        image_url=None,
+        image_pc=None,
+        video_url=None,
+        user_guid=None,
+        is_edited=False,
     ):
         self.activist_first = activist_first
         self.activist_last = activist_last
@@ -290,53 +295,53 @@ class Stories(db.Model):
         JSON to store in Events 'new_value' field.
         """
         return {
-            'activist_first': self.activist_first,
-            'activist_last': self.activist_last,
-            'activist_start': self.activist_start,
-            'activist_end': self.activist_end,
-            'content': self.content,
-            'activist_url': self.activist_url,
-            'image_url': self.image_url,
-            'image_pc': self.image_pc,
-            'video_url': self.video_url
+            "activist_first": self.activist_first,
+            "activist_last": self.activist_last,
+            "activist_start": self.activist_start,
+            "activist_end": self.activist_end,
+            "content": self.content,
+            "activist_url": self.activist_url,
+            "image_url": self.image_url,
+            "image_pc": self.image_pc,
+            "video_url": self.video_url,
         }
 
     def es_create(self):
         """Create elasticsearch doc"""
         es.create(
             index=current_app.config["ELASTICSEARCH_INDEX"],
-            doc_type='story',
+            doc_type="story",
             id=self.id,
             body={
-                'activist_first': self.activist_first,
-                'activist_last': self.activist_last,
-                'content': self.content,
-                'image_url': self.image_url,
-                'image_pc': self.image_pc,
-                'tag': self.tags,
-                'date_created': self.date_created.strftime(ES_DATETIME_FORMAT)
-            }
+                "activist_first": self.activist_first,
+                "activist_last": self.activist_last,
+                "content": self.content,
+                "image_url": self.image_url,
+                "image_pc": self.image_pc,
+                "tag": self.tags,
+                "date_created": self.date_created.strftime(ES_DATETIME_FORMAT),
+            },
         )
 
     def es_update(self):
         es.update(
             index=current_app.config["ELASTICSEARCH_INDEX"],
-            doc_type='story',
+            doc_type="story",
             id=self.id,
             body={
-                'doc': {
-                    'activist_first': self.activist_first,
-                    'activist_last': self.activist_last,
-                    'content': self.content,
-                    'image_url': self.image_url,
-                    'image_pc': self.image_pc,
-                    'tag': self.tags,
+                "doc": {
+                    "activist_first": self.activist_first,
+                    "activist_last": self.activist_last,
+                    "content": self.content,
+                    "image_url": self.image_url,
+                    "image_pc": self.image_pc,
+                    "tag": self.tags,
                 }
-            }
+            },
         )
 
     def __repr__(self):
-        return '<Stories %r>' % self.id
+        return "<Stories %r>" % self.id
 
 
 class FeaturedStories(db.Model):
@@ -349,14 +354,14 @@ class FeaturedStories(db.Model):
     left_right - a boolean that contains whether to have picture on left OR right hand side
     timestamp - the date that the event was created
     """
+
     __tablename__ = "featured_stories"
     id = db.Column(db.Integer, primary_key=True)
-    story_id = db.Column(db.Integer, db.ForeignKey('stories.id'), nullable=False)
+    story_id = db.Column(db.Integer, db.ForeignKey("stories.id"), nullable=False)
     # left is true, right is false
     left_right = db.Column(
-        db.Enum('left',
-                'right',
-                name='photo_position'), nullable=False)
+        db.Enum("left", "right", name="photo_position"), nullable=False
+    )
     is_visible = db.Column(db.Boolean, nullable=False)
     title = db.Column(db.String(90), nullable=False)
     description = db.Column(db.String(365), nullable=False)
@@ -365,13 +370,13 @@ class FeaturedStories(db.Model):
     story = db.relationship("Stories", backref="featured_stories")
 
     def __init__(
-            self,
-            story_id,
-            title,
-            description,
-            left_right=False,
-            is_visible=False,
-            rank=None
+        self,
+        story_id,
+        title,
+        description,
+        left_right=False,
+        is_visible=False,
+        rank=None,
     ):
         self.story_id = story_id
         self.left_right = left_right
@@ -381,7 +386,7 @@ class FeaturedStories(db.Model):
         self.rank = rank
 
     def __repr__(self):
-        return '<FeaturedStories %r>' % self.id
+        return "<FeaturedStories %r>" % self.id
 
     @property
     def val_for_events(self):
@@ -389,13 +394,13 @@ class FeaturedStories(db.Model):
         JSON to store in Events 'new_value' field.
         """
         return {
-            'id': self.id,
-            'story_id': self.story_id,
-            'left_right': self.left_right,
-            'is_visible': self.is_visible,
-            'title': self.title,
-            'description': self.description,
-            'rank': self.rank
+            "id": self.id,
+            "story_id": self.story_id,
+            "left_right": self.left_right,
+            "is_visible": self.is_visible,
+            "title": self.title,
+            "description": self.description,
+            "rank": self.rank,
         }
 
 
@@ -406,6 +411,7 @@ class Tags(db.Model):
     id - an integer containing the tag id
     name - a string containing the name of the tag
     """
+
     __tablename__ = "tags"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
@@ -424,7 +430,7 @@ class Tags(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        return '<Tags %r>' % self.name
+        return "<Tags %r>" % self.name
 
     def __init__(self, name):
         self.name = name
@@ -441,6 +447,7 @@ class Comments(db.Model):
     is_edited - a boolean that determines if the comment was edited or not.
     is_visible - a boolean that determines if the comment has been hidden from the public or not.
     """
+
     __tablename__ = "comments"
     id = db.Column(db.Integer, primary_key=True)
     story_id = db.Column(db.Integer, db.ForeignKey("stories.id"))
@@ -451,15 +458,9 @@ class Comments(db.Model):
     is_visible = db.Column(db.Boolean, nullable=False)
 
     def __repr__(self):
-        return '<Comments %r>' % self.id
+        return "<Comments %r>" % self.id
 
-    def __init__(self,
-                 story_id,
-                 name,
-                 content,
-                 is_edited=False,
-                 is_visible=True
-                 ):
+    def __init__(self, story_id, name, content, is_edited=False, is_visible=True):
         self.story_id = story_id
         self.name = name
         self.content = content
@@ -483,45 +484,51 @@ class Events(db.Model):
     previous_value - a JSON that contains the old content of a story or comment
     new_value - a JSON that contains the new content of a story or comment
     """
+
     __tablename__ = "events"
     id = db.Column(db.Integer, primary_key=True)
-    story_id = db.Column(db.Integer, db.ForeignKey('stories.id'))
-    comment_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
-    module_id = db.Column(db.Integer, db.ForeignKey('modules.id'))
+    story_id = db.Column(db.Integer, db.ForeignKey("stories.id"))
+    comment_id = db.Column(db.Integer, db.ForeignKey("comments.id"))
+    module_id = db.Column(db.Integer, db.ForeignKey("modules.id"))
     user_guid = db.Column(db.String(64))
     type = db.Column(
-        db.Enum(event.STORY_CREATED,
-                event.USER_CREATED,
-                event.EDIT_STORY,
-                event.DELETE_STORY,
-                event.EDIT_COMMENT,
-                event.DELETE_COMMENT,
-                event.ADD_FEATURED_STORY,
-                event.EDIT_FEATURED_STORY,
-                event.HIDE_FEATURED_STORY,
-                event.EDIT_THEN_AND_NOW,
-                event.STORY_FLAGGED,
-                event.USER_EDITED,
-                event.LOGIN_FAILED,
-                event.LOGIN_SUCCESS,
-                event.EMAIL_SENT,
-                name='event_type'), nullable=False)
+        db.Enum(
+            event.STORY_CREATED,
+            event.USER_CREATED,
+            event.EDIT_STORY,
+            event.DELETE_STORY,
+            event.EDIT_COMMENT,
+            event.DELETE_COMMENT,
+            event.ADD_FEATURED_STORY,
+            event.EDIT_FEATURED_STORY,
+            event.HIDE_FEATURED_STORY,
+            event.EDIT_THEN_AND_NOW,
+            event.STORY_FLAGGED,
+            event.USER_EDITED,
+            event.LOGIN_FAILED,
+            event.LOGIN_SUCCESS,
+            event.EMAIL_SENT,
+            name="event_type",
+        ),
+        nullable=False,
+    )
     timestamp = db.Column(db.DateTime, nullable=False)
     previous_value = db.Column(JSON)
     new_value = db.Column(JSON)
 
     def __repr__(self):
-        return '<Events %r' % self.id
+        return "<Events %r" % self.id
 
-    def __init__(self,
-                 _type,
-                 story_id=None,
-                 user_guid=None,
-                 comment_id=None,
-                 module_id=None,
-                 previous_value=None,
-                 new_value=None
-                 ):
+    def __init__(
+        self,
+        _type,
+        story_id=None,
+        user_guid=None,
+        comment_id=None,
+        module_id=None,
+        previous_value=None,
+        new_value=None,
+    ):
         self.story_id = story_id
         self.comment_id = comment_id
         self.module_id = module_id
@@ -549,15 +556,16 @@ class Modules(db.Model):
     activist_year - a string that contains the birth year of an activist (for then and now module)
     is_active - a boolean that to determine if this is the current module displayed on the site
     """
+
     __tablename__ = "modules"
     id = db.Column(db.Integer, primary_key=True)
-    story_id = db.Column(db.Integer, db.ForeignKey('stories.id'))
+    story_id = db.Column(db.Integer, db.ForeignKey("stories.id"))
     type = db.Column(
-        db.Enum(module.FEATURED,
-                module.THEN,
-                module.NOW,
-                module.EVENT,
-                name='module_type'), nullable=False)
+        db.Enum(
+            module.FEATURED, module.THEN, module.NOW, module.EVENT, name="module_type"
+        ),
+        nullable=False,
+    )
     title = db.Column(db.String(50))
     subtitle = db.Column(db.String(50))
     activist_first = db.Column(db.String(128))
@@ -574,36 +582,37 @@ class Modules(db.Model):
         JSON to store in Events 'new_value' field.
         """
         return {
-            'id': self.id,
-            'story_id': self.story_id,
-            'type': self.type,
-            'title': self.title,
-            'subtitle': self.subtitle,
-            'activist_first': self.activist_first,
-            'activist_last': self.activist_last,
-            'content': self.content,
-            'media_url': self.media_url,
-            'event_date': self.event_date,
-            'activist_year': self.activist_year,
-            'is_active': self.is_active
+            "id": self.id,
+            "story_id": self.story_id,
+            "type": self.type,
+            "title": self.title,
+            "subtitle": self.subtitle,
+            "activist_first": self.activist_first,
+            "activist_last": self.activist_last,
+            "content": self.content,
+            "media_url": self.media_url,
+            "event_date": self.event_date,
+            "activist_year": self.activist_year,
+            "is_active": self.is_active,
         }
 
     def __repr__(self):
-        return '<Modules %r>' % self.id
+        return "<Modules %r>" % self.id
 
-    def __init__(self,
-                 type,
-                 story_id=None,
-                 title=None,
-                 subtitle=None,
-                 activist_first=None,
-                 activist_last=None,
-                 content=None,
-                 media_url=None,
-                 event_date=None,
-                 activist_year=None,
-                 is_active=False
-                 ):
+    def __init__(
+        self,
+        type,
+        story_id=None,
+        title=None,
+        subtitle=None,
+        activist_first=None,
+        activist_last=None,
+        content=None,
+        media_url=None,
+        event_date=None,
+        activist_year=None,
+        is_active=False,
+    ):
         self.story_id = story_id
         self.type = type
         self.title = title
@@ -628,31 +637,36 @@ class Flags(db.Model):
     timestamp - the date of when the flag was submitted
     addressed - a boolean that determines whether or not an Admin/Mod has addressed the issues with the story
     """
+
     __tablename__ = "flags"
     id = db.Column(db.Integer, primary_key=True)
-    story_id = db.Column(db.Integer, db.ForeignKey('stories.id'))
-    comment_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
+    story_id = db.Column(db.Integer, db.ForeignKey("stories.id"))
+    comment_id = db.Column(db.Integer, db.ForeignKey("comments.id"))
     type = db.Column(
-        db.Enum(flag.INAPPROPRIATE_CONTENT,
-                flag.INCORRECT_INFORMATION,
-                flag.OFFENSIVE_CONTENT,
-                flag.OTHER,
-                name='flag_type'))
+        db.Enum(
+            flag.INAPPROPRIATE_CONTENT,
+            flag.INCORRECT_INFORMATION,
+            flag.OFFENSIVE_CONTENT,
+            flag.OTHER,
+            name="flag_type",
+        )
+    )
     reason = db.Column(db.String(500), nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
     addressed = db.Column(db.Boolean, nullable=False)
 
     def __repr__(self):
-        return '<Flags %r>' % self.id
+        return "<Flags %r>" % self.id
 
-    def __init__(self,
-                 # id,
-                 story_id,
-                 # comment_id,
-                 type,
-                 reason,
-                 addressed=False
-                 ):
+    def __init__(
+        self,
+        # id,
+        story_id,
+        # comment_id,
+        type,
+        reason,
+        addressed=False,
+    ):
         # self.id = id
         self.story_id = story_id
         # self.comment_id = None # No comment functionality established yet
@@ -674,6 +688,7 @@ class Feedback(db.Model):
     timestamp - the date of when the feedback was submitted
     addressed - a boolean that determines whether or not an Admin/Mod has addressed the feedback or not
     """
+
     __tablename__ = "feedback"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(60))
@@ -684,16 +699,9 @@ class Feedback(db.Model):
     addressed = db.Column(db.Boolean, nullable=False)
 
     def __repr__(self):
-        return '<Feedback %r>' % self.title
+        return "<Feedback %r>" % self.title
 
-    def __init__(self,
-                 id,
-                 name,
-                 email,
-                 subject,
-                 message,
-                 addressed=False
-                 ):
+    def __init__(self, id, name, email, subject, message, addressed=False):
         self.id = id
         self.name = name
         self.email = email

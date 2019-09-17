@@ -21,26 +21,30 @@ TAG_ID_TO_NAME = {
     14: "Science, Technology, Engineering and Math (STEM)",
     15: "Sports",
     16: "Suffrage",
-    17: "Other"
+    17: "Other",
 }
 
 # Fill in proper database credentials
-CONN_V1 = psycopg2.connect(database='womens_activism_v1',
-                           user='postgres',
-                           host='localhost',
-                           port='5432',
-                           sslmode=None)
-CONN_V2 = psycopg2.connect(database='womens_activism_dev',
-                           user='postgres',
-                           host='localhost',
-                           port='5432',
-                           sslmode=None)
+CONN_V1 = psycopg2.connect(
+    database="womens_activism_v1",
+    user="postgres",
+    host="localhost",
+    port="5432",
+    sslmode=None,
+)
+CONN_V2 = psycopg2.connect(
+    database="womens_activism_dev",
+    user="postgres",
+    host="localhost",
+    port="5432",
+    sslmode=None,
+)
 CUR_V1 = CONN_V1.cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
 CUR_V2 = CONN_V2.cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
 
 TAG_TO_STORY_ID = {}
 
-TZ_NY = 'US/Eastern'
+TZ_NY = "US/Eastern"
 TODAY_INTEGER_VALUE = 9999
 
 
@@ -65,12 +69,9 @@ def transfer_tags_in_v1():
 
     # Transfer tags from dictionary to stories table in v1
     for key in TAG_TO_STORY_ID.keys():
-        query = ("UPDATE stories SET tags=%s WHERE id=%s")
+        query = "UPDATE stories SET tags=%s WHERE id=%s"
 
-        CUR_V1.execute(query, (
-            TAG_TO_STORY_ID[key],
-            key
-        ))
+        CUR_V1.execute(query, (TAG_TO_STORY_ID[key], key))
 
         CONN_V1.commit()
 
@@ -86,49 +87,60 @@ def transfer_stories(user_ids_to_guids):
     CUR_V1.execute("SELECT * FROM stories")
 
     for story in CUR_V1.fetchall():
-        query = ("INSERT INTO stories("
-                 "id,"
-                 "activist_first,"
-                 "activist_last,"
-                 "activist_start,"
-                 "activist_end,"
-                 "content,"
-                 "activist_url,"
-                 "image_url,"
-                 "video_url,"
-                 "user_guid,"
-                 "date_created,"
-                 "is_edited,"
-                 "is_visible,"
-                 "tags)"
-                 "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+        query = (
+            "INSERT INTO stories("
+            "id,"
+            "activist_first,"
+            "activist_last,"
+            "activist_start,"
+            "activist_end,"
+            "content,"
+            "activist_url,"
+            "image_url,"
+            "video_url,"
+            "user_guid,"
+            "date_created,"
+            "is_edited,"
+            "is_visible,"
+            "tags)"
+            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        )
 
         if story.activist_end:
-            end_year = TODAY_INTEGER_VALUE if story.activist_end == 'Today' else int(story.activist_end)
+            end_year = (
+                TODAY_INTEGER_VALUE
+                if story.activist_end == "Today"
+                else int(story.activist_end)
+            )
         else:
             end_year = None
 
-        if story.activist_start and story.activist_start != '?':
+        if story.activist_start and story.activist_start != "?":
             start_year = int(story.activist_start)
         else:
             start_year = None
 
-        CUR_V2.execute(query, (
-            story.id,
-            story.activist_first,
-            story.activist_last,
-            start_year,
-            end_year,
-            story.content,
-            story.activist_url,
-            story.image_link,
-            story.video_link,
-            user_ids_to_guids[story.poster_id] if story.poster_id in user_ids_to_guids else None,
-            local_to_utc(story.creation_time, TZ_NY),
-            story.is_edited,
-            story.is_visible,
-            story.tags
-        ))
+        CUR_V2.execute(
+            query,
+            (
+                story.id,
+                story.activist_first,
+                story.activist_last,
+                start_year,
+                end_year,
+                story.content,
+                story.activist_url,
+                story.image_link,
+                story.video_link,
+                user_ids_to_guids[story.poster_id]
+                if story.poster_id in user_ids_to_guids
+                else None,
+                local_to_utc(story.creation_time, TZ_NY),
+                story.is_edited,
+                story.is_visible,
+                story.tags,
+            ),
+        )
 
         CONN_V2.commit()
 
@@ -149,31 +161,36 @@ def transfer_users(user_ids_to_guids):
         guid = str(uuid.uuid4())
         user_ids_to_guids[user.id] = guid
 
-        query = ("INSERT INTO users("
-                 "guid,"
-                 "auth_user_type,"
-                 "is_mod,"
-                 "is_admin,"
-                 "first_name,"
-                 "middle_initial,"
-                 "last_name,"
-                 "email,"
-                 "email_validated,"
-                 "terms_of_use_accepted)"
-                 "VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+        query = (
+            "INSERT INTO users("
+            "guid,"
+            "auth_user_type,"
+            "is_mod,"
+            "is_admin,"
+            "first_name,"
+            "middle_initial,"
+            "last_name,"
+            "email,"
+            "email_validated,"
+            "terms_of_use_accepted)"
+            "VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        )
 
-        CUR_V2.execute(query, (
-            guid,
-            auth_user_type,
-            False,
-            False,
-            user.first_name,
-            None,
-            user.last_name,
-            user.email,
-            False,
-            False
-        ))
+        CUR_V2.execute(
+            query,
+            (
+                guid,
+                auth_user_type,
+                False,
+                False,
+                user.first_name,
+                None,
+                user.last_name,
+                user.email,
+                False,
+                False,
+            ),
+        )
 
         CONN_V2.commit()
 
@@ -186,6 +203,7 @@ def transfer_all():
     user_ids_to_guids = {}
     transfer_users(user_ids_to_guids)
     transfer_stories(user_ids_to_guids)
+
 
 if __name__ == "__main__":
     transfer_all()

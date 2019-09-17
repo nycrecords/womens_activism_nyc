@@ -5,7 +5,7 @@ from app.models import Roles, Tags
 
 class BaseTestCase(unittest.TestCase):
 
-    app = create_app('testing')
+    app = create_app("testing")
 
     @classmethod
     def setUpClass(cls):

@@ -9,8 +9,7 @@ from app.models import Stories
 
 def recreate():
     """Delete current index and create new index and docs"""
-    es.indices.delete(current_app.config["ELASTICSEARCH_INDEX"],
-                      ignore=[400, 404])
+    es.indices.delete(current_app.config["ELASTICSEARCH_INDEX"], ignore=[400, 404])
     create_index()
     create_docs()
 
@@ -28,18 +27,16 @@ def create_index():
                         "ngram_tokenizer": {
                             "type": "ngram",
                             "min_gram": 1,
-                            "max_gram": 6
+                            "max_gram": 6,
                         }
                     },
                     "analyzer": {
                         "ngram_tokenizer_analyzer": {
                             "type": "custom",
                             "tokenizer": "ngram_tokenizer",
-                            "filter": [
-                                "lowercase"
-                            ]
+                            "filter": ["lowercase"],
                         }
-                    }
+                    },
                 }
             },
             "mappings": {
@@ -49,36 +46,26 @@ def create_index():
                             "type": "text",
                             "analyzer": "ngram_tokenizer_analyzer",
                             "fields": {
-                                "exact": {
-                                    "type": "text",
-                                    "analyzer": "standard",
-                                },
+                                "exact": {"type": "text", "analyzer": "standard"}
                             },
                         },
                         "activist_last": {
                             "type": "text",
                             "analyzer": "ngram_tokenizer_analyzer",
                             "fields": {
-                                "exact": {
-                                    "type": "text",
-                                    "analyzer": "standard",
-                                },
+                                "exact": {"type": "text", "analyzer": "standard"}
                             },
                         },
-                        "content": {
-                            "type": "text",
-                        },
-                        "tag": {
-                            "type": "keyword"
-                        },
+                        "content": {"type": "text"},
+                        "tag": {"type": "keyword"},
                         "date_created": {
                             "type": "date",
                             "format": "strict_date_hour_minute_second",
-                        }
+                        },
                     }
                 }
-            }
-        }
+            },
+        },
     )
 
 
@@ -90,26 +77,28 @@ def create_docs():
 
     operations = []
     for s in stories:
-        operations.append({
-            '_op_type': 'create',
-            '_id': s.id,
-            'id': s.id,
-            'activist_first': s.activist_first,
-            'activist_last': s.activist_last,
-            'content': s.content,
-            'image_url': s.image_url,
-            'image_pc' : s.image_pc,
-            'tag': s.tags,
-            'date_created': s.date_created.strftime(ES_DATETIME_FORMAT),
-        })
+        operations.append(
+            {
+                "_op_type": "create",
+                "_id": s.id,
+                "id": s.id,
+                "activist_first": s.activist_first,
+                "activist_last": s.activist_last,
+                "content": s.content,
+                "image_url": s.image_url,
+                "image_pc": s.image_pc,
+                "tag": s.tags,
+                "date_created": s.date_created.strftime(ES_DATETIME_FORMAT),
+            }
+        )
 
     num_success, _ = bulk(
         es,
         operations,
         index=current_app.config["ELASTICSEARCH_INDEX"],
-        doc_type='story',
+        doc_type="story",
         chunk_size=ALL_RESULTS_CHUNKSIZE,
-        raise_on_error=True
+        raise_on_error=True,
     )
     print("Successfully created %s docs." % num_success)
 
@@ -123,18 +112,20 @@ def update_docs():
 
 def delete_doc(story_id):
     """Delete a specific doc in the index"""
-    es.delete(index=current_app.config['ELASTICSEARCH_INDEX'],
-              doc_type='story',
-              id=story_id)
+    es.delete(
+        index=current_app.config["ELASTICSEARCH_INDEX"], doc_type="story", id=story_id
+    )
 
 
-def search_stories(query,
-                   # activist_first,
-                   # activist_last,
-                   # content,
-                   search_tags,
-                   size,
-                   start):
+def search_stories(
+    query,
+    # activist_first,
+    # activist_last,
+    # content,
+    search_tags,
+    size,
+    start,
+):
     """
     The arguments of this function match the request parameters
     of the '/search/stories' endpoints.
@@ -157,18 +148,18 @@ def search_stories(query,
 
     tags = search_tags if search_tags else tag.tags
 
-    sort = ['date_created:desc']
+    sort = ["date_created:desc"]
 
     # set matching type (full-text or phrase matching)
-    match_type = 'multi_match'
+    match_type = "multi_match"
 
     # generate query dsl body
     query_fields = {
-        'activist_first': True,
-        'activist_first.exact': True,
-        'activist_last': True,
-        'activist_last.exact': True,
-        'content': True,
+        "activist_first": True,
+        "activist_first.exact": True,
+        "activist_last": True,
+        "activist_last.exact": True,
+        "content": True,
     }
     dsl_gen = StoriesDSLGenerator(query, query_fields, tags, match_type)
     dsl = dsl_gen.search() if query else dsl_gen.queryless()
@@ -176,18 +167,20 @@ def search_stories(query,
     # search/run query
     results = es.search(
         index=current_app.config["ELASTICSEARCH_INDEX"],
-        doc_type='story',
+        doc_type="story",
         body=dsl,
-        _source=['activist_first',
-                 'activist_last',
-                 'content',
-                 'image_url',
-                 'image_pc',
-                 'tag',
-                 'is_visible'],
+        _source=[
+            "activist_first",
+            "activist_last",
+            "content",
+            "image_url",
+            "image_pc",
+            "tag",
+            "is_visible",
+        ],
         size=size,
         from_=start,
-        sort=sort
+        sort=sort,
     )
 
     return results
@@ -197,6 +190,7 @@ class StoriesDSLGenerator(object):
     """
     Class for generating dicts representing query dsl bodies for searching story docs.
     """
+
     def __init__(self, query, query_fields, tags, match_type):
         """
         Constructor for class StoriesDSLGenerator
@@ -210,7 +204,7 @@ class StoriesDSLGenerator(object):
         self.__query_fields = query_fields
         self.__match_type = match_type
 
-        self.__default_filters = [{'terms': {'tag': tags}}]
+        self.__default_filters = [{"terms": {"tag": tags}}]
         self.__filters = []
         self.__conditions = []
 
@@ -220,12 +214,14 @@ class StoriesDSLGenerator(object):
         :return: dictionary with prepended method __should
         """
         self.__filters = [
-            {self.__match_type: {
-                "query": self.__query,
-                "fields": [name for name in self.__query_fields.keys()],
-                "type": "most_fields",
-                "minimum_should_match": "75%"
-            }}
+            {
+                self.__match_type: {
+                    "query": self.__query,
+                    "fields": [name for name in self.__query_fields.keys()],
+                    "type": "most_fields",
+                    "minimum_should_match": "75%",
+                }
+            }
         ]
         self.__conditions.append(self.__must)
         return self.__should
@@ -235,9 +231,7 @@ class StoriesDSLGenerator(object):
         Generate dictionary of search query that queries all
         :return: dictionary with prepended method __must
         """
-        self.__filters = [
-            {'match_all': {}}
-        ]
+        self.__filters = [{"match_all": {}}]
         return self.__must_query
 
     @property
@@ -245,20 +239,14 @@ class StoriesDSLGenerator(object):
         """
         :return: dictionary with key of 'query' and value of __must method
         """
-        return {
-            'query': self.__must
-        }
+        return {"query": self.__must}
 
     @property
     def __must(self):
         """
         :return: dictionary with key of 'bool' and value of __get_filters method
         """
-        return {
-            'bool': {
-                'must': self.__get_filters()
-            }
-        }
+        return {"bool": {"must": self.__get_filters()}}
 
     @property
     def __should(self):
@@ -266,13 +254,7 @@ class StoriesDSLGenerator(object):
         dictionary header representing dsl query bodies
         :return: nested dictionary
         """
-        return {
-            'query': {
-                'bool': {
-                    'should': self.__conditions
-                }
-            }
-        }
+        return {"query": {"bool": {"should": self.__conditions}}}
 
     def __get_filters(self):
         """

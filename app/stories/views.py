@@ -15,34 +15,33 @@ from app.constants.video_url import (
     YOUTUBE_SHORT_URL,
     VIMEO_STRING,
     VIMEO_URL,
-    VIMEO_EMBED_URL
+    VIMEO_EMBED_URL,
 )
 from app.models import Stories, Tags, Users, FeaturedStories
 
 
-@stories.route('/catalog/', methods=['GET'])
-@stories.route('/stories/', methods=['GET'])
+@stories.route("/catalog/", methods=["GET"])
+@stories.route("/stories/", methods=["GET"])
 def catalog():
-    return render_template(
-        'stories/stories.html',
-        tags=Tags.query.all()
-    )
+    return render_template("stories/stories.html", tags=Tags.query.all())
 
 
-@stories.route('/catalog/<story_id>', methods=['GET', 'POST'])
-@stories.route('/stories/<story_id>', methods=['GET', 'POST'])
+@stories.route("/catalog/<story_id>", methods=["GET", "POST"])
+@stories.route("/stories/<story_id>", methods=["GET", "POST"])
 def view(story_id):
     form = HideForm(request.form)
 
-    if request.method == 'POST':
-        if request.form['submit'] == "Hide this Story":
+    if request.method == "POST":
+        if request.form["submit"] == "Hide this Story":
             hide_story(story_id)
-            flash("Story Hidden!", category='success')
-            return redirect(url_for('stories.catalog'))
-        elif request.form['submit'] == "Remove this Featured Story":
+            flash("Story Hidden!", category="success")
+            return redirect(url_for("stories.catalog"))
+        elif request.form["submit"] == "Remove this Featured Story":
             hide_current_featured_story(story_id)
-            flash("This story is now hidden from the Featured Stories", category='success')
-            return redirect(url_for('main.index'))
+            flash(
+                "This story is now hidden from the Featured Stories", category="success"
+            )
+            return redirect(url_for("main.index"))
 
     else:
         try:
@@ -55,7 +54,11 @@ def view(story_id):
             print("Story is not visible")
             return abort(404)
 
-        user = Users.query.filter_by(guid=story.user_guid).one() if story.user_guid else None
+        user = (
+            Users.query.filter_by(guid=story.user_guid).one()
+            if story.user_guid
+            else None
+        )
         feature = FeaturedStories.query.filter_by(story_id=story.id).one_or_none()
 
         video_url = None
@@ -70,5 +73,11 @@ def view(story_id):
             elif VIMEO_STRING in video_url:
                 split = video_url.split(VIMEO_URL, 1)
                 video_url = VIMEO_EMBED_URL.format(split[1])
-        return render_template('stories/view.html', story=story, user=user, video_url=video_url,
-                               feature=feature, form=form)
+        return render_template(
+            "stories/view.html",
+            story=story,
+            user=user,
+            video_url=video_url,
+            feature=feature,
+            form=form,
+        )

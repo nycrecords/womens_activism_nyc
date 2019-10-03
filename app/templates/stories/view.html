@@ -31,6 +31,14 @@
                             </div>
                             <p>{{ story.content }}</p>
                         </div>
+                    {% elif story.image_pc and story.content|length > 1500 %}
+                        <img src="https://s3.amazonaws.com/nycrecords-wom-uploads-dev/{{ story.image_pc }}" id="view-story-img"/>
+                        <p>{{ story.content }}</p>
+                    {% elif story.image_pc and story.content|length < 1500 %}
+                        <div id="view-story-center-wrap">
+                            <img src="https://s3.amazonaws.com/nycrecords-wom-uploads-dev/{{ story.image_pc }}" id="view-story-img-short"/>
+                            <p id="view-story-text-short">{{ story.content }}</p>
+                        </div>
                     {% elif story.image_url and story.content|length > 1500 %}
                         <img src="{{ story.image_url }}" id="view-story-img"/>
                         <p>{{ story.content }}</p>

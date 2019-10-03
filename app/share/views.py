@@ -26,7 +26,7 @@ def new():
                                         user_last=form.user_last.data,
                                         user_email=form.user_email.data,
                                         user_phone=form.user_phone.data,
-                                        subscription=form.subscription.data)
+                                        )
                 # Email to admin
                 if form.subscription.data:
                     email_body = render_template('emails/new_subscriber_agency.html',

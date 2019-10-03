@@ -1,12 +1,14 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, current_app
 from flask_bootstrap import Bootstrap
 from flask_elasticsearch import FlaskElasticsearch
 from flask_login import LoginManager
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
+from config import config,S3_KEY,S3_SECRET
 from config import config
 from flask_mail import Mail
+import boto3
 
 bootstrap = Bootstrap()
 csrf = CSRFProtect()
@@ -14,6 +16,11 @@ db = SQLAlchemy()
 es = FlaskElasticsearch()
 moment = Moment()
 mail = Mail()
+s3 = boto3.resource(
+   "s3",
+   aws_access_key_id=S3_KEY,
+   aws_secret_access_key=S3_SECRET
+)
 
 # for auth admin login (page 95 from the book for reference)
 login_manager = LoginManager()

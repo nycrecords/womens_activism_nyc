@@ -236,6 +236,7 @@ class Stories(db.Model):
     content = db.Column(db.Text, nullable=False)
     activist_url = db.Column(db.Text)
     image_url = db.Column(db.Text)
+    image_pc = db.Column(db.String)
     video_url = db.Column(db.Text)
     user_guid = db.Column(db.String(64), db.ForeignKey("users.guid"))
     date_created = db.Column(db.DateTime, nullable=False)
@@ -254,6 +255,7 @@ class Stories(db.Model):
             activist_end=None,
             activist_url=None,
             image_url=None,
+            image_pc=None,
             video_url=None,
             user_guid=None,
             is_edited=False,
@@ -265,6 +267,7 @@ class Stories(db.Model):
         self.content = content
         self.activist_url = activist_url
         self.image_url = image_url
+        self.image_pc = image_pc
         self.video_url = video_url
         self.user_guid = user_guid
         self.date_created = datetime.utcnow()
@@ -285,6 +288,7 @@ class Stories(db.Model):
             'content': self.content,
             'activist_url': self.activist_url,
             'image_url': self.image_url,
+            'image_pc': self.image_pc,
             'video_url': self.video_url
         }
 
@@ -299,6 +303,7 @@ class Stories(db.Model):
                 'activist_last': self.activist_last,
                 'content': self.content,
                 'image_url': self.image_url,
+                'image_pc': self.image_pc,
                 'tag': self.tags,
                 'date_created': self.date_created.strftime(ES_DATETIME_FORMAT)
             }
@@ -315,6 +320,7 @@ class Stories(db.Model):
                     'activist_last': self.activist_last,
                     'content': self.content,
                     'image_url': self.image_url,
+                    'image_pc': self.image_pc,
                     'tag': self.tags,
                 }
             }

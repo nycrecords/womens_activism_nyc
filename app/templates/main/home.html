@@ -29,9 +29,13 @@
                             <div class="container" id="carousel-jumbotron">
                                 {% if featured_story.left_right == 'left' %}
                                     <div class="col-md-4">
+                                        {% if featured_story.story.image_url %}
                                         <div id="carousel-image"
-                                             style="background-image: url({{ featured_story.story.image_url }})">
+                                                style="background-image: url({{ featured_story.story.image_url }})">
                                         </div>
+                                    {% elif featured_story.story.image_pc %}
+                                        <div id="carousel-image" style="background-image: url('https://s3.amazonaws.com/nycrecords-wom-uploads-dev/{{ featured_story.story.image_pc }}');"></div>
+                                    {% endif %}
                                     </div>
                                     <div class="col-md-8" id="carousel-space-left">
                                         <div>
@@ -92,6 +96,9 @@
                             {% if story.image_url %}
                                 <p>{{ story.content|truncate(50) }}</p>
                                 <div class="img-mask" style="background-image: url('{{ story.image_url }}');"></div>
+                                {% elif story.image_pc %}
+                                <p>{{ story.content|truncate(50) }}</p>
+                                <div class="img-mask" style="background-image: url('https://s3.amazonaws.com/nycrecords-wom-uploads-dev/{{ story.image_pc }}');"></div>
                             {% else %}
                                 <p>{{ story.content|truncate(350) }}</p>
                             {% endif %}

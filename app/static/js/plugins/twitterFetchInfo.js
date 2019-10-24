@@ -86,7 +86,7 @@
 
 
 var configProfile = {
-  "profile": {"screenName": 'WomensActivism'},
+  "profile": {"screenName": 'MunifAlbahri'},
   "domId": 'tweetsRow',
   "maxTweets": 7,
   "enableLinks": true,
@@ -186,9 +186,8 @@ function dateFormatter(date) {
   return timeSince(date);
 }
 function timeSince(date) {
-
-    var seconds = Math.floor((new Date() - date) / 1000);
-
+    var offset = (new Date().getTimezoneOffset())*60; //getting client's timezone offset
+    var seconds = (Math.floor((new Date() - date) / 1000))+ offset ;
     var interval = Math.floor(seconds / 31536000);
 
     if (interval > 1) {

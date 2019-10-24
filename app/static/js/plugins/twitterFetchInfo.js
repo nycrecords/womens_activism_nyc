@@ -86,7 +86,7 @@
 
 
 var configProfile = {
-  "profile": {"screenName": 'MunifAlbahri'},
+  "profile": {"screenName": 'WomensActivism'},
   "domId": 'tweetsRow',
   "maxTweets": 7,
   "enableLinks": true,

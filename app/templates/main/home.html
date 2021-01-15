@@ -16,9 +16,10 @@
                 <div class="item active" id="carousel-content">
                     <div id="carousel-first">
                         <h1>Celebrate Women's Activism</h1>
-                        <p>Help build NYC's first permanent catalog listing women activists from across the globe. Share a
-                            story that inspires you.</p>
-                        <p id="hero-collect">Collecting #20000by2020</p>
+                        <p>Help build NYC's permanent catalog listing women activists from across the globe. Share a
+                            story that inspires you.
+                        </p>
+                        <p id="hero-collect">Collecting 20000 stories of inspiring women.</p>
                         <a class="btn btn-default btn-lg" href="{{ url_for('share.new') }}" role="button">Share Your
                             Story</a>
                     </div>
@@ -78,8 +79,8 @@
         <div class="container" id="home-stories">
             <h1><span id="collected-count" class="home-count">{{ visible_stories }}</span> Stories Collected, <span
                     id="more-count" class="home-count">{{ "{:,}".format(remaining_stories) }}</span>
-                More by 2020</h1>
-            <h2>#20000by2020</h2>
+                More to Go!</h1>
+            <h2>Write #herstory!</h2>
         </div>
 
         <!-- Story Cards -->

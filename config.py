@@ -56,7 +56,7 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = (
-        os.environ.get("DEV_DATABASE_URL")
+        os.environ.get("DATABASE_URL")
         or "postgresql://developer@localhost:5432/womens_activism"
     )
 

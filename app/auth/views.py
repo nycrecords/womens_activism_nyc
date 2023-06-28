@@ -1,10 +1,11 @@
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 
+from app import db
 from app.auth.utils import create_login_event
 from app.models import Users
 from . import auth
-from .forms import LoginForm
+from .forms import ChangePasswordForm, LoginForm
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -46,3 +47,23 @@ def logout():
     logout_user()
     flash("You have been logged out.", category='success')
     return redirect(url_for('main.index'))
+
+
+@auth.route('/change-password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    form = ChangePasswordForm()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            password = form.password.data
+            confirm_password = form.confirm_password.data
+            if password != confirm_password:
+                flash('Passwords are not the same. Please try again.')
+                return redirect(request.url)
+
+            current_user.set_password(password)
+            db.session.commit()
+            flash('Password changed successfully!')
+            return redirect(url_for('main.index'))
+
+    return render_template('auth/change-password.html', form=form)

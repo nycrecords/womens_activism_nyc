@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash, request, Markup
+from flask import render_template, redirect, url_for, flash, request, Markup, escape
 
 from app.constants import RECAPTCHA_STRING
 from app.lib.utils import create_story, create_user, create_subscriber
@@ -44,7 +44,7 @@ def new():
                                     activist_start=form.activist_start.data,
                                     activist_end=form.activist_end.data,
                                     tags=tags,
-                                    content=form.content.data,
+                                    content=escape(form.content.data),
                                     activist_url=form.activist_url.data,
                                     image_url=form.image_url.data,
                                     video_url=form.video_url.data,

@@ -5,6 +5,8 @@ $(function () {
         size = null,
         append = false,
         query = $("#search"),
+        noMore = $("#no-more-results"),
+        loadMore = $("#load-more"),
         startInput = $("input[name='start']"),
         searchBtn = $("#search-btn"),
         searchTag = $(".search-tag"),
@@ -28,20 +30,28 @@ $(function () {
                 start: startInput.val()
             },
             success: function (data) {
+                noMore.hide();
                 if (data.total !== 0 && !append) {
                     noResultsFound = false;
+                    loadMore.show();
                     results.html(data.results);
                     start = start + data.count;
                     total = data.total;
-                }
-                else if (data.total !== 0 && append ) {
+                } else if (data.total !== 0 && append) {
                     noResultsFound = false;
+                    loadMore.show();
                     results.append(data.results);
                     start = start + data.count;
-                }
-                else {
+                    if (data.count === 0) {
+                        loadMore.hide();
+                        noMore.show();
+                    } else {
+                        loadMore.show();
+                    }
+
+                } else {
                     noResultsFound = true;
-                    results.html("<div id='search-no-results'>No results were found.</div>")
+                    results.html("<div id='search-no-results'>No results were found.</div>");
                 }
             }
         });
@@ -65,7 +75,7 @@ $(function () {
     }
 
     // Upon hitting enter on search input, click search button
-    query.keyup(function(e){
+    query.keyup(function (e) {
         if (e.keyCode === 13) {
             searchBtn.click();
         }
@@ -83,14 +93,12 @@ $(function () {
         }, 850);
     });
 
-    // Call search method upon scrolling to bottom of page
-    $(window).scroll(function () {
-        if ($(window).scrollTop() == $(document).height() - $(window).height() && (start < total)) {
-            setStart(start);
-            size = 12;
-            append = true;
-            search();
-        }
+    //Load more button
+    loadMore.click(function () {
+        setStart(start);
+        size = 12;
+        append = true;
+        search();
     });
 
     searchTag.click(function () {
@@ -98,7 +106,7 @@ $(function () {
         $(this).toggleClass("search-tag-active");
         var index = selectedTags.indexOf(this.value);
         // Append values of active buttons to array, remove if inactive
-        if(index > -1) {
+        if (index > -1) {
             selectedTags.splice(index, 1);
         } else {
             selectedTags.push(this.value);
@@ -112,7 +120,7 @@ $(function () {
     backToTopDiv.hide();
     var offset = 350;
     var duration = 100;
-    $(window).scroll(function() {
+    $(window).scroll(function () {
         if ($(this).scrollTop() > offset) {
             backToTopDiv.fadeIn(duration);
         } else {
@@ -120,8 +128,8 @@ $(function () {
         }
     });
 
-    backToTopDiv.click(function() {
-        $("html, body").animate({ scrollTop: 0 }, "slow");
+    backToTopDiv.click(function () {
+        $("html, body").animate({scrollTop: 0}, "slow");
         return false;
     });
 });

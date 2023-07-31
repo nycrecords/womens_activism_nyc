@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <div class="container-fluid" id="search-head">
         <h1>I'm Looking for Women Known For</h1>
         <p>You may choose more than one category to narrow your search.</p>
@@ -26,6 +27,11 @@
             <span id="back-to-top">Back to Top</span>
         </div>
     </div>
+
+    <div class="loadMore">
+        <button id="load-more" type="button" class="btn btn-primary">Load More</button>
+    </div>
+    <div id="no-more-results" hidden>No more results were found.</div>
 {% endblock %}
 
 {% block custom_script %}

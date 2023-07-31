@@ -2292,3 +2292,32 @@ p.interact, p.timePosted {
 .tag-remove{
     color: #630000;
 }
+
+/* load-more button */
+#load-more{
+    margin: 5rem 0 0 0;
+    width: 40%;
+    max-width: 300px;
+    height: 50px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+    color: white;
+    background: #9857a3;
+    font-size: 22px;
+    border: 0;
+    outline: 0;
+    transition: background 0.2s ease;
+    font-weight: 600;
+}
+
+.loadMore {
+    display: flex;
+    justify-content: center;
+}
+
+#no-more-results {
+    margin: 5rem 0 0 0;
+    text-align: center;
+    font-size: 26px;
+}

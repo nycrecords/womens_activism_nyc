@@ -1,5 +1,5 @@
 """
-View functions for story functionality
+View funcloadMoreResultsions for story functionality
 """
 from flask import render_template, request, flash, jsonify
 from flask_login import current_user, login_required

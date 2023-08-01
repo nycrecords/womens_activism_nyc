@@ -2293,8 +2293,8 @@ p.interact, p.timePosted {
     color: #630000;
 }
 
-/* load-more button */
-#load-more{
+/* loadMoreResults button */
+#loadMoreResults{
     margin: 5rem 0 0 0;
     width: 40%;
     max-width: 300px;
@@ -2311,7 +2311,7 @@ p.interact, p.timePosted {
     font-weight: 600;
 }
 
-.loadMore {
+.load-more-results-div {
     display: flex;
     justify-content: center;
 }

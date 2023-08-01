@@ -5,8 +5,8 @@ $(function () {
         size = null,
         append = false,
         query = $("#search"),
-        noMore = $("#no-more-results"),
-        loadMore = $("#load-more"),
+        noMoreResults = $("#no-more-results"),
+        loadMoreResults = $("#loadMoreResults"),
         startInput = $("input[name='start']"),
         searchBtn = $("#search-btn"),
         searchTag = $(".search-tag"),
@@ -30,26 +30,27 @@ $(function () {
                 start: startInput.val()
             },
             success: function (data) {
-                noMore.hide();
+                noMoreResults.hide();
                 if (data.total !== 0 && !append) {
                     noResultsFound = false;
-                    loadMore.show();
+                    loadMoreResults.show();
                     results.html(data.results);
                     start = start + data.count;
                     total = data.total;
                 } else if (data.total !== 0 && append) {
                     noResultsFound = false;
-                    loadMore.show();
+                    loadMoreResults.show();
                     results.append(data.results);
                     start = start + data.count;
                     if (data.count === 0) {
-                        loadMore.hide();
-                        noMore.show();
+                        loadMoreResults.hide();
+                        noMoreResults.show();
                     } else {
-                        loadMore.show();
+                        loadMoreResults.show();
                     }
 
                 } else {
+                    loadMoreResults.hide();
                     noResultsFound = true;
                     results.html("<div id='search-no-results'>No results were found.</div>");
                 }
@@ -94,7 +95,7 @@ $(function () {
     });
 
     //Load more button
-    loadMore.click(function () {
+    loadMoreResults.click(function () {
         setStart(start);
         size = 12;
         append = true;

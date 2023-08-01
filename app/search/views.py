@@ -48,10 +48,6 @@ def stories():
 
     # format results
     total = results["hits"]["total"]
-    print("Total")
-    print(total)
-    print("Count")
-    print(len(results["hits"]["hits"]))
     formatted_results = None
     if total != 0:
         formatted_results = render_template("stories/result.html",

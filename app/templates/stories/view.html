@@ -29,15 +29,15 @@
                                 <iframe class="youtube-player" type="text/html" src="{{ video_url }}" frameborder="0"
                                             allowFullScreen></iframe>
                             </div>
-                            <p class = "request-description-text" >{{ story.content | safe }}</p>
+                            <p class = "story-content-text" >{{ story.content | safe }}</p>
                         </div>
                     {% elif story.image_url and story.content|length > 1500 %}
                         <img src="{{ story.image_url }}" id="view-story-img"/>
-                        <p class = "request-description-text" >{{ story.content | safe }}</p>
+                        <p class = "story-content-text" >{{ story.content | safe }}</p>
                     {% elif story.image_url and story.content|length < 1500 %}
                         <div id="view-story-center-wrap">
                             <img src="{{ story.image_url }}" id="view-story-img-short"/>
-                            <p class = "request-description-text" id="view-story-text-short">{{ story.content | safe }}</p>
+                            <p class = "story-content-text" id="view-story-text-short">{{ story.content | safe }}</p>
                         </div>
                     {% elif video_url %}
                         <div id="view-story-center-wrap">
@@ -45,11 +45,11 @@
                                 <iframe class="youtube-player" type="text/html" src="{{ video_url }}" frameborder="0"
                                         allowFullScreen></iframe>
                             </div>
-                            <p class = "request-description-text" >{{ story.content | safe }}</p>
+                            <p class = "story-content-text" >{{ story.content | safe }}</p>
                         </div>
                     {% else %}
                         <div id="view-story-center-wrap">
-                            <p class = "request-description-text" >{{ story.content | safe }}</p>
+                            <p class = "story-content-text" >{{ story.content | safe }}</p>
                         </div>
                     {% endif %}
 

@@ -44,4 +44,3 @@ class StoryForm(FlaskForm):
     user_phone = StringField("User phone number", validators=[Optional(), Length(1, 25)])
     subscription = BooleanField(
         "I would like to subscribe to receive news and updates about special events, exhibitions, educational programs and more via email and/or text.")
-    submit = SubmitField('Submit')

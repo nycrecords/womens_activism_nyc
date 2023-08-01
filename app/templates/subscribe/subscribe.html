@@ -31,7 +31,14 @@
                     <div class="who-input-group">
                         <span>By clicking submit, you agree to receive news and updates about special events, exhibitions, educational programs and more via email and/or text.</span>
                         <br/>
-                        {{ form.submit (id="subscribe-btn") }}
+                        <button id="subscription-button"
+                                class="g-recaptcha media-buttons"
+                                data-sitekey='{{ RECAPTCHA_PUBLIC_KEY }}'
+                                data-callback='subscribeOnClick'
+                                data-action='submit'
+                               >
+                            Subscribe
+                        </button>
                     </div>
                 </div>
             </div>
@@ -43,4 +50,12 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/plugins/jquery.mask.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/plugins/parsley.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/subscribe/subscribe.js') }}"></script>
+
+    <script>
+        function subscribeOnClick(token) {
+            if ($("#subscribe-form").parsley().validate()) {
+                document.getElementById("subscribe-form").submit();
+            }
+        }
+    </script>
 {% endblock %}

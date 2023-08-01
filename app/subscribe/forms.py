@@ -19,4 +19,3 @@ class SubscribeForm(FlaskForm):
     user_last = StringField("User last name", validators=[Optional(), Length(1, 128)])
     user_email = StringField("User email", validators=[Optional(), Email(), Length(1, 254)])
     user_phone = StringField("User phone number", validators=[Optional(), Length(1, 25)])
-    submit = SubmitField('Submit')

@@ -6,6 +6,9 @@ from app.models import Tags
 from app.share import share
 from app.share.forms import StoryForm
 
+from config import Config
+
+import requests
 
 @share.route('/', methods=['GET', 'POST'])
 def new():
@@ -21,6 +24,15 @@ def new():
             email = form.user_email.data
             phone = form.user_phone.data
 
+            # Verify recaptcha token and return error if failed
+            recaptcha_response = requests.post(url=f'https://www.google.com/recaptcha/api/siteverify?secret={ Config.RECAPTCHA_PRIVATE_KEY }&response={ request.form["g-recaptcha-response"] }').json()
+            if recaptcha_response['success'] is False or recaptcha_response['score'] < 0.5:
+                flash(Markup('Recaptcha failed to validate you!'), category='danger')
+
+                return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all(),
+                                       RECAPTCHA_PUBLIC_KEY=Config.RECAPTCHA_PUBLIC_KEY)
+
+            # Create new user and subscriber
             if first_name or last_name or email:
                 user_guid = create_user(user_first=first_name,
                                         user_last=last_name,
@@ -57,5 +69,5 @@ def new():
                     flash('Please complete the RECAPTCHA to submit your story.', category="danger")
                 else:
                     flash(form.errors[field][0], category="danger")
-            return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all())
-    return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all())
+            return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all(), RECAPTCHA_PUBLIC_KEY=Config.RECAPTCHA_PUBLIC_KEY)
+    return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all(), RECAPTCHA_PUBLIC_KEY=Config.RECAPTCHA_PUBLIC_KEY)

@@ -2,11 +2,14 @@
 Utility functions used for view functions involving stories
 """
 import uuid
+from enum import Enum
+from validate_email import validate_email
 
 from flask import current_app, render_template, url_for
 
 from app.constants.event_type import STORY_CREATED, USER_CREATED, NEW_SUBSCRIBER, UNSUBSCRIBED_EMAIL, UNSUBSCRIBED_PHONE
 from app.constants.user_type_auth import ANONYMOUS_USER
+from app.constants.subscribe_status import VALID, EMAIL_INVALID, EMAIL_TAKEN, PHONE_TAKEN
 from app.db_utils import create_object, update_object
 from app.lib.emails_utils import send_email
 from app.models import Stories, Users, Events, Subscribers
@@ -189,3 +192,28 @@ def remove_subscriber(email, phone):
                 _type=UNSUBSCRIBED_PHONE,
                 new_value={'subscriber_id': s.id}
             ))
+
+
+def verify_subscriber(email, phone):
+    """
+    A utility function used to create a Subscriber object.
+    Clears database field for based on provided input field and value.
+
+    :param email: email to be removed from subscriber's table
+    :param phone: email to be removed from subscriber's table
+    :return EmailStatus enums
+    """
+    email_valid = validate_email(email_address=email,
+                                 check_format=True, check_dns=True, dns_timeout=10, check_blacklist=True,
+                                 check_smtp=False)
+
+    if not email_valid:
+        return EMAIL_INVALID
+
+    if email and Subscribers.query.filter_by(email=email).first():
+        return EMAIL_TAKEN
+
+    if phone and Subscribers.query.filter_by(phone=phone).first():
+        return PHONE_TAKEN
+
+    return VALID

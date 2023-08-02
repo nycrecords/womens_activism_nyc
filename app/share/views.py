@@ -1,7 +1,8 @@
 from flask import render_template, redirect, url_for, flash, request, Markup
 
+from app.constants.subscribe_status import VALID, EMAIL_INVALID, EMAIL_TAKEN, PHONE_TAKEN
 from app.constants import RECAPTCHA_STRING
-from app.lib.utils import create_story, create_user, create_subscriber
+from app.lib.utils import create_story, create_user, create_subscriber, verify_subscriber
 from app.models import Tags
 from app.share import share
 from app.share.forms import StoryForm
@@ -38,11 +39,33 @@ def new():
                                         user_last=last_name,
                                         user_email=email,
                                         user_phone=phone)
+
+                # Check entered email and phone number
                 if form.subscription.data and (email or phone):
-                    create_subscriber(first_name=first_name,
-                                      last_name=last_name,
-                                      email=email,
-                                      phone=phone)
+                    verify_email = verify_subscriber(email, phone)
+
+                    if verify_email == EMAIL_TAKEN:
+                        flash(Markup('You are already subscribed with that email.'), category='warning')
+                        return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all(),
+                                               RECAPTCHA_PUBLIC_KEY=Config.RECAPTCHA_PUBLIC_KEY)
+
+                    elif verify_email == PHONE_TAKEN:
+                        flash(Markup('You are already subscribed with that phone number.'), category='warning')
+                        return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all(),
+                                               RECAPTCHA_PUBLIC_KEY=Config.RECAPTCHA_PUBLIC_KEY)
+
+                    elif verify_email == EMAIL_INVALID:
+                        flash(Markup('This email isn\'t valid.'), category='danger')
+                        return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all(),
+                                               RECAPTCHA_PUBLIC_KEY=Config.RECAPTCHA_PUBLIC_KEY)
+
+                    # Valid email; Create subscriber
+                    else:
+                        create_subscriber(first_name=first_name,
+                                          last_name=last_name,
+                                          email=email,
+                                          phone=phone)
+
             else:
                 user_guid = None
 

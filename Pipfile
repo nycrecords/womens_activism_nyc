@@ -34,7 +34,7 @@ MarkupSafe = "==0.23"
 SQLAlchemy = "==1.1.5"
 Werkzeug = "==0.11.15"
 WTForms = "==2.1"
-# psycopg2 = "*"
+psycopg2 = "*"
 
 [requires]
 python_version = "3.8"

@@ -2,7 +2,6 @@
 Utility functions used for view functions involving stories
 """
 import uuid
-from enum import Enum
 from validate_email import validate_email
 
 from flask import current_app, render_template, url_for
@@ -203,17 +202,17 @@ def verify_subscriber(email, phone):
     :param phone: email to be removed from subscriber's table
     :return EmailStatus enums
     """
-    email_valid = validate_email(email_address=email,
-                                 check_format=True, check_dns=True, dns_timeout=10, check_blacklist=True,
-                                 check_smtp=False)
+    if email:
+        email_valid = validate_email(email_address=email,
+                                     check_format=True, check_dns=True, dns_timeout=10, check_blacklist=True,
+                                     check_smtp=False)
+        if not email_valid:
+            return EMAIL_INVALID
 
-    if not email_valid:
-        return EMAIL_INVALID
+        if Subscribers.query.filter_by(email=email).one_or_none():
+            return EMAIL_TAKEN
 
-    if email and Subscribers.query.filter_by(email=email).first():
-        return EMAIL_TAKEN
-
-    if phone and Subscribers.query.filter_by(phone=phone).first():
+    if phone and Subscribers.query.filter_by(phone=phone).one_or_none():
         return PHONE_TAKEN
 
     return VALID

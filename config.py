@@ -38,6 +38,7 @@ class Config:
     # Recatpcha Keys
     RECAPTCHA_PUBLIC_KEY = os.environ.get("RECAPTCHA_PUBLIC_KEY")
     RECAPTCHA_PRIVATE_KEY = os.environ.get("RECAPTCHA_PRIVATE_KEY")
+    RECAPTCHA_THRESHOLD = float(os.environ.get("RECAPTCHA_THRESHOLD"))
 
     # Flask-Mail Settings
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')

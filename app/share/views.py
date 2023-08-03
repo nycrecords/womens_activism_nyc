@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash, request, Markup
+from flask import render_template, redirect, url_for, flash, request, Markup, current_app
 
 from app.constants.subscribe_status import VALID, EMAIL_INVALID, EMAIL_TAKEN, PHONE_TAKEN
 from app.constants import RECAPTCHA_STRING
@@ -6,8 +6,6 @@ from app.lib.utils import create_story, create_user, create_subscriber, verify_s
 from app.models import Tags
 from app.share import share
 from app.share.forms import StoryForm
-
-from config import Config
 
 import requests
 
@@ -26,12 +24,15 @@ def new():
             phone = form.user_phone.data
 
             # Verify recaptcha token and return error if failed
-            recaptcha_response = requests.post(url=f'https://www.google.com/recaptcha/api/siteverify?secret={ Config.RECAPTCHA_PRIVATE_KEY }&response={ request.form["g-recaptcha-response"] }').json()
-            if recaptcha_response['success'] is False or recaptcha_response['score'] < 0.5:
-                flash(Markup('Recaptcha failed to validate you!'), category='danger')
+            recaptcha_response = requests.post(
+                url='https://www.google.com/recaptcha/api/siteverify?secret={}&response={}'
+                    .format(current_app.config["RECAPTCHA_PRIVATE_KEY"], request.form["g-recaptcha-response"])).json()
+
+            if recaptcha_response['success'] is False or recaptcha_response['score'] < current_app.config["RECAPTCHA_THRESHOLD"]:
+                flash(Markup('Recaptcha failed, please try again.'), category='danger')
 
                 return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all(),
-                                       RECAPTCHA_PUBLIC_KEY=Config.RECAPTCHA_PUBLIC_KEY)
+                                       RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])
 
             # Create new user and subscriber
             if first_name or last_name or email:
@@ -45,19 +46,19 @@ def new():
                     verify_email = verify_subscriber(email, phone)
 
                     if verify_email == EMAIL_TAKEN:
-                        flash(Markup('You are already subscribed with that email.'), category='warning')
+                        flash(Markup('The email you entered is already subscribed, please try another email.'), category='warning')
                         return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all(),
-                                               RECAPTCHA_PUBLIC_KEY=Config.RECAPTCHA_PUBLIC_KEY)
+                                               RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])
 
                     elif verify_email == PHONE_TAKEN:
-                        flash(Markup('You are already subscribed with that phone number.'), category='warning')
+                        flash(Markup('The phone number you entered is already subscribed, please use another phone number.'), category='warning')
                         return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all(),
-                                               RECAPTCHA_PUBLIC_KEY=Config.RECAPTCHA_PUBLIC_KEY)
+                                               RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])
 
                     elif verify_email == EMAIL_INVALID:
                         flash(Markup('This email isn\'t valid.'), category='danger')
                         return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all(),
-                                               RECAPTCHA_PUBLIC_KEY=Config.RECAPTCHA_PUBLIC_KEY)
+                                               RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])
 
                     # Valid email; Create subscriber
                     else:
@@ -92,5 +93,5 @@ def new():
                     flash('Please complete the RECAPTCHA to submit your story.', category="danger")
                 else:
                     flash(form.errors[field][0], category="danger")
-            return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all(), RECAPTCHA_PUBLIC_KEY=Config.RECAPTCHA_PUBLIC_KEY)
-    return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all(), RECAPTCHA_PUBLIC_KEY=Config.RECAPTCHA_PUBLIC_KEY)
+            return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all(), RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])
+    return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all(), RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])

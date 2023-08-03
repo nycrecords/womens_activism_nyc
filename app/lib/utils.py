@@ -50,8 +50,8 @@ def create_story(activist_first,
         activist_end = None
 
     # Create Stories object
-    story = Stories(activist_first=activist_first.title(),
-                    activist_last=activist_last.title(),
+    story = Stories(activist_first=activist_first,
+                    activist_last=activist_last,
                     activist_start=int(activist_start) if activist_start else None,
                     activist_end=activist_end,
                     content=content,

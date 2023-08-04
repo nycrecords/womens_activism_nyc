@@ -209,10 +209,10 @@ def verify_subscriber(email, phone):
         if not email_valid:
             return EMAIL_INVALID
 
-        if Subscribers.query.filter_by(email=email).one_or_none():
+        if Subscribers.query.filter_by(email=email).first():
             return EMAIL_TAKEN
 
-    if phone and Subscribers.query.filter_by(phone=phone).one_or_none():
+    if phone and Subscribers.query.filter_by(phone=phone).first():
         return PHONE_TAKEN
 
     return VALID

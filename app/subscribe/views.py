@@ -1,6 +1,6 @@
 from flask import render_template, flash, request, Markup, redirect, url_for, current_app
 
-from app.constants.subscribe_status import VALID, EMAIL_INVALID, EMAIL_TAKEN, PHONE_TAKEN
+from app.constants.subscribe_status import EMAIL_INVALID, EMAIL_TAKEN, PHONE_TAKEN, PHONE_INVALID
 from app.lib.utils import create_subscriber, verify_subscriber
 from app.subscribe import subscribe
 from app.subscribe.forms import SubscribeForm
@@ -17,7 +17,7 @@ def subscribe():
         if form.validate_on_submit():
             first_name = form.user_first.data
             last_name = form.user_last.data
-            email = form.user_email.data
+            email = form.user_email.data.lower()
             phone = form.user_phone.data
 
             # Verify recaptcha token
@@ -33,20 +33,29 @@ def subscribe():
 
             else:
                 # Check entered email and phone number
-                verify_email = verify_subscriber(email, phone)
+                verify = verify_subscriber(email, phone)
 
-                if verify_email == EMAIL_TAKEN:
-                    flash(Markup('The email you entered is already subscribed, please try another email.'), category='warning')
+                if verify == EMAIL_TAKEN:
+                    flash(Markup('The email you entered is already subscribed, please use another email.'),
+                          category='warning')
                     return render_template('subscribe/subscribe.html', form=form,
                                            RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])
 
-                elif verify_email == PHONE_TAKEN:
-                    flash(Markup('The phone number you entered is already subscribed, please use another phone number.'), category='warning')
+                elif verify == PHONE_TAKEN:
+                    flash(
+                        Markup('The phone number you entered is already subscribed, please use another phone number.'),
+                        category='warning')
                     return render_template('subscribe/subscribe.html', form=form,
                                            RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])
 
-                elif verify_email == EMAIL_INVALID:
-                    flash(Markup('This email isn\'t valid!'), category='danger')
+                elif verify == EMAIL_INVALID:
+                    flash(Markup('The email you entered isn\'t valid, please use another email.'), category='danger')
+                    return render_template('subscribe/subscribe.html', form=form,
+                                           RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])
+
+                elif verify == PHONE_INVALID:
+                    flash(Markup('The phone number you entered isn\'t valid, please use another phone number.'),
+                          category='danger')
                     return render_template('subscribe/subscribe.html', form=form,
                                            RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])
 

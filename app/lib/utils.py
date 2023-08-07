@@ -2,13 +2,14 @@
 Utility functions used for view functions involving stories
 """
 import uuid
+import re
 from validate_email import validate_email
 
 from flask import current_app, render_template, url_for
 
 from app.constants.event_type import STORY_CREATED, USER_CREATED, NEW_SUBSCRIBER, UNSUBSCRIBED_EMAIL, UNSUBSCRIBED_PHONE
 from app.constants.user_type_auth import ANONYMOUS_USER
-from app.constants.subscribe_status import VALID, EMAIL_INVALID, EMAIL_TAKEN, PHONE_TAKEN
+from app.constants.subscribe_status import VALID, EMAIL_INVALID, EMAIL_TAKEN, PHONE_TAKEN, PHONE_INVALID
 from app.db_utils import create_object, update_object
 from app.lib.emails_utils import send_email
 from app.models import Stories, Users, Events, Subscribers
@@ -195,12 +196,18 @@ def remove_subscriber(email, phone):
 
 def verify_subscriber(email, phone):
     """
-    A utility function used to create a Subscriber object.
-    Clears database field for based on provided input field and value.
+    A utility function used to verify email and phone number of a subscriber.
 
-    :param email: email to be removed from subscriber's table
-    :param phone: email to be removed from subscriber's table
-    :return EmailStatus enums
+    Phone number regex checks against the following formats:
+    123-456-7890
+    (123) 456-7890 (jquery mask in place for this format)
+    123 456 7890
+    123.456.7890
+    +91 (123) 456-7890
+
+    :param email: email to be verified
+    :param phone: email to be verified
+    :return constant from subscribe_status.py
     """
     if email:
         email_valid = validate_email(email_address=email,
@@ -209,10 +216,14 @@ def verify_subscriber(email, phone):
         if not email_valid:
             return EMAIL_INVALID
 
-        if Subscribers.query.filter_by(email=email).first():
+        if Subscribers.query.filter(Subscribers.email.ilike(email)).first():
             return EMAIL_TAKEN
 
-    if phone and Subscribers.query.filter_by(phone=phone).first():
-        return PHONE_TAKEN
+    if phone:
+        if not re.search("^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$", phone):
+            return PHONE_INVALID
+
+        if Subscribers.query.filter_by(phone=phone).first():
+            return PHONE_TAKEN
 
     return VALID

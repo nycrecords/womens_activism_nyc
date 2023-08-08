@@ -5,8 +5,6 @@ from app.lib.utils import create_subscriber, verify_subscriber
 from app.subscribe import subscribe
 from app.subscribe.forms import SubscribeForm
 
-from validate_email import validate_email
-
 import requests
 
 
@@ -20,17 +18,20 @@ def subscribe():
             email = form.user_email.data.lower()
             phone = form.user_phone.data
 
-            # Verify recaptcha token
-            recaptcha_response = requests.post(
-                url='https://www.google.com/recaptcha/api/siteverify?secret={}&response={}'.format(
+            if current_app.config['RECAPTCHA_ENABLED']:
+                # Verify recaptcha token
+                recaptcha_response = requests.post(
+                    url='https://www.google.com/recaptcha/api/siteverify?secret={}&response={}'.format(
                         current_app.config['RECAPTCHA_PRIVATE_KEY'], request.form["g-recaptcha-response"])).json()
+
+                if recaptcha_response['success'] is False or recaptcha_response['score'] < current_app.config[
+                    "RECAPTCHA_THRESHOLD"]:
+                    flash(Markup('Recaptcha failed, please try again.'), category='danger')
+                    return render_template('subscribe/subscribe.html', form=form,
+                                           RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])
 
             if not (email or phone):
                 flash(Markup('Please enter an email address or phone number.'), category='warning')
-
-            elif recaptcha_response['success'] is False or recaptcha_response['score'] < current_app.config["RECAPTCHA_THRESHOLD"]:
-                flash(Markup('Recaptcha failed, please try again.'), category='danger')
-
             else:
                 # Check entered email and phone number
                 verify = verify_subscriber(email, phone)

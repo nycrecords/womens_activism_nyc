@@ -35,7 +35,9 @@ class Config:
         if ELASTICSEARCH_USERNAME and ELASTICSEARCH_PASSWORD
         else None
     )
-    # Recatpcha Keys
+
+    # ReCaptcha Settings
+    RECAPTCHA_ENABLED = os.environ.get("RECAPTCHA_ENABLED") == "True"
     RECAPTCHA_PUBLIC_KEY = os.environ.get("RECAPTCHA_PUBLIC_KEY")
     RECAPTCHA_PRIVATE_KEY = os.environ.get("RECAPTCHA_PRIVATE_KEY")
     RECAPTCHA_THRESHOLD = float(os.environ.get("RECAPTCHA_THRESHOLD"))

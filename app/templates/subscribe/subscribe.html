@@ -31,14 +31,17 @@
                     <div class="who-input-group">
                         <span>By clicking submit, you agree to receive news and updates about special events, exhibitions, educational programs and more via email and/or text.</span>
                         <br/>
-                        <button id="subscription-button"
-                                class="g-recaptcha media-buttons"
-                                data-sitekey='{{ RECAPTCHA_PUBLIC_KEY }}'
-                                data-callback='subscribeOnClick'
-                                data-action='submit'
-                               >
-                            Subscribe
-                        </button>
+                        {% if config['RECAPTCHA_ENABLED'] %}
+                            <button id="subscription-button"
+                                    class="g-recaptcha media-buttons"
+                                    data-sitekey='{{ RECAPTCHA_PUBLIC_KEY }}'
+                                    data-callback='subscribeOnClick'
+                                    data-action='submit'>
+                                Subscribe
+                            </button>
+                        {% else %}
+                            {{ form.submit (id="subscribe-btn") }}
+                        {% endif %}
                     </div>
                 </div>
             </div>

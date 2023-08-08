@@ -125,14 +125,17 @@
                         </label>
                     </div>
                     <div class="who-input-group">
-                        <button id="share-story-button"
-                                class="g-recaptcha media-buttons"
-                                data-sitekey='{{ RECAPTCHA_PUBLIC_KEY }}'
-                                data-callback='shareOnClick'
-                                data-action='submit'
-                               >
-                            Submit
-                        </button>
+                        {% if config['RECAPTCHA_ENABLED'] %}
+                            <button id="share-story-button"
+                                    class="g-recaptcha media-buttons"
+                                    data-sitekey='{{ RECAPTCHA_PUBLIC_KEY }}'
+                                    data-callback='shareOnClick'
+                                    data-action='submit'>
+                                Submit
+                            </button>
+                        {% else %}
+                            {{ form.submit (id="share-story-btn") }}
+                        {% endif %}
                     </div>
                 </div>
             </div>

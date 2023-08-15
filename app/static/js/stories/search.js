@@ -97,7 +97,7 @@ $(function () {
     //Load more button
     loadMoreResults.click(function () {
         setStart(start);
-        size = 12;
+        size = 16;
         append = true;
         search();
     });

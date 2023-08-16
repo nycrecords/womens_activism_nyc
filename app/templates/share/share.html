@@ -125,7 +125,17 @@
                         </label>
                     </div>
                     <div class="who-input-group">
-                        {{ form.submit (id="share-story-btn") }}
+                        {% if config['RECAPTCHA_ENABLED'] %}
+                            <button id="share-story-button"
+                                    class="g-recaptcha media-buttons"
+                                    data-sitekey='{{ RECAPTCHA_PUBLIC_KEY }}'
+                                    data-callback='shareOnClick'
+                                    data-action='submit'>
+                                Submit
+                            </button>
+                        {% else %}
+                            {{ form.submit (id="share-story-btn") }}
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -137,4 +147,12 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/plugins/jquery.mask.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/plugins/parsley.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/share/share.js') }}"></script>
+
+    <script>
+        function shareOnClick(token) {
+            if ($("#share-form").parsley().validate()) {
+                document.getElementById("share-form").submit();
+            }
+        }
+    </script>
 {% endblock %}

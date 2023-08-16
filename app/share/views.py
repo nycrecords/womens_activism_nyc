@@ -1,10 +1,12 @@
-from flask import render_template, redirect, url_for, flash, request, Markup
+from flask import render_template, redirect, url_for, flash, request, Markup, current_app
 
-from app.constants import RECAPTCHA_STRING
-from app.lib.utils import create_story, create_user, create_subscriber
+from app.constants.subscribe_status import EMAIL_INVALID, EMAIL_TAKEN, PHONE_TAKEN, PHONE_INVALID
+from app.lib.utils import create_story, create_user, create_subscriber, verify_subscriber
 from app.models import Tags
 from app.share import share
 from app.share.forms import StoryForm
+
+import requests
 
 
 @share.route('/', methods=['GET', 'POST'])
@@ -21,16 +23,62 @@ def new():
             email = form.user_email.data
             phone = form.user_phone.data
 
-            if first_name or last_name or email:
+            if current_app.config['RECAPTCHA_ENABLED']:
+                # Verify recaptcha token and return error if failed
+                recaptcha_response = requests.post(
+                    url='https://www.google.com/recaptcha/api/siteverify?secret={}&response={}'
+                        .format(current_app.config["RECAPTCHA_PRIVATE_KEY"],
+                                request.form["g-recaptcha-response"])).json()
+
+                if recaptcha_response['success'] is False or recaptcha_response['score'] < current_app.config[
+                    "RECAPTCHA_THRESHOLD"]:
+                    flash(Markup('Recaptcha failed, please try again.'), category='danger')
+                    return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all(),
+                                           RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])
+
+            # Create new user and subscriber
+            if first_name or last_name or email or phone:
                 user_guid = create_user(user_first=first_name,
                                         user_last=last_name,
                                         user_email=email,
                                         user_phone=phone)
+
+                # Check entered email and phone number
                 if form.subscription.data and (email or phone):
-                    create_subscriber(first_name=first_name,
-                                      last_name=last_name,
-                                      email=email,
-                                      phone=phone)
+                    verify = verify_subscriber(email, phone)
+
+                    if verify == EMAIL_TAKEN:
+                        flash(Markup('The email you entered is already subscribed, please use another email.'),
+                              category='warning')
+                        return render_template('share/share.html', form=form,
+                                               RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])
+
+                    elif verify == PHONE_TAKEN:
+                        flash(
+                            Markup(
+                                'The phone number you entered is already subscribed, please use another phone number.'),
+                            category='warning')
+                        return render_template('share/share.html', form=form,
+                                               RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])
+
+                    elif verify == EMAIL_INVALID:
+                        flash(Markup('The email you entered isn\'t valid, please use another email.'),
+                              category='danger')
+                        return render_template('share/share.html', form=form,
+                                               RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])
+
+                    elif verify == PHONE_INVALID:
+                        flash(Markup('The phone number you entered isn\'t valid, please use another phone number.'),
+                              category='danger')
+                        return render_template('share/share.html', form=form,
+                                               RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])
+
+                    # Valid email; Create subscriber
+                    else:
+                        create_subscriber(first_name=first_name,
+                                          last_name=last_name,
+                                          email=email,
+                                          phone=phone)
             else:
                 user_guid = None
 
@@ -53,9 +101,8 @@ def new():
             return redirect(url_for('stories.view', story_id=story_id))
         else:
             for field, error in form.errors.items():
-                if field == RECAPTCHA_STRING:
-                    flash('Please complete the RECAPTCHA to submit your story.', category="danger")
-                else:
-                    flash(form.errors[field][0], category="danger")
-            return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all())
-    return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all())
+                flash(form.errors[field][0], category="danger")
+            return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all(),
+                                   RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])
+    return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all(),
+                           RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])

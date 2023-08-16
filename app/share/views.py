@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash, request, Markup, current_app
+from flask import render_template, redirect, url_for, flash, request, Markup, current_app, escape
 
 from app.constants.subscribe_status import EMAIL_INVALID, EMAIL_TAKEN, PHONE_TAKEN, PHONE_INVALID
 from app.lib.utils import create_story, create_user, create_subscriber, verify_subscriber
@@ -87,15 +87,15 @@ def new():
             for t in tag_string.split(','):
                 tags.append(Tags.query.filter_by(id=t).one().name)
 
-            story_id = create_story(activist_first=form.activist_first.data,
-                                    activist_last=form.activist_last.data,
-                                    activist_start=form.activist_start.data,
-                                    activist_end=form.activist_end.data,
+            story_id = create_story(activist_first=escape(form.activist_first.data),
+                                    activist_last=escape(form.activist_last.data),
+                                    activist_start=escape(form.activist_start.data),
+                                    activist_end=escape(form.activist_end.data),
                                     tags=tags,
-                                    content=form.content.data,
-                                    activist_url=form.activist_url.data,
-                                    image_url=form.image_url.data,
-                                    video_url=form.video_url.data,
+                                    content=escape(form.content.data),
+                                    activist_url=escape(form.activist_url.data),
+                                    image_url=escape(form.image_url.data),
+                                    video_url=escape(form.video_url.data),
                                     user_guid=user_guid)
             flash(Markup('Story submitted!'), category='success')
             return redirect(url_for('stories.view', story_id=story_id))

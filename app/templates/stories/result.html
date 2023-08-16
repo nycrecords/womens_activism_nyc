@@ -2,19 +2,19 @@
     <a href="{{ url_for('stories.view', story_id=story['_id']) }}">
         <div class="home-story col-lg-3 col-md-4">
             <div class="home-story-content">
-                <h4>{{ story['_source']['activist_first'] }}&nbsp;{{ story['_source']['activist_last'] }}</h4>
+                <h4>{{ story['_source']['activist_first'] | title | safe }}&nbsp;{{ story['_source']['activist_last'] | title | safe }}</h4>
                 {% if story['_source']['image_url'] %}
                     {% if story['_source']['content']|length < 50 %}
-                        <p>{{ story['_source']['content'] }}</p>
+                        <p>{{ story['_source']['content'] | safe }}</p>
                     {% else %}
-                        <p>{{ story['_source']['content']|truncate(50) }}</p>
+                        <p>{{ story['_source']['content']|truncate(50) | safe }}</p>
                     {% endif %}
                     <div class="img-mask" style="background-image: url({{ story['_source']['image_url'] }});">
                 {% else %}
                     {% if story['_source']['content']|length < 350 %}
-                        <p>{{ story['_source']['content'] }}</p>
+                        <p>{{ story['_source']['content'] | safe }}</p>
                     {% else %}
-                        <p>{{ story['_source']['content']|truncate(350) }}</p>
+                        <p>{{ story['_source']['content']|truncate(350) | safe }}</p>
                     {% endif %}
                 {% endif %}
                 </div>

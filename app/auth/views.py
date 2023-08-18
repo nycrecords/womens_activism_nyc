@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, url_for, flash
+from flask import render_template, redirect, request, url_for, flash, escape
 from flask_login import login_user, logout_user, login_required, current_user
 
 from app import db
@@ -55,8 +55,8 @@ def change_password():
     form = ChangePasswordForm()
     if request.method == 'POST':
         if form.validate_on_submit():
-            password = form.password.data
-            confirm_password = form.confirm_password.data
+            password = escape(form.password.data)
+            confirm_password = escape(form.confirm_password.data)
             if password != confirm_password:
                 flash('Passwords are not the same. Please try again.')
                 return redirect(request.url)

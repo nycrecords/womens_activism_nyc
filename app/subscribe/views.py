@@ -1,4 +1,4 @@
-from flask import render_template, flash, request, Markup, redirect, url_for, current_app
+from flask import render_template, flash, request, Markup, redirect, url_for, current_app, escape
 
 from app.constants.subscribe_status import EMAIL_INVALID, EMAIL_TAKEN, PHONE_TAKEN, PHONE_INVALID
 from app.lib.utils import create_subscriber, verify_subscriber
@@ -13,10 +13,10 @@ def subscribe():
     form = SubscribeForm(request.form)
     if request.method == 'POST':
         if form.validate_on_submit():
-            first_name = form.user_first.data
-            last_name = form.user_last.data
-            email = form.user_email.data.lower()
-            phone = form.user_phone.data
+            first_name = escape(form.user_first.data)
+            last_name = escape(form.user_last.data)
+            email = escape(form.user_email.data.lower())
+            phone = escape(form.user_phone.data)
 
             if current_app.config['RECAPTCHA_ENABLED']:
                 # Verify recaptcha token
@@ -62,10 +62,10 @@ def subscribe():
 
                 # Valid email; Create subscriber
                 else:
-                    create_subscriber(first_name=first_name,
-                                      last_name=last_name,
-                                      email=email,
-                                      phone=phone)
+                    create_subscriber(first_name=escape(first_name),
+                                      last_name=escape(last_name),
+                                      email=escape(email),
+                                      phone=escape(phone))
                     flash(Markup('Thank you for subscribing!'), category='success')
 
             return redirect(url_for('subscribe.subscribe'))

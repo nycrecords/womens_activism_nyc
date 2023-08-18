@@ -1,7 +1,7 @@
 import csv
 from datetime import datetime
 
-from flask import render_template, request, flash, redirect, url_for
+from flask import render_template, request, flash, redirect, url_for, Markup
 from flask.helpers import send_file
 from flask_login import login_required
 from io import StringIO, BytesIO
@@ -28,10 +28,10 @@ def export():
                                  "Email",
                                  "Phone Number"])
                 for s in subscribers:
-                    writer.writerow([s.first_name or '',
-                                     s.last_name or '',
-                                     s.email or '',
-                                     s.phone or ''])
+                    writer.writerow([Markup(s.first_name).unescape() or '',
+                                     Markup(s.last_name).unescape() or '',
+                                     Markup(s.email).unescape() or '',
+                                     Markup(s.phone).unescape() or ''])
 
                 return send_file(
                     BytesIO(buffer.getvalue().encode('UTF-8')),

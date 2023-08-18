@@ -18,10 +18,10 @@ def new():
     form = StoryForm(request.form)
     if request.method == 'POST':
         if form.validate_on_submit():
-            first_name = form.user_first.data
-            last_name = form.user_last.data
-            email = form.user_email.data
-            phone = form.user_phone.data
+            first_name = escape(form.user_first.data)
+            last_name = escape(form.user_last.data)
+            email = escape(form.user_email.data)
+            phone = escape(form.user_phone.data)
 
             if current_app.config['RECAPTCHA_ENABLED']:
                 # Verify recaptcha token and return error if failed
@@ -38,10 +38,10 @@ def new():
 
             # Create new user and subscriber
             if first_name or last_name or email or phone:
-                user_guid = create_user(user_first=first_name,
-                                        user_last=last_name,
-                                        user_email=email,
-                                        user_phone=phone)
+                user_guid = create_user(user_first=escape(first_name),
+                                        user_last=escape(last_name),
+                                        user_email=escape(email),
+                                        user_phone=escape(phone))
 
                 # Check entered email and phone number
                 if form.subscription.data and (email or phone):
@@ -75,10 +75,10 @@ def new():
 
                     # Valid email; Create subscriber
                     else:
-                        create_subscriber(first_name=first_name,
-                                          last_name=last_name,
-                                          email=email,
-                                          phone=phone)
+                        create_subscriber(escape(first_name=first_name),
+                                          escape(last_name=last_name),
+                                          escape(email=email),
+                                          escape(phone=phone))
             else:
                 user_guid = None
 

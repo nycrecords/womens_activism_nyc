@@ -1,4 +1,4 @@
-from flask import render_template, flash, request, Markup, redirect, url_for
+from flask import render_template, flash, request, Markup, redirect, url_for, escape
 
 from app.lib.utils import remove_subscriber
 from app.unsubscribe import unsubscribe
@@ -10,8 +10,8 @@ def unsubscribe():
     form = UnsubscribeForm(request.form)
     if request.method == 'POST':
         if form.validate_on_submit():
-            email = form.email.data
-            phone = form.phone.data
+            email = escape(form.email.data)
+            phone = escape(form.phone.data)
 
             if email or phone:
                 remove_subscriber(email, phone)

@@ -31,7 +31,7 @@
                 <li id="nav-catalog"><a href="{{ url_for('stories.catalog') }}">Search Archive</a></li>
                 <li id="nav-contact"><a href="{{ url_for('main.contact') }}">Contact</a></li>
                 <li id="nav-subscribe"><a href="{{ url_for('subscribe.subscribe') }}">Subscribe</a></li>
-                <li><a href="https://web.ovationtix.com/trs/store/34600/alldonations/23831">Give</a></li>
+{#                <li><a href="https://web.ovationtix.com/trs/store/34600/alldonations/23831">Give</a></li>#}
                 <li><a href="https://www.youtube.com/playlist?list=PLs2Fy8bYBATps9dOT9ch9lLzAYinPXXF7">Videos</a></li>
                 {% if current_user.is_authenticated %}
                     <li><a href="{{ url_for('feature.listing') }}">Features</a></li>

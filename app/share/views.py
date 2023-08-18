@@ -75,10 +75,10 @@ def new():
 
                     # Valid email; Create subscriber
                     else:
-                        create_subscriber(escape(first_name=first_name),
-                                          escape(last_name=last_name),
-                                          escape(email=email),
-                                          escape(phone=phone))
+                        create_subscriber(first_name=escape(first_name),
+                                          last_name=escape(last_name),
+                                          email=escape(email),
+                                          phone=escape(phone))
             else:
                 user_guid = None
 

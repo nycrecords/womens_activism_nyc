@@ -23,8 +23,8 @@ def edit(story_id):
         if form.validate_on_submit():
             if user is not None:
                 user_guid = update_user(user,
-                                        form.user_first.data,
-                                        form.user_last.data)
+                                        escape(form.user_first.data),
+                                        escape(form.user_last.data))
 
             else:
                 user_guid = None
@@ -49,7 +49,7 @@ def edit(story_id):
                                     activist_url=escape(form.activist_url.data),
                                     image_url=escape(form.image_url.data),
                                     video_url=escape(form.video_url.data),
-                                    user_guid=escape(user_guid),
+                                    user_guid=user_guid,
                                     reason=escape(form.reason.data))
 
             flash(Markup('Story Edited!'), category='success')

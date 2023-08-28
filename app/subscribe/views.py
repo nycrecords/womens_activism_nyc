@@ -62,10 +62,10 @@ def subscribe():
 
                 # Valid email; Create subscriber
                 else:
-                    create_subscriber(first_name=escape(first_name),
-                                      last_name=escape(last_name),
-                                      email=escape(email),
-                                      phone=escape(phone))
+                    create_subscriber(first_name=first_name,
+                                      last_name=last_name,
+                                      email=email,
+                                      phone=phone)
                     flash(Markup('Thank you for subscribing!'), category='success')
 
             return redirect(url_for('subscribe.subscribe'))

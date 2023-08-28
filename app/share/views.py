@@ -38,10 +38,10 @@ def new():
 
             # Create new user and subscriber
             if first_name or last_name or email or phone:
-                user_guid = create_user(user_first=escape(first_name),
-                                        user_last=escape(last_name),
-                                        user_email=escape(email),
-                                        user_phone=escape(phone))
+                user_guid = create_user(user_first=first_name,
+                                        user_last=last_name,
+                                        user_email=email,
+                                        user_phone=phone)
 
                 # Check entered email and phone number
                 if form.subscription.data and (email or phone):
@@ -75,10 +75,10 @@ def new():
 
                     # Valid email; Create subscriber
                     else:
-                        create_subscriber(first_name=escape(first_name),
-                                          last_name=escape(last_name),
-                                          email=escape(email),
-                                          phone=escape(phone))
+                        create_subscriber(first_name=first_name,
+                                          last_name=last_name,
+                                          email=email,
+                                          phone=phone)
             else:
                 user_guid = None
 

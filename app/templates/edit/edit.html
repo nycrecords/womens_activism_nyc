@@ -23,10 +23,10 @@
                     <p class="share-subheading">Share a story about an inspiring and empowering woman who has influenced your life.</p>
                     <div class="who-input-group">
                         <div class="input-inline-fix">
-                            {{ form.activist_first (id="first-name-field", class="share-who-input", placeholder="Mary", maxlength=64, required=true, value=story.activist_first) }}
+                            <input class="share-who-input" id="first-name-field" maxlength="64" name="activist_first" placeholder="Mary" required type="text" value="{{ story.activist_first | safe }}">
                         </div>
                         <div class="input-inline-fix">
-                            {{ form.activist_last (id="last-name-field", class="share-who-input", placeholder="Smith", maxlength=64, required=true, value=story.activist_last) }}
+                            <input class="share-who-input" id="last-name-field" maxlength="64" name="activist_last" placeholder="Smith" required type="text" value="{{ story.activist_last | safe }}">
                         </div>
                     </div>
                     <p class="name-required">required</p>
@@ -38,14 +38,14 @@
                     <p class="share-subheading">If still living, enter "Today".</p>
                     <div class="who-input-group">
                         <div class="input-inline-fix">
-                            {{ form.activist_start (id="activist-start", placeholder="1960", maxlength="4", class="share-who-input", value=story.activist_start or '') }}
+                            <input class="share-who-input" id="activist-start" maxlength="4" name="activist_start" placeholder="1960" type="text" value="{% if story.activist_start %}{{ story.activist_start | safe }}{% endif %}">
                         </div>
                         <span id="date-dash">&#8212;</span>
                         <div class="input-inline-fix">
                             {% if story.activist_end == 9999 %}
                                 {{ form.activist_end (id="activist-end", placeholder="Today", maxlength="5", class="share-who-input", value="Today") }}
                             {% else %}
-                                {{ form.activist_end (id="activist-end", placeholder="Today", maxlength="5", class="share-who-input", value=story.activist_end or '') }}
+                                <input class="share-who-input" id="activist-end" maxlength="5" name="activist_end" placeholder="Today" type="text" value="{% if story.activist_end %}{{ story.activist_end | safe }}{% endif %}">
                             {% endif %}
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                     <h1 id="share-her-story-heading">Share Her Story</h1>
                     <p class="share-subheading">Share a few words about how she has inspired you and others.</p>
                     <div>
-                        {{ form.content (id="story-content", class="her-story-text", placeholder="Enter your story here", required=true) }}
+                        <textarea class="her-story-text" id="story-content" name="content" placeholder="Enter your story here" required>{{ story.content | safe }}</textarea>
                     </div>
                 </div>
             </div>
@@ -92,7 +92,7 @@
                         online.</p>
                     <div class="who-input-group">
                         <div>
-                            {{ form.activist_url (id="activist-url", class="share-link-input", placeholder="https://womensactivism.nyc", value=story.activist_url or '') }}
+                            <input class="share-link-input" id="activist-url" name="activist_url" placeholder="https://womensactivism.nyc" type="text" value="{% if story.activist_url %}{{ story.activist_url | safe }}{% endif %}">
                         </div>
                     </div>
                 </div>
@@ -107,10 +107,10 @@
                         <button type="button" class="media-buttons" id="video-upload-btn">Video</button>
                     </div>
                     <div class="who-input-group" id="story-image-input">
-                        {{ form.image_url (id="story-image-input-box", class="share-link-input", placeholder="http//womensactivism.nyc", value=story.image_url or '') }}
+                        <input class="share-link-input" id="story-image-input-box" name="image_url" placeholder="http//womensactivism.nyc" type="text" value="{% if story.image_url %}{{ story.image_url | safe }}{% endif %}">
                     </div>
                     <div class="who-input-group" id="story-video-input">
-                        {{ form.video_url (id="story-video-input-box", class="share-link-input", placeholder="http://youtube.com", value=story.video_url or '') }}
+                        <input class="share-link-input" id="story-video-input-box" name="video_url" placeholder="http://youtube.com" type="text" value="{% if story.video_url %}{{ story.video_url | safe }}{% endif %}">
                     </div>
                     <br/>
                     <div id="media-back-div">
@@ -127,8 +127,8 @@
                     <p class="about-you-subheading">If you would like to share your name, enter below. Your email
                         address will not be made public.</p>
                     <div class="who-input-group">
-                        {{ form.user_first (id="user-first-name-field", class="share-who-input", placeholder="Mary", maxlength=128, value=user.first_name or '') }}
-                        {{ form.user_last (id="user-last-name-field", class="share-who-input", placeholder="Smith", maxlength=128, value=user.last_name or '') }}
+                        <input class="share-who-input" id="user-first-name-field" maxlength="128" name="user_first" placeholder="Mary" type="text" value="{% if user.first_name %}{{ user.first_name | safe }}{% endif %}">
+                        <input class="share-who-input" id="user-last-name-field" maxlength="128" name="user_last" placeholder="Smith" type="text" value="{% if user.last_name %}{{ user.last_name | safe }}{% endif %}">
                     </div>
                     <div class="who-input-group">
                         {{ form.submit (id="share-story-btn") }}

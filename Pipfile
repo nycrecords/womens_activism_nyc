@@ -35,7 +35,6 @@ SQLAlchemy = "==1.1.5"
 Werkzeug = "==0.11.15"
 WTForms = "==2.1"
 psycopg2 = "*"
-py3-validate-email = "*"
 
 [requires]
 python_version = "3.8"

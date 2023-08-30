@@ -3,13 +3,13 @@ Utility functions used for view functions involving stories
 """
 import uuid
 import re
-from validate_email import validate_email
 
 from flask import current_app, render_template, url_for
 
 from app.constants.event_type import STORY_CREATED, USER_CREATED, NEW_SUBSCRIBER, UNSUBSCRIBED_EMAIL, UNSUBSCRIBED_PHONE
 from app.constants.user_type_auth import ANONYMOUS_USER
 from app.constants.subscribe_status import VALID, EMAIL_INVALID, EMAIL_TAKEN, PHONE_TAKEN, PHONE_INVALID
+from app.constants.domain_blocklist import DOMAIN_BLOCKLIST
 from app.db_utils import create_object, update_object
 from app.lib.emails_utils import send_email
 from app.models import Stories, Users, Events, Subscribers
@@ -210,9 +210,8 @@ def verify_subscriber(email, phone):
     :return constant from subscribe_status.py
     """
     if email:
-        email_valid = validate_email(email_address=email,
-                                     check_format=True, check_dns=True, dns_timeout=10, check_blacklist=True,
-                                     check_smtp=False)
+        email_valid = False if email.lower().split('@')[-1] in DOMAIN_BLOCKLIST else True
+
         if not email_valid:
             return EMAIL_INVALID
 

@@ -18,10 +18,10 @@ def new():
     form = StoryForm(request.form)
     if request.method == 'POST':
         if form.validate_on_submit():
-            first_name = form.user_first.data
-            last_name = form.user_last.data
-            email = form.user_email.data
-            phone = form.user_phone.data
+            first_name = escape(form.user_first.data)
+            last_name = escape(form.user_last.data)
+            email = escape(form.user_email.data)
+            phone = escape(form.user_phone.data)
 
             if current_app.config['RECAPTCHA_ENABLED']:
                 # Verify recaptcha token and return error if failed

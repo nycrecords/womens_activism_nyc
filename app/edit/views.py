@@ -1,5 +1,5 @@
 from app.edit import edit
-from flask import render_template, redirect, url_for, flash, request, Markup, abort
+from flask import render_template, redirect, url_for, flash, request, Markup, abort, escape
 from app.models import Tags, Stories, Users
 from app.edit.forms import StoryForm
 from app.edit.utils import update_story, update_user
@@ -23,14 +23,14 @@ def edit(story_id):
         if form.validate_on_submit():
             if user is not None:
                 user_guid = update_user(user,
-                                        form.user_first.data,
-                                        form.user_last.data)
+                                        escape(form.user_first.data),
+                                        escape(form.user_last.data))
 
             else:
                 user_guid = None
                 if form.user_first.data or form.user_last.data:
-                    user_guid = create_user(user_first=form.user_first.data,
-                                            user_last=form.user_last.data,
+                    user_guid = create_user(user_first=escape(form.user_first.data),
+                                            user_last=escape(form.user_last.data),
                                             user_email=None,
                                             user_phone=None)
 
@@ -40,17 +40,17 @@ def edit(story_id):
                 tags.append(Tags.query.filter_by(id=t).one().name)
 
             story_id = update_story(story_id=story_id,
-                                    activist_first=form.activist_first.data,
-                                    activist_last=form.activist_last.data,
-                                    activist_start=form.activist_start.data,
-                                    activist_end=form.activist_end.data,
+                                    activist_first=escape(form.activist_first.data),
+                                    activist_last=escape(form.activist_last.data),
+                                    activist_start=escape(form.activist_start.data),
+                                    activist_end=escape(form.activist_end.data),
                                     tags=tags,
-                                    content=form.content.data,
-                                    activist_url=form.activist_url.data,
-                                    image_url=form.image_url.data,
-                                    video_url=form.video_url.data,
+                                    content=escape(form.content.data),
+                                    activist_url=escape(form.activist_url.data),
+                                    image_url=escape(form.image_url.data),
+                                    video_url=escape(form.video_url.data),
                                     user_guid=user_guid,
-                                    reason=form.reason.data)
+                                    reason=escape(form.reason.data))
 
             flash(Markup('Story Edited!'), category='success')
             return redirect(url_for('stories.view', story_id=story_id))

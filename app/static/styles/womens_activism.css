@@ -2058,7 +2058,6 @@ p, div {
 #carousel-description {
     font-weight: lighter;
     font-size: 24px;
-    font-family: "PostoniWide", "Bodoni 72", Georgia, serif;
 }
 
 #carousel-space-left {
@@ -2072,13 +2071,11 @@ p, div {
 #carousel-h1 {
     font-size: 48px;
     font-weight: bold;
-    font-family: "PostoniWide", "Bodoni 72", Georgia, serif;
     margin-top: 10px;
 }
 
 #carousel-h3 {
     font-weight: bold;
-    font-family: "PostoniWide", "Bodoni 72", Georgia, serif;
 }
 
 #modify-form ul {

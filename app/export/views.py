@@ -1,11 +1,12 @@
 import csv
 from datetime import datetime
 
-from flask import render_template, request, flash, redirect, url_for, Markup
+from flask import render_template, request, flash, redirect, url_for
 from flask.helpers import send_file
 from flask_login import login_required
 from io import StringIO, BytesIO
 from sqlalchemy import or_
+from markupsafe import Markup
 
 from app.export import export
 from app.export.forms import ExportForm

@@ -1,4 +1,5 @@
-from flask import render_template, redirect, url_for, flash, request, Markup, current_app, escape
+from flask import render_template, redirect, url_for, flash, request, current_app
+from markupsafe import Markup, escape
 
 from app.constants.subscribe_status import EMAIL_INVALID, EMAIL_TAKEN, PHONE_TAKEN, PHONE_INVALID
 from app.lib.utils import create_story, create_user, create_subscriber, verify_subscriber

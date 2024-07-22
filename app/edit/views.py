@@ -1,11 +1,12 @@
 from app.edit import edit
-from flask import render_template, redirect, url_for, flash, request, Markup, abort, escape
+from flask import render_template, redirect, url_for, flash, request, abort
 from app.models import Tags, Stories, Users
 from app.edit.forms import StoryForm
 from app.edit.utils import update_story, update_user
 from app.lib.utils import create_user
 from sqlalchemy.orm.exc import NoResultFound
 from flask_login import login_required
+from markupsafe import Markup, escape
 
 
 @edit.route('/<story_id>', methods=['GET', 'POST'])

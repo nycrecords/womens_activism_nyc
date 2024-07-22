@@ -3,9 +3,9 @@ import os
 import uuid
 
 from flask import current_app
-from flask_script import Manager, Shell
-from flask_migrate import Migrate, MigrateCommand
+from flask_migrate import Migrate
 from getpass import getpass
+import click
 
 from app import create_app, db
 from app.models import (
@@ -26,7 +26,6 @@ from app.constants.event_type import EDIT_FEATURED_STORY
 from sqlalchemy.orm.exc import NoResultFound
 
 app = create_app(os.getenv("FLASK_CONFIG") or "default")
-manager = Manager(app)
 migrate = Migrate(app, db)
 
 
@@ -46,11 +45,7 @@ def make_shell_context():
     )
 
 
-manager.add_command("shell", Shell(make_context=make_shell_context))
-manager.add_command("db", MigrateCommand)
-
-
-@manager.command
+@app.cli.command()
 def create_user():
     """
     Command line tool to create a user in the database.
@@ -71,7 +66,7 @@ def create_user():
     return print("Successfully created user, " + email)
 
 
-@manager.command
+@app.cli.command()
 def deploy():
     """Run deployment tasks"""
     from flask_migrate import upgrade
@@ -86,7 +81,7 @@ def deploy():
     es_recreate()
 
 
-@manager.command
+@app.cli.command()
 def es_recreate():
     """Recreate elasticsearch index and request docs."""
     from app.search.utils import recreate
@@ -94,7 +89,7 @@ def es_recreate():
     recreate()
 
 
-@manager.command
+@app.cli.command()
 def test():
     """Run the unit tests."""
     import unittest
@@ -103,16 +98,11 @@ def test():
     unittest.TextTestRunner(verbosity=2).run(tests)
 
 
-@manager.option(
-    "-f",
-    "--featured",
-    help="Create featured story module.",
-    action="store_true",
-    dest="featured",
-)
+@app.cli.command()
+@click.option('-f', '--featured', help='Create featured story module.')
 def modules(featured=False):
     """
-    Manage function modules that inserts a single featured story entry to the modules table.
+    Inserts a single featured story entry to the modules table.
     Takes in a csv file with a story_id and a quote; delimiting by a semicolon.
     If current featured story module is_active, set it to false and set new featured story to true.
     """
@@ -166,7 +156,3 @@ def modules(featured=False):
             create_object(edit_featured_event)
             print("New featured story module set")
         csvfile.close()
-
-
-if __name__ == "__main__":
-    manager.run()

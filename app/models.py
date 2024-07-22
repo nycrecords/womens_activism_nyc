@@ -1,4 +1,4 @@
-from app import db, es
+from app import db
 from app.constants import (
     permission,
     role_name,
@@ -290,7 +290,7 @@ class Stories(db.Model):
 
     def es_create(self):
         """Create elasticsearch doc"""
-        es.create(
+        current_app.elasticsearch.create(
             index=current_app.config["ELASTICSEARCH_INDEX"],
             doc_type='story',
             id=self.id,
@@ -305,7 +305,7 @@ class Stories(db.Model):
         )
 
     def es_update(self):
-        es.update(
+        current_app.elasticsearch.update(
             index=current_app.config["ELASTICSEARCH_INDEX"],
             doc_type='story',
             id=self.id,

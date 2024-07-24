@@ -151,7 +151,13 @@ $(function () {
         $(imageFile).trigger('click');
 
         $(imageFile).on('change', function() {
-            uploadFile(imageFile.files[0]);
+            var file = imageFile.files[0];
+
+            if (file.size > (1024 * 1024 * 20)) {
+                alert("File sizes cannot be over 20 mb");
+            }
+
+            uploadFile(file);
             document.body.removeChild(imageFile);
         });
     });

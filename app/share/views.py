@@ -115,21 +115,28 @@ def upload_file():
     if 'file' not in request.files:
         return {'body': "File failed to upload"}, 400
 
-    file = request.files['file']
+    chunk = request.files['file']
 
-    if file.filename == "":
+    if chunk.filename == "":
         return {'body': "No selected file"}, 400
 
-    filename = secure_filename(file.filename)
-    file_directory = os.path.join(current_app.config['UPLOAD_DIRECTORY'], filename)
-    file.save(file_directory)
+    filename = secure_filename(request.form['filename'])
+    file_path= os.path.join(current_app.config['UPLOAD_DIRECTORY'], filename)
 
-    abs_path = os.path.abspath(file_directory)
-    form = {
-        'reqtype': (None, "fileupload"),
-        'fileToUpload': (abs_path, open(abs_path, 'rb'))
-    }
-    # TODO: NOT PROD! This is using external image host! Move to proper storage service later.
-    file_url = {'body': requests.post(current_app.config['IMAGE_HOST_URL'], files=form).content.decode("utf-8")}
+    # TODO: If there are filename conflicts, it will append to the file instead of creating a new one.
+    with open(file_path, "a+b") as file:        
+        seek_amount = request.form['chunkstart']
+        
+        file.seek(int(seek_amount)
+        file.write(chunk.read())
 
-    return file_url, 201
+    if int(request.form['chunkindex']) == int(request.form['numchunk']):
+        abs_path = os.path.abspath(file_path)
+        form = {
+            'reqtype': (None, "fileupload"),
+            'fileToUpload': (abs_path, open(abs_path, 'rb'))
+        }
+        # TODO: NOT PROD! This is using external image host! Move to proper storage service later.
+        file_url = {'body': requests.post(current_app.config['IMAGE_HOST_URL'], files=form).content.decode("utf-8")}
+
+        return file_url, 201

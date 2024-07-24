@@ -120,24 +120,37 @@ $(function () {
     });
 
     function uploadFile(file) {
-        var formData = new FormData();
-        formData.append('file', file);
+        const chunkSize = 1024 * 1024; // 1 MiB
+        const numChunks = file.size / chunkSize;
 
-        $.ajax({
-            url: '/share/upload-file',
-            type: 'POST',
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
+        for (let start = 0; start < file.size; start += chunkSize) {
+            const chunkIndex = numChunks - ((file.size - start) / chunkSize);
 
-            success: function(response) {
-                $('#story-image-input-box').val(response.body)
-            },
-            error: function(response) {
-                alert(response.body);
-            }
-        });
+            var chunk = new FormData();
+            chunk.append('file', file.slice(start, Math.min(start + chunkSize), file.size));
+            chunk.append('chunkindex', chunkIndex);
+            chunk.append('numchunks', numChunks);
+            chunk.append('chunkstart', start);
+            chunk.append('filename', file.name)
+
+            $.ajax({
+                url: '/share/upload-file',
+                async: false,
+                type: 'POST',
+                data: chunk,
+                cache: false,
+                contentType: false,
+                processData: false,
+
+                success: function(response) {
+                    // $('#story-image-input-box').val(response.body)
+                    console.log("GOOD");
+                },
+                error: function(response) {
+                    console.log(response.body);
+                }
+            });
+        }
     }
 
     // Media input type selection

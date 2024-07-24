@@ -119,13 +119,41 @@ $(function () {
         }
     });
 
+    function uploadFile(file) {
+        var formData = new FormData();
+        formData.append('file', file);
+
+        $.ajax({
+            url: '/share/upload-file',
+            type: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function(response) {
+                $('#story-image-input-box').val(response.body)
+            },
+            error: function(response) {
+                alert(response.body);
+            }
+        });
+    }
+
     // Media input type selection
     imageButton.click(function () {
-        videoInput.hide();
-        imageInput.show();
-        mediaButton.show();
-        imageButton.hide();
-        videoButton.hide();
+        var imageFile = document.createElement('input');
+        imageFile.type = 'file';
+        imageFile.style.display = 'none';
+
+        document.body.appendChild(imageFile);
+
+        $(imageFile).trigger('click');
+
+        $(imageFile).on('change', function() {
+            uploadFile(imageFile.files[0]);
+            document.body.removeChild(imageFile);
+        });
     });
     videoButton.click(function () {
         imageInput.hide();

@@ -1,5 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request, current_app
 from markupsafe import Markup, escape
+from werkzeug.utils import secure_filename
 
 from app.constants.subscribe_status import EMAIL_INVALID, EMAIL_TAKEN, PHONE_TAKEN, PHONE_INVALID
 from app.lib.utils import create_story, create_user, create_subscriber, verify_subscriber
@@ -8,6 +9,7 @@ from app.share import share
 from app.share.forms import StoryForm
 
 import requests
+import os
 
 
 @share.route('/', methods=['GET', 'POST'])
@@ -107,3 +109,27 @@ def new():
                                    RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])
     return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all(),
                            RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])
+
+@share.route('/upload-file', methods=['POST'])
+def upload_file():
+    if 'file' not in request.files:
+        return {'body': "File failed to upload"}, 400
+
+    file = request.files['file']
+
+    if file.filename == "":
+        return {'body': "No selected file"}, 400
+
+    filename = secure_filename(file.filename)
+    file_directory = os.path.join(current_app.config['UPLOAD_DIRECTORY'], filename)
+    file.save(file_directory)
+
+    abs_path = os.path.abspath(file_directory)
+    form = {
+        'reqtype': (None, "fileupload"),
+        'fileToUpload': (abs_path, open(abs_path, 'rb'))
+    }
+    # TODO: NOT PROD! This is using external image host! Move to proper storage service later.
+    file_url = {'body': requests.post(current_app.config['IMAGE_HOST_URL'], files=form).content.decode("utf-8")}
+
+    return file_url, 201

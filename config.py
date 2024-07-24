@@ -53,6 +53,12 @@ class Config:
     MAIL_RECIPIENTS = os.environ.get('MAIL_RECIPIENTS')
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', "True") == "True"
 
+    # File upload settings
+    UPLOAD_DIRECTORY = os.environ.get('UPLOAD_DIRECTORY')
+
+    # Image host
+    IMAGE_HOST_URL = os.environ.get('IMAGE_HOST_URL')
+
     @staticmethod
     def init_app(app):
         pass

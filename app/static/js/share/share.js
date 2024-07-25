@@ -119,7 +119,7 @@ $(function () {
         }
     });
 
-    function uploadFile(file) {
+    async function uploadFile(file) {
         const chunkSize = 1024 * 1024; // 1 MiB
         const numChunks = file.size / chunkSize;
 
@@ -129,28 +129,37 @@ $(function () {
             var chunk = new FormData();
             chunk.append('file', file.slice(start, Math.min(start + chunkSize), file.size));
             chunk.append('chunkindex', chunkIndex);
-            chunk.append('numchunks', numChunks);
+            chunk.append('numchunks', Math.floor(numChunks));
             chunk.append('chunkstart', start);
-            chunk.append('filename', file.name)
+            chunk.append('filename', file.name);
 
-            $.ajax({
+            const response = await uploadChunk(chunk);
+     
+            if ((start + chunkSize) >= file.size) {
+                // Relay URL to server after the last chunk is uploaded
+                $('#story-image-input-box').val(response.body);
+                alert(response.body);
+            }
+        }
+    }
+
+    async function uploadChunk(chunk) {
+        return $.ajax({
                 url: '/share/upload-file',
-                async: false,
                 type: 'POST',
                 data: chunk,
                 cache: false,
                 contentType: false,
                 processData: false,
 
-                success: function(response) {
-                    // $('#story-image-input-box').val(response.body)
+                success: function(response) {         
                     console.log("GOOD");
                 },
                 error: function(response) {
                     console.log(response.body);
                 }
-            });
-        }
+        });
+        
     }
 
     // Media input type selection

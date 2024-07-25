@@ -125,18 +125,22 @@ def upload_file():
 
     # TODO: If there are filename conflicts, it will append to the file instead of creating a new one.
     with open(file_path, "a+b") as file:        
-        seek_amount = request.form['chunkstart']
-        
-        file.seek(int(seek_amount)
+        seek_amount = int(request.form['chunkstart'])
+        file.seek(seek_amount)
         file.write(chunk.read())
 
-    if int(request.form['chunkindex']) == int(request.form['numchunk']):
+    if int(request.form['chunkindex']) == int(request.form['numchunks']):
         abs_path = os.path.abspath(file_path)
         form = {
             'reqtype': (None, "fileupload"),
+            'time': (None, "1h"),
             'fileToUpload': (abs_path, open(abs_path, 'rb'))
         }
         # TODO: NOT PROD! This is using external image host! Move to proper storage service later.
         file_url = {'body': requests.post(current_app.config['IMAGE_HOST_URL'], files=form).content.decode("utf-8")}
 
+        os.remove(abs_path)
+
         return file_url, 201
+    else:
+        return '', 204

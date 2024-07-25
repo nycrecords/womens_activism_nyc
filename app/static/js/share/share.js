@@ -120,26 +120,25 @@ $(function () {
     });
 
     async function uploadFile(file) {
-        const chunkSize = 1024 * 1024; // 1 MiB
-        const numChunks = file.size / chunkSize;
+        const chunkSize = 1024 * 1024 * 4; // 4 MiB
+        const numChunks = Math.ceil(file.size / chunkSize);
 
         for (let start = 0; start < file.size; start += chunkSize) {
-            const chunkIndex = numChunks - ((file.size - start) / chunkSize);
+            const chunkIndex = numChunks - Math.ceil((file.size - start) / chunkSize);
 
             var chunk = new FormData();
             chunk.append('file', file.slice(start, Math.min(start + chunkSize), file.size));
-            chunk.append('chunkindex', chunkIndex);
-            chunk.append('numchunks', Math.floor(numChunks));
+            chunk.append('chunkindex', Math.round(chunkIndex));
+            chunk.append('numchunks', Math.round(numChunks));
             chunk.append('chunkstart', start);
             chunk.append('filename', file.name);
             chunk.append('final', ((start + chunkSize) >= file.size) ? 'true' : 'false');
 
             const response = await uploadChunk(chunk);
-     
+            
             if ((start + chunkSize) >= file.size) {
                 // Relay URL to server after the last chunk is uploaded
                 $('#story-image-input-box').val(response.body);
-                alert(response.body);
             }
         }
     }
@@ -179,7 +178,7 @@ $(function () {
             if (file.size > (1024 * 1024 * 20)) {
                 alert("File sizes cannot be over 20 mb");
             }
-
+            
             uploadFile(file);
             document.body.removeChild(imageFile);
         });

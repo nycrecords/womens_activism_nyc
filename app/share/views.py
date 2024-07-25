@@ -116,6 +116,9 @@ def upload_file():
         return {'body': "File failed to upload"}, 400
 
     chunk = request.files['file']
+    chunk_index = int(request.form['chunkindex'])
+    chunk_num = int(request.form['numchunks'])
+    is_final = request.form['final']
 
     if chunk.filename == "":
         return {'body': "No selected file"}, 400
@@ -129,25 +132,22 @@ def upload_file():
         file.seek(seek_amount)
         file.write(chunk.read())
 
-    if request.form['final'] == "false":
+    if is_final  == "false":
         return '', 204
 
-    # Index starts at 0, number of chunks is greater than 0
-    if int(request.form['chunkindex']) + 1 == int(request.form['numchunks']) and request.form['final'] == "true":
+    # Index starts at 0, but number of chunks starts counting at 1
+    if chunk_index + 1 == chunk_num and is_final == "true":
         abs_path = os.path.abspath(file_path)
-        form = {
+        image_host_form = {
             'reqtype': (None, "fileupload"),
             'time': (None, "1h"),
             'fileToUpload': (abs_path, open(abs_path, 'rb'))
         }
         # TODO: NOT PROD! This is using external image host! Move to proper storage service later.
-        if (not current_app.config['DEBUG']):
-            file_url = {'body': requests.post(current_app.config['IMAGE_HOST_URL'], files=form).content.decode("utf-8")}
-
+        file_url = {'body': requests.post(current_app.config['IMAGE_HOST_URL'], files=image_host_form).content.decode("utf-8")}
         os.remove(abs_path)
-
-        # return file_url, 201
-        return {'body': "Nice! "}, 200
+        
+        return file_url, 201
     else:
         return {'body': "Not all chunks uploaded"}, 400
 

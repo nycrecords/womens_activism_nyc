@@ -132,6 +132,7 @@ $(function () {
             chunk.append('numchunks', Math.floor(numChunks));
             chunk.append('chunkstart', start);
             chunk.append('filename', file.name);
+            chunk.append('final', ((start + chunkSize) >= file.size) ? 'true' : 'false');
 
             const response = await uploadChunk(chunk);
      

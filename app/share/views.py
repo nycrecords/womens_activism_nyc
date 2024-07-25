@@ -129,7 +129,10 @@ def upload_file():
         file.seek(seek_amount)
         file.write(chunk.read())
 
-    if int(request.form['chunkindex']) == int(request.form['numchunks']):
+    if request.form['final'] == "false":
+        return '', 204
+        
+    if int(request.form['chunkindex']) == int(request.form['numchunks']) and request.form['final'] == "true":
         abs_path = os.path.abspath(file_path)
         form = {
             'reqtype': (None, "fileupload"),
@@ -143,4 +146,5 @@ def upload_file():
 
         return file_url, 201
     else:
-        return '', 204
+        return {'body': "Not all chunks uploaded"}, 400
+

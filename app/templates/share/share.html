@@ -82,6 +82,19 @@
                     <div class="who-input-group">
                         <button type="button" class="media-buttons" id="image-upload-btn">Image</button>
                         <button type="button" class="media-buttons" id="video-upload-btn">Video</button>
+                        <div class="col-md-12" id="image-upload" style="visibility: hidden">
+                            <div id="image-upload-header">
+                                <h2 id="image-upload-title">Uploading file</h2>
+                                <h4 id="image-upload-progress-body" style="font-weight: bold"></h4>
+                                <button type="button" class="btn btn-default" id="remove-upload-btn">
+                                    <span class="glyphicon glyphicon-remove"></span> Remove upload
+                                </button>
+                            </div>
+                            <br>
+                            <div class="progress center-block" style="height: 10px;width: 25%">
+
+                            </div>
+                        </div>
                     </div>
                     <div class="who-input-group" id="story-image-input">
                         {{ form.image_url (id="story-image-input-box", class="share-link-input", placeholder="http//womensactivism.nyc") }}

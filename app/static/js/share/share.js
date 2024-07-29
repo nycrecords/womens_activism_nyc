@@ -2,6 +2,7 @@ $(function () {
     var hiddenTagInput = $("#hidden-tag-input");
     var shareTag = $(".share-tag");
     var imageButton = $("#image-upload-btn");
+    var removeUploadButton = $("#remove-upload-btn");
     var videoInput = $("#story-video-input");
     var imageInput = $("#story-image-input");
     var videoButton = $("#video-upload-btn");
@@ -134,12 +135,21 @@ $(function () {
             chunk.append('filename', file.name);
             chunk.append('final', ((start + chunkSize) >= file.size) ? 'true' : 'false');
 
-            const response = await uploadChunk(chunk);
-            
-            if ((start + chunkSize) >= file.size) {
-                // Relay URL to server after the last chunk is uploaded
-                $('#story-image-input-box').val(response.body);
+            try {
+                const response = await uploadChunk(chunk);
+
+                if ((start + chunkSize) >= file.size) {
+                    // Relay URL to server after the last chunk is uploaded
+                    $('#story-image-input-box').val(response.body);
+                    $('#image-upload-title').text("Upload success!");
+                }
             }
+            catch (error) {
+                $('#image-upload-title').text("Upload Failed!");
+                return;
+            }
+            const progress =  Math.round((1 / (numChunks / (chunkIndex + 1))) * 100);
+            $('#image-upload-progressbar').attr('style', "width: " + progress + "%")
         }
     }
 
@@ -178,11 +188,21 @@ $(function () {
             if (file.size > (1024 * 1024 * 20)) {
                 alert("File sizes cannot be over 20 mb");
             }
-            
+
+            $('#image-upload').css('visibility', 'visible');
+            $('#image-upload-progress-body').text("Selected file:".concat(" ", file.name));
+
             uploadFile(file);
             document.body.removeChild(imageFile);
         });
     });
+
+    removeUploadButton.click(function () {
+        $('#image-upload-title').text("Uploading file");
+        $('#image-upload-progressbar').attr('style', "width: " + "0" + "%")
+        $('#image-upload').css('visibility', 'hidden');
+    });
+    
     videoButton.click(function () {
         imageInput.hide();
         videoInput.show();

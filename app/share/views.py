@@ -92,6 +92,19 @@ def new():
             for t in tag_string.split(','):
                 tags.append(Tags.query.filter_by(id=t).one().name)
 
+            if form.image_blob_name.data != "":
+                form_image_blob_data = escape(form.image_blob_name.data)
+                blob_name = form_image_blob_data[form_image_blob_data.rfind("staging/"):].replace("staging/", "")
+                blob_client = BlobClient(
+                    account_url="https://"
+                    + current_app.config["AZURE_STORAGE_ACCOUNT_NAME"]
+                    + ".blob.core.windows.net/",
+                    credential=current_app.config["AZURE_STORAGE_ACCOUNT_KEY"],
+                    container_name=current_app.config["AZURE_CONTAINER_NAME"],
+                    blob_name=blob_name,
+                )
+                blob_client.start_copy_from_url(source_url=form_image_blob_data)
+                
             story_id = create_story(activist_first=escape(form.activist_first.data),
                                     activist_last=escape(form.activist_last.data),
                                     activist_start=escape(form.activist_start.data),
@@ -99,7 +112,7 @@ def new():
                                     tags=tags,
                                     content=escape(form.content.data),
                                     activist_url=escape(form.activist_url.data),
-                                    image_blob_name=escape(form.image_blob_name.data),
+                                    image_blob_name=blob_name,
                                     image_url=escape(form.image_url.data),
                                     video_url=escape(form.video_url.data),
                                     user_guid=user_guid)
@@ -128,7 +141,7 @@ def upload_file():
 
     filename = secure_filename(request.form['filename'])
     current_id = str(current_story_id())
-    blob_name = current_id + "/" + filename
+    blob_name = "staging" + "/" + current_id + "/" + filename
     file_path= os.path.join(current_app.config['UPLOAD_DIRECTORY'], current_id, filename)
     os.makedirs(os.path.join(current_app.config['UPLOAD_DIRECTORY'], current_id), exist_ok=True)
 
@@ -157,8 +170,7 @@ def upload_file():
 
         os.remove(os.path.abspath(file_path))
 
-        print("upload-file says that blob name is: " + blob_name)
-        return {'body': blob_name}, 201
+        return {'body': blob_client.url}, 201
     else:
         return {'body': "Not all chunks uploaded"}, 400
 

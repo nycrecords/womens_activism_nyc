@@ -94,8 +94,6 @@ def view(story_id):
             image_url = story.image_url
         else:
             pass
-
-        print("The image URL: " + image_url)
             
         return render_template('stories/view.html', story=story, user=user, image_url=image_url, video_url=video_url,
                                feature=feature, form=form)

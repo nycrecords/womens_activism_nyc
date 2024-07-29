@@ -121,3 +121,19 @@ def bulk_delete(query):
         db.session.rollback()
         current_app.logger.exception("Failed to BULK DELETE {}".format(query))
         return 0
+
+def stories_amount():
+    """
+    Returns the number of stories. Can be used to find the ID of the last story.
+
+    :return: The number of stories
+    """
+    return len(Stories.query.all())
+
+def current_story_id():
+    """
+    The ID of the current story, which is not yet existent, is one greater than the number of stories there is already.
+    
+    :return: The ID of the current to-be-created story.
+    """
+    return stories_amount() + 1

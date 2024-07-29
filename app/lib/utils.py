@@ -22,6 +22,7 @@ def create_story(activist_first,
                  tags,
                  content,
                  activist_url,
+                 image_blob_name,
                  image_url,
                  video_url,
                  user_guid):
@@ -36,6 +37,7 @@ def create_story(activist_first,
     :param tags: a string array containing the selected tags associated with the activist
     :param content: the content of the story
     :param activist_url: a url containing additional information about the activist
+    :param image_blob_name: the name of the image blob on azure
     :param image_url: a url containing an image link
     :param video_url: a url containing a
     :param user_guid: the guid of the user who created the story
@@ -59,6 +61,7 @@ def create_story(activist_first,
                     activist_end=activist_end,
                     content=content,
                     activist_url=activist_url if activist_url else None,
+                    image_blob_name=image_blob_name if image_blob_name else None,
                     image_url=image_url if image_url else None,
                     video_url=video_url if video_url else None,
                     user_guid=user_guid,

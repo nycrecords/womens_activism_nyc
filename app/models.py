@@ -217,6 +217,7 @@ class Stories(db.Model):
     activist_end - an integer containing the activist's death year. If the user wrote "Today", set this value to 9999
     content - a string containing the story about the activist
     activist_url - a string containing a link to additional information about the activist
+    image_blob_name - a string containing the name of the image blob on azure
     image_url - a string containing a link to an image of the activist
     video_url - a string containing a link to a video about the activist
     poster_id - an integer containing the id of the user who wrote the story
@@ -235,6 +236,7 @@ class Stories(db.Model):
     activist_end = db.Column(db.Integer)
     content = db.Column(db.Text, nullable=False)
     activist_url = db.Column(db.Text)
+    image_blob_name = db.Column(db.Text)
     image_url = db.Column(db.Text)
     video_url = db.Column(db.Text)
     user_guid = db.Column(db.String(64), db.ForeignKey("users.guid"))
@@ -253,6 +255,7 @@ class Stories(db.Model):
             activist_start=None,
             activist_end=None,
             activist_url=None,
+            image_blob_name=None,
             image_url=None,
             video_url=None,
             user_guid=None,
@@ -264,6 +267,7 @@ class Stories(db.Model):
         self.activist_end = activist_end
         self.content = content
         self.activist_url = activist_url
+        self.image_blob_name = image_blob_name
         self.image_url = image_url
         self.video_url = video_url
         self.user_guid = user_guid

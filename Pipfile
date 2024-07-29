@@ -35,6 +35,7 @@ flask-wtf = "*"
 werkzeug = "*"
 flask-mail = "*"
 flask-elasticsearch = "*"
+azure-storage-blob = "*"
 
 [requires]
 python_version = "3.12"

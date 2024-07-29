@@ -59,6 +59,11 @@ class Config:
     # Image host
     IMAGE_HOST_URL = os.environ.get('IMAGE_HOST_URL')
 
+    # Azure settings
+    AZURE_STORAGE_ACCOUNT_NAME = os.environ.get('AZURE_STORAGE_ACCOUNT_NAME')
+    AZURE_CONTAINER_NAME = os.environ.get('AZURE_CONTAINER_NAME')
+    AZURE_STORAGE_ACCOUNT_KEY = os.environ.get('AZURE_STORAGE_ACCOUNT_KEY')
+
     @staticmethod
     def init_app(app):
         pass

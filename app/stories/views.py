@@ -4,9 +4,12 @@ View functions for story functionality
 from app.stories import stories
 from app.edit.utils import hide_story
 from app.feature.utils import hide_current_featured_story
-from flask import render_template, abort, request, flash, redirect, url_for
+from flask import render_template, abort, request, flash, redirect, url_for, current_app
 from sqlalchemy.orm.exc import NoResultFound
+from azure.storage.blob import generate_blob_sas, BlobSasPermissions
 from app.edit.forms import HideForm
+
+from datetime import datetime, timedelta
 
 from app.constants.video_url import (
     YOUTUBE_FULL_URL,
@@ -70,5 +73,29 @@ def view(story_id):
             elif VIMEO_STRING in video_url:
                 split = video_url.split(VIMEO_URL, 1)
                 video_url = VIMEO_EMBED_URL.format(split[1])
-        return render_template('stories/view.html', story=story, user=user, video_url=video_url,
+
+        image_url = None
+        if story.image_blob_name:
+            sas_token = generate_blob_sas(
+                account_name=current_app.config['AZURE_STORAGE_ACCOUNT_NAME'],
+                account_key=current_app.config['AZURE_STORAGE_ACCOUNT_KEY'],
+                container_name=current_app.config['AZURE_CONTAINER_NAME'],
+                permission=BlobSasPermissions(read=True),
+                expiry=datetime.utcnow() + timedelta(hours=1),
+                blob_name=story.image_blob_name
+            )
+            image_url = "https://{0}.blob.core.windows.net/{1}/{2}?{3}".format(
+                current_app.config["AZURE_STORAGE_ACCOUNT_NAME"],
+                current_app.config["AZURE_CONTAINER_NAME"],
+                story.image_blob_name,
+                sas_token,
+            )
+        elif story.image_url != "":
+            image_url = story.image_url
+        else:
+            pass
+
+        print("The image URL: " + image_url)
+            
+        return render_template('stories/view.html', story=story, user=user, image_url=image_url, video_url=video_url,
                                feature=feature, form=form)

@@ -1,12 +1,14 @@
 from flask import render_template, redirect, url_for, flash, request, current_app
 from markupsafe import Markup, escape
 from werkzeug.utils import secure_filename
+from azure.storage.blob import BlobClient
 
 from app.constants.subscribe_status import EMAIL_INVALID, EMAIL_TAKEN, PHONE_TAKEN, PHONE_INVALID
 from app.lib.utils import create_story, create_user, create_subscriber, verify_subscriber
 from app.models import Tags
 from app.share import share
 from app.share.forms import StoryForm
+from app.db_utils import current_story_id
 
 import requests
 import os
@@ -97,6 +99,7 @@ def new():
                                     tags=tags,
                                     content=escape(form.content.data),
                                     activist_url=escape(form.activist_url.data),
+                                    image_blob_name=escape(form.image_blob_name.data),
                                     image_url=escape(form.image_url.data),
                                     video_url=escape(form.video_url.data),
                                     user_guid=user_guid)
@@ -124,7 +127,10 @@ def upload_file():
         return {'body': "No selected file"}, 400
 
     filename = secure_filename(request.form['filename'])
-    file_path= os.path.join(current_app.config['UPLOAD_DIRECTORY'], filename)
+    current_id = str(current_story_id())
+    blob_name = current_id + "/" + filename
+    file_path= os.path.join(current_app.config['UPLOAD_DIRECTORY'], current_id, filename)
+    os.makedirs(os.path.join(current_app.config['UPLOAD_DIRECTORY'], current_id), exist_ok=True)
 
     # TODO: If there are filename conflicts, it will append to the file instead of creating a new one.
     with open(file_path, "a+b") as file:        
@@ -137,17 +143,22 @@ def upload_file():
 
     # Index starts at 0, but number of chunks starts counting at 1
     if chunk_index + 1 == chunk_num and is_final == "true":
-        abs_path = os.path.abspath(file_path)
-        image_host_form = {
-            'reqtype': (None, "fileupload"),
-            'time': (None, "1h"),
-            'fileToUpload': (abs_path, open(abs_path, 'rb'))
-        }
-        # TODO: NOT PROD! This is using external image host! Move to proper storage service later.
-        file_url = {'body': requests.post(current_app.config['IMAGE_HOST_URL'], files=image_host_form).content.decode("utf-8")}
-        os.remove(abs_path)
-        
-        return file_url, 201
+        blob_client = BlobClient(
+            account_url="https://"
+            + current_app.config["AZURE_STORAGE_ACCOUNT_NAME"]
+            + ".blob.core.windows.net/",
+            credential=current_app.config["AZURE_STORAGE_ACCOUNT_KEY"],
+            container_name=current_app.config["AZURE_CONTAINER_NAME"],
+            blob_name=blob_name,
+            )
+
+        with open(file_path, "rb") as data:
+            blob_client.upload_blob(data, overwrite=True)
+
+        os.remove(os.path.abspath(file_path))
+
+        print("upload-file says that blob name is: " + blob_name)
+        return {'body': blob_name}, 201
     else:
         return {'body': "Not all chunks uploaded"}, 400
 

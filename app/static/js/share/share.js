@@ -140,7 +140,7 @@ $(function () {
 
                 if ((start + chunkSize) >= file.size) {
                     // Relay URL to server after the last chunk is uploaded
-                    $('#story-image-input-box').val(response.body);
+                    $('#story-image-blob-input-box').val(response.body);
                     $('#image-upload-title').text("Upload success!");
                 }
             }

@@ -92,6 +92,7 @@ def new():
             for t in tag_string.split(','):
                 tags.append(Tags.query.filter_by(id=t).one().name)
 
+            blob_name = ""
             if form.image_blob_name.data != "":
                 form_image_blob_data = escape(form.image_blob_name.data)
                 blob_name = form_image_blob_data[form_image_blob_data.rfind("staging/"):].replace("staging/", "")

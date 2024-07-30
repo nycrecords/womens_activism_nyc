@@ -25,8 +25,8 @@ class Config:
 
     # Elasticsearch Settings
     ELASTICSEARCH_HOST = os.environ.get("ELASTICSEARCH_HOST") or "localhost:9200"
-    ELASTICSEARCH_PORT = os.environ.get("ELASTICSEARCH_PORT") or 9200
-    ELASTICSEARCH_URL = "http://" + ELASTICSEARCH_HOST # Seems hacky, but it works I suppose
+    ELASTICSEARCH_PORT = os.environ.get("ELASTICSEARCH_PORT") or "9200"
+    ELASTICSEARCH_URL = "http://" + ELASTICSEARCH_HOST + ":" + ELASTICSEARCH_PORT # Seems hacky, but it works I suppose
     ELASTICSEARCH_ENABLED = os.environ.get("ELASTICSEARCH_ENABLED") == "True"
     ELASTICSEARCH_INDEX = os.environ.get("ELASTICSEARCH_INDEX") or "stories"
     ELASTICSEARCH_USE_SSL = os.environ.get("ELASTICSEARCH_USE_SSL") == "True"

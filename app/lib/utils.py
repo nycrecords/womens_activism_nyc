@@ -249,3 +249,29 @@ def current_story_id():
     :return: The ID of the current to-be-created story.
     """
     return stories_amount() + 1
+
+
+def get_story_image(story_id):
+    """
+    Creates an SAS key used to acquire a temporary URL to the story image. The SAS key is set to expire in an hour.
+    
+    :return: A URL of the image of the story
+    """
+    story = Stories.query.filter_by(id=story_id).one()
+    
+    sas_token = generate_blob_sas(
+        account_name=current_app.config['AZURE_STORAGE_ACCOUNT_NAME'],
+        account_key=current_app.config['AZURE_STORAGE_ACCOUNT_KEY'],
+        container_name=current_app.config['AZURE_CONTAINER_NAME'],
+        permission=BlobSasPermissions(read=True),
+        expiry=datetime.utcnow() + timedelta(hours=1),
+        blob_name=story.image_blob_name
+    )
+    image_url = "https://{0}.blob.core.windows.net/{1}/{2}?{3}".format(
+        current_app.config["AZURE_STORAGE_ACCOUNT_NAME"],
+        current_app.config["AZURE_CONTAINER_NAME"],
+        story.image_blob_name,
+        sas_token,
+    )
+
+    return image_url

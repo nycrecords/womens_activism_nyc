@@ -132,31 +132,28 @@ def upload_file():
     if 'file' not in request.files:
         return {'body': "File failed to upload"}, 400
 
-    chunk = request.files['file']
-    chunk_index = int(request.form['chunkindex'])
-    chunk_num = int(request.form['numchunks'])
-    is_final = request.form['final']
-
-    if chunk.filename == "":
-        return {'body': "No selected file"}, 400
-
+    
+    # Prepare directory for file
     filename = secure_filename(request.form['filename'])
     current_id = str(current_story_id())
-    blob_name = "staging" + "/" + current_id + "/" + filename
-    file_path= os.path.join(current_app.config['UPLOAD_DIRECTORY'], current_id, filename)
     os.makedirs(os.path.join(current_app.config['UPLOAD_DIRECTORY'], current_id), exist_ok=True)
+    file_path= os.path.join(current_app.config['UPLOAD_DIRECTORY'], current_id, filename)
 
-    # TODO: If there are filename conflicts, it will append to the file instead of creating a new one.
-    with open(file_path, "a+b") as file:        
+    # Acquire file
+    with open(file_path, "a+b") as file:
+        chunk = request.files['file']
         seek_amount = int(request.form['chunkstart'])
         file.seek(seek_amount)
         file.write(chunk.read())
 
-    if is_final  == "false":
-        return '', 204
-
+        
+    chunk_index = int(request.form['chunkindex'])
+    chunk_num = int(request.form['numchunks'])
+    is_final = request.form['final']
+    
     # Index starts at 0, but number of chunks starts counting at 1
     if chunk_index + 1 == chunk_num and is_final == "true":
+        blob_name = "staging" + "/" + current_id + "/" + filename
         blob_client = BlobClient(
             account_url="https://"
             + current_app.config["AZURE_STORAGE_ACCOUNT_NAME"]
@@ -169,9 +166,12 @@ def upload_file():
         with open(file_path, "rb") as data:
             blob_client.upload_blob(data, overwrite=True)
 
-        os.remove(os.path.abspath(file_path))
+        # File already on azure, no need to keep it on server anymore
+        os.remove(os.path.abspath(file_path)) 
 
         return {'body': blob_client.url}, 201
+    elif is_final == "false":
+        return '', 204
     else:
         return {'body': "Not all chunks uploaded"}, 400
 

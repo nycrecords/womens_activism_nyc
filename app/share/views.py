@@ -4,11 +4,10 @@ from werkzeug.utils import secure_filename
 from azure.storage.blob import BlobClient
 
 from app.constants.subscribe_status import EMAIL_INVALID, EMAIL_TAKEN, PHONE_TAKEN, PHONE_INVALID
-from app.lib.utils import create_story, create_user, create_subscriber, verify_subscriber
+from app.lib.utils import create_story, create_user, create_subscriber, verify_subscriber, current_story_id
 from app.models import Tags
 from app.share import share
 from app.share.forms import StoryForm
-from app.db_utils import current_story_id
 
 import requests
 import os

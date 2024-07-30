@@ -3,8 +3,10 @@ Utility functions used for view functions involving stories
 """
 import uuid
 import re
+from datetime import datetime, timedelta
 
 from flask import current_app, render_template, url_for
+from azure.storage.blob import generate_blob_sas, BlobSasPermissions
 
 from app.constants.event_type import STORY_CREATED, USER_CREATED, NEW_SUBSCRIBER, UNSUBSCRIBED_EMAIL, UNSUBSCRIBED_PHONE
 from app.constants.user_type_auth import ANONYMOUS_USER
@@ -229,3 +231,21 @@ def verify_subscriber(email, phone):
             return PHONE_TAKEN
 
     return VALID
+
+
+def stories_amount():
+    """
+    Returns the number of stories. Can be used to find the ID of the last story.
+
+    :return: The number of stories
+    """
+    return len(Stories.query.all())
+
+
+def current_story_id():
+    """
+    The ID of the current story, which is not yet existent, is one greater than the number of stories there is already.
+    
+    :return: The ID of the current to-be-created story.
+    """
+    return stories_amount() + 1

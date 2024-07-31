@@ -253,25 +253,32 @@ def current_story_id():
 
 def get_story_image(story_id):
     """
-    Creates an SAS key used to acquire a temporary URL to the story image. The SAS key is set to expire in an hour.
+    If the story already has an image URL associated with it, return it.
+    Else create an SAS key used to acquire a temporary URL to the story image. The SAS key is set to expire in an hour.
     
-    :return: A URL of the image of the story
+    :return: A URL of the image of the story, or `None` if there is no URL associated.
     """
     story = Stories.query.filter_by(id=story_id).one()
-    
-    sas_token = generate_blob_sas(
-        account_name=current_app.config['AZURE_STORAGE_ACCOUNT_NAME'],
-        account_key=current_app.config['AZURE_STORAGE_ACCOUNT_KEY'],
-        container_name=current_app.config['AZURE_CONTAINER_NAME'],
-        permission=BlobSasPermissions(read=True),
-        expiry=datetime.utcnow() + timedelta(hours=1),
-        blob_name=story.image_blob_name
-    )
-    image_url = "https://{0}.blob.core.windows.net/{1}/{2}?{3}".format(
-        current_app.config["AZURE_STORAGE_ACCOUNT_NAME"],
-        current_app.config["AZURE_CONTAINER_NAME"],
-        story.image_blob_name,
-        sas_token,
-    )
 
-    return image_url
+    if story.image_url != None:
+        return story.image_url
+    elif story.image_blob_name != None:
+        sas_token = generate_blob_sas(
+            account_name=current_app.config['AZURE_STORAGE_ACCOUNT_NAME'],
+            account_key=current_app.config['AZURE_STORAGE_ACCOUNT_KEY'],
+            container_name=current_app.config['AZURE_CONTAINER_NAME'],
+            permission=BlobSasPermissions(read=True),
+            expiry=datetime.utcnow() + timedelta(hours=1),
+            blob_name=story.image_blob_name
+        )
+        azure_image_url = "https://{0}.blob.core.windows.net/{1}/{2}?{3}".format(
+            current_app.config["AZURE_STORAGE_ACCOUNT_NAME"],
+            current_app.config["AZURE_CONTAINER_NAME"],
+            story.image_blob_name,
+            sas_token,
+        )
+        return azure_image_url
+    else:
+        return None
+
+

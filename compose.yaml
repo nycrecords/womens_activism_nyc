@@ -15,11 +15,23 @@ services:
       timeout: 5s
       retries: 3
 
-  elasticsearch:
-    container_name: es
+  es-dev:
+    container_name: es-dev
     image: elasticsearch:8.14.3
     volumes:
       - elasticsearch:/usr/share/elasticsearch/data
+    environment:
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - cluster.initial_master_nodes=es01
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - http.host=0.0.0.0
+      - xpack.security.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     ports:
       - "9200:9200"
             
@@ -67,7 +79,7 @@ services:
       - RECAPTCHA_THRESHOLD=${RECAPTCHA_THRESHOLD}
     depends_on:
       - db
-      - elasticsearch
+      - es-dev
 
 
 volumes:

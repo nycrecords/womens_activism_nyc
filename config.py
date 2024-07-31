@@ -24,7 +24,7 @@ class Config:
     )
 
     # Elasticsearch Settings
-    ELASTICSEARCH_HOST = os.environ.get("ELASTICSEARCH_HOST") or "localhost:9200"
+    ELASTICSEARCH_HOST = os.environ.get("ELASTICSEARCH_HOST") or "localhost"
     ELASTICSEARCH_PORT = os.environ.get("ELASTICSEARCH_PORT") or "9200"
     ELASTICSEARCH_URL = "http://" + ELASTICSEARCH_HOST + ":" + ELASTICSEARCH_PORT # Seems hacky, but it works I suppose
     ELASTICSEARCH_ENABLED = os.environ.get("ELASTICSEARCH_ENABLED") == "True"

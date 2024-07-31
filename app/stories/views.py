@@ -72,14 +72,8 @@ def view(story_id):
             elif VIMEO_STRING in video_url:
                 split = video_url.split(VIMEO_URL, 1)
                 video_url = VIMEO_EMBED_URL.format(split[1])
-
-        image_url = None
-        if story.image_blob_name:
-            image_url = get_story_image(story.id)
-        elif story.image_url != "":
-            image_url = story.image_url
-        else:
-            pass
+                
+        image_url = get_story_image(story.id)
             
         return render_template('stories/view.html', story=story, user=user, image_url=image_url, video_url=video_url,
                                feature=feature, form=form)

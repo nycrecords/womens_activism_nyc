@@ -33,14 +33,11 @@ services:
     container_name: es-dev
     image: elasticsearch:8.14.3
     volumes:
-      - elasticsearch:/usr/share/elasticsearch/data
+      - es-dev:/usr/share/elasticsearch/data
     environment:
-      - node.name=es01
-      - cluster.name=es-docker-cluster
-      - cluster.initial_master_nodes=es01
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - http.host=0.0.0.0
+      - discovery.type=single-node
       - xpack.security.enabled=false
     ulimits:
       memlock:
@@ -48,6 +45,23 @@ services:
         hard: -1
     ports:
       - "9200:9200"
+
+  es-prod:
+    container_name: es-prod
+    image: elasticsearch:8.14.3
+    volumes:
+      - es-prod:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+
             
   production:
     build:
@@ -59,6 +73,7 @@ services:
       <<: *flask-env
     depends_on:
       - db
+      - es-prod
 
   development:
     build:
@@ -77,5 +92,7 @@ services:
 volumes:
   db:
     driver: local
-  elasticsearch:
+  es-dev:
+    driver: local
+  es-prod:
     driver: local

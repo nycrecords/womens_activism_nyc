@@ -4,9 +4,11 @@ View functions for story functionality
 from app.stories import stories
 from app.edit.utils import hide_story
 from app.feature.utils import hide_current_featured_story
-from flask import render_template, abort, request, flash, redirect, url_for
+from app.lib.utils import get_story_image
+from flask import render_template, abort, request, flash, redirect, url_for, current_app
 from sqlalchemy.orm.exc import NoResultFound
 from app.edit.forms import HideForm
+
 
 from app.constants.video_url import (
     YOUTUBE_FULL_URL,
@@ -70,5 +72,14 @@ def view(story_id):
             elif VIMEO_STRING in video_url:
                 split = video_url.split(VIMEO_URL, 1)
                 video_url = VIMEO_EMBED_URL.format(split[1])
-        return render_template('stories/view.html', story=story, user=user, video_url=video_url,
+
+        image_url = None
+        if story.image_blob_name:
+            image_url = get_story_image(story.id)
+        elif story.image_url != "":
+            image_url = story.image_url
+        else:
+            pass
+            
+        return render_template('stories/view.html', story=story, user=user, image_url=image_url, video_url=video_url,
                                feature=feature, form=form)

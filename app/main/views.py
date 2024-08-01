@@ -2,6 +2,7 @@ from flask import render_template
 from app.main import main
 from app.models import Stories, FeaturedStories
 from app.constants import STORY_GOAL_NUMBER
+from app.lib.utils import get_story_image
 from operator import attrgetter
 
 
@@ -22,10 +23,20 @@ def index():
 
     visible_featured_stories = [str(n+1) for n in range(len(sorted_stories))]
 
+    images = []
+    for story in stories:
+        if story.image_blob_name != None:
+            images.append(get_story_image(story.id))
+        elif story.image_url != None:
+            images.append(story.image_url)
+        else:
+            images.append("")
+
+
     return render_template('main/home.html',
                            visible_stories=visible_stories,
                            remaining_stories=remaining_stories,
-                           stories=stories,
+                           stories=zip(stories, images),
                            featured_stories=sorted_stories,
                            visible_featured_stories=visible_featured_stories)
 

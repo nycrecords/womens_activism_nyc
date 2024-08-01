@@ -3,8 +3,10 @@ Utility functions used for view functions involving stories
 """
 import uuid
 import re
+from datetime import datetime, timedelta
 
 from flask import current_app, render_template, url_for
+from azure.storage.blob import generate_blob_sas, BlobSasPermissions
 
 from app.constants.event_type import STORY_CREATED, USER_CREATED, NEW_SUBSCRIBER, UNSUBSCRIBED_EMAIL, UNSUBSCRIBED_PHONE
 from app.constants.user_type_auth import ANONYMOUS_USER
@@ -22,6 +24,7 @@ def create_story(activist_first,
                  tags,
                  content,
                  activist_url,
+                 image_blob_name,
                  image_url,
                  video_url,
                  user_guid):
@@ -36,6 +39,7 @@ def create_story(activist_first,
     :param tags: a string array containing the selected tags associated with the activist
     :param content: the content of the story
     :param activist_url: a url containing additional information about the activist
+    :param image_blob_name: the name of the image blob on azure
     :param image_url: a url containing an image link
     :param video_url: a url containing a
     :param user_guid: the guid of the user who created the story
@@ -59,6 +63,7 @@ def create_story(activist_first,
                     activist_end=activist_end,
                     content=content,
                     activist_url=activist_url if activist_url else None,
+                    image_blob_name=image_blob_name if image_blob_name else None,
                     image_url=image_url if image_url else None,
                     video_url=video_url if video_url else None,
                     user_guid=user_guid,
@@ -226,3 +231,47 @@ def verify_subscriber(email, phone):
             return PHONE_TAKEN
 
     return VALID
+
+
+def stories_amount():
+    """
+    Returns the number of stories. Can be used to find the ID of the last story.
+
+    :return: The number of stories
+    """
+    return len(Stories.query.all())
+
+
+def current_story_id():
+    """
+    The ID of the current story, which is not yet existent, is one greater than the number of stories there is already.
+    
+    :return: The ID of the current to-be-created story.
+    """
+    return stories_amount() + 1
+
+
+def get_story_image(story_id):
+    """
+    Creates an SAS key used to acquire a temporary URL to the story image. The SAS key is set to expire in an hour.
+    
+    :return: A URL of the image of the story
+    """
+    story = Stories.query.filter_by(id=story_id).one()
+    
+    sas_token = generate_blob_sas(
+        account_name=current_app.config['AZURE_STORAGE_ACCOUNT_NAME'],
+        account_key=current_app.config['AZURE_STORAGE_ACCOUNT_KEY'],
+        container_name=current_app.config['AZURE_CONTAINER_NAME'],
+        permission=BlobSasPermissions(read=True),
+        expiry=datetime.utcnow() + timedelta(hours=1),
+        blob_name=story.image_blob_name
+    )
+    image_url = "https://{0}.blob.core.windows.net/{1}/{2}?{3}".format(
+        current_app.config["AZURE_STORAGE_ACCOUNT_NAME"],
+        current_app.config["AZURE_CONTAINER_NAME"],
+        story.image_blob_name,
+        sas_token,
+    )
+
+    return image_url

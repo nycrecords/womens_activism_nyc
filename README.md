@@ -1,5 +1,11 @@
-# Womens Activism #
-## Development Environment Setup ##
+# Womens Activism 
+## Development Environment Setup
+The following dependencies are required:
+- Postgresql
+- libpq
+- Elasticsearch
+
+## Vagrant
 *Make sure your version of VirtualBox matches the version used to create the vagrant box.*
 
 1. Copy `rhel-6.8.virtualbox.box` from the repository into your desired directory.
@@ -13,3 +19,21 @@
 7. Run `vagrant up`
     - If there is an error during this process, try running `vagrant provision`
 8. Run `vagrant ssh` to connect to your development environment.
+
+## Local
+The project uses pipenv to manage dependencies.
+Clone the repository and run the following:
+
+```python
+pipenv install
+```
+
+Then run the following to enter the virtual environment:
+```python
+pipenv shell
+```
+
+Start the flask session like so:
+```shell
+flask run
+```

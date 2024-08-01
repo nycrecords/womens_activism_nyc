@@ -36,6 +36,8 @@ werkzeug = "*"
 flask-mail = "*"
 flask-elasticsearch = "*"
 azure-storage-blob = "*"
+pytest = "*"
+coverage = "*"
 
 [requires]
 python_version = "3.12"

@@ -296,7 +296,6 @@ class Stories(db.Model):
         """Create elasticsearch doc"""
         current_app.elasticsearch.create(
             index=current_app.config["ELASTICSEARCH_INDEX"],
-            doc_type='story',
             id=self.id,
             body={
                 'activist_first': self.activist_first,
@@ -311,7 +310,6 @@ class Stories(db.Model):
     def es_update(self):
         current_app.elasticsearch.update(
             index=current_app.config["ELASTICSEARCH_INDEX"],
-            doc_type='story',
             id=self.id,
             body={
                 'doc': {

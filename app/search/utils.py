@@ -104,7 +104,6 @@ def create_docs():
         current_app.elasticsearch,
         operations,
         index=current_app.config["ELASTICSEARCH_INDEX"],
-        doc_type='story',
         chunk_size=ALL_RESULTS_CHUNKSIZE,
         raise_on_error=True
     )
@@ -120,8 +119,7 @@ def update_docs():
 
 def delete_doc(story_id):
     """Delete a specific doc in the index"""
-    es.delete(index=current_app.config['ELASTICSEARCH_INDEX'],
-              doc_type='story',
+    current_app.elasticsearch.delete(index=current_app.config['ELASTICSEARCH_INDEX'],
               id=story_id)
 
 

@@ -16,6 +16,20 @@ x-flask-env: &flask-env
   AZURE_CONTAINER_NAME: ${AZURE_CONTAINER_NAME}
   AZURE_STORAGE_ACCOUNT_KEY: ${AZURE_STORAGE_ACCOUNT_KEY}
 
+x-elasticsearch: &es-config
+  healthcheck:
+    test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
+    interval: 30s
+    timeout: 30s
+    retries: 3
+  ulimits:
+    memlock:
+      soft: -1
+      hard: -1
+  ports:
+    - "9200:9200"
+
+
 
 services:
   db:
@@ -35,28 +49,19 @@ services:
       retries: 3
 
   es-dev:
+    <<: *es-config
     container_name: es-dev
     image: elasticsearch:8.14.3
     volumes:
       - es-dev:/usr/share/elasticsearch/data
     environment:
+      - discovery.type=single-node
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - discovery.type=single-node
       - xpack.security.enabled=false
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    ports:
-      - "9200:9200"
-    healthcheck:
-      test: [ "CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1" ]
-      interval: 30s
-      timeout: 30s
-      retries: 3
 
   es-prod:
+    <<: *es-config
     container_name: es-prod
     image: elasticsearch:8.14.3
     volumes:
@@ -65,18 +70,6 @@ services:
       - discovery.type=single-node
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    ports:
-      - "9200:9200"
-    healthcheck:
-      test: [ "CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1" ]
-      interval: 30s
-      timeout: 30s
-      retries: 3
-
             
   production:
     build:

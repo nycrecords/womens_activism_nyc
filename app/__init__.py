@@ -38,19 +38,19 @@ def create_app(config_name):
     @app.errorhandler(400)
     def bad_request(e):
         return render_template("error/generic.html", status_code=400,
-                               message=e.description or None)
+                               message=e.description or None), 400
 
     @app.errorhandler(403)
     def forbidden(e):
-        return render_template("error/generic.html", status_code=403)
+        return render_template("error/generic.html", status_code=403), 403
 
     @app.errorhandler(404)
     def page_not_found(e):
-        return render_template("error/generic.html", status_code=404)
+        return render_template("error/generic.html", status_code=404), 404
 
     @app.errorhandler(500)
     def internal_server_error(e):
-        return render_template("error/generic.html", status_code=500)
+        return render_template("error/generic.html", status_code=500), 500
 
     from .main import main as main
     app.register_blueprint(main)

@@ -126,8 +126,11 @@ def new():
     return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all(),
                            RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])
 
-@share.route('/upload-file', methods=['POST'])
+
+@share.route('/upload-file', methods=['POST', 'GET'])
 def upload_file():
+    if request.method == 'GET':
+        return {'body': "Get requests not allowed"}, 400
     if 'file' not in request.files:
         return {'body': "File failed to upload"}, 400
 

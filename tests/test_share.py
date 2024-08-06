@@ -1,16 +1,14 @@
-from app.share.views import upload_file
-from app.share.forms import StoryForm
 from app.models import Stories
+from app.share.forms import StoryForm
+from app.share.views import upload_file
 
-from faker import Faker
 
-fake = Faker(locale="en_US")
-
-def test_new(app, client):
+def test_new(app, client, fake):
     with app.app_context():
         client.get('/share/').status_code == 200
 
-        story = Stories(activist_first=fake.first_name(), activist_start=1924, activist_end=1984, activist_last=fake.last_name(), content=fake.text(200), tags="2",)
+        story = Stories(activist_first=fake.first_name(), activist_start=1924, activist_end=1984,
+                        activist_last=fake.last_name(), content=fake.text(200), tags="2", )
         form = StoryForm(formdata=None, obj=story, user_phone="", user_email=fake.email())
 
         response = client.post('/share', data=form.data, follow_redirects=True)
@@ -59,4 +57,3 @@ def test_upload_file(app, client):
         with app.test_request_context("/share/upload-file", method="POST", data=form_data):
             response = upload_file()
             assert response[1] == 204
-

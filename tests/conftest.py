@@ -1,6 +1,9 @@
 import pytest
+from faker import Faker
+
 from app import create_app, db
 from app.models import Roles, Tags
+
 
 @pytest.fixture
 def app():
@@ -28,3 +31,7 @@ def client(app):
 @pytest.fixture
 def runner(app):
     return app.test_cli_runner()
+
+@pytest.fixture
+def fake():
+    return Faker(locale="en_US")

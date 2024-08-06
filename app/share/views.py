@@ -92,7 +92,7 @@ def new():
                 tags.append(Tags.query.filter_by(id=t).one().name)
 
             blob_name = ""
-            if form.image_blob_name.data != "":
+            if form.image_blob_name.data not in {"", None} :
                 form_image_blob_data = escape(form.image_blob_name.data)
                 blob_name = form_image_blob_data[form_image_blob_data.rfind("staging/"):].replace("staging/", "")
                 blob_client = BlobClient(

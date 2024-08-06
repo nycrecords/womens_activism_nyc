@@ -96,7 +96,7 @@ class TestingConfig(Config):
         os.environ.get("TEST_DATABASE_URL")
         or "postgresql://localhost:5432/womens_activism_test"
     )
-
+    WTF_CSRF_ENABLED = False
 
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = (

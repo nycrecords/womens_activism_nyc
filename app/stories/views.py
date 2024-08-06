@@ -52,10 +52,10 @@ def view(story_id):
             assert story.is_visible
         except NoResultFound:
             print("Story does not exist")
-            return abort(404)
+            abort(404)
         except AssertionError:
             print("Story is not visible")
-            return abort(404)
+            abort(404)
 
         user = Users.query.filter_by(guid=story.user_guid).one() if story.user_guid else None
         feature = FeaturedStories.query.filter_by(story_id=story.id).one_or_none()

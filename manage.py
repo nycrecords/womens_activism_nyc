@@ -99,6 +99,14 @@ def test():
 
 
 @app.cli.command()
+def populate():
+    from app.models import Tags, Roles
+
+    Tags.populate()
+    Roles.populate()
+
+
+@app.cli.command()
 @click.option('-f', '--featured', help='Create featured story module.')
 def modules(featured=False):
     """

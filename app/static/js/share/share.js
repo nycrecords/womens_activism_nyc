@@ -2,6 +2,7 @@ $(function () {
     var hiddenTagInput = $("#hidden-tag-input");
     var shareTag = $(".share-tag");
     var imageButton = $("#image-upload-btn");
+    var removeUploadButton = $("#remove-upload-btn");
     var videoInput = $("#story-video-input");
     var imageInput = $("#story-image-input");
     var videoButton = $("#video-upload-btn");
@@ -119,14 +120,89 @@ $(function () {
         }
     });
 
+    async function uploadFile(file) {
+        const chunkSize = 1024 * 1024 * 4; // 4 MiB
+        const numChunks = Math.ceil(file.size / chunkSize);
+
+        for (let start = 0; start < file.size; start += chunkSize) {
+            const chunkIndex = numChunks - Math.ceil((file.size - start) / chunkSize);
+
+            var chunk = new FormData();
+            chunk.append('file', file.slice(start, Math.min(start + chunkSize), file.size));
+            chunk.append('chunkindex', Math.round(chunkIndex));
+            chunk.append('numchunks', Math.round(numChunks));
+            chunk.append('chunkstart', start);
+            chunk.append('filename', file.name);
+            chunk.append('final', ((start + chunkSize) >= file.size) ? 'true' : 'false');
+
+            try {
+                const response = await uploadChunk(chunk);
+
+                if ((start + chunkSize) >= file.size) {
+                    // Relay URL to server after the last chunk is uploaded
+                    $('#story-image-blob-input-box').val(response.body);
+                    $('#image-upload-title').text("Upload success!");
+                }
+            }
+            catch (error) {
+                $('#image-upload-title').text("Upload Failed!");
+                return;
+            }
+            const progress =  Math.round((1 / (numChunks / (chunkIndex + 1))) * 100);
+            $('#image-upload-progressbar').attr('style', "width: " + progress + "%")
+        }
+    }
+
+    async function uploadChunk(chunk) {
+        return $.ajax({
+                url: '/share/upload-file',
+                type: 'POST',
+                data: chunk,
+                cache: false,
+                contentType: false,
+                processData: false,
+
+                success: function(response) {         
+                    console.log("GOOD");
+                },
+                error: function(response) {
+                    console.log(response.body);
+                }
+        });
+        
+    }
+
     // Media input type selection
     imageButton.click(function () {
-        videoInput.hide();
-        imageInput.show();
-        mediaButton.show();
-        imageButton.hide();
-        videoButton.hide();
+        var imageFile = document.createElement('input');
+        imageFile.type = 'file';
+        imageFile.style.display = 'none';
+
+        document.body.appendChild(imageFile);
+
+        $(imageFile).trigger('click');
+
+        $(imageFile).on('change', function() {
+            var file = imageFile.files[0];
+
+            if (file.size > (1024 * 1024 * 20)) {
+                alert("File sizes cannot be over 20 mb");
+            }
+
+            $('#image-upload').css('visibility', 'visible');
+            $('#image-upload-progress-body').text("Selected file:".concat(" ", file.name));
+
+            uploadFile(file);
+            document.body.removeChild(imageFile);
+        });
     });
+
+    removeUploadButton.click(function () {
+        $('#image-upload-title').text("Uploading file");
+        $('#image-upload-progressbar').attr('style', "width: " + "0" + "%")
+        $('#image-upload').css('visibility', 'hidden');
+    });
+    
     videoButton.click(function () {
         imageInput.hide();
         videoInput.show();

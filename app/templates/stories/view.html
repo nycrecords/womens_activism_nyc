@@ -22,21 +22,21 @@
                 </p>
 
                 <div id="story-content-container">
-                    {% if story.image_url and video_url %}
+                    {% if image_url and video_url %}
                         <div id="view-story-center-wrap">
-                            <img src="{{ story.image_url | safe }}" id="view-story-img-short"/>
+                            <img src="{{ image_url | safe }}" id="view-story-img-short"/>
                             <div id="video-wrapper">
                                 <iframe class="youtube-player" type="text/html" src="{{ video_url | safe }}" frameborder="0"
                                             allowFullScreen></iframe>
                             </div>
                             <p class = "story-content-text" >{{ story.content | safe }}</p>
                         </div>
-                    {% elif story.image_url and story.content|length > 1500 %}
-                        <img src="{{ story.image_url }}" id="view-story-img"/>
+                    {% elif image_url and story.content|length > 1500 %}
+                        <img src="{{ image_url }}" id="view-story-img"/>
                         <p class = "story-content-text" >{{ story.content | safe }}</p>
-                    {% elif story.image_url and story.content|length < 1500 %}
+                    {% elif image_url and story.content|length < 1500 %}
                         <div id="view-story-center-wrap">
-                            <img src="{{ story.image_url }}" id="view-story-img-short"/>
+                            <img src="{{ image_url }}" id="view-story-img-short"/>
                             <p class = "story-content-text" id="view-story-text-short">{{ story.content | safe }}</p>
                         </div>
                     {% elif video_url %}

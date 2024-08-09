@@ -35,6 +35,7 @@ class StoryForm(FlaskForm):
     content = TextAreaField("Share a few words about how your woman activist has inspired you and others",
                             validators=[DataRequired()])
     image_url = StringField("Enter an image URL below", validators=[Optional(), validate_image])
+    image_blob_name = StringField("Enter the name of the blob", validators=[Optional()]) # TODO: Validate that the blob is in a `<id>/<file_name>` format
     activist_url = StringField("Enter a URL to allow others to learn more about your woman activist online",
                                validators=[Optional(), validate_url])
     video_url = StringField("Enter a YouTube or Vimeo URL below", validators=[Optional(), validate_video])

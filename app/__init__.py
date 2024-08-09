@@ -1,17 +1,16 @@
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
-from flask_elasticsearch import FlaskElasticsearch
 from flask_login import LoginManager
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 from config import config
 from flask_mail import Mail
+from elasticsearch import Elasticsearch
 
 bootstrap = Bootstrap()
 csrf = CSRFProtect()
 db = SQLAlchemy()
-es = FlaskElasticsearch()
 moment = Moment()
 mail = Mail()
 
@@ -28,7 +27,7 @@ def create_app(config_name):
     config[config_name].init_app(app)
 
     bootstrap.init_app(app)
-    es.init_app(app, use_ssl=app.config['ELASTICSEARCH_USE_SSL'])
+    app.elasticsearch = Elasticsearch(app.config['ELASTICSEARCH_URL'])
     db.init_app(app)
     csrf.init_app(app)
     moment.init_app(app)

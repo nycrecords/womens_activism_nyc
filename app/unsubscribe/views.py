@@ -1,4 +1,5 @@
-from flask import render_template, flash, request, Markup, redirect, url_for, escape
+from flask import render_template, flash, request, redirect, url_for
+from markupsafe import Markup, escape
 
 from app.lib.utils import remove_subscriber
 from app.unsubscribe import unsubscribe

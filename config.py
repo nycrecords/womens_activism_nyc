@@ -24,7 +24,9 @@ class Config:
     )
 
     # Elasticsearch Settings
-    ELASTICSEARCH_HOST = os.environ.get("ELASTICSEARCH_HOST") or "localhost:9200"
+    ELASTICSEARCH_HOST = os.environ.get("ELASTICSEARCH_HOST") or "localhost"
+    ELASTICSEARCH_PORT = os.environ.get("ELASTICSEARCH_PORT") or "9200"
+    ELASTICSEARCH_URL = "http://" + ELASTICSEARCH_HOST + ":" + ELASTICSEARCH_PORT # Seems hacky, but it works I suppose
     ELASTICSEARCH_ENABLED = os.environ.get("ELASTICSEARCH_ENABLED") == "True"
     ELASTICSEARCH_INDEX = os.environ.get("ELASTICSEARCH_INDEX") or "stories"
     ELASTICSEARCH_USE_SSL = os.environ.get("ELASTICSEARCH_USE_SSL") == "True"
@@ -50,6 +52,17 @@ class Config:
     MAIL_SENDER = os.environ.get('MAIL_SENDER')
     MAIL_RECIPIENTS = os.environ.get('MAIL_RECIPIENTS')
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', "True") == "True"
+
+    # File upload settings
+    UPLOAD_DIRECTORY = os.environ.get('UPLOAD_DIRECTORY')
+
+    # Image host
+    IMAGE_HOST_URL = os.environ.get('IMAGE_HOST_URL')
+
+    # Azure settings
+    AZURE_STORAGE_ACCOUNT_NAME = os.environ.get('AZURE_STORAGE_ACCOUNT_NAME')
+    AZURE_CONTAINER_NAME = os.environ.get('AZURE_CONTAINER_NAME')
+    AZURE_STORAGE_ACCOUNT_KEY = os.environ.get('AZURE_STORAGE_ACCOUNT_KEY')
 
     @staticmethod
     def init_app(app):

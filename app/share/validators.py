@@ -52,6 +52,7 @@ def validate_image(form, image):
     :param form: part of the StoryForm object
     :param image: the URL of the image
     """
+    # Note: Because WTForms only sees a URL, it cannot do validations on the actual image; that work is outsourced to the client.
     if (image.data[-3:].lower() == 'jpg') or (image.data[-3:].lower() == 'png') or (image.data[-4:].lower() == 'jpeg'):
         try:
             image_test = requests.get(image.data)

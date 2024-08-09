@@ -1,5 +1,6 @@
-from flask import render_template, redirect, request, url_for, flash, escape
+from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
+from markupsafe import escape
 
 from app import db
 from app.auth.utils import create_login_event

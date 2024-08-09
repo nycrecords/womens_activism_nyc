@@ -1,12 +1,16 @@
-from flask import render_template, redirect, url_for, flash, request, Markup, current_app, escape
+from flask import render_template, redirect, url_for, flash, request, current_app
+from markupsafe import Markup, escape
+from werkzeug.utils import secure_filename
+from azure.storage.blob import BlobClient
 
 from app.constants.subscribe_status import EMAIL_INVALID, EMAIL_TAKEN, PHONE_TAKEN, PHONE_INVALID
-from app.lib.utils import create_story, create_user, create_subscriber, verify_subscriber
+from app.lib.utils import create_story, create_user, create_subscriber, verify_subscriber, current_story_id
 from app.models import Tags
 from app.share import share
 from app.share.forms import StoryForm
 
 import requests
+import os
 
 
 @share.route('/', methods=['GET', 'POST'])
@@ -87,6 +91,20 @@ def new():
             for t in tag_string.split(','):
                 tags.append(Tags.query.filter_by(id=t).one().name)
 
+            blob_name = ""
+            if form.image_blob_name.data != "":
+                form_image_blob_data = escape(form.image_blob_name.data)
+                blob_name = form_image_blob_data[form_image_blob_data.rfind("staging/"):].replace("staging/", "")
+                blob_client = BlobClient(
+                    account_url="https://"
+                    + current_app.config["AZURE_STORAGE_ACCOUNT_NAME"]
+                    + ".blob.core.windows.net/",
+                    credential=current_app.config["AZURE_STORAGE_ACCOUNT_KEY"],
+                    container_name=current_app.config["AZURE_CONTAINER_NAME"],
+                    blob_name=blob_name,
+                )
+                blob_client.start_copy_from_url(source_url=form_image_blob_data)
+                
             story_id = create_story(activist_first=escape(form.activist_first.data),
                                     activist_last=escape(form.activist_last.data),
                                     activist_start=escape(form.activist_start.data),
@@ -94,6 +112,7 @@ def new():
                                     tags=tags,
                                     content=escape(form.content.data),
                                     activist_url=escape(form.activist_url.data),
+                                    image_blob_name=blob_name,
                                     image_url=escape(form.image_url.data),
                                     video_url=escape(form.video_url.data),
                                     user_guid=user_guid)
@@ -106,3 +125,52 @@ def new():
                                    RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])
     return render_template('share/share.html', form=form, tags=Tags.query.order_by(Tags.name).all(),
                            RECAPTCHA_PUBLIC_KEY=current_app.config['RECAPTCHA_PUBLIC_KEY'])
+
+@share.route('/upload-file', methods=['POST'])
+def upload_file():
+    if 'file' not in request.files:
+        return {'body': "File failed to upload"}, 400
+
+    
+    # Prepare directory for file
+    filename = secure_filename(request.form['filename'])
+    current_id = str(current_story_id())
+    os.makedirs(os.path.join(current_app.config['UPLOAD_DIRECTORY'], current_id), exist_ok=True)
+    file_path= os.path.join(current_app.config['UPLOAD_DIRECTORY'], current_id, filename)
+
+    # Acquire file
+    with open(file_path, "a+b") as file:
+        chunk = request.files['file']
+        seek_amount = int(request.form['chunkstart'])
+        file.seek(seek_amount)
+        file.write(chunk.read())
+
+        
+    chunk_index = int(request.form['chunkindex'])
+    chunk_num = int(request.form['numchunks'])
+    is_final = request.form['final']
+    
+    # Index starts at 0, but number of chunks starts counting at 1
+    if chunk_index + 1 == chunk_num and is_final == "true":
+        blob_name = "staging" + "/" + current_id + "/" + filename
+        blob_client = BlobClient(
+            account_url="https://"
+            + current_app.config["AZURE_STORAGE_ACCOUNT_NAME"]
+            + ".blob.core.windows.net/",
+            credential=current_app.config["AZURE_STORAGE_ACCOUNT_KEY"],
+            container_name=current_app.config["AZURE_CONTAINER_NAME"],
+            blob_name=blob_name,
+            )
+
+        with open(file_path, "rb") as data:
+            blob_client.upload_blob(data, overwrite=True)
+
+        # File already on azure, no need to keep it on server anymore
+        os.remove(os.path.abspath(file_path)) 
+
+        return {'body': blob_client.url}, 201
+    elif is_final == "false":
+        return '', 204
+    else:
+        return {'body': "Not all chunks uploaded"}, 400
+

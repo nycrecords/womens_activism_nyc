@@ -1,7 +1,6 @@
 from elasticsearch.helpers import bulk
 from flask import current_app
 
-from app import es
 from app.constants import tag
 from app.constants.search import ALL_RESULTS_CHUNKSIZE, ES_DATETIME_FORMAT
 from app.models import Stories
@@ -9,7 +8,7 @@ from app.models import Stories
 
 def recreate():
     """Delete current index and create new index and docs"""
-    es.indices.delete(current_app.config["ELASTICSEARCH_INDEX"],
+    current_app.elasticsearch.indices.delete(index=current_app.config["ELASTICSEARCH_INDEX"],
                       ignore=[400, 404])
     create_index()
     create_docs()
@@ -19,7 +18,7 @@ def create_index():
     """
     Create elasticsearch index with mappings for stories docs.
     """
-    es.indices.create(
+    current_app.elasticsearch.indices.create(
         index=current_app.config["ELASTICSEARCH_INDEX"],
         body={
             "settings": {
@@ -40,10 +39,10 @@ def create_index():
                             ]
                         }
                     }
-                }
+                },
+                "max_ngram_diff": 5
             },
             "mappings": {
-                "story": {
                     "properties": {
                         "activist_first": {
                             "type": "text",
@@ -69,12 +68,11 @@ def create_index():
                             "type": "text",
                         },
                         "tag": {
-                            "type": "keyword"
+                            "type": "keyword",
                         },
                         "date_created": {
                             "type": "date",
                             "format": "strict_date_hour_minute_second",
-                        }
                     }
                 }
             }
@@ -103,10 +101,9 @@ def create_docs():
         })
 
     num_success, _ = bulk(
-        es,
+        current_app.elasticsearch,
         operations,
         index=current_app.config["ELASTICSEARCH_INDEX"],
-        doc_type='story',
         chunk_size=ALL_RESULTS_CHUNKSIZE,
         raise_on_error=True
     )
@@ -122,8 +119,7 @@ def update_docs():
 
 def delete_doc(story_id):
     """Delete a specific doc in the index"""
-    es.delete(index=current_app.config['ELASTICSEARCH_INDEX'],
-              doc_type='story',
+    current_app.elasticsearch.delete(index=current_app.config['ELASTICSEARCH_INDEX'],
               id=story_id)
 
 
@@ -173,9 +169,8 @@ def search_stories(query,
     dsl = dsl_gen.search() if query else dsl_gen.queryless()
 
     # search/run query
-    results = es.search(
+    results = current_app.elasticsearch.search(
         index=current_app.config["ELASTICSEARCH_INDEX"],
-        doc_type='story',
         body=dsl,
         _source=['activist_first',
                  'activist_last',
@@ -185,7 +180,7 @@ def search_stories(query,
                  'is_visible'],
         size=size,
         from_=start,
-        sort=sort
+#        sort=sort
     )
 
     return results

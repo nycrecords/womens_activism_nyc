@@ -8,6 +8,7 @@ from app.constants.search import DEFAULT_HITS_SIZE, DEFAULT_START_NUMBER
 from app.models import Tags
 from app.search import search
 from app.search.utils import search_stories
+from app.lib.utils import get_story_image
 
 
 @search.route("/stories", methods=['GET'])
@@ -50,8 +51,14 @@ def stories():
     total = results["hits"]["total"]
     formatted_results = None
     if total != 0:
+        stories = results['hits']['hits']
+
+        images = []
+        for story in stories:
+            images.append(get_story_image(story['_id']))
+
         formatted_results = render_template("stories/result.html",
-                                            stories=results['hits']['hits'])
+                                            stories=zip(stories, images))
     return jsonify({
         "count": len(results["hits"]["hits"]),
         "total": total,

@@ -4,9 +4,11 @@ View functions for story functionality
 from app.stories import stories
 from app.edit.utils import hide_story
 from app.feature.utils import hide_current_featured_story
-from flask import render_template, abort, request, flash, redirect, url_for
+from app.lib.utils import get_story_image
+from flask import render_template, abort, request, flash, redirect, url_for, current_app
 from sqlalchemy.orm.exc import NoResultFound
 from app.edit.forms import HideForm
+
 
 from app.constants.video_url import (
     YOUTUBE_FULL_URL,
@@ -50,10 +52,10 @@ def view(story_id):
             assert story.is_visible
         except NoResultFound:
             print("Story does not exist")
-            return abort(404)
+            abort(404)
         except AssertionError:
             print("Story is not visible")
-            return abort(404)
+            abort(404)
 
         user = Users.query.filter_by(guid=story.user_guid).one() if story.user_guid else None
         feature = FeaturedStories.query.filter_by(story_id=story.id).one_or_none()
@@ -70,5 +72,8 @@ def view(story_id):
             elif VIMEO_STRING in video_url:
                 split = video_url.split(VIMEO_URL, 1)
                 video_url = VIMEO_EMBED_URL.format(split[1])
-        return render_template('stories/view.html', story=story, user=user, video_url=video_url,
+                
+        image_url = get_story_image(story.id)
+            
+        return render_template('stories/view.html', story=story, user=user, image_url=image_url, video_url=video_url,
                                feature=feature, form=form)

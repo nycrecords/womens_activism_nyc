@@ -1,0 +1,119 @@
+x-flask-env: &flask-env
+  DATABASE_URL: ${DATABASE_URL}
+  FLASK_APP: ${FLASK_APP}
+  UPLOAD_DIRECTORY: ${UPLOAD_DIRECTORY}
+  ELASTICSEARCH_HOST: ${ELASTICSEARCH_HOST}
+  ELASTICSEARCH_PORT: ${ELASTICSEARCH_PORT}
+  ELASTICSEARCH_INDEX: ${ELASTICSEARCH_INDEX}
+  ELASTICSEARCH_USE_SSL: ${ELASTICSEARCH_USE_SSL}
+  ELASTICSEARCH_USERNAME: ${ELASTICSEARCH_USERNAME}
+  ELASTICSEARCH_PASSWORD: ${ELASTICSEARCH_PASSWORD}
+  RECAPTCHA_ENABLED: ${RECAPTCHA_ENABLED}
+  RECAPTCHA_PUBLIC_KEY: ${RECAPTCHA_PUBLIC_KEY}
+  RECAPTCHA_PRIVATE_KEY: ${RECAPTCHA_PRIVATE_KEY}
+  RECAPTCHA_THRESHOLD: ${RECAPTCHA_THRESHOLD}
+  AZURE_STORAGE_ACCOUNT_NAME: ${AZURE_STORAGE_ACCOUNT_NAME}
+  AZURE_CONTAINER_NAME: ${AZURE_CONTAINER_NAME}
+  AZURE_STORAGE_ACCOUNT_KEY: ${AZURE_STORAGE_ACCOUNT_KEY}
+
+x-elasticsearch: &es-config
+  healthcheck:
+    test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
+    interval: 30s
+    timeout: 30s
+    retries: 3
+  ulimits:
+    memlock:
+      soft: -1
+      hard: -1
+  ports:
+    - "9200:9200"
+
+
+
+services:
+  db:
+    image: postgres:14-bookworm
+    ports:
+      - "5432:5432"
+    volumes:
+      - db:/var/lib/postgres/data
+      - ./docker-entrypoint-db:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_MULTIPLE_DATABASES=${POSTGRES_MULTIPLE_DATABASES}
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER}'"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  es-dev:
+    <<: *es-config
+    container_name: es-dev
+    image: elasticsearch:8.14.3
+    volumes:
+      - es-dev:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=false
+
+  es-prod:
+    <<: *es-config
+    container_name: es-prod
+    image: elasticsearch:8.14.3
+    volumes:
+      - es-prod:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+            
+  production:
+    build:
+      context: .
+      target: production
+    ports:
+      - "8080:8080"
+    environment:
+      <<: *flask-env
+    depends_on:
+      - db
+      - es-prod
+
+  development:
+    build:
+      context: .
+      target: development
+    ports:
+      - "5000:5000"
+    environment:
+      <<: *flask-env
+      FLASK_DEBUG: 1
+    depends_on:
+      - db
+      - es-dev
+
+  testing:
+    build:
+      context: .
+      target: testing
+    environment:
+      <<: *flask-env
+      TEST_DATABASE_URL: ${TEST_DATABASE_URL}
+    depends_on:
+      db:
+        condition: service_healthy
+      es-dev:
+        condition: service_healthy
+
+volumes:
+  db:
+    driver: local
+  es-dev:
+    driver: local
+  es-prod:
+    driver: local

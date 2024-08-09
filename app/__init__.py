@@ -1,17 +1,16 @@
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
-from flask_elasticsearch import FlaskElasticsearch
 from flask_login import LoginManager
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 from config import config
 from flask_mail import Mail
+from elasticsearch import Elasticsearch
 
 bootstrap = Bootstrap()
 csrf = CSRFProtect()
 db = SQLAlchemy()
-es = FlaskElasticsearch()
 moment = Moment()
 mail = Mail()
 
@@ -28,7 +27,7 @@ def create_app(config_name):
     config[config_name].init_app(app)
 
     bootstrap.init_app(app)
-    es.init_app(app, use_ssl=app.config['ELASTICSEARCH_USE_SSL'])
+    app.elasticsearch = Elasticsearch(app.config['ELASTICSEARCH_URL'])
     db.init_app(app)
     csrf.init_app(app)
     moment.init_app(app)
@@ -39,19 +38,19 @@ def create_app(config_name):
     @app.errorhandler(400)
     def bad_request(e):
         return render_template("error/generic.html", status_code=400,
-                               message=e.description or None)
+                               message=e.description or None), 400
 
     @app.errorhandler(403)
     def forbidden(e):
-        return render_template("error/generic.html", status_code=403)
+        return render_template("error/generic.html", status_code=403), 403
 
     @app.errorhandler(404)
     def page_not_found(e):
-        return render_template("error/generic.html", status_code=404)
+        return render_template("error/generic.html", status_code=404), 404
 
     @app.errorhandler(500)
     def internal_server_error(e):
-        return render_template("error/generic.html", status_code=500)
+        return render_template("error/generic.html", status_code=500), 500
 
     from .main import main as main
     app.register_blueprint(main)

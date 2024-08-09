@@ -35,3 +35,12 @@ RUN pip install -r requirements/dev.txt
 EXPOSE 5000
 ENTRYPOINT ["./entrypoint.sh"]
 CMD ["flask", "run", "--host", "0.0.0.0"]
+
+# ================== TESTING =================
+FROM development as testing
+
+RUN pip install -r requirements/testing.txt
+
+ENTRYPOINT ["/entrypoint.sh"]
+WORKDIR tests
+CMD ["pytest", "-ra", "-vv", "-l"]

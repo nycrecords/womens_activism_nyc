@@ -42,8 +42,7 @@ services:
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_MULTIPLE_DATABASES
+      - POSTGRES_MULTIPLE_DATABASES=${POSTGRES_MULTIPLE_DATABASES}
     healthcheck:
       test: ["CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER}'"]
       interval: 10s
@@ -98,6 +97,18 @@ services:
       - db
       - es-dev
 
+  testing:
+    build:
+      context: .
+      target: testing
+    environment:
+      <<: *flask-env
+      TEST_DATABASE_URL: ${TEST_DATABASE_URL}
+    depends_on:
+      db:
+        condition: service_healthy
+      es-dev:
+        condition: service_healthy
 
 volumes:
   db:
